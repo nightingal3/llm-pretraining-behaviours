@@ -2,7 +2,11 @@ global {
     # WARNING: change these variables to your own paths
     ducttape_output=/projects/tir5/users/pfernand/towerllm-outs/llama2_c4small
     repo=/home/pfernand/repos/tower-llm-training
-    external_model_dir="/projects/tir4/users/pfernand/towerllm_models/llama2_c4small" # set this to "" to save only in ducttape_output 
+    # set this to "" to save only in ducttape_output 
+    external_model_dir="/projects/tir4/users/pfernand/towerllm_models/llama2_c4small"
+    # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
+    # WARNING: setting this to false will delete the contents of external_model_dir
+    external_restart=false 
 
     # dataset pamaeters
     dataset_name=datablations/c4-filter-small

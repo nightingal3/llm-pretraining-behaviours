@@ -32,6 +32,8 @@ task Train
     > ds_config=deepspeed.json
     > model_dir=checkpoints
     :: repo=@
+    :: external_model_dir=@
+    :: external_restart=@
     :: tokenizer=@
     :: gpus=@
     :: tp=@
@@ -54,7 +56,6 @@ task Train
     :: grad_clip=@
     :: save_interval=@
     :: eval_interval=@
-    :: external_model_dir=@
 {
     micro_batch_size=$(($batch_size / $gpus))
     echo -n '{
@@ -79,6 +80,10 @@ task Train
     # if `save_external` is set, symlink it to the `model_dir`
     # and copy the config file to the `model_dir`
     if [ "$external_model_dir" != "" ]; then
+        if [ "$external_restart" == false ]; then
+            rm -rf $external_model_dir
+        fi
+        mkdir -p $external_model_dir
         ln -s $external_model_dir $model_dir
         cp $ds_config $model_dir
     fi
