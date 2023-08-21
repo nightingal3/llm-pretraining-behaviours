@@ -2,18 +2,18 @@
 
 ## Installation Instructions
 
-As a pre-requisite, make sure you have [ducttape](https://github.com/CoderPat/ducttape) and [(mini)conda](https://docs.conda.io/en/latest/miniconda.html) installed. 
+As a pre-requisite, make sure you have [ducttape](https://github.com/CoderPat/ducttape) and [(mini)conda](https://docs.conda.io/en/latest/miniconda.html) installed.
 
 First, clone this repository and its submodules:
 
 ```bash
-git clone --recurse-submodules 
+git clone --recurse-submodules git@github.com:deep-spin/tower-llm-training.git
 ```
 
-Then to create a new conda environment with all the necessary dependencies, run the following command:
+Then, to create a new conda environment with all the necessary dependencies, run the following command:
 
 ```bash
-export CONDA_HOME=/path/to/miniconda3
+export CONDA_HOME="/path/to/(mini)conda3"
 bash setup_scripts/conda.sh
 ```
 
