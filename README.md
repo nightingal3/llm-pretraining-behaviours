@@ -25,5 +25,6 @@ Configuration files for different models and datasets are defined in `configs/`.
 For example, to train a small Llama-2 model on a small subset of C4, edit the relevant variables in `configs/llama2_c4small.tconf` and run:
 
 ```bash
+conda activate towerllm-env
 ducttape main.tape -C configs/llama2_c4small.tconf
 ```
