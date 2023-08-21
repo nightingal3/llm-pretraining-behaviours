@@ -1,0 +1,35 @@
+global {
+    # WARNING: change these two variables to your own paths
+    ducttape_output=/projects/tir5/users/pfernand/towerllm-outs/llama2_c4small
+    repo=/home/pfernand/repos/tower-llm-training
+
+    # dataset pamaeters
+    dataset_name=datablations/c4-filter-small
+    tokenizer=NousResearch/Llama-2-7b-hf
+    
+    # model parameters
+    hidden_size=2048
+    ffn_hidden_size=5504
+    num_layers=24
+    num_attention_heads=16
+    seq_length=2048
+    num_kv_heads=4
+
+    # training parameters
+    train_steps=100000
+    batch_size=32
+    lr=3e-4
+    min_lr=3e-5
+    lr_warmup_steps=1000
+    weight_decay=0.1
+    grad_clip=1.0
+
+    # distributed training parameters
+    gpus=4
+    tp=2
+    pp=2
+    zero_stage=0
+    master_addr=localhost
+    master_port=6000
+    cpu_workers=8
+}
