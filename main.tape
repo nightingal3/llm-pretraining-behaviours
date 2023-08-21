@@ -30,7 +30,7 @@ task PreprocessDataset
 task Train
     < dataset_bin=@PreprocessDataset
     > ds_config=deepspeed.json
-    > model_dir
+    > model_dir=checkpoints
     :: repo=@
     :: tokenizer=@
     :: gpus=@
@@ -52,7 +52,9 @@ task Train
     :: lr_warmup_steps=@
     :: weight_decay=@
     :: grad_clip=@
-    
+    :: save_interval=@
+    :: eval_interval=@
+    :: external_model_dir=@
 {
     micro_batch_size=$(($batch_size / $gpus))
     echo -n '{
@@ -73,6 +75,13 @@ task Train
 
     distributed_args="--nproc_per_node=$gpus"
     distributed_args="--nnodes=1 ${distributed_args}"
+
+    # if `save_external` is set, symlink it to the `model_dir`
+    # and copy the config file to the `model_dir`
+    if [ "$external_model_dir" != "" ]; then
+        ln -s $external_model_dir $model_dir
+        cp $ds_config $model_dir
+    fi
 
     torchrun $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
@@ -105,8 +114,8 @@ task Train
        --adam-beta1 0.9 \
        --adam-beta2 0.95 \
        --log-interval 1 \
-       --save-interval 10000 \
-       --eval-interval 1000 \
+       --save-interval $save_interval \
+       --eval-interval $eval_interval \
        --eval-iters 10 \
        --bf16 \
        --no-query-key-layer-scaling \

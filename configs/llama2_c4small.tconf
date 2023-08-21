@@ -1,7 +1,8 @@
 global {
-    # WARNING: change these two variables to your own paths
+    # WARNING: change these variables to your own paths
     ducttape_output=/projects/tir5/users/pfernand/towerllm-outs/llama2_c4small
     repo=/home/pfernand/repos/tower-llm-training
+    external_model_dir="/projects/tir4/users/pfernand/towerllm_models/llama2_c4small" # set this to "" to save only in ducttape_output 
 
     # dataset pamaeters
     dataset_name=datablations/c4-filter-small
@@ -16,13 +17,15 @@ global {
     num_kv_heads=4
 
     # training parameters
-    train_steps=100000
-    batch_size=32
+    train_steps=10000
+    batch_size=64
     lr=3e-4
     min_lr=3e-5
     lr_warmup_steps=1000
     weight_decay=0.1
     grad_clip=1.0
+    save_interval=500
+    eval_interval=500
 
     # distributed training parameters
     gpus=4
