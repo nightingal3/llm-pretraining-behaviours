@@ -22,7 +22,7 @@ global {
 
     # training parameters
     train_steps=10000
-    batch_size=64
+    batch_size=32
     lr=3e-4
     min_lr=3e-5
     lr_warmup_steps=1000
@@ -34,8 +34,8 @@ global {
     # distributed training parameters
     gpus=4
     tp=2
-    pp=2
-    zero_stage=0
+    pp=1
+    zero_stage=2
     master_addr=localhost
     master_port=6000
     cpu_workers=8

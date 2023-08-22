@@ -41,10 +41,17 @@ cd .apex
 pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
                --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
 
+
+# install pdsh
+git clone git@github.com:chaos/pdsh.git .pdsh
+cd .pdsh
+autoreconf -i 
+./configure --with-ssh --prefix ${DIR}/.pdsh
+make -j 8 && make install
+
 # install other dependencies
 cd $DIR
-pip install datasets nltk pybind11 deepspeed transformers
-pip install flash-attn --no-build-isolation
+pip install -r setup_scripts/pip_reqs.txt
 
 conda env config vars set PATH=$PATH
 conda env config vars set LD_LIBRARY_PATH=$LD_LIBRARY_PATH

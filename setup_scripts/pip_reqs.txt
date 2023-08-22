@@ -1,0 +1,7 @@
+datasets 
+nltk 
+pybind11 
+deepspeed
+deepspeed[autotune]
+transformers
+flash-attn --no-build-isolation
