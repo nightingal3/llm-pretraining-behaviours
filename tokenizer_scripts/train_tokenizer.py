@@ -16,7 +16,6 @@ print(paths)
 
 # Initialize a tokenizer
 tokenizer = ByteLevelBPETokenizer()
-tokenizer.pre_tokenizer = Digits()
 
 # Customize training
 tokenizer.train(files=paths, vocab_size=args.vocab_size, min_frequency=args.min_frequency, special_tokens=[

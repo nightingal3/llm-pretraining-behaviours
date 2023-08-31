@@ -25,8 +25,6 @@ for dataset_idx in range(len(args.datasets)):
     
     for line in original:
         line.strip()
-        line = pre_tokenizer.pre_tokenize_str(line)
-        line = '10'
         tokens = tokenizer.encode(line).tokens
         tokenized.append(tokens)
         non_tokenized.append(line.split())
