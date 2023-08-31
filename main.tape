@@ -1,11 +1,15 @@
 task DumpHFDataset 
     >  dataset_json=dataset.json
     :: dataset_name=@
+    :: filter=@
+    :: n_tokens=@
     :: repo=@
 {
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
-        --output $dataset_json
+        --output $dataset_json \
+        --filter $filter \
+        --n_tokens $n_tokens
 }
 
 task PreprocessDataset
