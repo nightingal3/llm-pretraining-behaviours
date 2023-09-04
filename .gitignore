@@ -1,2 +1,4 @@
 .apex/
 .pdsh/
+*.png
+plot_train_validation_losses.py
