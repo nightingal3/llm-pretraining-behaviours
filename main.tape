@@ -52,6 +52,8 @@ task GetDeepSpeedConfig
     }' | jq . > $ds_config
 }
 
+# WARNING: this is still not working! Please use (DSAutotuneConfig: false)
+# and manually tune the config file
 task TuneDeepSpeedConfig
     < dataset_bin=@PreprocessDataset
     > ds_config=deepspeed.json
@@ -154,9 +156,18 @@ task TuneDeepSpeedConfig
 
 task Train
     < dataset_bin=@PreprocessDataset
-    < ds_config=@TuneDeepSpeedConfig
+    < ds_config=(
+        UseDeepSpeed:
+            true=(
+                DSAutotuneConfig:
+                    false=$ds_config@GetDeepSpeedConfig
+                    true=$ds_config@TuneDeepSpeedConfig
+                )
+            false=/dev/null
+        )
     > model_dir=checkpoints
     :: repo=@
+    :: use_deepseed=(UseDeepSpeed: true false)
     :: external_model_dir=@
     :: external_restart=@
     :: tokenizer=@
@@ -192,10 +203,25 @@ task Train
     #distributed_args="--nproc_per_node=$gpus"
     #distributed_args="--nnodes=1 ${distributed_args}"
 
-    ds_args="--deepspeed_config=$ds_config --deepspeed"
-    ds_args="--zero-stage=$zero_stage ${ds_args}"
-    ds_args="--deepspeed-activation-checkpointing ${ds_args}"
-    distributed_args="--num_nodes=1 --num_gpus=$gpus"    
+    if [ "$use_deepseed" == true ]; then
+        # read main optimization parameters from the DeepSpeed config file
+        # (in case these were automatically tuned)
+        zero_stage=$(jq -r '.zero_optimization.stage' $ds_config)
+        micro_batch_size=$(jq -r '.train_micro_batch_size_per_gpu' $ds_config)
+        
+        ds_args="--deepspeed"
+        ds_args="--deepspeed_config=$ds_config ${ds_args}"
+        ds_args="--zero-stage=$zero_stage ${ds_args}"
+        ds_args="--deepspeed-activation-checkpointing ${ds_args}"
+        distributed_args="--num_nodes=1 --num_gpus=$gpus"
+        launcher="deepspeed"
+
+        echo "Using DeepSpeed with zero stage $zero_stage and micro batch size $micro_batch_size"
+    else
+        ds_args=""
+        distributed_args="--nnodes=1 --nproc_per_node=$gpus"
+        launcher="torchrun"
+    fi
 
     # if `save_external` is set, symlink it to the `model_dir`
     # and copy the config file to the `model_dir`
@@ -209,8 +235,7 @@ task Train
     fi
 
     micro_batch_size=$(($batch_size / $gpus))
-    #torchrun $distributed_args \
-    deepspeed $distributed_args \
+    $launcher $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
        --tensor-model-parallel-size $tp \
        --no-pipeline-parallel \
@@ -219,7 +244,6 @@ task Train
        --ffn-hidden-size $ffn_hidden_size \
        --num-attention-heads $num_attention_heads \
        --micro-batch-size $micro_batch_size \
-       --global-batch-size $batch_size \
        --seq-length $seq_length \
        --max-position-embeddings $seq_length \
        --train-iters $train_steps \
@@ -255,9 +279,10 @@ task Train
        --disable-bias-linear \
        --num-key-value-heads $num_kv_heads \
        --use-flash-attn \
+       --distributed-timeout-minutes 60 \
        $ds_args 
 }
 
 plan TrainLLM {
-    reach Train
+    reach Train via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
 }

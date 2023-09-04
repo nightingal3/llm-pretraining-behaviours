@@ -29,6 +29,7 @@ mamba install -y -c "nvidia/label/cuda-11.8.0" cuda-toolkit cuda-nvcc cuda-cudar
 
 export PATH=${CONDA_HOME}/envs/${ENV_NAME}/bin:$PATH
 export LD_LIBRARY_PATH=${CONDA_HOME}/envs/${ENV_NAME}/lib:$LD_LIBRARY_PATH
+export CUDA_HOME=${CONDA_HOME}/envs/${ENV_NAME}
 
 # # install pytorch
 mamba install -y pytorch torchvision torchaudio pytorch-cuda=11.8 \
@@ -51,7 +52,10 @@ make -j 8 && make install
 
 # install other dependencies
 cd $DIR
+pip install --upgrade pip
+pip install --no-build-isolation flash-attn
 pip install -r setup_scripts/pip_reqs.txt
 
 conda env config vars set PATH=$PATH
 conda env config vars set LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+conda env config vars set CUDA_HOME=$CUDA_HOME
