@@ -225,6 +225,7 @@ task Train
         ds_args=""
         distributed_args="--nnodes=1 --nproc_per_node=$gpus"
         launcher="torchrun"
+        export  CUDA_DEVICE_MAX_CONNECTIONS=1
     fi
 
     # if `save_external` is set, symlink it to the `model_dir`
