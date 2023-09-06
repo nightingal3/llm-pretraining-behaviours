@@ -290,18 +290,6 @@ task Train
        $ds_args 
 }
 
-# task Eval
-#     < trained_model=$model_dir@Train
-#     > eval_results 
-#     :: repo=@
-#     :: eval_set=@
-#     :: eval_metric=@
-# {
-#     # Do inference with train LLM, getting one score per line (or maybe a single score?)
-#     # and dumping it into eval_results file
-#     # ...
-# }
-
 task ConvertHF
     < trained_model=$model_dir@Train
     > hf_model_dir
@@ -321,6 +309,93 @@ task ConvertHF
 }
 
 
+task Eval
+    < train_model=$model_checkpoint
+    < ds_config=(
+        UseDeepSpeed:
+            true=(
+                DSAutotuneConfig:
+                    false=$ds_config@GetDeepSpeedConfig
+                    true=$ds_config@TuneDeepSpeedConfig
+                )
+            false=/dev/null
+        )
+    > eval_results 
+    :: repo=@
+    :: use_deepseed=(UseDeepSpeed: true false)
+    :: gpus=@
+    :: tp=@
+    :: pp=@
+    :: zero_stage=@
+    :: master_addr=@
+    :: master_port=@
+    :: eval_set=@
+    :: eval_metric=@
+    :: tokenizer=@
+    :: hidden_size=@
+    :: ffn_hidden_size=@
+    :: num_layers=@
+    :: num_attention_heads=@
+    :: num_kv_heads=@
+    :: seq_length=@
+    :: batch_size=@
+
+{
+    cat $ds_config
+
+    if [ "$use_deepseed" == true ]; then
+        # read main optimization parameters from the DeepSpeed config file
+        # (in case these were automatically tuned)
+        zero_stage=$(jq -r '.zero_optimization.stage' $ds_config)
+        micro_batch_size=$(jq -r '.train_micro_batch_size_per_gpu' $ds_config)
+        
+        ds_args="--deepspeed"
+        ds_args="--deepspeed_config=$ds_config ${ds_args}"
+        ds_args="--zero-stage=$zero_stage ${ds_args}"
+        ds_args="--deepspeed-activation-checkpointing ${ds_args}"
+        distributed_args="--num_nodes=1 --num_gpus=$gpus"
+        launcher="deepspeed"
+
+        echo "Using DeepSpeed with zero stage $zero_stage and micro batch size $micro_batch_size"
+        export  CUDA_DEVICE_MAX_CONNECTIONS=1
+    else
+        ds_args=""
+        distributed_args="--nnodes=1 --nproc_per_node=$gpus"
+        launcher="torchrun"
+        export  CUDA_DEVICE_MAX_CONNECTIONS=1
+    fi
+
+    micro_batch_size=$(($batch_size / $gpus))
+    $launcher $distributed_args \
+        $repo/Megatron-DeepSpeed/tasks/main.py \
+        --task "WIKITEXT103" \
+        --tensor-model-parallel-size $tp \
+        --no-pipeline-parallel \
+        --num-layers $num_layers \
+        --hidden-size $hidden_size \
+        --ffn-hidden-size $ffn_hidden_size \
+        --num-attention-heads $num_attention_heads \
+        --num-key-value-heads $num_kv_heads \
+        --use-rotary-position-embeddings \
+        --untie-embeddings-and-output-weights \
+        --swiglu \
+        --normalization rmsnorm \
+        --disable-bias-linear \
+        --num-key-value-heads $num_kv_heads \
+        --use-flash-attn \
+        --seq-length $seq_length \
+        --max-position-embeddings $seq_length \
+        --fp16 \
+        --valid-data $eval_set \
+        --tokenizer-type PretrainedFromHF \
+        --tokenizer-name-or-path $tokenizer \
+        --load $train_model \
+        --micro-batch-size $batch_size \
+        --log-interval 10 \
+        --no-load-optim \
+        --no-load-rng
+}
+
 plan TrainLLM {
     reach Train via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
 }
@@ -331,4 +406,8 @@ plan TrainLLMTest {
 
 plan ScalingAnalysis {
     reach Train via (Size: small1 small2 small3)
+}
+
+plan EvalLLM {
+    reach Eval via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
 }
