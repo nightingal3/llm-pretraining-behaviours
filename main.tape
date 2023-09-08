@@ -310,19 +310,19 @@ task ConvertHF
 
 
 task Eval
-    < train_model=$model_checkpoint
+    < trained_model=$model_dir@Train
     < ds_config=(
         UseDeepSpeed:
+            false=/dev/null
             true=(
                 DSAutotuneConfig:
                     false=$ds_config@GetDeepSpeedConfig
                     true=$ds_config@TuneDeepSpeedConfig
                 )
-            false=/dev/null
         )
     > eval_results 
     :: repo=@
-    :: use_deepseed=(UseDeepSpeed: true false)
+    :: use_deepseed=(UseDeepSpeed: false true)
     :: gpus=@
     :: tp=@
     :: pp=@
@@ -332,16 +332,18 @@ task Eval
     :: eval_set=@
     :: eval_metric=@
     :: tokenizer=@
-    :: hidden_size=@
-    :: ffn_hidden_size=@
-    :: num_layers=@
-    :: num_attention_heads=@
-    :: num_kv_heads=@
-    :: seq_length=@
+    :: model_config=@
     :: batch_size=@
-
+    :: rdzv_port=@
 {
-    cat $ds_config
+    # Read model config and parse to variables
+    model_config_f="${repo}/configs/models/${model_config}.yml"
+    hidden_size=$(yq '.hidden_size' $model_config_f)
+    ffn_hidden_size=$(yq '.ffn_hidden_size' $model_config_f)
+    num_layers=$(yq '.num_layers' $model_config_f)
+    num_attention_heads=$(yq '.num_attention_heads' $model_config_f)
+    seq_length=$(yq '.seq_length' $model_config_f)
+    num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
 
     if [ "$use_deepseed" == true ]; then
         # read main optimization parameters from the DeepSpeed config file
@@ -360,7 +362,7 @@ task Eval
         export  CUDA_DEVICE_MAX_CONNECTIONS=1
     else
         ds_args=""
-        distributed_args="--nnodes=1 --nproc_per_node=$gpus"
+        distributed_args="--nnodes=1 --nproc_per_node=$gpus --rdzv-endpoint localhost:$rdzv_port "
         launcher="torchrun"
         export  CUDA_DEVICE_MAX_CONNECTIONS=1
     fi
@@ -389,7 +391,7 @@ task Eval
         --valid-data $eval_set \
         --tokenizer-type PretrainedFromHF \
         --tokenizer-name-or-path $tokenizer \
-        --load $train_model \
+        --load $trained_model \
         --micro-batch-size $batch_size \
         --log-interval 10 \
         --no-load-optim \
@@ -401,7 +403,7 @@ plan TrainLLM {
 }
 
 plan TrainLLMTest {
-    reach Train via (UseDeepSpeed: false) * (DSAutotuneConfig: false) * (Size: small1)
+    reach Eval via (UseDeepSpeed: false) * (DSAutotuneConfig: false) * (Size: small1)
 }
 
 plan ScalingAnalysis {

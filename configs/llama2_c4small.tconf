@@ -21,9 +21,6 @@ global {
     filter=false
     n_tokens=50000000000
 
-    # eval 
-    model_checkpoint=/mnt/data/shared/tower_llm_training/models/llama2_c4small
-
     eval_set=/mnt/data/shared/tower_llm_training/data/wikitext-103/wiki.test.tokens
     eval_metric=loss
     
@@ -54,6 +51,6 @@ global {
     zero_stage=2
     master_addr=localhost
     master_port=6666
-    rdzv_port=29666
+    rdzv_port=29777
     cpu_workers=8
 }
