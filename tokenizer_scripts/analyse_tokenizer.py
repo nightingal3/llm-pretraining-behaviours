@@ -4,23 +4,26 @@ from tokenizers import pre_tokenizers
 from tokenizers.pre_tokenizers import Whitespace, Digits
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--vocab')
-parser.add_argument('--merges')
-parser.add_argument('--datasets', nargs='+')
-parser.add_argument('--languages', nargs='+')
+parser.add_argument('--tokenizer_dir')
+parser.add_argument('--dataset')
+parser.add_argument('--languages')
 args = parser.parse_args()
 
-tokenizer = ByteLevelBPETokenizer(args.vocab, args.merges)
+languages = args.languages.split(',')
+
+tokenizer = ByteLevelBPETokenizer(args.tokenizer_dir+'/vocab.json', args.tokenizer_dir+'/merges.txt')
 tokenizer.pre_tokenizer = pre_tokenizers.Sequence([Whitespace(), Digits(individual_digits=True)])
 
 data = dict()
 tokenized_data = dict()
 
-for dataset_idx in range(len(args.datasets)):
+languages.append('en')
+languages.append('fr')
+for language in languages:
     non_tokenized = []
     tokenized = []
     
-    with open(args.datasets[dataset_idx], 'r') as f:
+    with open(args.dataset+'/'+language, 'r') as f:
         original = f.readlines()
     
     for line in original:
@@ -29,8 +32,8 @@ for dataset_idx in range(len(args.datasets)):
         tokenized.append(tokens)
         non_tokenized.append(line.split())
     
-    data[args.languages[dataset_idx]] = non_tokenized
-    tokenized_data[args.languages[dataset_idx]] = tokenized
+    data[language] = non_tokenized
+    tokenized_data[language] = tokenized
 
 
 def compute_stats(text):
@@ -49,7 +52,8 @@ def compute_stats(text):
     return {"toks": ntoks, "chars": nchars, "bytes": nbytes, "nseqs": nseqs}
 
 
-for lang in args.languages:
+results=[]
+for lang in languages:
     raw = data[lang]
     seg = tokenized_data[lang]
 
@@ -63,7 +67,11 @@ for lang in args.languages:
 
     sents_per_context = 2048 * sents / pieces
 
-    print("lang: {}\tpieces/word: {:.2f}\tpieces/sentence: {:.2f}\tchars/piece: {:.2f}\tbytes/piece: {:.2f}\tsentences/context: {:.2f}\t\tntokens: {}\tnpieces: {}".format(lang, pieces / words, pieces / sents, nc / pieces, nb / pieces, sents_per_context, words, pieces))
+    result = "lang: {}\tpieces/word: {:.2f}\tpieces/sentence: {:.2f}\tchars/piece: {:.2f}\tbytes/piece: {:.2f}\tsentences/context: {:.2f}\t\tntokens: {}\tnpieces: {}".format(lang, pieces / words, pieces / sents, nc / pieces, nb / pieces, sents_per_context, words, pieces)
+    print(result)
+    results.append(result)
 
+with open('analysis_results', 'w') as f:
+    f.write('\n'.join(results))
 
 

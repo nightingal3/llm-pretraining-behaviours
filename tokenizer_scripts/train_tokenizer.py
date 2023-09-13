@@ -12,7 +12,6 @@ args = parser.parse_args()
 
 
 paths = [str(x) for x in Path(args.data_path).glob("**/*.txt")]
-print(paths)
 
 # Initialize a tokenizer
 tokenizer = ByteLevelBPETokenizer()
