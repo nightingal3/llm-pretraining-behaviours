@@ -1,0 +1,16 @@
+global {
+    ducttape_output=/mnt/data/shared/tower_llm_training/tokenizer
+    repo=/mnt/data/pmartins/code/tower-llm-training
+    
+    data_path=/mnt/data/shared/tower_llm_training/data/tower_llm_data
+    
+    languages="nl,pt"
+
+    n_words=(NWords: 50000000 100000000 1000000000)
+    
+    vocab_size=(VocabSize: 50000 75000 100000 125000 150000 175000 200000)
+
+    #analysis
+    dataset=/mnt/data/shared/tower_llm_training/data/flores
+    eval_languages="en,es,de,fr,it,ko,nl,pl,pt,ru,sv,zh"
+}
