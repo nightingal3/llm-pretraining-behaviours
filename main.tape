@@ -71,12 +71,7 @@ task TuneDeepSpeedConfig
     :: zero_stage=@
     :: master_addr=@
     :: master_port=@
-    :: hidden_size=@
-    :: ffn_hidden_size=@
-    :: num_layers=@
-    :: num_attention_heads=@
-    :: seq_length=@
-    :: num_kv_heads=@
+    :: model_config=@
     :: batch_size=@
     :: lr=@
     :: min_lr=@
@@ -87,6 +82,16 @@ task TuneDeepSpeedConfig
     :: eval_interval=@
 {
     export CUDA_DEVICE_MAX_CONNECTIONS=1
+
+    # Read model config and parse to variables
+    model_config_f="${repo}/configs/${model_config}.yml"
+    hidden_size=$(yq '.hidden_size' $model_config_f)
+    ffn_hidden_size=$(yq '.ffn_hidden_size' $model_config_f)
+    num_layers=$(yq '.num_layers' $model_config_f)
+    num_attention_heads=$(yq '.num_attention_heads' $model_config_f)
+    seq_length=$(yq '.seq_length' $model_config_f)
+    num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
+
     # NOTE: this is still not working
     set -euo pipefail
     echo -n '{
@@ -162,18 +167,18 @@ task Train
     < dataset_bin=@PreprocessDataset
     < ds_config=(
         UseDeepSpeed:
+            false=/dev/null
             true=(
                 DSAutotuneConfig:
                     false=$ds_config@GetDeepSpeedConfig
                     true=$ds_config@TuneDeepSpeedConfig
                 )
-            false=/dev/null
         )
     > model_dir=checkpoints
     :: repo=@
-    :: use_deepseed=(UseDeepSpeed: true false)
+    :: use_deepseed=(UseDeepSpeed: false true)
     :: external_model_dir=@
-    :: external_restart=@
+    :: external_resume=@
     :: tokenizer=@
     :: gpus=@
     :: tp=@
@@ -181,12 +186,8 @@ task Train
     :: zero_stage=@
     :: master_addr=@
     :: master_port=@
-    :: hidden_size=@
-    :: ffn_hidden_size=@
-    :: num_layers=@
-    :: num_attention_heads=@
-    :: seq_length=@
-    :: num_kv_heads=@
+    :: rdzv_port=@
+    :: model_config=@
     :: train_steps=@
     :: batch_size=@
     :: lr=@
@@ -196,16 +197,18 @@ task Train
     :: grad_clip=@
     :: save_interval=@
     :: eval_interval=@
+    :: gpu_ids=@
 {
-    cat $ds_config
+    export CUDA_VISIBLE_DEVICES=$gpu_ids
 
-    #ds_args="--deepspeed"
-    #ds_args="--deepspeed_config=$ds_config ${ds_args}"
-    #ds_args="--zero-stage=$zero_stage ${ds_args}"
-    #ds_args="--deepspeed-activation-checkpointing ${ds_args}"
-
-    #distributed_args="--nproc_per_node=$gpus"
-    #distributed_args="--nnodes=1 ${distributed_args}"
+    # Read model config and parse to variables
+    model_config_f="${repo}/configs/models/${model_config}.yml"
+    hidden_size=$(yq '.hidden_size' $model_config_f)
+    ffn_hidden_size=$(yq '.ffn_hidden_size' $model_config_f)
+    num_layers=$(yq '.num_layers' $model_config_f)
+    num_attention_heads=$(yq '.num_attention_heads' $model_config_f)
+    seq_length=$(yq '.seq_length' $model_config_f)
+    num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
 
     if [ "$use_deepseed" == true ]; then
         # read main optimization parameters from the DeepSpeed config file
@@ -223,7 +226,7 @@ task Train
         echo "Using DeepSpeed with zero stage $zero_stage and micro batch size $micro_batch_size"
     else
         ds_args=""
-        distributed_args="--nnodes=1 --nproc_per_node=$gpus"
+        distributed_args="--nnodes=1 --nproc_per_node=$gpus --rdzv-endpoint localhost:$rdzv_port "
         launcher="torchrun"
         export  CUDA_DEVICE_MAX_CONNECTIONS=1
     fi
@@ -231,12 +234,14 @@ task Train
     # if `save_external` is set, symlink it to the `model_dir`
     # and copy the config file to the `model_dir`
     if [ "$external_model_dir" != "" ]; then
-        if [ "$external_restart" == false ]; then
+        if [ "$external_resume" == false ]; then
             rm -rf $external_model_dir
         fi
         mkdir -p $external_model_dir
         ln -s $external_model_dir $model_dir
-        cp $ds_config $model_dir
+        if [ "$use_deepseed" == true ]; then
+            cp $ds_config $model_dir
+        fi
     fi
 
     micro_batch_size=$(($batch_size / $gpus))
@@ -288,6 +293,141 @@ task Train
        $ds_args 
 }
 
+
+task Eval
+    < trained_model=$model_dir@Train
+    < ds_config=(
+        UseDeepSpeed:
+            false=/dev/null
+            true=(
+                DSAutotuneConfig:
+                    false=$ds_config@GetDeepSpeedConfig
+                    true=$ds_config@TuneDeepSpeedConfig
+                )
+        )
+    > eval_results 
+    :: repo=@
+    :: use_deepseed=(UseDeepSpeed: false true)
+    :: gpus=@
+    :: tp=@
+    :: pp=@
+    :: zero_stage=@
+    :: master_addr=@
+    :: master_port=@
+    :: eval_set=@
+    :: eval_metric=@
+    :: tokenizer=@
+    :: model_config=@
+    :: batch_size=@
+    :: rdzv_port=@
+    :: gpu_ids=@
+{
+    export CUDA_VISIBLE_DEVICES=$gpu_ids
+
+    # Read model config and parse to variables
+    model_config_f="${repo}/configs/models/${model_config}.yml"
+    hidden_size=$(yq '.hidden_size' $model_config_f)
+    ffn_hidden_size=$(yq '.ffn_hidden_size' $model_config_f)
+    num_layers=$(yq '.num_layers' $model_config_f)
+    num_attention_heads=$(yq '.num_attention_heads' $model_config_f)
+    seq_length=$(yq '.seq_length' $model_config_f)
+    num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
+
+    if [ "$use_deepseed" == true ]; then
+        # read main optimization parameters from the DeepSpeed config file
+        # (in case these were automatically tuned)
+        zero_stage=$(jq -r '.zero_optimization.stage' $ds_config)
+        micro_batch_size=$(jq -r '.train_micro_batch_size_per_gpu' $ds_config)
+        
+        ds_args="--deepspeed"
+        ds_args="--deepspeed_config=$ds_config ${ds_args}"
+        ds_args="--zero-stage=$zero_stage ${ds_args}"
+        ds_args="--deepspeed-activation-checkpointing ${ds_args}"
+        distributed_args="--num_nodes=1 --num_gpus=$gpus"
+        launcher="deepspeed"
+
+        echo "Using DeepSpeed with zero stage $zero_stage and micro batch size $micro_batch_size"
+        export  CUDA_DEVICE_MAX_CONNECTIONS=1
+    else
+        ds_args=""
+        distributed_args="--nnodes=1 --nproc_per_node=$gpus --rdzv-endpoint localhost:$rdzv_port "
+        launcher="torchrun"
+        export  CUDA_DEVICE_MAX_CONNECTIONS=1
+    fi
+
+    micro_batch_size=$(($batch_size / $gpus))
+    $launcher $distributed_args \
+        $repo/Megatron-DeepSpeed/tasks/main.py \
+        --task "WIKITEXT103" \
+        --tensor-model-parallel-size $tp \
+        --no-pipeline-parallel \
+        --num-layers $num_layers \
+        --hidden-size $hidden_size \
+        --ffn-hidden-size $ffn_hidden_size \
+        --num-attention-heads $num_attention_heads \
+        --num-key-value-heads $num_kv_heads \
+        --use-rotary-position-embeddings \
+        --untie-embeddings-and-output-weights \
+        --swiglu \
+        --normalization rmsnorm \
+        --disable-bias-linear \
+        --num-key-value-heads $num_kv_heads \
+        --use-flash-attn \
+        --seq-length $seq_length \
+        --max-position-embeddings $seq_length \
+        --fp16 \
+        --valid-data $eval_set \
+        --tokenizer-type PretrainedFromHF \
+        --tokenizer-name-or-path $tokenizer \
+        --load $trained_model \
+        --micro-batch-size $batch_size \
+        --log-interval 10 \
+        --no-load-optim \
+        --no-load-rng \
+        --distributed-timeout-minutes 60
+}
+
+task ConvertHF
+    < trained_model=$model_dir@Train
+    > hf_model_dir=hf_model
+    :: repo=@
+    :: tokenizer=@
+    :: model_config=@
+    :: gpu_ids=@
+{
+    export CUDA_VISIBLE_DEVICES=$gpu_ids
+
+    mkdir -p $hf_model_dir
+
+    # read last checkpoint
+    last_checkpoint=$(cat $trained_model/latest_checkpointed_iteration.txt)
+    # get checkpoint dir, with fixed number of digits (iter_0000100)
+    checkpoint_n=$(printf "iter_%07d" $last_checkpoint)
+    checkpoint=$trained_model/$checkpoint_n/mp_rank_00/model_optim_rng.pt
+
+    echo "here"
+
+    # Convert to HF model using convert_megatron_gpt2_checkpoint.py
+    export PYTHONPATH=$repo/Megatron-DeepSpeed
+    python $repo/scripts/convert_to_hf_model.py \
+        $checkpoint \
+        --config-yml=$repo/configs/models/$model_config.yml \
+        --output-folder=$hf_model_dir \
+        --verify-checkpoint
+}
+
 plan TrainLLM {
     reach Train via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
+}
+
+plan ScalingAnalysis {
+    reach Eval via (Size: small1 small2 small3)
+}
+
+plan EvalLLM {
+    reach Eval via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
+}
+
+plan ConvertHF {
+    reach ConvertHF via (Size: small3)
 }

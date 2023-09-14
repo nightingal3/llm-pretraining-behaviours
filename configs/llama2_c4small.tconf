@@ -1,12 +1,19 @@
 global {
     # WARNING: change these variables to your own paths
-    ducttape_output=/mnt/data/shared/tower_llm_training/experiments/llama2_c4small
-    repo=/mnt/data/pmartins/code/tower-llm-training
+    ducttape_output=/mnt/data/patrick/towerllm-outs/llama2_c4small
+    repo=/home/patrick/repos/tower-llm-training
+
     # set this to "" to save only in ducttape_output 
-    external_model_dir=/mnt/data/shared/tower_llm_training/models/llama2_c4small
+    external_model_dir=(
+        Size: 
+            base="/mnt/data/shared/tower_llm_training/models/llama2_c4small"
+            small1=""
+            small2=""
+            small3=""
+    )
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
-    external_restart=false 
+    external_resume=true
 
     # dataset pamaeters
     dataset_name=datablations/c4-filter-small
@@ -14,32 +21,73 @@ global {
     filter=false
     n_tokens=50000000000
 
+    eval_set=/mnt/data/shared/tower_llm_training/data/wikitext-103/wiki.test.tokens
+    eval_metric=loss
     
     # model parameters
-    hidden_size=2048
-    ffn_hidden_size=5504
-    num_layers=24
-    num_attention_heads=16
-    seq_length=2048
-    num_kv_heads=4
+    model_config=(
+        Size: 
+            base=llama2_1b
+            small1=llama2_50m
+            small2=llama2_150m
+            small3=llama2_500m
+    )
 
     # training parameters
-    train_steps=10000
-    batch_size=32
+    train_steps=(
+        Size:
+            base=410000
+            small3=50000
+            small2=50000
+            small1=50000
+    )
+    batch_size=(
+        Size:
+            base=60
+            small3=15
+            small2=30
+            small1=60
+    )
     lr=3e-4
     min_lr=3e-5
-    lr_warmup_steps=1000
+    lr_warmup_steps=2000
     weight_decay=0.1
     grad_clip=1.0
-    save_interval=500
-    eval_interval=500
+    save_interval=10000
+    eval_interval=5000
 
     # distributed training parameters
-    gpus=4
-    tp=2
+    gpu_ids=(
+        Size:
+            base=0,1,2,3
+            small1=5
+            small2=5
+            small3=5
+    )
+    gpus=(
+        Size:
+            base=4
+            small1=1
+            small2=1
+            small3=1
+    )
+    tp=1
     pp=1
     zero_stage=2
     master_addr=localhost
-    master_port=6000
+    master_port=(
+        Size:
+            base=61200
+            small1=61201
+            small2=61202
+            small3=61203
+    )
+    rdzv_port=(
+        Size:
+            base=29700
+            small1=29702
+            small2=29703
+            small3=29704
+    )
     cpu_workers=8
 }
