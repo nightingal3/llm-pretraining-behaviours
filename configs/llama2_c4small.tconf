@@ -7,7 +7,7 @@ global {
     external_model_dir=(
         Size: 
             base="/mnt/data/shared/tower_llm_training/models/llama2_c4small"
-            small1="/mnt/data/patrick/towerllm_models/llama2_c4small_test"
+            small1=""
             small2=""
             small3=""
     )
@@ -34,23 +34,60 @@ global {
     )
 
     # training parameters
-    train_steps=10000
-    batch_size=32
+    train_steps=(
+        Size:
+            base=410000
+            small3=50000
+            small2=50000
+            small1=50000
+    )
+    batch_size=(
+        Size:
+            base=60
+            small3=15
+            small2=30
+            small1=60
+    )
     lr=3e-4
     min_lr=3e-5
-    lr_warmup_steps=1000
+    lr_warmup_steps=2000
     weight_decay=0.1
     grad_clip=1.0
-    save_interval=500
-    eval_interval=500
+    save_interval=10000
+    eval_interval=5000
 
     # distributed training parameters
-    gpus=2
+    gpu_ids=(
+        Size:
+            base=0,1,2,3
+            small1=5
+            small2=5
+            small3=5
+    )
+    gpus=(
+        Size:
+            base=4
+            small1=1
+            small2=1
+            small3=1
+    )
     tp=1
     pp=1
     zero_stage=2
     master_addr=localhost
-    master_port=6666
-    rdzv_port=29777
+    master_port=(
+        Size:
+            base=61200
+            small1=61201
+            small2=61202
+            small3=61203
+    )
+    rdzv_port=(
+        Size:
+            base=29700
+            small1=29702
+            small2=29703
+            small3=29704
+    )
     cpu_workers=8
 }

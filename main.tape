@@ -197,7 +197,10 @@ task Train
     :: grad_clip=@
     :: save_interval=@
     :: eval_interval=@
+    :: gpu_ids=@
 {
+    export CUDA_VISIBLE_DEVICES=$gpu_ids
+
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
     hidden_size=$(yq '.hidden_size' $model_config_f)
@@ -290,24 +293,6 @@ task Train
        $ds_args 
 }
 
-task ConvertHF
-    < trained_model=$model_dir@Train
-    > hf_model_dir
-    :: repo=@
-    :: tokenizer=@
-    :: model_config=@
-{
-    # read last checkpoint
-    last_checkpoint=$(cat $trained_model/latest_checkpointed_iteration.txt)
-    # get checkpoint dir, with fixed number of digits (iter_0000100)
-    checkpoint_n=$(printf "iter_%08d" $last_checkpoint)
-    checkpoint=$trained_model/$checkpoint_n/mp_rank_00/model_optim_rng.pt
-
-    # Convert to HF model using convert_megatron_gpt2_checkpoint.py
-    python $repo/transformers/src/transformers/models/megatron_gpt2/convert_megatron_gpt2_checkpoint.py \
-        $checkpoint
-}
-
 
 task Eval
     < trained_model=$model_dir@Train
@@ -335,7 +320,10 @@ task Eval
     :: model_config=@
     :: batch_size=@
     :: rdzv_port=@
+    :: gpu_ids=@
 {
+    export CUDA_VISIBLE_DEVICES=$gpu_ids
+
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
     hidden_size=$(yq '.hidden_size' $model_config_f)
@@ -395,21 +383,51 @@ task Eval
         --micro-batch-size $batch_size \
         --log-interval 10 \
         --no-load-optim \
-        --no-load-rng
+        --no-load-rng \
+        --distributed-timeout-minutes 60
+}
+
+task ConvertHF
+    < trained_model=$model_dir@Train
+    > hf_model_dir=hf_model
+    :: repo=@
+    :: tokenizer=@
+    :: model_config=@
+    :: gpu_ids=@
+{
+    export CUDA_VISIBLE_DEVICES=$gpu_ids
+
+    mkdir -p $hf_model_dir
+
+    # read last checkpoint
+    last_checkpoint=$(cat $trained_model/latest_checkpointed_iteration.txt)
+    # get checkpoint dir, with fixed number of digits (iter_0000100)
+    checkpoint_n=$(printf "iter_%07d" $last_checkpoint)
+    checkpoint=$trained_model/$checkpoint_n/mp_rank_00/model_optim_rng.pt
+
+    echo "here"
+
+    # Convert to HF model using convert_megatron_gpt2_checkpoint.py
+    export PYTHONPATH=$repo/Megatron-DeepSpeed
+    python $repo/scripts/convert_to_hf_model.py \
+        $checkpoint \
+        --config-yml=$repo/configs/models/$model_config.yml \
+        --output-folder=$hf_model_dir \
+        --verify-checkpoint
 }
 
 plan TrainLLM {
     reach Train via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
 }
 
-plan TrainLLMTest {
-    reach Eval via (UseDeepSpeed: false) * (DSAutotuneConfig: false) * (Size: small1)
-}
-
 plan ScalingAnalysis {
-    reach Train via (Size: small1 small2 small3)
+    reach Eval via (Size: small1 small2 small3)
 }
 
 plan EvalLLM {
     reach Eval via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
+}
+
+plan ConvertHF {
+    reach ConvertHF via (Size: small3)
 }
