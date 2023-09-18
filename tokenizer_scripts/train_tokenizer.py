@@ -1,7 +1,8 @@
 from pathlib import Path
 from tokenizers import ByteLevelBPETokenizer
 import argparse
-from tokenizers.pre_tokenizers import Digits
+from tokenizers import pre_tokenizers
+from tokenizers.pre_tokenizers import Whitespace, Digits
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_path')
@@ -15,6 +16,7 @@ paths = [str(x) for x in Path(args.data_path).glob("**/*.txt")]
 
 # Initialize a tokenizer
 tokenizer = ByteLevelBPETokenizer()
+#tokenizer.pre_tokenizer = pre_tokenizers.Sequence([Whitespace(), Digits(individual_digits=True)])
 
 # Customize training
 tokenizer.train(files=paths, vocab_size=args.vocab_size, min_frequency=args.min_frequency, special_tokens=[
@@ -26,4 +28,4 @@ tokenizer.train(files=paths, vocab_size=args.vocab_size, min_frequency=args.min_
 ])
 
 # Save files to disk
-tokenizer.save_model(args.output_dir)
+tokenizer.save_pretrained(args.output_dir+'/tokenizer.json')

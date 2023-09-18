@@ -30,20 +30,20 @@ task AnalyseTokenizer
     <  tokenizer_dir=$tokenizer_dir@TrainTokenizer
     >  analysis_results
     :: repo=@
-    :: languages=@
+    :: eval_languages=@
     :: dataset=@
 {   
     python $repo/tokenizer_scripts/analyse_tokenizer.py \
         --tokenizer_dir $tokenizer_dir \
         --dataset $dataset \
-        --languages $languages
+        --languages $eval_languages
 }
 
 
 plan Train {
-    reach TrainTokenizer via (NWords: 50000000 100000000 1000000000) * (VocabSize: 50000 75000 100000 125000 150000 175000 200000)
+    reach TrainTokenizer via (NWords: 100000000) * (VocabSize: 200000)
 }
 
 plan Analyse {
-    reach AnalyseTokenizer via (NWords: 100000 500000 1000000 5000000 10000000 50000000 100000000) * (VocabSize: 50000 75000 100000 125000 150000 175000 200000)
+    reach AnalyseTokenizer via (NWords: 100000000) * (VocabSize: 200000)
 }
