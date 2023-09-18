@@ -1,6 +1,7 @@
 global {
     # WARNING: change these variables to your own paths
-    ducttape_output=/mnt/data/shared/tower_llm_training/experiments/1B_c4filter_50B_2
+    # ducttape_output=/mnt/data/shared/tower_llm_training/experiments/1B_c4filter_50B_2
+    ducttape_output=/mnt/data/patrick/towerllm-outs/llama2_c4filter50B
     repo=/mnt/data/pmartins/code/tower-llm-training
     
     # set this to "" to save only in ducttape_output
