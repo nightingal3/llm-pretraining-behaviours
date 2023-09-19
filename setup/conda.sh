@@ -18,12 +18,13 @@ then
     exit 1
 fi
 source ${CONDA_HOME}/etc/profile.d/conda.sh
-conda create -y -n ${ENV_NAME} python=3.9
-conda activate ${ENV_NAME}
 # python can't handle this dependency madness, switch to C++
 conda install -y -c conda-forge mamba
+mamba create -y -n ${ENV_NAME} python=3.9
+conda activate ${ENV_NAME}
 
 # install gcc, CUDA and set environment variables
+mamba install -y -c conda-forge git
 mamba install -y "gxx<10.0" -c conda-forge
 mamba install -y -c "nvidia/label/cuda-11.8.0" cuda-toolkit cuda-nvcc cuda-cudart
 
@@ -36,7 +37,7 @@ mamba install -y pytorch torchvision torchaudio pytorch-cuda=11.8 \
               -c pytorch -c nvidia
 
 # install apex
-pip install ninja 
+pip install ninja packaging 
 rm -rf .apex && git clone https://github.com/NVIDIA/apex .apex
 cd .apex
 pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
@@ -44,17 +45,17 @@ pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
 
 
 # install pdsh
-git clone git@github.com:chaos/pdsh.git .pdsh
-cd .pdsh
-autoreconf -i 
-./configure --with-ssh --prefix ${DIR}/.pdsh
-make -j 8 && make install
+# git clone git@github.com:chaos/pdsh.git .pdsh
+# cd .pdsh
+# autoreconf -i 
+# ./configure --with-ssh --prefix ${DIR}/.pdsh
+# make -j 8 && make install
 
 # install other dependencies
 cd $DIR
 pip install --upgrade pip
 pip install --no-build-isolation flash-attn
-pip install -r setup_scripts/pip_reqs.txt
+pip install -r setup/pip_reqs.txt
 
 conda env config vars set PATH=$PATH
 conda env config vars set LD_LIBRARY_PATH=$LD_LIBRARY_PATH

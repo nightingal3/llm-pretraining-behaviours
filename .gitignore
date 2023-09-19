@@ -2,3 +2,4 @@
 .pdsh/
 *.png
 plot_train_validation_losses.py
+configs/models/user_vars.tconf

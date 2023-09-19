@@ -421,7 +421,7 @@ plan TrainLLM {
 }
 
 plan ScalingAnalysis {
-    reach Eval via (Size: small1 small2 small3)
+    reach Eval via (Size: small1)
 }
 
 plan EvalLLM {

@@ -22,7 +22,15 @@ bash setup_scripts/conda.sh
 The core experimentation and training pipelines rely on ducttape, and are defined in `main.tape`. 
 Configuration files for different models and datasets are defined in `configs/`.
 
-For example, to train a small Llama-2 model on a small subset of C4, edit the relevant variables in `configs/llama2_c4small.tconf` and run:
+Start by creating a configuration with user-dependent variables (like the output folder) in `configs/user_vars.conf`. E.g
+```
+global {
+    ducttape_output=/mnt/data_2/patrick/towerllm-outs/llama2_c4filter50B/
+    repo=/home/patrick/tower-llm-training
+}
+```
+
+Then, for example, to train a small Llama-2 model on a small subset of C4, edit the relevant variables in `configs/llama2_c4small.tconf` and run:
 
 ```bash
 conda activate towerllm-env
