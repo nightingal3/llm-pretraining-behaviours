@@ -190,6 +190,7 @@ task Train
     :: model_config=@
     :: train_steps=@
     :: batch_size=@
+    :: grad_accum_steps=@
     :: lr=@
     :: min_lr=@
     :: lr_warmup_steps=@
@@ -198,6 +199,7 @@ task Train
     :: save_interval=@
     :: eval_interval=@
     :: gpu_ids=@
+    :: seed=@
 {
     export CUDA_VISIBLE_DEVICES=$gpu_ids
 
@@ -244,7 +246,9 @@ task Train
         fi
     fi
 
-    micro_batch_size=$(($batch_size / $gpus))
+    mkdir tensorboard
+    tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
+    micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
     $launcher $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
        --tensor-model-parallel-size $tp \
@@ -253,7 +257,9 @@ task Train
        --hidden-size $hidden_size \
        --ffn-hidden-size $ffn_hidden_size \
        --num-attention-heads $num_attention_heads \
+       --num-key-value-heads $num_kv_heads \
        --micro-batch-size $micro_batch_size \
+       --global-batch-size $batch_size \
        --seq-length $seq_length \
        --max-position-embeddings $seq_length \
        --train-iters $train_steps \
@@ -287,9 +293,10 @@ task Train
        --swiglu \
        --normalization rmsnorm \
        --disable-bias-linear \
-       --num-key-value-heads $num_kv_heads \
        --use-flash-attn \
        --distributed-timeout-minutes 60 \
+       --seed $seed \
+       $tensorboard_args \
        $ds_args 
 }
 
@@ -429,5 +436,5 @@ plan EvalLLM {
 }
 
 plan ConvertHF {
-    reach ConvertHF via (Size: small3)
+    reach ConvertHF via (Size: small4)
 }
