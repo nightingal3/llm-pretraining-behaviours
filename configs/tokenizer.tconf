@@ -1,17 +1,28 @@
 global {
-    ducttape_output=/mnt/data/shared/tower_llm_training/tokenizer
+    ducttape_output=/mnt/data_2/shared/tower_llm_training/tokenizer/tokenizer_en_de_es_fr_it_ko_nl_pl_pt_ru_sv_zh
     repo=/mnt/data/pmartins/code/tower-llm-training
     
-    data_path=/mnt/data/shared/tower_llm_training/data/tower_llm_data
+    data_path_de=/mnt/data_2/shared/tower_llm_data/de/2/0000.json.gz
+    data_path_en=/mnt/data_2/shared/tower_llm_data/en/data
+    data_path_es=/mnt/data_2/shared/tower_llm_data/es/3/0000.json.gz
+    data_path_fr=/mnt/data_2/shared/tower_llm_data/fr/1/0000.json.gz
+    data_path_it=/mnt/data_2/shared/tower_llm_data/it/0000.json.gz
+    data_path_ko=/mnt/data_2/shared/tower_llm_data/ko/0000.json.gz
+    data_path_nl=/mnt/data_2/shared/tower_llm_data/nl/0000.json.gz
+    data_path_pl=/mnt/data_2/shared/tower_llm_data/pl/0000.json.gz
+    data_path_pt=/mnt/data_2/shared/tower_llm_data/pt/0000.json.gz
+    data_path_ru=/mnt/data_2/shared/tower_llm_data/ru/6/0000.json.gz
+    data_path_sv=/mnt/data_2/shared/tower_llm_data/sv/0000.json.gz
+    data_path_zh=/mnt/data_2/shared/tower_llm_data/zh/0000.json.gz
     
-    languages="nl,it,pt"
+    languages="de,en,es,fr,it,ko,nl,pl,pt,ru,sv,zh"
     
     n_words=(NWords: 50000000 100000000 1000000000)
+    extra_tokens=2000 
     
-    vocab_size=(VocabSize: 50000 75000 100000 125000 150000 175000 200000)
+    vocab_size=(VocabSize: 32000 64000 96000 128000 160000 192000 224000)
 
     #analysis
-    dataset=/mnt/data/shared/tower_llm_training/data/fertility
-    eval_languages="nl,it,pt"
-    #eval_languages="en,es,de,fr,it,nl,pl,pt,zh,ko,ru"
+    dataset=/mnt/data_2/shared/tower_llm_training/eval_data/fertility
+    eval_languages="de,en,es,fr,it,ko,nl,pl,pt,ru,sv,zh"
 }

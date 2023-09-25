@@ -4,6 +4,7 @@ from tokenizers import pre_tokenizers, Tokenizer
 from tokenizers.pre_tokenizers import Whitespace, Digits
 import nltk
 import transformers
+import jieba
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--tokenizer_dir')
@@ -13,13 +14,7 @@ args = parser.parse_args()
 
 languages = args.languages.split(',')
 
-#tokenizer = Tokenizer.from_file(args.tokenizer_dir+'/tokenizer.json')
-#tokenizer.pre_tokenizer = pre_tokenizers.Sequence([Whitespace(), Digits(individual_digits=True)])
-
-tokenizer_llama = transformers.AutoTokenizer.from_pretrained(
-        pretrained_model_name_or_path = args.tokenizer_dir+'/tokenizer.json',
-        use_fast=False,
-        )
+tokenizer = Tokenizer.from_file(args.tokenizer_dir+'/tokenizer.json')
 
 tokenizer_llama = transformers.AutoTokenizer.from_pretrained(
         "meta-llama/Llama-2-7b-hf",
@@ -47,12 +42,20 @@ for language in languages:
     
     for line in original:
         line.strip()
-        tokens = tokenizer.convert_ids_to_tokens(tokenizer.encode(line))
+        tokens = tokenizer.encode(line).tokens
         tokens_llama = tokenizer_llama.convert_ids_to_tokens(tokenizer_llama.encode(line))
         tokens_bloom = tokenizer_bloom.convert_ids_to_tokens(tokenizer_bloom.encode(line))
+        #print('----------')
+        #print(tokens)
+        #print(tokens_llama)
+        #print(tokens_bloom)
+        #print('\n')
         tokenized.append(tokens)
         #non_tokenized.append(line.split())
-        non_tokenized.append(nltk.word_tokenize(line))
+        if language=='zh':
+            non_tokenized.append(jieba.lcut(line))
+        else:
+            non_tokenized.append(nltk.word_tokenize(line))
 
         tokenized_llama.append(tokens_llama)
         tokenized_bloom.append(tokens_bloom)
