@@ -6,6 +6,7 @@ task DumpHFDataset
     :: dataset_path=@
     :: dataset_splits=@
     :: filter=@
+    :: percentile=@
     :: n_tokens=@
     :: repo=@
     :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=8 .time="1:00:00"
@@ -16,7 +17,9 @@ task DumpHFDataset
         --output $dataset_json \
         $([ ! -z "$dataset_splits" ] && echo "--dataset_splits $dataset_splits" || echo "") \
         $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
-        $([ "$filter" == true ] && echo "--filter --n_tokens $n_tokens" || echo "")
+        $([ "$filter" == true ] && echo "--filter" || echo "") \
+        $([ ! -z "$percentile" ] && echo "--percentile $percentile" || echo "") \
+        $([ ! -z "$n_tokens" ] && echo "--n_tokens $n_tokens" || echo "")
 }
 
 task PreprocessDataset

@@ -1,4 +1,4 @@
-import "uservars.tconf"
+import "llama2_tinytextbooks_uservars.tconf"
 
 global {
     # WARNING: change these variables to your own paths
@@ -12,9 +12,13 @@ global {
 
     # dataset pamaeters
     dataset_name=nampdn-ai/tiny-textbooks
-    tokenizer=NousResearch/Llama-2-7b-hf
+    dataset_path=""
+    dataset_splits=""
     filter=false
-    n_tokens="0"
+    percentile=50
+    n_tokens=""
+
+    tokenizer=NousResearch/Llama-2-7b-hf
 
     eval_metric=loss
     
