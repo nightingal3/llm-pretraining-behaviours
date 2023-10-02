@@ -17,7 +17,7 @@ def get_hf_dataset(
         dataset = datasets.load_from_disk(dataset_path)
     else:
         split = "+".join(splits) if splits is not None else None
-        dataset = datasets.load_dataset(dataset_name, split, streaming=True)['train']'
+        dataset = datasets.load_dataset(dataset_name, split, streaming=True)['train']
         
     return dataset
 
