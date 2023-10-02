@@ -1,15 +1,25 @@
+import "submitters/jeanzay.tape"
+
 task DumpHFDataset 
     >  dataset_json=dataset.json
     :: dataset_name=@
+    :: dataset_path=@
+    :: dataset_splits=@
     :: filter=@
+    :: percentile=@
     :: n_tokens=@
     :: repo=@
+    :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=8 .time="1:00:00"
 {
+    # check if filter is set
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
         --output $dataset_json \
-        --filter $filter \
-        --n_tokens $n_tokens
+        $([ ! -z "$dataset_splits" ] && echo "--dataset_splits $dataset_splits" || echo "") \
+        $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
+        $([ "$filter" == true ] && echo "--filter" || echo "") \
+        $([ ! -z "$percentile" ] && echo "--percentile $percentile" || echo "") \
+        $([ ! -z "$n_tokens" ] && echo "--n_tokens $n_tokens" || echo "")
 }
 
 task PreprocessDataset
@@ -17,7 +27,8 @@ task PreprocessDataset
     > dataset_bin=data_bin
     :: repo=@
     :: tokenizer=@
-    :: cpu_workers=@
+    :: cpu_workers=16
+    :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=16 .time="1:00:00"
 {
     set -euo pipefail
     mkdir -p $dataset_bin
@@ -31,6 +42,7 @@ task PreprocessDataset
         --workers $cpu_workers 
 }
 
+# WARNING: has not been tested recently
 task GetDeepSpeedConfig
     < dataset_bin=@PreprocessDataset
     > ds_config=deepspeed.json
@@ -175,6 +187,7 @@ task Train
                 )
         )
     > model_dir=checkpoints
+    :: .submitter=@ .account="hxz@a100" .config=a100 .gres=@ .cpus=8 .time="19:59:59"
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: false true)
     :: external_model_dir=@
@@ -190,6 +203,7 @@ task Train
     :: model_config=@
     :: train_steps=@
     :: batch_size=@
+    :: grad_accum_steps=@
     :: lr=@
     :: min_lr=@
     :: lr_warmup_steps=@
@@ -197,10 +211,8 @@ task Train
     :: grad_clip=@
     :: save_interval=@
     :: eval_interval=@
-    :: gpu_ids=@
+    :: seed=@
 {
-    export CUDA_VISIBLE_DEVICES=$gpu_ids
-
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
     hidden_size=$(yq '.hidden_size' $model_config_f)
@@ -244,7 +256,9 @@ task Train
         fi
     fi
 
-    micro_batch_size=$(($batch_size / $gpus))
+    mkdir tensorboard
+    tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
+    micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
     $launcher $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
        --tensor-model-parallel-size $tp \
@@ -253,7 +267,9 @@ task Train
        --hidden-size $hidden_size \
        --ffn-hidden-size $ffn_hidden_size \
        --num-attention-heads $num_attention_heads \
+       --num-key-value-heads $num_kv_heads \
        --micro-batch-size $micro_batch_size \
+       --global-batch-size $batch_size \
        --seq-length $seq_length \
        --max-position-embeddings $seq_length \
        --train-iters $train_steps \
@@ -287,9 +303,10 @@ task Train
        --swiglu \
        --normalization rmsnorm \
        --disable-bias-linear \
-       --num-key-value-heads $num_kv_heads \
        --use-flash-attn \
        --distributed-timeout-minutes 60 \
+       --seed $seed \
+       $tensorboard_args \
        $ds_args 
 }
 
@@ -306,9 +323,10 @@ task Eval
                 )
         )
     > eval_results 
+    :: .submitter=@ .account="hxz@a100" .config=a100 .gres="gpu:1" .cpus=8 .time="1:00:00"
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: false true)
-    :: gpus=@
+    :: gpus=1
     :: tp=@
     :: pp=@
     :: zero_stage=@
@@ -318,12 +336,9 @@ task Eval
     :: eval_metric=@
     :: tokenizer=@
     :: model_config=@
-    :: batch_size=@
+    :: batch_size=8
     :: rdzv_port=@
-    :: gpu_ids=@
 {
-    export CUDA_VISIBLE_DEVICES=$gpu_ids
-
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
     hidden_size=$(yq '.hidden_size' $model_config_f)
@@ -405,8 +420,6 @@ task ConvertHF
     checkpoint_n=$(printf "iter_%07d" $last_checkpoint)
     checkpoint=$trained_model/$checkpoint_n/mp_rank_00/model_optim_rng.pt
 
-    echo "here"
-
     # Convert to HF model using convert_megatron_gpt2_checkpoint.py
     export PYTHONPATH=$repo/Megatron-DeepSpeed
     python $repo/scripts/convert_to_hf_model.py \
@@ -416,18 +429,14 @@ task ConvertHF
         --verify-checkpoint
 }
 
-plan TrainLLM {
-    reach Train via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
-}
-
 plan ScalingAnalysis {
-    reach Eval via (Size: small1 small2 small3)
+    reach Eval via (Size: small1 small2 small3 small4)
 }
 
-plan EvalLLM {
-    reach Eval via (UseDeepSpeed: false) * (DSAutotuneConfig: false)
+plan TrainLLM {
+    reach Eval via (Size: base)
 }
 
 plan ConvertHF {
-    reach ConvertHF via (Size: small3)
+    reach ConvertHF via (Size: base)
 }
