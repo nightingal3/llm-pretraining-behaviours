@@ -4,3 +4,5 @@ pybind11
 deepspeed
 deepspeed[autotune]
 transformers
+yq
+tensorboard

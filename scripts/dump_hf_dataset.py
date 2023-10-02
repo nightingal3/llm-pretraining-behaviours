@@ -73,7 +73,7 @@ def dump_hf_dataset(
     
     # dataset.to_json(output_file, lines=True)
     # due to stream, print each line to file
-    with open(args.output_file, 'w') as f:
+    with open(output_file, 'w') as f:
         for i, example in enumerate(dataset):
             if i % 1000 == 0:
                 print("Saved {} examples".format(i))
@@ -103,4 +103,6 @@ if __name__ == "__main__":
             percentile=args.percentile,
             max_tokens=args.n_tokens
         )
+
+    dump_hf_dataset(dataset, args.output)
 
