@@ -9,7 +9,7 @@ task DumpHFDataset
     :: percentile=@
     :: n_tokens=@
     :: repo=@
-    :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=8 .time="1:00:00"
+    :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=8 .time="3:00:00"
 {
     # check if filter is set
     python $repo/scripts/dump_hf_dataset.py \
@@ -176,7 +176,7 @@ task TuneDeepSpeedConfig
 }
 
 task Train
-    < dataset_bin=@PreprocessDataset
+    < dataset_bin=@PreprocessDataset[Dataset:*]
     < ds_config=(
         UseDeepSpeed:
             false=/dev/null
@@ -427,6 +427,10 @@ task ConvertHF
         --config-yml=$repo/configs/models/$model_config.yml \
         --output-folder=$hf_model_dir \
         --verify-checkpoint
+}
+
+plan Preprocess {
+    reach PreprocessDataset via (Dataset: *)
 }
 
 plan ScalingAnalysis {

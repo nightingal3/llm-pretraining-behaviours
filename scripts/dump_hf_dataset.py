@@ -10,14 +10,16 @@ import gzip
 def get_hf_dataset(
     dataset_name: str, 
     dataset_path: str=None, 
-    splits: List[str]=None
+    splits: List[str]=None,
+    stream: bool=False
 ):
     if dataset_path is not None:
         assert splits is None, "Cannot specify both dataset_path and splits"
         dataset = datasets.load_from_disk(dataset_path)
     else:
         split = "+".join(splits) if splits is not None else None
-        dataset = datasets.load_dataset(dataset_name, split, streaming=True)['train']
+        # TODO: fix this hard-coded train (sub)split
+        dataset = datasets.load_dataset(dataset_name, split, streaming=stream)['train']
         
     return dataset
 
@@ -90,12 +92,14 @@ if __name__ == "__main__":
     parser.add_argument('--filter', default=False, action='store_true')
     parser.add_argument('--percentile', type=int, required=False, default=50)
     parser.add_argument('--n_tokens', type=int, required=False, default=None)
+    parser.add_argument('--stream', default=False, action='store_true')
     args = parser.parse_args()
     
     dataset = get_hf_dataset(
         dataset_name=args.dataset_name, 
         dataset_path=args.dataset_path, 
-        splits=args.splits
+        splits=args.splits,
+        stream=args.stream
     )
     if args.filter:
         datset = filter_hf_dataset(
