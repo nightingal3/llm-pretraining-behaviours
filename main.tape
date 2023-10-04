@@ -1,25 +1,32 @@
-import "submitters/jeanzay.tape"
+import "submitters/scslurm.tape"
 
 task DumpHFDataset 
     >  dataset_json=dataset.json
     :: dataset_name=@
     :: dataset_path=@
-    :: dataset_splits=@
+    :: dataset_dirs=@
+    :: dataset_stream=@
     :: filter=@
     :: percentile=@
     :: n_tokens=@
     :: repo=@
-    :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=8 .time="3:00:00"
+    :: .submitter=@
+    :: .account=$dump_account
+    :: .partition=$dump_partition
+    :: .time=$dump_time 
+    :: .cpus=$dump_cpus
+    :: .mem=$dump_mem
 {
     # check if filter is set
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
         --output $dataset_json \
-        $([ ! -z "$dataset_splits" ] && echo "--dataset_splits $dataset_splits" || echo "") \
+        $([ ! -z "$dataset_dirs" ] && echo "--dataset_dirs $dataset_dirs" || echo "") \
         $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
         $([ "$filter" == true ] && echo "--filter" || echo "") \
         $([ ! -z "$percentile" ] && echo "--percentile $percentile" || echo "") \
-        $([ ! -z "$n_tokens" ] && echo "--n_tokens $n_tokens" || echo "")
+        $([ ! -z "$n_tokens" ] && echo "--n_tokens $n_tokens" || echo "") \
+        $([ "$dataset_stream" == true ] && echo "--stream" || echo "")
 }
 
 task PreprocessDataset
@@ -27,8 +34,13 @@ task PreprocessDataset
     > dataset_bin=data_bin
     :: repo=@
     :: tokenizer=@
-    :: cpu_workers=16
-    :: .submitter=@ .account="hxz@cpu" .partition=prepost .cpus=16 .time="1:00:00"
+    :: cpu_workers=32
+    :: .submitter=@
+    :: .account=$preproc_account
+    :: .partition=$preproc_partition
+    :: .time=$preproc_time
+    :: .cpus=$preproc_cpus
+    :: .mem=$preproc_mem
 {
     set -euo pipefail
     mkdir -p $dataset_bin
@@ -187,7 +199,13 @@ task Train
                 )
         )
     > model_dir=checkpoints
-    :: .submitter=@ .account="hxz@a100" .config=a100 .gres=@ .cpus=8 .time="19:59:59"
+    :: .submitter=@
+    :: .account=$train_account
+    :: .partition=$train_partition
+    :: .time=$train_time
+    :: .cpus=$train_cpus
+    :: .gres=$train_gres
+    :: .mem=$train_mem
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: false true)
     :: external_model_dir=@
@@ -434,7 +452,7 @@ plan Preprocess {
 }
 
 plan ScalingAnalysis {
-    reach Eval via (Size: small1 small2 small3 small4)
+    reach Eval via (Size: small1)
 }
 
 plan TrainLLM {

@@ -1,10 +1,10 @@
-submitter jeanzay :: COMMANDS 
+submitter scslurm :: COMMANDS 
                   :: TASK REALIZATION CONFIGURATION {
     action run > exit_code {
         # Returns true iff the first parameter 
         # is the name of a defined variable
         function var_defined {
-            eval '[[ ${!'$1'[@]} ]]'	     
+            eval '[[ -n ${'$1'+set} && ${'$1'} != "none" ]]'
         }
 
         # define script 
@@ -27,6 +27,9 @@ submitter jeanzay :: COMMANDS
         fi
         if (var_defined cpus); then
             SLURM_ARGS+=" --cpus-per-task=$cpus"
+        fi
+        if (var_defined mem); then
+            SLURM_ARGS+=" --mem=$mem"
         fi
         if (var_defined gres); then
             SLURM_ARGS+=" --gres=$gres"

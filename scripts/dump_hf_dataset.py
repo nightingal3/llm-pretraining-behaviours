@@ -1,3 +1,4 @@
+import os
 import json
 import datasets
 import numpy as np
@@ -9,17 +10,22 @@ import gzip
 
 def get_hf_dataset(
     dataset_name: str, 
-    dataset_path: str=None, 
-    splits: List[str]=None,
+    path: str=None,
+    dirs: List[str]=None, 
+    split: str=None,
     stream: bool=False
 ):
-    if dataset_path is not None:
+    if path is not None:
         assert splits is None, "Cannot specify both dataset_path and splits"
         dataset = datasets.load_from_disk(dataset_path)
     else:
-        split = "+".join(splits) if splits is not None else None
+        # HACK: need this to support partial load of stream datasets
+        data_files = [os.path.join(d, "**") for d in dirs]
         # TODO: fix this hard-coded train (sub)split
-        dataset = datasets.load_dataset(dataset_name, split, streaming=stream)['train']
+        dataset = datasets.load_dataset(
+            dataset_name, 
+            data_files=data_files,
+            streaming=stream)[split]
         
     return dataset
 
@@ -66,12 +72,14 @@ COLUMNS_TO_REMOVE = [
 def dump_hf_dataset(
     dataset: datasets.Dataset,
     output_file: str,
+    text_only: bool=False
 ):
     # Remove columns if they exist
     existing_columns = dataset.column_names
-    for column in COLUMNS_TO_REMOVE:
-        if column in existing_columns:
-            dataset = dataset.remove_columns(column)
+    if existing_columns is not None:
+        for column in COLUMNS_TO_REMOVE:
+            if column in existing_columns:
+                dataset = dataset.remove_columns(column)
     
     # dataset.to_json(output_file, lines=True)
     # due to stream, print each line to file
@@ -79,7 +87,10 @@ def dump_hf_dataset(
         for i, example in enumerate(dataset):
             if i % 1000 == 0:
                 print("Saved {} examples".format(i))
-            print(json.dumps(example), file=f)
+            if text_only:
+                print(example['text'], file=f)
+            else:
+                print(json.dumps(example), file=f)
 
 
 if __name__ == "__main__":
@@ -88,17 +99,20 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_name', type=str, required=True)
     parser.add_argument('--output', type=str, required=True)
     parser.add_argument('--dataset_path', type=str, required=False, default=None)
-    parser.add_argument('--splits', type=str, required=False, nargs='+', default=None)
+    parser.add_argument('--dataset_dirs', type=str, required=False, nargs='+', default=None)
+    parser.add_argument('--dataset_split', type=str, required=False, default="train")
     parser.add_argument('--filter', default=False, action='store_true')
     parser.add_argument('--percentile', type=int, required=False, default=50)
     parser.add_argument('--n_tokens', type=int, required=False, default=None)
     parser.add_argument('--stream', default=False, action='store_true')
+    parser.add_argument('--text-only', default=False, action='store_true')
     args = parser.parse_args()
     
     dataset = get_hf_dataset(
         dataset_name=args.dataset_name, 
-        dataset_path=args.dataset_path, 
-        splits=args.splits,
+        path=args.dataset_path, 
+        dirs=args.dataset_dirs,
+        split=args.dataset_split,
         stream=args.stream
     )
     if args.filter:
@@ -108,5 +122,5 @@ if __name__ == "__main__":
             max_tokens=args.n_tokens
         )
 
-    dump_hf_dataset(dataset, args.output)
+    dump_hf_dataset(dataset, args.output, text_only=args.text_only)
 

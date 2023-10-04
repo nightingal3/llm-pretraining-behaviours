@@ -1,0 +1,126 @@
+import "nerd_llm_uservars.tconf"
+
+global {
+    # WARNING: change these variables to your own paths
+
+    ducttape_experimental_imports=true
+    ducttape_experimental_submitters=true
+
+    # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
+    # WARNING: setting this to false will delete the contents of external_model_dir
+    external_resume=false
+
+    # dataset pamaeters
+    dataset_name=(
+        Dataset:
+            english="allenai/dolma"
+    )
+    dataset_path=""
+    dataset_dirs=(
+        Dataset:
+            english="data/wiki-en-simple data/gutenberg-books"
+    )
+    dataset_stream=true
+
+    filter=false
+    percentile=""
+    n_tokens=""
+
+    tokenizer=mistralai/Mistral-7B-v0.1
+
+    eval_metric=loss
+    
+    # model parameters
+    model_config=(
+        Size: 
+            base=llama2_1b
+            small5=llama2_610m
+            small4=llama2_440m
+            small3=llama2_268m
+            small2=llama2_166m
+            small1=llama2_58m
+    )
+
+    # training parameters
+    train_steps=(
+        Size:
+            base=555000
+            small5=100000
+            small4=100000
+            small3=100000
+            small2=100000
+            small1=100000
+    )
+    batch_size=(
+        Size:
+            base=44
+            small5=64
+            small4=64
+            small3=64
+            small2=64
+            small1=64
+    )
+    grad_accum_steps=1
+
+    lr=2e-4
+    min_lr=3e-5
+    lr_warmup_steps=1000
+    weight_decay=0.1
+    grad_clip=1.0
+    save_interval=2500
+    eval_interval=500
+
+    # distributed training parameters
+    gpu_ids=(
+        Size:
+            base=0,1,2,3,4,5,6
+            small5=4,5,6,7
+            small4=4,5,6,7
+            small3=4,5,6,7
+            small2=6,7
+            small1=4,6
+
+    )
+    gpus=(
+        Size:
+            base=4
+            small5=4
+            small4=4
+            small3=4
+            small2=2
+            small1=2
+    )
+    .gres=(
+        Size:
+            base="gpu:4"
+            small5="gpu:4"
+            small4="gpu:4"
+            small3="gpu:4"
+            small2="gpu:2"
+            small1="gpu:2"
+    )
+    tp=1
+    pp=1
+    zero_stage=2
+    master_addr=localhost
+    master_port=(
+        Size:
+            base=61200
+            small5=61201
+            small4=61202
+            small3=61203
+            small2=61204
+            small1=61205
+    )
+    rdzv_port=(
+        Size:
+            base=29700
+            small5=29701
+            small4=29702
+            small3=29703
+            small2=29704
+            small1=29705
+    )
+    cpu_workers=16
+    seed=999
+}
