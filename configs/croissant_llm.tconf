@@ -1,4 +1,4 @@
-import "croissllm_uservars.tconf"
+import "croissant_llm_uservars.tconf"
 
 global {
     # WARNING: change these variables to your own paths
@@ -19,7 +19,8 @@ global {
     )
 
     dataset_path=""
-    dataset_splits=""
+    dataset_dirs=""
+    dataset_stream=false
     filter=false
     percentile=50
     n_tokens=""

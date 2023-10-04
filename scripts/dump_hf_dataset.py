@@ -20,7 +20,10 @@ def get_hf_dataset(
         dataset = datasets.load_from_disk(dataset_path)
     else:
         # HACK: need this to support partial load of stream datasets
-        data_files = [os.path.join(d, "**") for d in dirs]
+        if dirs is not None:
+            data_files = [os.path.join(d, "**") for d in dirs]
+        else:
+            data_files = None
         # TODO: fix this hard-coded train (sub)split
         dataset = datasets.load_dataset(
             dataset_name, 
