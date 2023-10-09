@@ -474,10 +474,9 @@ task ConvertHF
 
     # Convert to HF model using convert_megatron_gpt2_checkpoint.py
     python $repo/scripts/convert_to_hf_model.py \
-        model.bin \
+        model.bin $hf_model_dir \
         --config-yml=$repo/configs/models/$model_config.yml \
-        --output-folder=$hf_model_dir \
-        --verify-checkpoint
+        --tokenizer-name=$tokenizer \
 }
 
 plan Preprocess {
