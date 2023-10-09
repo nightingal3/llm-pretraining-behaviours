@@ -12,24 +12,26 @@ def get_hf_dataset(
     dataset_name: str, 
     path: str=None,
     dirs: List[str]=None, 
-    split: str=None,
+    split: str='train',
     stream: bool=False
 ):
     if path is not None:
-        assert splits is None, "Cannot specify both dataset_path and splits"
-        dataset = datasets.load_from_disk(dataset_path)
+        assert os.path.exists(path), "Path does not exist"
+        assert dirs is None, "Cannot specify both path and dirs"
+        dataset = datasets.load_from_disk(path)
     else:
         # HACK: need this to support partial load of stream datasets
         if dirs is not None:
             data_files = [os.path.join(d, "**") for d in dirs]
         else:
             data_files = None
-        # TODO: fix this hard-coded train (sub)split
+            
         dataset = datasets.load_dataset(
             dataset_name, 
             data_files=data_files,
-            streaming=stream)[split]
+            streaming=stream)
         
+    dataset = dataset[split]
     return dataset
 
 

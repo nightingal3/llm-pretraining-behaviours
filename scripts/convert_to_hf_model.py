@@ -110,20 +110,33 @@ def convert_megatron_checkpoint(args, input_state_dict, config):
         checkpoint_version = 0.0
 
     # The model.
-    model = input_state_dict["model"]
-    # The language model.
-    lm = model["language_model"]
-    # The embeddings.
-    embeddings = lm["embedding"]
+    if "model" in input_state_dict:
+        model = input_state_dict["model"]
+        lm = model["language_model"]
+        embeddings = lm["embedding"]
+        word_embeddings = embeddings["word_embeddings"]["weight"]
+        transformer = lm["encoder"]
+        output_layer = lm["output_layer"]["weight"]
+    else:
+        # remove `language_model` prefix from all keys
+        lm = {
+            k.replace("language_model.", ""): v 
+            for k, v in input_state_dict.items() 
+            if k.startswith("language_model.")
+        }
+        word_embeddings = lm["embedding.word_embeddings.weight"]
+        transformer = {
+            k.replace("encoder.", ""): v 
+            for k, v in lm.items() 
+            if k.startswith("encoder.")
+        }
+        output_layer = lm["output_layer.weight"]
+        
 
-    # The word embeddings.
-    word_embeddings = embeddings["word_embeddings"]["weight"]
     # Truncate the embedding table to vocab_size rows.
     # word_embeddings = word_embeddings[: config.vocab_size, :]
     output_state_dict["model.embed_tokens.weight"] = word_embeddings.clone()
 
-    # The transformer.
-    transformer = lm["encoder"]
 
     # The regex to extract layer names.
     layer_re = re.compile(r"layers\.(\d+)\.([a-z0-9_.]+)\.([a-z]+)")
@@ -156,7 +169,19 @@ def convert_megatron_checkpoint(args, input_state_dict, config):
         layer_name = f"model.layers.{layer_idx}"
 
         # Transpose the QKV matrix.
-        if op_name == "self_attention.query" and weight_or_bias == "weight":
+        if op_name == "self_attention.query_key_value" and weight_or_bias == "weight":
+            out_val = fix_query_key_value_ordering(
+                val,
+                checkpoint_version,
+                3,
+                heads,
+                hidden_size_per_head,
+            )
+            q_val, k_val, v_val = torch.split(out_val, out_val.shape[0] // 3, 0)
+            output_state_dict[layer_name + ".self_attn.q_proj.weight"] = q_val.clone()
+            output_state_dict[layer_name + ".self_attn.k_proj.weight"] = k_val.clone()
+            output_state_dict[layer_name + ".self_attn.v_proj.weight"] = v_val.clone()
+        elif op_name == "self_attention.query" and weight_or_bias == "weight":
             out_val = fix_query_key_value_ordering(
                 val,
                 checkpoint_version,
@@ -164,7 +189,7 @@ def convert_megatron_checkpoint(args, input_state_dict, config):
                 heads,
                 hidden_size_per_head,
             )
-            output_state_dict[layer_name + ".self_attn.q_proj.weight"] = out_val
+            output_state_dict[layer_name + ".self_attn.q_proj.weight"] = out_val.clone()
 
         elif op_name == "self_attention.key_value" and weight_or_bias == "weight":
             out_val = fix_query_key_value_ordering(
@@ -199,7 +224,7 @@ def convert_megatron_checkpoint(args, input_state_dict, config):
     output_state_dict["model.norm.weight"] = transformer["final_layernorm.weight"].clone()
 
     # Output vocabulary
-    output_state_dict["lm_head.weight"] = lm["output_layer"]["weight"].clone()
+    output_state_dict["lm_head.weight"] = output_layer.clone()
 
     # It should be done!
     return output_state_dict
@@ -215,8 +240,13 @@ def main():
     parser.add_argument(
         "path_to_checkpoint",
         type=str,
-        help="Path to the checkpoint file (.zip archive or direct .pt file)",
+        help="Path to the checkpoint folder",
     )
+    # parser.add_argument(
+    #     "--tokenizer",
+    #     type=str,
+    #     required=True
+    # )
     parser.add_argument(
         "--config-yml",
         type=str,
@@ -279,7 +309,7 @@ def main():
         recursive_print(None, output_state_dict)
 
     
-    tokenizer_name = "NousResearch/Llama-2-7b-hf"
+    tokenizer_name = "mistralai/Mistral-7B-v0.1"
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     tokenizer_class = type(tokenizer).__name__
     config.tokenizer_class = tokenizer_class

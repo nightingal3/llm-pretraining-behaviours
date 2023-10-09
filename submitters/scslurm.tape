@@ -19,6 +19,9 @@ submitter scslurm :: COMMANDS
         echo "$COMMANDS" >> $wrapper
 
         SLURM_ARGS="--job-name=$TASK"
+        if (var_defined C); then
+            SLURM_ARGS+=" -C $C"
+        fi
         if (var_defined account); then
             SLURM_ARGS+=" -A $account"
         fi
@@ -42,7 +45,19 @@ submitter scslurm :: COMMANDS
         fi
 
         echo $SLURM_ARGS
+        # loop until the job completes successfully
+        while true; do
+            # submit the job and capture its exit code
+            srun $SLURM_ARGS bash $wrapper
+            exit_code=$?
 
-        srun $SLURM_ARGS bash $wrapper
+            # if the job completed successfully, break the loop
+            if [ $exit_code -ne 143 ]; then
+                break
+            fi
+
+            # otherwise, wait a bit and then continue the loop to resubmit the job
+            sleep 10
+        done
   }
 }

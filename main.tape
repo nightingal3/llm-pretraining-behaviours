@@ -34,7 +34,7 @@ task PreprocessDataset
     > dataset_bin=data_bin
     :: repo=@
     :: tokenizer=@
-    :: cpu_workers=32
+    :: cpu_workers=20
     :: .submitter=@
     :: .account=$preproc_account
     :: .partition=$preproc_partition
@@ -191,15 +191,16 @@ task Train
     < dataset_bin=@PreprocessDataset[Dataset:*]
     < ds_config=(
         UseDeepSpeed:
-            false=/dev/null
             true=(
                 DSAutotuneConfig:
                     false=$ds_config@GetDeepSpeedConfig
                     true=$ds_config@TuneDeepSpeedConfig
                 )
+            false=/dev/null
         )
     > model_dir=checkpoints
     :: .submitter=@
+    :: .C=$train_C
     :: .account=$train_account
     :: .partition=$train_partition
     :: .time=$train_time
@@ -207,7 +208,8 @@ task Train
     :: .gres=$train_gres
     :: .mem=$train_mem
     :: repo=@
-    :: use_deepseed=(UseDeepSpeed: false true)
+    :: use_deepseed=(UseDeepSpeed: true false)
+    :: datamix_weights=@
     :: external_model_dir=@
     :: external_resume=@
     :: tokenizer=@
@@ -231,6 +233,27 @@ task Train
     :: eval_interval=@
     :: seed=@
 {
+    # check if number folders passed in dataset_bin (space separated) is equal to 
+    # the number of datamix weights passed (space separated)
+    n_weights=$(echo $datamix_weights | tr ' ' '\n' | wc -l)
+    n_folders=$(echo $dataset_bin | tr ' ' '\n' | wc -l)
+    if [ "$n_weights" != "$n_folders" ]; then
+        echo "ERROR: number of datamix weights ($n_weights) is not equal to number of dataset folders ($n_folders)"
+        exit 1
+    fi
+
+    # make dataset_path for mix for megatron
+    weights=($datamix_weights)
+    folders=($dataset_bin)
+    data_path=""
+    # iterate over weights and folders
+    i=0
+    while [ $i -lt ${#weights[@]} ]
+    do
+        data_path+="${weights[$i]} ${folders[$i]}/data_text_document "
+        i=$((i+1))
+    done
+
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
     hidden_size=$(yq '.hidden_size' $model_config_f)
@@ -250,16 +273,18 @@ task Train
         ds_args="--deepspeed_config=$ds_config ${ds_args}"
         ds_args="--zero-stage=$zero_stage ${ds_args}"
         ds_args="--deepspeed-activation-checkpointing ${ds_args}"
-        distributed_args="--num_nodes=1 --num_gpus=$gpus"
+        distributed_args="--num_nodes=1 --num_gpus=$gpus --master_port $rdzv_port"
         launcher="deepspeed"
 
         echo "Using DeepSpeed with zero stage $zero_stage and micro batch size $micro_batch_size"
     else
         ds_args=""
-        distributed_args="--nnodes=1 --nproc_per_node=$gpus --rdzv-endpoint localhost:$rdzv_port "
+        distributed_args="--nnodes=1 --nproc_per_node=$gpus --rdzv-endpoint localhost:$rdzv_port"
         launcher="torchrun"
         export  CUDA_DEVICE_MAX_CONNECTIONS=1
     fi
+    distributed_args="$distributed_args"
+
 
     # if `save_external` is set, symlink it to the `model_dir`
     # and copy the config file to the `model_dir`
@@ -293,11 +318,11 @@ task Train
        --train-iters $train_steps \
        --save $model_dir \
        --load $model_dir \
-       --data-path 1 $dataset_bin/data_text_document \
+       --data-path $data_path \
        --data-impl mmap \
        --tokenizer-type PretrainedFromHF \
        --tokenizer-name-or-path $tokenizer \
-       --split 949,50,1 \
+       --split 989,10,1 \
        --distributed-backend nccl \
        --lr $lr \
        --lr-decay-style cosine \
@@ -333,17 +358,17 @@ task Eval
     < trained_model=$model_dir@Train
     < ds_config=(
         UseDeepSpeed:
-            false=/dev/null
             true=(
                 DSAutotuneConfig:
                     false=$ds_config@GetDeepSpeedConfig
                     true=$ds_config@TuneDeepSpeedConfig
                 )
+            false=/dev/null
         )
     > eval_results 
     :: .submitter=@ .account="hxz@a100" .config=a100 .gres="gpu:1" .cpus=8 .time="1:00:00"
     :: repo=@
-    :: use_deepseed=(UseDeepSpeed: false true)
+    :: use_deepseed=(UseDeepSpeed: true false)
     :: gpus=1
     :: tp=@
     :: pp=@
@@ -423,25 +448,33 @@ task Eval
 task ConvertHF
     < trained_model=$model_dir@Train
     > hf_model_dir=hf_model
+    :: .submitter=@
+    :: .C=$convert_C
+    :: .account=$convert_account
+    :: .partition=$convert_partition
+    :: .time=$convert_time 
+    :: .cpus=$convert_cpus
+    :: .gres=$convert_gres
+    :: .mem=$convert_mem
     :: repo=@
     :: tokenizer=@
     :: model_config=@
-    :: gpu_ids=@
 {
-    export CUDA_VISIBLE_DEVICES=$gpu_ids
-
+    export PYTHONPATH=$repo/Megatron-DeepSpeed
+    
     mkdir -p $hf_model_dir
 
     # read last checkpoint
-    last_checkpoint=$(cat $trained_model/latest_checkpointed_iteration.txt)
+    #last_checkpoint=$(cat $trained_model/latest_checkpointed_iteration.txt)
     # get checkpoint dir, with fixed number of digits (iter_0000100)
-    checkpoint_n=$(printf "iter_%07d" $last_checkpoint)
-    checkpoint=$trained_model/$checkpoint_n/mp_rank_00/model_optim_rng.pt
+    #checkpoint_dir="$trained_model/global_step${last_checkpoint}"
+
+    # Convert from deepspeed to pytorch
+    python $trained_model/zero_to_fp32.py $trained_model model.bin
 
     # Convert to HF model using convert_megatron_gpt2_checkpoint.py
-    export PYTHONPATH=$repo/Megatron-DeepSpeed
     python $repo/scripts/convert_to_hf_model.py \
-        $checkpoint \
+        model.bin \
         --config-yml=$repo/configs/models/$model_config.yml \
         --output-folder=$hf_model_dir \
         --verify-checkpoint
@@ -452,7 +485,8 @@ plan Preprocess {
 }
 
 plan ScalingAnalysis {
-    reach Eval via (Size: small1)
+    # reach Eval via (Size: small1) * (DataMix: mix1)
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: mix2 mix3)
 }
 
 plan TrainLLM {
@@ -460,5 +494,5 @@ plan TrainLLM {
 }
 
 plan ConvertHF {
-    reach ConvertHF via (Size: base)
+    reach ConvertHF via (Size: small1)
 }
