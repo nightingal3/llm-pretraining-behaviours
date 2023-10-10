@@ -1,12 +1,9 @@
 """
 Convert Megatron-DeepSpeed checkpoints to huggingface weights.
 
-This script will also convert the tokenizer configured.
-Set the `--input_dir` to the megatron checkpoint root (i.e. where the
-`latest_checkpointed_iteration.txt` file is located) and  `--output_dir` to
-the directory where the huggingface weights should be stored.
+Adapted from
+https://github.com/epfLLM/Megatron-LLM/blob/main/weights_conversion/megatron_to_hf.py
 """
-# TODO
 # Copyright 2022 EleutherAI and The HuggingFace Inc. team. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -262,7 +259,6 @@ def write_llama_model(
 
         print("Loading the checkpoint in a Llama model...")
         model = LlamaForCausalLM.from_pretrained(tmp_model_path, torch_dtype=torch_dtype)
-        import pdb; pdb.set_trace()
         # Avoid saving this as part of the config.
         del model.config._name_or_path
 
