@@ -10,6 +10,7 @@ task DumpHFDataset
     :: percentile=@
     :: n_tokens=@
     :: repo=@
+    :: hf_dataset
     :: .submitter=@
     :: .account=$dump_account
     :: .partition=$dump_partition
@@ -26,7 +27,8 @@ task DumpHFDataset
         $([ "$filter" == true ] && echo "--filter" || echo "") \
         $([ ! -z "$percentile" ] && echo "--percentile $percentile" || echo "") \
         $([ ! -z "$n_tokens" ] && echo "--n_tokens $n_tokens" || echo "") \
-        $([ "$dataset_stream" == true ] && echo "--stream" || echo "")
+        $([ "$dataset_stream" == true ] && echo "--stream" || echo "") \
+        $([ "$hf_dataset" == true ] && echo "--hf_dataset" || echo "")
 }
 
 task PreprocessDataset

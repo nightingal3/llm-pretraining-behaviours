@@ -2,11 +2,25 @@ import os
 import json
 import datasets
 import numpy as np
+import pandas as pd
 from typing import (
     List,
     Optional,
+    TextIO,
+    Iterable
 )
 import gzip
+from itertools import chain
+
+
+def _close_when_exhausted(file: TextIO) -> Iterable[str]:
+        with file:
+            for line in file:
+                yield json.loads(line)
+
+def open_read_cleaned(filename) -> Iterable[str]:
+    file: TextIO = gzip.open(filename, "rt")  # type: ignore
+    return _close_when_exhausted(file)
 
 def get_hf_dataset(
     dataset_name: str, 
@@ -34,6 +48,25 @@ def get_hf_dataset(
     dataset = dataset[split]
     return dataset
 
+def get_cleaned_dataset(
+    directory: str=None,
+):
+    i=0
+    for folder in os.listdir(directory):
+        if "json" in folder:
+            path=directory+folder
+        else:
+            path=directory+folder+"/0000.json.gz"
+        assert os.path.exists(path), "Path does not exist"
+        data = open_read_cleaned(path)
+        if i==0:
+            i+=1
+            dataset=data
+        else:
+            dataset = chain(dataset,data)
+        
+    return dataset
+
 
 def filter_hf_dataset(
     dataset: datasets.Dataset,
@@ -58,6 +91,51 @@ def filter_hf_dataset(
         print('n docs', idx+1)
         dataset = dataset.select(range(idx+1))
     
+    return dataset
+
+def filter_cleaned_dataset(
+    dataset: datasets.Dataset,
+    max_tokens: Optional[int]=None, 
+    percentile: Optional[int]=50
+):
+    assert max_tokens is not None or percentile is not None, "Must specify either max_tokens or percentile"
+
+    if percentile is not None:
+        perplexities=[]
+        for doc in dataset:
+            perplexities.append(doc['perplexity'])
+            if len(perplexities)>1000000:
+                break
+        threshold = np.percentile(np.array(perplexities), percentile)
+        print('threshold', threshold)
+
+        data = []
+        n_words=0
+        for doc in dataset:
+            if doc['perplexity'] < threshold:
+                n_words += len(doc['text'].split(' '))
+                data.append({'text': doc['text']})
+                if max_tokens is not None:
+                    if n_words>=args.n_tokens:
+                        break
+    
+        print('n words', n_words)
+
+        dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+    
+    else:
+        if max_tokens is not None:
+            n_words=0
+            data = []
+            for doc in dataset:
+                n_words += len(doc['text'].split(' '))
+                data.append({'text': doc['text']})
+                if n_words>=max_tokens:
+                    break
+        
+            print('n words', n_words)
+            dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+
     return dataset
 
 COLUMNS_TO_REMOVE = [
@@ -111,21 +189,35 @@ if __name__ == "__main__":
     parser.add_argument('--n_tokens', type=int, required=False, default=None)
     parser.add_argument('--stream', default=False, action='store_true')
     parser.add_argument('--text-only', default=False, action='store_true')
+    parser.add_argument('--hf_dataset', default=False, action='store_true')
     args = parser.parse_args()
     
-    dataset = get_hf_dataset(
-        dataset_name=args.dataset_name, 
-        path=args.dataset_path, 
-        dirs=args.dataset_dirs,
-        split=args.dataset_split,
-        stream=args.stream
-    )
-    if args.filter:
-        datset = filter_hf_dataset(
-            dataset, 
-            percentile=args.percentile,
-            max_tokens=args.n_tokens
+    if args.hf_dataset:
+        dataset = get_hf_dataset(
+            dataset_name=args.dataset_name, 
+            path=args.dataset_path, 
+            dirs=args.dataset_dirs,
+            split=args.dataset_split,
+            stream=args.stream
         )
+        if args.filter:
+            dataset = filter_hf_dataset(
+                dataset, 
+                percentile=args.percentile,
+                max_tokens=args.n_tokens
+            )
+
+    else:
+        dataset = get_cleaned_dataset(
+            directory=args.dataset_path,
+        )
+
+        if args.filter:
+            dataset = filter_cleaned_dataset(
+                dataset, 
+                percentile=args.percentile,
+                max_tokens=args.n_tokens
+            )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)
 
