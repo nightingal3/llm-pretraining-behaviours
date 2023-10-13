@@ -67,6 +67,41 @@ def get_cleaned_dataset(
         
     return dataset
 
+def get_bilingual_dataset(
+    directory: str=None,
+):
+
+    
+    n_tokens = args.n_tokens/11
+    data = []
+    total_words=0
+    for folder in os.listdir(directory):
+        source_lang = folder.split('-')[0]
+        target_lang = folder.split('-')[1]
+        
+        source_path=directory+folder+"/cometkiwi/threshold_0.85/cometiwi_data."+source_lang+'-'+target_lang+'.'+source_lang
+        target_path=directory+folder+"/cometkiwi/threshold_0.85/cometiwi_data."+target_lang+'-'+source_lang+'.'+target_lang
+        
+        assert os.path.exists(source_path), "Source path does not exist"
+        assert os.path.exists(target_path), "Target path does not exist"
+
+        source_data = open_read_cleaned(source_path)
+        target_data = open_read_cleaned(target_path)
+        
+        n_words=0
+        for source_doc, target_doc in zip(source_data, target_data):
+            n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
+            data.append({'text': "<s>" source_doc['text'] + "</s>" + "<s>" target_doc['text'] + "</s>"})
+            if max_tokens is not None:
+                if n_words>=n_tokens:
+                    break
+        print('n words', n_words)
+        total_words += n_words
+    
+    print('total words', total_words)
+    dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+    
+    return dataset
 
 def filter_hf_dataset(
     dataset: datasets.Dataset,
@@ -190,6 +225,7 @@ if __name__ == "__main__":
     parser.add_argument('--stream', default=False, action='store_true')
     parser.add_argument('--text-only', default=False, action='store_true')
     parser.add_argument('--hf_dataset', default=False, action='store_true')
+    parser.add_argument('--bilingual', default=False, action='store_true')
     args = parser.parse_args()
     
     if args.hf_dataset:
@@ -208,16 +244,21 @@ if __name__ == "__main__":
             )
 
     else:
-        dataset = get_cleaned_dataset(
-            directory=args.dataset_path,
-        )
-
-        if args.filter:
-            dataset = filter_cleaned_dataset(
-                dataset, 
-                percentile=args.percentile,
-                max_tokens=args.n_tokens
+        if args.bilingual:
+            dataset = get_bilingual_dataset(
+                directory=args.dataset_path,
             )
+        else:
+            dataset = get_cleaned_dataset(
+                directory=args.dataset_path,
+            )
+
+            if args.filter:
+                dataset = filter_cleaned_dataset(
+                    dataset, 
+                    percentile=args.percentile,
+                    max_tokens=args.n_tokens
+                )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)
 

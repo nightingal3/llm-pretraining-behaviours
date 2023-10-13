@@ -96,7 +96,8 @@ global {
             zh=/mnt/data_2/shared/tower_llm_data/zh/0000.json.gz
             zh_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/zh/dedup/
             zh_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/zh/dedup/
-            code=/mnt/data_2/shared/tower_llm_data/code/python
+            code=/mnt/data_2/shared/tower_llm_data/code/
+            bilingual=/mnt/data_2/shared/tower_llm_data/bilingual_data/v1
     )
 
     
@@ -143,6 +144,49 @@ global {
             zh_wiki=false
             zh_gutenberg=false
             code=false
+            bilingual=false
+    )
+    bilingual=(Dataset:
+            en=false
+            en_wiki=false
+            en_gutenberg=false
+            en_arxiv=false
+            en_bookcurpus=false
+            de=false
+            de_wiki=false
+            de_gutenberg=false
+            es=false
+            es_wiki=false
+            es_gutenberg=false
+            fr=false
+            fr_wiki=false
+            fr_gutenberg=false
+            it=false
+            it_wiki=false
+            it_gutenberg=false
+            nl=false
+            nl_wiki=false
+            nl_gutenberg=false
+            pt=false
+            pt_wiki=false
+            pt_gutenberg=false
+            pl=false
+            pl_wiki=false
+            pl_gutenberg=false
+            ru=false
+            ru_wiki=false
+            ru_gutenberg=false
+            sv=false
+            sv_wiki=false
+            sv_gutenberg=false
+            ko=false
+            ko_wiki=false
+            ko_gutenberg=false
+            zh=false
+            zh_wiki=false
+            zh_gutenberg=false
+            code=false
+            bilingual=true
     )
 
     percentile=50
@@ -187,13 +231,15 @@ global {
             zh_wiki=1000000000
             zh_gutenberg=1000000000
             code=2000000000
+            bilingual=1000000000
     )
 
     datamix_weights=(
         DataMix:
-            mix1="54 4 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3"
-            mix2="43 4 4 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 3"
-            mix3="32 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3"
+            mix1="54 4 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 0"
+            mix2="43 4 4 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 3 0"
+            mix3="32 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3 0"
+            mix4="30 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3 2"
     )
     
 
