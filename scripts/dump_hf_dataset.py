@@ -91,7 +91,7 @@ def get_bilingual_dataset(
         n_words=0
         for source_doc, target_doc in zip(source_data, target_data):
             n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
-            data.append({'text': "<s>" source_doc['text'] + "</s>" + "<s>" target_doc['text'] + "</s>"})
+            data.append({'text': source_doc['text'] + "</s>" + "<s>" target_doc['text'] })
             if max_tokens is not None:
                 if n_words>=n_tokens:
                     break
