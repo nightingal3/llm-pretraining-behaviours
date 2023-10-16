@@ -39,15 +39,18 @@ global {
 
     # tokenization arguments
     external_tokenizer=manu/tok-fr-en-code
+
     # training tokenizer parameters
-    # vocab_size=32000
-    # tokenizer_words_per_source=(
-    #     Dataset:
-    #         french=3000000000
-    #         english=2000000000
-    #         code=1000000000
-    # )
-    # extra_tokens=1000
+    # WARNING: not passed to the rest of the pipeline
+    # export and pass as external_tokenizer for now
+    vocab_size=32000
+    tokenizer_words_per_source=(
+        Dataset:
+            french=3000000000
+            english=2000000000
+            code=1000000000
+    )
+    extra_tokens=1000
 
 
     eval_metric=loss
