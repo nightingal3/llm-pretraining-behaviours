@@ -20,6 +20,7 @@ task DumpHFDataset
     # check if filter is set
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
+        --shuffle \
         --output $dataset_json \
         $([ ! -z "$dataset_dirs" ] && echo "--dataset_dirs $dataset_dirs" || echo "") \
         $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
@@ -29,11 +30,44 @@ task DumpHFDataset
         $([ "$dataset_stream" == true ] && echo "--stream" || echo "")
 }
 
+# Warning: This is working, but isnt passed to subsequent tasks
+task TrainTokenizer
+    < dataset_json=@DumpHFDataset[Dataset:*]
+    < eval_sets=$eval_set[EvalSet:*]
+    > tokenizer
+    :: repo=@
+    :: words_per_source=$tokenizer_words_per_source[Dataset:*]
+    :: extra_tokens=@
+    :: .submitter=@
+    :: .account=$traintok_account
+    :: .partition=$traintok_partition
+    :: .time=$traintok_time
+    :: .cpus=$traintok_cpus
+    :: .mem=$traintok_mem
+{
+    mkdir tok_corpus
+    echo "Preparing tokenizer corpus..."
+    python $repo/scripts/prepare_tokenizer_corpus.py \
+        --data_paths $dataset_json \
+        --words_per_source $words_per_source \
+        --output tok_corpus/data  
+    echo "Training tokenizer..."
+    python $repo/scripts/train_tokenizer.py \
+        --corpus $tokenizer_corpus \
+        --extra_tokens $extra_tokens \
+        --output $tokenizer
+    echo "Analyzing tokenizer..."
+    python $repo/scripts/analyze_tokenizer.py \
+        --tokenizer_dir $tokenizer \
+        --eval_sets $eval_sets \
+        --output $tokenizer
+}
+
 task PreprocessDataset
     < dataset_json=@DumpHFDataset
     > dataset_bin=data_bin
     :: repo=@
-    :: tokenizer=@
+    :: external_tokenizer=@
     :: cpu_workers=20
     :: .submitter=@
     :: .account=$preproc_account
@@ -49,7 +83,7 @@ task PreprocessDataset
         --output-prefix $dataset_bin/data \
         --dataset-impl mmap \
         --tokenizer-type PretrainedFromHF \
-        --tokenizer-name-or-path $tokenizer \
+        --tokenizer-name-or-path $external_tokenizer \
         --append-eod \
         --workers $cpu_workers 
 }
@@ -59,11 +93,8 @@ task GetDeepSpeedConfig
     < dataset_bin=@PreprocessDataset
     > ds_config=deepspeed.json
     :: repo=@
-    :: tokenizer=@
     :: gpus=@
     :: zero_stage=@
-    :: master_addr=@
-    :: master_port=@
     :: batch_size=@
 {
     micro_batch_size=$(($batch_size / $gpus))
@@ -88,7 +119,7 @@ task TuneDeepSpeedConfig
     :: repo=@
     :: tune_steps=10
     :: micro_batch_size=2
-    :: tokenizer=@
+    :: external_tokenizer=@
     :: gpus=@
     :: tp=@
     :: pp=@
@@ -155,7 +186,7 @@ task TuneDeepSpeedConfig
         --data-path 1 $dataset_bin/data_text_document \
         --data-impl mmap \
         --tokenizer-type PretrainedFromHF \
-        --tokenizer-name-or-path $tokenizer \
+        --tokenizer-name-or-path $external_tokenizer \
         --split 949,50,1 \
         --distributed-backend nccl \
         --lr $lr \
@@ -187,8 +218,20 @@ task TuneDeepSpeedConfig
         cp autotuning_results/profile_model_info/ds_config.json $ds_config
 }
 
+
+# NOTE: this task is needed to allow proper grafting of the datamix branches
+# since it was not working when grafting directly in the Train task
+task MakeDataMix 
+    < dataset_bin=@PreprocessDataset
+    > datamix_file
+    :: datamix_weights=@
+{
+    # simply write datamix weight and path in dataset_bin to a file, separated by a space
+    echo "$datamix_weights $dataset_bin/data_text_document" > $datamix_file
+}
+
 task Train
-    < dataset_bin=@PreprocessDataset[Dataset:*]
+    < datamix_file=@MakeDataMix[Dataset:*]
     < ds_config=(
         UseDeepSpeed:
             true=(
@@ -209,10 +252,9 @@ task Train
     :: .mem=$train_mem
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
-    :: datamix_weights=@
     :: external_model_dir=@
     :: external_resume=@
-    :: tokenizer=@
+    :: external_tokenizer=@
     :: gpus=@
     :: tp=@
     :: pp=@
@@ -233,26 +275,33 @@ task Train
     :: eval_interval=@
     :: seed=@
 {
+    data_path=""
+    for f in $datamix_file; do
+        # read file
+        data_path="$data_path `cat $f`"
+    done
+    echo "Running with data_path=$data_path"
+
     # check if number folders passed in dataset_bin (space separated) is equal to 
     # the number of datamix weights passed (space separated)
-    n_weights=$(echo $datamix_weights | tr ' ' '\n' | wc -l)
-    n_folders=$(echo $dataset_bin | tr ' ' '\n' | wc -l)
-    if [ "$n_weights" != "$n_folders" ]; then
-        echo "ERROR: number of datamix weights ($n_weights) is not equal to number of dataset folders ($n_folders)"
-        exit 1
-    fi
+    # n_weights=$(echo $datamix_weights | tr ' ' '\n' | wc -l)
+    # n_folders=$(echo $dataset_bin | tr ' ' '\n' | wc -l)
+    # if [ "$n_weights" != "$n_folders" ]; then
+    #     echo "ERROR: number of datamix weights ($n_weights) is not equal to number of dataset folders ($n_folders)"
+    #     exit 1
+    # fi
 
-    # make dataset_path for mix for megatron
-    weights=($datamix_weights)
-    folders=($dataset_bin)
-    data_path=""
-    # iterate over weights and folders
-    i=0
-    while [ $i -lt ${#weights[@]} ]
-    do
-        data_path+="${weights[$i]} ${folders[$i]}/data_text_document "
-        i=$((i+1))
-    done
+    # # make dataset_path for mix for megatron
+    # weights=($datamix_weights)
+    # folders=($dataset_bin)
+    # data_path=""
+    # # iterate over weights and folders
+    # i=0
+    # while [ $i -lt ${#weights[@]} ]
+    # do
+    #     data_path+="${weights[$i]} ${folders[$i]}/data_text_document "
+    #     i=$((i+1))
+    # done
 
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
@@ -321,7 +370,7 @@ task Train
        --data-path $data_path \
        --data-impl mmap \
        --tokenizer-type PretrainedFromHF \
-       --tokenizer-name-or-path $tokenizer \
+       --tokenizer-name-or-path $external_tokenizer \
        --split 989,10,1 \
        --distributed-backend nccl \
        --lr $lr \
@@ -356,30 +405,27 @@ task Train
 
 task Eval
     < trained_model=$model_dir@Train
-    < ds_config=(
-        UseDeepSpeed:
-            true=(
-                DSAutotuneConfig:
-                    false=$ds_config@GetDeepSpeedConfig
-                    true=$ds_config@TuneDeepSpeedConfig
-                )
-            false=/dev/null
-        )
+    < eval_set=@
     > eval_results 
-    :: .submitter=@ .account="hxz@a100" .config=a100 .gres="gpu:1" .cpus=8 .time="1:00:00"
+    :: .submitter=@ 
+    :: .C=$eval_C
+    :: .account=$eval_account
+    :: .partition=$eval_partition
+    :: .time=$eval_time
+    :: .cpus=$eval_cpus
+    :: .gres=$eval_gres
+    :: .mem=$eval_mem
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: gpus=1
+    :: batch_size=32
     :: tp=@
     :: pp=@
-    :: zero_stage=@
     :: master_addr=@
     :: master_port=@
-    :: eval_set=@
     :: eval_metric=@
-    :: tokenizer=@
+    :: external_tokenizer=@
     :: model_config=@
-    :: batch_size=8
     :: rdzv_port=@
 {
     # Read model config and parse to variables
@@ -394,18 +440,22 @@ task Eval
     if [ "$use_deepseed" == true ]; then
         # read main optimization parameters from the DeepSpeed config file
         # (in case these were automatically tuned)
-        zero_stage=$(jq -r '.zero_optimization.stage' $ds_config)
-        micro_batch_size=$(jq -r '.train_micro_batch_size_per_gpu' $ds_config)
-        
         ds_args="--deepspeed"
-        ds_args="--deepspeed_config=$ds_config ${ds_args}"
-        ds_args="--zero-stage=$zero_stage ${ds_args}"
-        ds_args="--deepspeed-activation-checkpointing ${ds_args}"
-        distributed_args="--num_nodes=1 --num_gpus=$gpus"
+        echo -n '{
+            "train_batch_size" : '$batch_size',
+            "steps_per_print": 1,
+            "zero_optimization": {
+                "stage": 0
+            },
+            "bf16": {
+                "enabled": true
+            }
+        }' | jq . > ds_config.json
+        ds_args="--zero-stage=0 ${ds_args} --deepspeed_config ds_config.json"
+        distributed_args="--num_nodes=1 --num_gpus=$gpus --master_port $rdzv_port"
         launcher="deepspeed"
 
-        echo "Using DeepSpeed with zero stage $zero_stage and micro batch size $micro_batch_size"
-        export  CUDA_DEVICE_MAX_CONNECTIONS=1
+        echo "Using DeepSpeed for evaluation..."
     else
         ds_args=""
         distributed_args="--nnodes=1 --nproc_per_node=$gpus --rdzv-endpoint localhost:$rdzv_port "
@@ -436,13 +486,15 @@ task Eval
         --fp16 \
         --valid-data $eval_set \
         --tokenizer-type PretrainedFromHF \
-        --tokenizer-name-or-path $tokenizer \
+        --tokenizer-name-or-path $external_tokenizer \
         --load $trained_model \
         --micro-batch-size $batch_size \
         --log-interval 10 \
         --no-load-optim \
         --no-load-rng \
-        --distributed-timeout-minutes 60
+        --distributed-timeout-minutes 60 \
+        $ds_args 
+
 }
 
 task ConvertHF
@@ -457,7 +509,7 @@ task ConvertHF
     :: .gres=$convert_gres
     :: .mem=$convert_mem
     :: repo=@
-    :: tokenizer=@
+    :: external_tokenizer=@
     :: model_config=@
 {
     export PYTHONPATH=$repo/Megatron-DeepSpeed
@@ -476,7 +528,11 @@ task ConvertHF
     python $repo/scripts/convert_to_hf_model.py \
         model.bin $hf_model_dir \
         --config-yml=$repo/configs/models/$model_config.yml \
-        --tokenizer-name=$tokenizer \
+        --tokenizer-name=$external_tokenizer \
+}
+
+plan TrainTokenizer {
+    reach TrainTokenizer
 }
 
 plan Preprocess {
@@ -484,8 +540,7 @@ plan Preprocess {
 }
 
 plan ScalingAnalysis {
-    # reach Eval via (Size: small1) * (DataMix: mix1)
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: mix2 mix3)
+    reach Train via (Size: small1 small2 small3 small4) * (DataMix: equal)
 }
 
 plan TrainLLM {
