@@ -32,7 +32,7 @@ global {
 
     datamix_weights=(
         DataMix:
-            equal=(Dataset: french=33 english=33 code=33)
+            equal=(Dataset: french=40 english=40 code=20)
             frplus=(Dataset: french=60 english=20 code=20)
             enplus=(Dataset: french=20 english=60 code=20)
     )
