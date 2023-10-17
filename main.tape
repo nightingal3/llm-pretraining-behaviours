@@ -21,6 +21,7 @@ task DumpHFDataset
     :: .cpus=$dump_cpus
     :: .mem=$dump_mem
 {
+    echo "bilingual: $bilingual"
     # check if filter is set
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
@@ -543,7 +544,7 @@ plan TrainTokenizer {
 }
 
 plan Preprocess {
-    reach PreprocessDataset via (Dataset: *)
+    reach PreprocessDataset via (Dataset: es es_gutenberg)
 }
 
 plan ScalingAnalysis {

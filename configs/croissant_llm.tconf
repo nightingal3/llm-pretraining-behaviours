@@ -42,6 +42,7 @@ global {
 
     # training tokenizer parameters
     # WARNING: not passed to the rest of the pipeline
+    # (since this tape uses manu's tokenizer)
     # export and pass as external_tokenizer for now
     vocab_size=32000
     tokenizer_words_per_source=(

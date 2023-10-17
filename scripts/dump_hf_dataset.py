@@ -114,7 +114,7 @@ def get_bilingual_dataset(
             for source_doc, target_doc in zip(source_data, target_data):
                 n_docs_test+=1
                 n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
-                data_test.append(source_doc['text'] + "</s>" + "<s>" target_doc['text'])
+                data_test.append(source_doc['text'] + "</s>" + "<s>" + target_doc['text'])
                 if n_words>=max_tokens_test:
                     break
         
@@ -125,7 +125,7 @@ def get_bilingual_dataset(
                 n_docs+=1
             else:
                 n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
-                data.append({'text': source_doc['text'] + "</s>" + "<s>" target_doc['text'] })
+                data.append({'text': source_doc['text'] + "</s>" + "<s>" + target_doc['text']})
                 if max_tokens is not None:
                     if n_words>=max_tokens:
                         break
@@ -287,6 +287,7 @@ def dump_hf_dataset(
     text_only: bool=False
 ):
     # Remove columns if they exist
+    import pdb; pdb.set_trace()
     existing_columns = dataset.column_names
     if existing_columns is not None:
         for column in COLUMNS_TO_REMOVE:
@@ -339,8 +340,8 @@ if __name__ == "__main__":
             dataset = filter_hf_dataset(
                 dataset, 
                 percentile=args.percentile,
-                max_tokens=args.n_tokens
-                max_tokens_test=args.n_tokens_test
+                max_tokens=args.n_tokens,
+                max_tokens_test=args.n_tokens_test,
                 max_samples=args.n_docs
             )
 
@@ -360,7 +361,7 @@ if __name__ == "__main__":
                 dataset = filter_cleaned_dataset(
                     dataset, 
                     percentile=args.percentile,
-                    max_tokens=args.n_tokens
+                    max_tokens=args.n_tokens,
                     max_tokens_test=args.n_tokens_test
                 )
 

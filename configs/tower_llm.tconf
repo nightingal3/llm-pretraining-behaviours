@@ -8,102 +8,59 @@ global {
 
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
-    external_resume=false
-    
+    external_resume=true
 
     # dataset pamaeters
-    dataset_name=/dev/null
-
+    # unused since we pass the dataset path directly to the pipeline
+    dataset_name="towerllm-data"
     
-
     dataset_path=(
         Dataset:
-            en=/mnt/data_2/shared/tower_llm_data/en/data
-            en_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/en/dedup/
-            en_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/en/dedup/
-            en_arxiv=/mnt/data_2/shared/tower_llm_data/arxiv/v1/en/dedup/
-            en_bookcorpus=/mnt/data_2/shared/tower_llm_data/bookcorpus/v1/en/dedup/
-            de=/mnt/data_2/shared/tower_llm_data/de/
-            de_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/de/dedup/
-            de_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/de/dedup/
-            es=/mnt/data_2/shared/tower_llm_data/es/3/
-            es_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/es/dedup/
-            es_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/es/dedup/
-            fr=/mnt/data_2/shared/tower_llm_data/fr/
-            fr_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/fr/dedup/
-            fr_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/fr/dedup/
-            it=/mnt/data_2/shared/tower_llm_data/it/
-            it_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/it/dedup/
-            it_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/it/dedup/
-            nl=/mnt/data_2/shared/tower_llm_data/nl/
-            nl_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/nl/dedup/
-            nl_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/nl/dedup/
-            pt=/mnt/data_2/shared/tower_llm_data/pt/
-            pt_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/pt/dedup/
-            pt_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/pt/dedup/
-            pl=/mnt/data_2/shared/tower_llm_data/pl/
-            pl_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/pl/dedup/
-            pl_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/pl/dedup/
-            ru=/mnt/data_2/shared/tower_llm_data/ru/
-            ru_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/ru/dedup/
-            ru_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/ru/dedup/
-            sv=/mnt/data_2/shared/tower_llm_data/sv/
-            sv_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/sv/dedup/
-            sv_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/sv/dedup/
-            ko=/mnt/data_2/shared/tower_llm_data/ko/0000.json.gz
-            ko_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/ko/dedup/
-            ko_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/ko/dedup/
-            zh=/mnt/data_2/shared/tower_llm_data/zh/0000.json.gz
-            zh_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/zh/dedup/
-            zh_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/zh/dedup/
-            code=/mnt/data_2/shared/tower_llm_data/code/
-            bilingual=/mnt/data_2/shared/tower_llm_data/bilingual_data/v1
+            en=/gpfsstore/rech/hxz/ued79zb/towerllm-data/en/data
+            en_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/en/lid/
+            en_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/en/lid/
+            en_arxiv=/gpfsstore/rech/hxz/ued79zb/towerllm-data/arxiv/v1/en/lid/
+            en_bookcorpus=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bookcorpus/v1/en/lid/
+            de=/gpfsstore/rech/hxz/ued79zb/towerllm-data/de/
+            de_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/de/lid/
+            de_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/de/lid/
+            es=/gpfsstore/rech/hxz/ued79zb/towerllm-data/es/3/
+            es_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/es/lid/
+            es_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/es/lid/
+            fr=/gpfsstore/rech/hxz/ued79zb/towerllm-data/fr/
+            fr_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/fr/lid/
+            fr_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/fr/lid/
+            it=/gpfsstore/rech/hxz/ued79zb/towerllm-data/it/
+            it_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/it/lid/
+            it_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/it/lid/
+            nl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/nl/
+            nl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/nl/lid/
+            nl_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/nl/lid/
+            pt=/gpfsstore/rech/hxz/ued79zb/towerllm-data/pt/
+            pt_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pt/lid/
+            pt_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/pt/lid/
+            pl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/pl/
+            pl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pl/lid/
+            pl_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/pl/lid/
+            ru=/gpfsstore/rech/hxz/ued79zb/towerllm-data/ru/
+            ru_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ru/lid/
+            ru_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/ru/lid/
+            sv=/gpfsstore/rech/hxz/ued79zb/towerllm-data/sv/
+            sv_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/sv/lid/
+            sv_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/sv/lid/
+            ko=/gpfsstore/rech/hxz/ued79zb/towerllm-data/ko/0000.json.gz
+            ko_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ko/lid/
+            ko_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/ko/lid/
+            zh=/gpfsstore/rech/hxz/ued79zb/towerllm-data/zh/0000.json.gz
+            zh_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/zh/lid/
+            zh_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/zh/lid/
+            code=/gpfsstore/rech/hxz/ued79zb/towerllm-data/code/
+            bilingual=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/v1
     )
 
     dataset_dirs=""
     dataset_stream=false
-    filter=(Dataset:
-            en=true
-            en_wiki=false
-            en_gutenberg=false
-            en_arxiv=false
-            en_bookcorpus=false
-            de=true
-            de_wiki=false
-            de_gutenberg=false
-            es=true
-            es_wiki=false
-            es_gutenberg=false
-            fr=true
-            fr_wiki=false
-            fr_gutenberg=false
-            it=true
-            it_wiki=false
-            it_gutenberg=false
-            nl=true
-            nl_wiki=false
-            nl_gutenberg=false
-            pt=true
-            pt_wiki=false
-            pt_gutenberg=false
-            pl=true
-            pl_wiki=false
-            pl_gutenberg=false
-            ru=true
-            ru_wiki=false
-            ru_gutenberg=false
-            sv=true
-            sv_wiki=false
-            sv_gutenberg=false
-            ko=true
-            ko_wiki=false
-            ko_gutenberg=false
-            zh=true
-            zh_wiki=false
-            zh_gutenberg=false
-            code=false
-            bilingual=false
-    )
+    filter=true
 
     hf_dataset=(Dataset:
             en=true
@@ -191,7 +148,51 @@ global {
             bilingual=true
     )
 
-    percentile=50
+    percentile=(
+        Dataset:
+            en=50
+            en_wiki=none
+            en_gutenberg=none
+            en_arxiv=none
+            en_bookcorpus=none
+            de=50
+            de_wiki=none
+            de_gutenberg=none
+            es=50
+            es_wiki=none
+            es_gutenberg=none
+            fr=50
+            fr_wiki=none
+            fr_gutenberg=none
+            it=50
+            it_wiki=none
+            it_gutenberg=none
+            nl=50
+            nl_wiki=none
+            nl_gutenberg=none
+            pt=50
+            pt_wiki=none
+            pt_gutenberg=none
+            pl=50
+            pl_wiki=none
+            pl_gutenberg=none
+            ru=50
+            ru_wiki=none
+            ru_gutenberg=none
+            sv=50
+            sv_wiki=none
+            sv_gutenberg=none
+            ko=50
+            ko_wiki=none
+            ko_gutenberg=none
+            zh=50
+            zh_wiki=none
+            zh_gutenberg=none
+            code=none
+            bilingual=none
+    )
+
+
     n_tokens=(
         Dataset:
             en=3000
