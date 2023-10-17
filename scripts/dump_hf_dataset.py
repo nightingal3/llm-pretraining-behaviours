@@ -2,12 +2,26 @@ import os
 import json
 import datasets
 import numpy as np
+import pandas as pd
 from typing import (
     List,
     Optional,
+    TextIO,
+    Iterable
 )
 import gzip
 import random
+from itertools import chain
+
+
+def _close_when_exhausted(file: TextIO) -> Iterable[str]:
+        with file:
+            for line in file:
+                yield json.loads(line)
+
+def open_read_cleaned(filename) -> Iterable[str]:
+    file: TextIO = gzip.open(filename, "rt")  # type: ignore
+    return _close_when_exhausted(file)
 
 def get_hf_dataset(
     dataset_name: str, 
@@ -49,6 +63,60 @@ def get_hf_dataset(
 
     return dataset
 
+def get_cleaned_dataset(
+    directory: str=None,
+):
+    i=0
+    for folder in os.listdir(directory):
+        if "json" in folder:
+            path=directory+folder
+        else:
+            path=directory+folder+"/0000.json.gz"
+        assert os.path.exists(path), "Path does not exist"
+        data = open_read_cleaned(path)
+        if i==0:
+            i+=1
+            dataset=data
+        else:
+            dataset = chain(dataset,data)
+        
+    return dataset
+
+def get_bilingual_dataset(
+    directory: str=None,
+):
+
+    
+    n_tokens = args.n_tokens/11
+    data = []
+    total_words=0
+    for folder in os.listdir(directory):
+        source_lang = folder.split('-')[0]
+        target_lang = folder.split('-')[1]
+        
+        source_path=directory+folder+"/cometkiwi/threshold_0.85/cometiwi_data."+source_lang+'-'+target_lang+'.'+source_lang
+        target_path=directory+folder+"/cometkiwi/threshold_0.85/cometiwi_data."+target_lang+'-'+source_lang+'.'+target_lang
+        
+        assert os.path.exists(source_path), "Source path does not exist"
+        assert os.path.exists(target_path), "Target path does not exist"
+
+        source_data = open_read_cleaned(source_path)
+        target_data = open_read_cleaned(target_path)
+        
+        n_words=0
+        for source_doc, target_doc in zip(source_data, target_data):
+            n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
+            data.append({'text': source_doc['text'] + "</s>" + "<s>" target_doc['text'] })
+            if max_tokens is not None:
+                if n_words>=n_tokens:
+                    break
+        print('n words', n_words)
+        total_words += n_words
+    
+    print('total words', total_words)
+    dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+    
+    return dataset
 
 def filter_hf_dataset(
     dataset: datasets.Dataset,
@@ -79,6 +147,51 @@ def filter_hf_dataset(
 
     if max_samples is not None:
         dataset = dataset.select(range(max_samples))
+
+    return dataset
+
+def filter_cleaned_dataset(
+    dataset: datasets.Dataset,
+    max_tokens: Optional[int]=None, 
+    percentile: Optional[int]=50
+):
+    assert max_tokens is not None or percentile is not None, "Must specify either max_tokens or percentile"
+
+    if percentile is not None:
+        perplexities=[]
+        for doc in dataset:
+            perplexities.append(doc['perplexity'])
+            if len(perplexities)>1000000:
+                break
+        threshold = np.percentile(np.array(perplexities), percentile)
+        print('threshold', threshold)
+
+        data = []
+        n_words=0
+        for doc in dataset:
+            if doc['perplexity'] < threshold:
+                n_words += len(doc['text'].split(' '))
+                data.append({'text': doc['text']})
+                if max_tokens is not None:
+                    if n_words>=args.n_tokens:
+                        break
+    
+        print('n words', n_words)
+
+        dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+    
+    else:
+        if max_tokens is not None:
+            n_words=0
+            data = []
+            for doc in dataset:
+                n_words += len(doc['text'].split(' '))
+                data.append({'text': doc['text']})
+                if n_words>=max_tokens:
+                    break
+        
+            print('n words', n_words)
+            dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
 
     return dataset
 
@@ -135,22 +248,43 @@ if __name__ == "__main__":
     parser.add_argument('--n_docs', type=int, required=False, default=None)
     parser.add_argument('--stream', default=False, action='store_true')
     parser.add_argument('--text-only', default=False, action='store_true')
+    parser.add_argument('--hf_dataset', default=False, action='store_true')
+    parser.add_argument('--bilingual', default=False, action='store_true')
     args = parser.parse_args()
     
-    dataset = get_hf_dataset(
-        dataset_name=args.dataset_name, 
-        path=args.dataset_path, 
-        dirs=args.dataset_dirs,
-        split=args.dataset_split,
-        stream=args.stream,
-        shuffle=args.shuffle,
-    )
-    if args.filter:
-        dataset = filter_hf_dataset(
-            dataset, 
-            percentile=args.percentile,
-            max_tokens=args.n_tokens,
-            max_samples=args.n_docs
+
+    if args.hf_dataset:
+        dataset = get_hf_dataset(
+            dataset_name=args.dataset_name, 
+          path=args.dataset_path, 
+          dirs=args.dataset_dirs,
+          split=args.dataset_split,
+          stream=args.stream,
+          shuffle=args.shuffle,
         )
+        if args.filter:
+            dataset = filter_hf_dataset(
+                dataset, 
+                percentile=args.percentile,
+                max_tokens=args.n_tokens
+                max_samples=args.n_docs
+            )
+
+    else:
+        if args.bilingual:
+            dataset = get_bilingual_dataset(
+                directory=args.dataset_path,
+            )
+        else:
+            dataset = get_cleaned_dataset(
+                directory=args.dataset_path,
+            )
+
+            if args.filter:
+                dataset = filter_cleaned_dataset(
+                    dataset, 
+                    percentile=args.percentile,
+                    max_tokens=args.n_tokens
+                )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)

@@ -1,4 +1,4 @@
-import "croissant_llm_uservars.tconf"
+import "tower_llm_uservars.tconf"
 
 global {
     # WARNING: change these variables to your own paths
@@ -9,35 +9,241 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=false
+    
 
     # dataset pamaeters
-    dataset_name=(
-        Dataset:
-            french=manu/french-30b
-            english=manu/english-60b
-            code=manu/code-20b
+    dataset_name=/dev/null
+
+    hf_dataset=(
+            en=true
+            en_wiki=false
+            en_gutenberg=false
+            en_arxiv=false
+            en_bookcurpus=false
+            de=false
+            de_wiki=false
+            de_gutenberg=false
+            es=false
+            es_wiki=false
+            es_gutenberg=false
+            fr=false
+            fr_wiki=false
+            fr_gutenberg=false
+            it=false
+            it_wiki=false
+            it_gutenberg=false
+            nl=false
+            nl_wiki=false
+            nl_gutenberg=false
+            pt=false
+            pt_wiki=false
+            pt_gutenberg=false
+            pl=false
+            pl_wiki=false
+            pl_gutenberg=false
+            ru=false
+            ru_wiki=false
+            ru_gutenberg=false
+            sv=false
+            sv_wiki=false
+            sv_gutenberg=false
+            ko=false
+            ko_wiki=false
+            ko_gutenberg=false
+            zh=false
+            zh_wiki=false
+            zh_gutenberg=false
+            code=false
     )
 
     dataset_path=(
         Dataset:
-            french=/gpfswork/rech/hxz/ued79zb/croissllm-data/manu/french-30b
-            english=/gpfswork/rech/hxz/ued79zb/croissllm-data/manu/english-60b
-            code=/gpfswork/rech/hxz/ued79zb/croissllm-data/manu/code-20b
+            en=/mnt/data_2/shared/tower_llm_data/en/data
+            en_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/en/dedup/
+            en_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/en/dedup/
+            en_arxiv=/mnt/data_2/shared/tower_llm_data/arxiv/v1/en/dedup/
+            en_bookcurpus=/mnt/data_2/shared/tower_llm_data/bookcorpus/v1/en/dedup/
+            de=/mnt/data_2/shared/tower_llm_data/de/
+            de_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/de/dedup/
+            de_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/de/dedup/
+            es=/mnt/data_2/shared/tower_llm_data/es/3/
+            es_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/es/dedup/
+            es_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/es/dedup/
+            fr=/mnt/data_2/shared/tower_llm_data/fr/
+            fr_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/fr/dedup/
+            fr_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/fr/dedup/
+            it=/mnt/data_2/shared/tower_llm_data/it/
+            it_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/it/dedup/
+            it_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/it/dedup/
+            nl=/mnt/data_2/shared/tower_llm_data/nl/
+            nl_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/nl/dedup/
+            nl_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/nl/dedup/
+            pt=/mnt/data_2/shared/tower_llm_data/pt/
+            pt_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/pt/dedup/
+            pt_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/pt/dedup/
+            pl=/mnt/data_2/shared/tower_llm_data/pl/
+            pl_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/pl/dedup/
+            pl_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/pl/dedup/
+            ru=/mnt/data_2/shared/tower_llm_data/ru/
+            ru_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/ru/dedup/
+            ru_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/ru/dedup/
+            sv=/mnt/data_2/shared/tower_llm_data/sv/
+            sv_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/sv/dedup/
+            sv_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/sv/dedup/
+            ko=/mnt/data_2/shared/tower_llm_data/ko/0000.json.gz
+            ko_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/ko/dedup/
+            ko_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/ko/dedup/
+            zh=/mnt/data_2/shared/tower_llm_data/zh/0000.json.gz
+            zh_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/zh/dedup/
+            zh_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/zh/dedup/
+            code=/mnt/data_2/shared/tower_llm_data/code/
+            bilingual=/mnt/data_2/shared/tower_llm_data/bilingual_data/v1
     )
+
+    
+
     dataset_dirs=""
     dataset_stream=false
-    filter=false
+    filter=(Dataset:
+            en=true
+            en_wiki=false
+            en_gutenberg=false
+            en_arxiv=false
+            en_bookcurpus=false
+            de=true
+            de_wiki=false
+            de_gutenberg=false
+            es=true
+            es_wiki=false
+            es_gutenberg=false
+            fr=true
+            fr_wiki=false
+            fr_gutenberg=false
+            it=true
+            it_wiki=false
+            it_gutenberg=false
+            nl=true
+            nl_wiki=false
+            nl_gutenberg=false
+            pt=true
+            pt_wiki=false
+            pt_gutenberg=false
+            pl=true
+            pl_wiki=false
+            pl_gutenberg=false
+            ru=true
+            ru_wiki=false
+            ru_gutenberg=false
+            sv=true
+            sv_wiki=false
+            sv_gutenberg=false
+            ko=true
+            ko_wiki=false
+            ko_gutenberg=false
+            zh=true
+            zh_wiki=false
+            zh_gutenberg=false
+            code=false
+            bilingual=false
+    )
+    bilingual=(Dataset:
+            en=false
+            en_wiki=false
+            en_gutenberg=false
+            en_arxiv=false
+            en_bookcurpus=false
+            de=false
+            de_wiki=false
+            de_gutenberg=false
+            es=false
+            es_wiki=false
+            es_gutenberg=false
+            fr=false
+            fr_wiki=false
+            fr_gutenberg=false
+            it=false
+            it_wiki=false
+            it_gutenberg=false
+            nl=false
+            nl_wiki=false
+            nl_gutenberg=false
+            pt=false
+            pt_wiki=false
+            pt_gutenberg=false
+            pl=false
+            pl_wiki=false
+            pl_gutenberg=false
+            ru=false
+            ru_wiki=false
+            ru_gutenberg=false
+            sv=false
+            sv_wiki=false
+            sv_gutenberg=false
+            ko=false
+            ko_wiki=false
+            ko_gutenberg=false
+            zh=false
+            zh_wiki=false
+            zh_gutenberg=false
+            code=false
+            bilingual=true
+    )
+
     percentile=50
-    n_tokens=""
+    n_tokens=(
+        Dataset:
+            en=30000000000
+            en_wiki=2000000000
+            en_gutenberg=2000000000
+            en_arxiv=1000000000
+            en_bookcurpus=1000000000
+            de=1000000000
+            de_wiki=1000000000
+            de_gutenberg=1000000000
+            es=1000000000
+            es_wiki=1000000000
+            es_gutenberg=1000000000
+            fr=1000000000
+            fr_wiki=1000000000
+            fr_gutenberg=1000000000
+            it=1000000000
+            it_wiki=1000000000
+            it_gutenberg=1000000000
+            nl=1000000000
+            nl_wiki=1000000000
+            nl_gutenberg=1000000000
+            pt=1000000000
+            pt_wiki=1000000000
+            pt_gutenberg=1000000000
+            pl=1000000000
+            pl_wiki=1000000000
+            pl_gutenberg=1000000000
+            ru=1000000000
+            ru_wiki=1000000000
+            ru_gutenberg=1000000000
+            sv=1000000000
+            sv_wiki=1000000000
+            sv_gutenberg=1000000000
+            ko=1000000000
+            ko_wiki=1000000000
+            ko_gutenberg=1000000000
+            zh=1000000000
+            zh_wiki=1000000000
+            zh_gutenberg=1000000000
+            code=2000000000
+            bilingual=1000000000
+    )
 
     datamix_weights=(
         DataMix:
-            mix1="40 40 20"
-            mix2="20 60 20"
-            mix3="60 20 20"
+            mix1="54 4 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 0"
+            mix2="43 4 4 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 3 0"
+            mix3="32 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3 0"
+            mix4="30 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3 2"
     )
+    
 
-    tokenizer=mistralai/Mistral-7B-v0.1
+    tokenizer=NousResearch/Llama-2-7b-hf
 
     eval_metric=loss
     
