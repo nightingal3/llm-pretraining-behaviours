@@ -50,7 +50,6 @@ global {
             sv_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/sv/lid/
             ko=/gpfsstore/rech/hxz/ued79zb/towerllm-data/ko/0000.json.gz
             ko_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ko/lid/
-            ko_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/ko/lid/
             zh=/gpfsstore/rech/hxz/ued79zb/towerllm-data/zh/0000.json.gz
             zh_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/zh/lid/
             zh_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/zh/lid/
@@ -97,7 +96,6 @@ global {
             sv_gutenberg=false
             ko=false
             ko_wiki=false
-            ko_gutenberg=false
             zh=false
             zh_wiki=false
             zh_gutenberg=false
@@ -140,7 +138,6 @@ global {
             sv_gutenberg=false
             ko=false
             ko_wiki=false
-            ko_gutenberg=false
             zh=false
             zh_wiki=false
             zh_gutenberg=false
@@ -184,7 +181,6 @@ global {
             sv_gutenberg=""
             ko=50
             ko_wiki=""
-            ko_gutenberg=""
             zh=50
             zh_wiki=""
             zh_gutenberg=""
@@ -195,90 +191,88 @@ global {
 
     n_tokens=(
         Dataset:
-            en=3000
-            en_wiki=2000
-            en_gutenberg=2000
-            en_arxiv=1000
-            en_bookcorpus=1000
-            de=1000
-            de_wiki=1000
-            de_gutenberg=1000
-            es=1000
-            es_wiki=1000
-            es_gutenberg=1000
-            fr=1000
-            fr_wiki=1000
-            fr_gutenberg=1000
-            it=1000
-            it_wiki=1000
-            it_gutenberg=1000
-            nl=1000
-            nl_wiki=1000
-            nl_gutenberg=1000
-            pt=1000
-            pt_wiki=1000
-            pt_gutenberg=1000
-            pl=1000
-            pl_wiki=1000
-            pl_gutenberg=1000
-            ru=1000
-            ru_wiki=1000
-            ru_gutenberg=1000
-            sv=1000
-            sv_wiki=1000
-            sv_gutenberg=1000
-            ko=1000
-            ko_wiki=1000
-            ko_gutenberg=1000
-            zh=1000
-            zh_wiki=1000
-            zh_gutenberg=1000
-            code=1000
-            bilingual=1000
+            en=30000000000
+            en_wiki=2000000000
+            en_gutenberg=2000000000
+            en_arxiv=1000000000
+            en_bookcorpus=1000000000
+            de=1000000000
+            de_wiki=1000000000
+            de_gutenberg=1000000000
+            es=1000000000
+            es_wiki=1000000000
+            es_gutenberg=1000000000
+            fr=1000000000
+            fr_wiki=1000000000
+            fr_gutenberg=1000000000
+            it=1000000000
+            it_wiki=1000000000
+            it_gutenberg=1000000000
+            nl=1000000000
+            nl_wiki=1000000000
+            nl_gutenberg=1000000000
+            pt=1000000000
+            pt_wiki=1000000000
+            pt_gutenberg=1000000000
+            pl=1000000000
+            pl_wiki=1000000000
+            pl_gutenberg=1000000000
+            ru=1000000000
+            ru_wiki=1000000000
+            ru_gutenberg=1000000000
+            sv=1000000000
+            sv_wiki=1000000000
+            sv_gutenberg=1000000000
+            ko=2000000000
+            ko_wiki=1000000000
+            zh=1000000000
+            zh_wiki=1000000000
+            zh_gutenberg=1000000000
+            code=2000000000
+            bilingual=1000000000
     )
 
     n_tokens_test=(
         Dataset:
-            en=1000
-            en_wiki=1000
-            en_gutenberg=1000
-            en_arxiv=1000
-            en_bookcorpus=1000
-            de=1000
-            de_wiki=1000
-            de_gutenberg=1000
-            es=1000
-            es_wiki=1000
-            es_gutenberg=1000
-            fr=1000
-            fr_wiki=1000
-            fr_gutenberg=1000
-            it=1000
-            it_wiki=1000
-            it_gutenberg=1000
-            nl=1000
-            nl_wiki=1000
-            nl_gutenberg=1000
-            pt=1000
-            pt_wiki=1000
-            pt_gutenberg=1000
-            pl=1000
-            pl_wiki=1000
-            pl_gutenberg=1000
-            ru=1000
-            ru_wiki=1000
-            ru_gutenberg=1000
-            sv=1000
-            sv_wiki=1000
-            sv_gutenberg=1000
-            ko=1000
-            ko_wiki=1000
-            ko_gutenberg=1000
-            zh=1000
-            zh_wiki=1000
-            zh_gutenberg=1000
-            code=1000
-            bilingual=1000
+            en=500000
+            en_wiki=500000
+            en_gutenberg=500000
+            en_arxiv=500000
+            en_bookcorpus=500000
+            de=500000
+            de_wiki=500000
+            de_gutenberg=500000
+            es=500000
+            es_wiki=500000
+            es_gutenberg=500000
+            fr=500000
+            fr_wiki=500000
+            fr_gutenberg=500000
+            it=500000
+            it_wiki=500000
+            it_gutenberg=500000
+            nl=500000
+            nl_wiki=500000
+            nl_gutenberg=500000
+            pt=500000
+            pt_wiki=500000
+            pt_gutenberg=500000
+            pl=500000
+            pl_wiki=500000
+            pl_gutenberg=500000
+            ru=500000
+            ru_wiki=500000
+            ru_gutenberg=500000
+            sv=500000
+            sv_wiki=500000
+            sv_gutenberg=500000
+            ko=500000
+            ko_wiki=500000
+            zh=500000
+            zh_wiki=500000
+            zh_gutenberg=500000
+            code=500000
+            bilingual=500000
     )
 
     datamix_weights=(
@@ -294,7 +288,7 @@ global {
                 pl=1 pl_wiki=1 pl_gutenberg=1 
                 ru=1 ru_wiki=1 ru_gutenberg=1 
                 sv=1 sv_wiki=1 sv_gutenberg=1 
-                ko=1 ko_wiki=1 ko_gutenberg=1 
+                ko=2 ko_wiki=1 
                 zh=1 zh_wiki=1 zh_gutenberg=1 
                 code=3 bilingual=0
                 )
@@ -309,7 +303,7 @@ global {
                 pl=2 pl_wiki=1 pl_gutenberg=1 
                 ru=2 ru_wiki=1 ru_gutenberg=1 
                 sv=2 sv_wiki=1 sv_gutenberg=1 
-                ko=2 ko_wiki=1 ko_gutenberg=1 
+                ko=3 ko_wiki=1 
                 zh=2 zh_wiki=1 zh_gutenberg=1 
                 code=3 bilingual=0
                 )
@@ -324,7 +318,7 @@ global {
                 pl=2 pl_wiki=2 pl_gutenberg=1 
                 ru=2 ru_wiki=2 ru_gutenberg=1 
                 sv=2 sv_wiki=2 sv_gutenberg=1 
-                ko=2 ko_wiki=2 ko_gutenberg=1 
+                ko=3 ko_wiki=2  
                 zh=2 zh_wiki=2 zh_gutenberg=1 
                 code=3 bilingual=0
                 )
@@ -339,20 +333,20 @@ global {
                 pl=2 pl_wiki=2 pl_gutenberg=1 
                 ru=2 ru_wiki=2 ru_gutenberg=1 
                 sv=2 sv_wiki=2 sv_gutenberg=1 
-                ko=2 ko_wiki=2 ko_gutenberg=1 
+                ko=3 ko_wiki=2
                 zh=2 zh_wiki=2 zh_gutenberg=1 
                 code=3 bilingual=2
                 )
     )
 
-    external_tokenizer= manu/tok-fr-en-code
+    external_tokenizer=""
 
     # training tokenizer parameters
     # WARNING: not passed to the rest of the pipeline
     # export and pass as external_tokenizer for now
-    vocab_size=32000
+    vocab_size=128000
     tokenizer_words_per_source=1000000000
-    extra_tokens=1000
+    extra_tokens=2000
 
     eval_metric=loss
     
