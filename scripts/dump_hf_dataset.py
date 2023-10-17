@@ -84,11 +84,16 @@ def get_cleaned_dataset(
 
 def get_bilingual_dataset(
     directory: str=None,
+    max_tokens: Optional[int]=None,
+    max_tokens_test: Optional[int]=None,
 ):
+    if max_tokens is not None:
+        max_tokens = max_tokens/11
+    if max_tokens_test is not None:
+        max_tokens_test = max_tokens_test/11
 
-    
-    n_tokens = args.n_tokens/11
     data = []
+    data_test = []
     total_words=0
     for folder in os.listdir(directory):
         source_lang = folder.split('-')[0]
@@ -102,25 +107,43 @@ def get_bilingual_dataset(
 
         source_data = open_read_cleaned(source_path)
         target_data = open_read_cleaned(target_path)
+
+        n_words_test=0
+        n_docs_test=0
+        if max_tokens_test is not None:
+            for source_doc, target_doc in zip(source_data, target_data):
+                n_docs_test+=1
+                n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
+                data_test.append(source_doc['text'] + "</s>" + "<s>" target_doc['text'])
+                if n_words>=max_tokens_test:
+                    break
         
         n_words=0
+        n_docs=0
         for source_doc, target_doc in zip(source_data, target_data):
-            n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
-            data.append({'text': source_doc['text'] + "</s>" + "<s>" target_doc['text'] })
-            if max_tokens is not None:
-                if n_words>=n_tokens:
-                    break
+            if n_docs<=n_docs_test:
+                n_docs+=1
+            else:
+                n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
+                data.append({'text': source_doc['text'] + "</s>" + "<s>" target_doc['text'] })
+                if max_tokens is not None:
+                    if n_words>=max_tokens:
+                        break
         print('n words', n_words)
         total_words += n_words
     
     print('total words', total_words)
     dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+
+    with open('test_data','w') as f:
+        f.write('\n'.join(data_test))
     
     return dataset
 
 def filter_hf_dataset(
     dataset: datasets.Dataset,
     max_tokens: Optional[int]=None,
+    max_tokens_test: Optional[int]=None,
     max_samples: Optional[int]=None,
     percentile: Optional[int]=50
 ):
@@ -133,17 +156,29 @@ def filter_hf_dataset(
         ppl_perc = np.percentile(dataset["perplexity_score"], percentile)
         dataset = dataset.filter(lambda x: x["perplexity_score"] < ppl_perc, num_proc=128)
 
+    if max_tokens_test is not None:
+        n_words_test=0
+        n_docs_test=0
+        data_test=[]
+        for idx in range(len(dataset)):
+            n_words_test += len(dataset[int(idx)]['text'].split(' '))
+            data_test.append(dataset[int(idx)]['text'])
+            if n_words_test>=max_tokens_test:
+                n_docs_test=idx
+                break
+        with open('test_data','w') as f:
+            f.write('\n'.join(data_test))
+
     if max_tokens is not None:
         n_words=0
-        for idx in range(len(dataset)):
+        for idx in range(n_docs_test+1, len(dataset)):
             n_words += len(dataset[int(idx)]['text'].split(' '))
-
             if n_words>=max_tokens:
                 break
     
         print('n words', n_words)
         print('n docs', idx+1)
-        dataset = dataset.select(range(idx+1))
+        dataset = dataset.select(range(n_docs_test+1, idx+1))
 
     if max_samples is not None:
         dataset = dataset.select(range(max_samples))
@@ -152,7 +187,8 @@ def filter_hf_dataset(
 
 def filter_cleaned_dataset(
     dataset: datasets.Dataset,
-    max_tokens: Optional[int]=None, 
+    max_tokens: Optional[int]=None,
+    max_tokens_test: Optional[int]=None,
     percentile: Optional[int]=50
 ):
     assert max_tokens is not None or percentile is not None, "Must specify either max_tokens or percentile"
@@ -166,29 +202,65 @@ def filter_cleaned_dataset(
         threshold = np.percentile(np.array(perplexities), percentile)
         print('threshold', threshold)
 
+        if max_tokens_test is not None:
+            data_test = []
+            n_docs_test=0
+            n_words_test=0
+            for doc in dataset:
+                n_docs_test+=1
+                if doc['perplexity'] < threshold:
+                    n_words_test += len(doc['text'].split(' '))
+                    data_test.append(doc['text'])
+                    if n_words_test>=max_tokens_test:
+                        break
+            with open('test_data','w') as f:
+                f.write('\n'.join(data_test))
+
         data = []
         n_words=0
+        n_docs=0
         for doc in dataset:
-            if doc['perplexity'] < threshold:
-                n_words += len(doc['text'].split(' '))
-                data.append({'text': doc['text']})
-                if max_tokens is not None:
-                    if n_words>=args.n_tokens:
-                        break
+            if n_docs<=n_docs_test:
+                n_docs+=1
+            else:
+                if doc['perplexity'] < threshold:
+                    n_words += len(doc['text'].split(' '))
+                    data.append({'text': doc['text']})
+                    if max_tokens is not None:
+                        if n_words>=max_tokens:
+                            break
     
         print('n words', n_words)
 
         dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
     
     else:
+
+        if max_tokens_test is not None:
+            n_words_test=0
+            n_docs_test=0
+            data_test = []
+            for doc in dataset:
+                n_docs_test+=1
+                n_words_test += len(doc['text'].split(' '))
+                data_test.append(doc['text'])
+                if n_words_test>=max_tokens_test:
+                    break
+            with open('test_data','w') as f:
+                f.write('\n'.join(data_test))
+
         if max_tokens is not None:
             n_words=0
             data = []
+            n_docs=0
             for doc in dataset:
-                n_words += len(doc['text'].split(' '))
-                data.append({'text': doc['text']})
-                if n_words>=max_tokens:
-                    break
+                if n_docs<=n_docs_test:
+                    n_docs+=1
+                else:
+                    n_words += len(doc['text'].split(' '))
+                    data.append({'text': doc['text']})
+                    if n_words>=max_tokens:
+                        break
         
             print('n words', n_words)
             dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
@@ -245,6 +317,7 @@ if __name__ == "__main__":
     parser.add_argument('--filter', default=False, action='store_true')
     parser.add_argument('--percentile', type=int, required=False, default=None)
     parser.add_argument('--n_tokens', type=int, required=False, default=None)
+    parser.add_argument('--n_tokens_test', type=int, required=False, default=None)
     parser.add_argument('--n_docs', type=int, required=False, default=None)
     parser.add_argument('--stream', default=False, action='store_true')
     parser.add_argument('--text-only', default=False, action='store_true')
@@ -256,17 +329,18 @@ if __name__ == "__main__":
     if args.hf_dataset:
         dataset = get_hf_dataset(
             dataset_name=args.dataset_name, 
-          path=args.dataset_path, 
-          dirs=args.dataset_dirs,
-          split=args.dataset_split,
-          stream=args.stream,
-          shuffle=args.shuffle,
-        )
+            path=args.dataset_path, 
+            dirs=args.dataset_dirs,
+            split=args.dataset_split,
+            stream=args.stream,
+            shuffle=args.shuffle,
+            )
         if args.filter:
             dataset = filter_hf_dataset(
                 dataset, 
                 percentile=args.percentile,
                 max_tokens=args.n_tokens
+                max_tokens_test=args.n_tokens_test
                 max_samples=args.n_docs
             )
 
@@ -274,6 +348,8 @@ if __name__ == "__main__":
         if args.bilingual:
             dataset = get_bilingual_dataset(
                 directory=args.dataset_path,
+                max_tokens=args.max_tokens,
+                max_tokens_test=args.max_tokens_test
             )
         else:
             dataset = get_cleaned_dataset(
@@ -285,6 +361,7 @@ if __name__ == "__main__":
                     dataset, 
                     percentile=args.percentile,
                     max_tokens=args.n_tokens
+                    max_tokens_test=args.n_tokens_test
                 )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)

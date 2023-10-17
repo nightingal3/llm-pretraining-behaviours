@@ -14,47 +14,7 @@ global {
     # dataset pamaeters
     dataset_name=/dev/null
 
-    hf_dataset=(
-            en=true
-            en_wiki=false
-            en_gutenberg=false
-            en_arxiv=false
-            en_bookcurpus=false
-            de=false
-            de_wiki=false
-            de_gutenberg=false
-            es=false
-            es_wiki=false
-            es_gutenberg=false
-            fr=false
-            fr_wiki=false
-            fr_gutenberg=false
-            it=false
-            it_wiki=false
-            it_gutenberg=false
-            nl=false
-            nl_wiki=false
-            nl_gutenberg=false
-            pt=false
-            pt_wiki=false
-            pt_gutenberg=false
-            pl=false
-            pl_wiki=false
-            pl_gutenberg=false
-            ru=false
-            ru_wiki=false
-            ru_gutenberg=false
-            sv=false
-            sv_wiki=false
-            sv_gutenberg=false
-            ko=false
-            ko_wiki=false
-            ko_gutenberg=false
-            zh=false
-            zh_wiki=false
-            zh_gutenberg=false
-            code=false
-    )
+    
 
     dataset_path=(
         Dataset:
@@ -62,7 +22,7 @@ global {
             en_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/en/dedup/
             en_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/en/dedup/
             en_arxiv=/mnt/data_2/shared/tower_llm_data/arxiv/v1/en/dedup/
-            en_bookcurpus=/mnt/data_2/shared/tower_llm_data/bookcorpus/v1/en/dedup/
+            en_bookcorpus=/mnt/data_2/shared/tower_llm_data/bookcorpus/v1/en/dedup/
             de=/mnt/data_2/shared/tower_llm_data/de/
             de_wiki=/mnt/data_2/shared/tower_llm_data/wikipedia/v1/de/dedup/
             de_gutenberg=/mnt/data_2/shared/tower_llm_data/project_gutenberg/v1/de/dedup/
@@ -100,8 +60,6 @@ global {
             bilingual=/mnt/data_2/shared/tower_llm_data/bilingual_data/v1
     )
 
-    
-
     dataset_dirs=""
     dataset_stream=false
     filter=(Dataset:
@@ -109,7 +67,7 @@ global {
             en_wiki=false
             en_gutenberg=false
             en_arxiv=false
-            en_bookcurpus=false
+            en_bookcorpus=false
             de=true
             de_wiki=false
             de_gutenberg=false
@@ -146,12 +104,56 @@ global {
             code=false
             bilingual=false
     )
+
+    hf_dataset=(Dataset:
+            en=true
+            en_wiki=false
+            en_gutenberg=false
+            en_arxiv=false
+            en_bookcorpus=false
+            de=false
+            de_wiki=false
+            de_gutenberg=false
+            es=false
+            es_wiki=false
+            es_gutenberg=false
+            fr=false
+            fr_wiki=false
+            fr_gutenberg=false
+            it=false
+            it_wiki=false
+            it_gutenberg=false
+            nl=false
+            nl_wiki=false
+            nl_gutenberg=false
+            pt=false
+            pt_wiki=false
+            pt_gutenberg=false
+            pl=false
+            pl_wiki=false
+            pl_gutenberg=false
+            ru=false
+            ru_wiki=false
+            ru_gutenberg=false
+            sv=false
+            sv_wiki=false
+            sv_gutenberg=false
+            ko=false
+            ko_wiki=false
+            ko_gutenberg=false
+            zh=false
+            zh_wiki=false
+            zh_gutenberg=false
+            code=true
+            bilingual=false
+    )
+
     bilingual=(Dataset:
             en=false
             en_wiki=false
             en_gutenberg=false
             en_arxiv=false
-            en_bookcurpus=false
+            en_bookcorpus=false
             de=false
             de_wiki=false
             de_gutenberg=false
@@ -192,58 +194,164 @@ global {
     percentile=50
     n_tokens=(
         Dataset:
-            en=30000000000
-            en_wiki=2000000000
-            en_gutenberg=2000000000
-            en_arxiv=1000000000
-            en_bookcurpus=1000000000
-            de=1000000000
-            de_wiki=1000000000
-            de_gutenberg=1000000000
-            es=1000000000
-            es_wiki=1000000000
-            es_gutenberg=1000000000
-            fr=1000000000
-            fr_wiki=1000000000
-            fr_gutenberg=1000000000
-            it=1000000000
-            it_wiki=1000000000
-            it_gutenberg=1000000000
-            nl=1000000000
-            nl_wiki=1000000000
-            nl_gutenberg=1000000000
-            pt=1000000000
-            pt_wiki=1000000000
-            pt_gutenberg=1000000000
-            pl=1000000000
-            pl_wiki=1000000000
-            pl_gutenberg=1000000000
-            ru=1000000000
-            ru_wiki=1000000000
-            ru_gutenberg=1000000000
-            sv=1000000000
-            sv_wiki=1000000000
-            sv_gutenberg=1000000000
-            ko=1000000000
-            ko_wiki=1000000000
-            ko_gutenberg=1000000000
-            zh=1000000000
-            zh_wiki=1000000000
-            zh_gutenberg=1000000000
-            code=2000000000
-            bilingual=1000000000
+            en=3000
+            en_wiki=2000
+            en_gutenberg=2000
+            en_arxiv=1000
+            en_bookcorpus=1000
+            de=1000
+            de_wiki=1000
+            de_gutenberg=1000
+            es=1000
+            es_wiki=1000
+            es_gutenberg=1000
+            fr=1000
+            fr_wiki=1000
+            fr_gutenberg=1000
+            it=1000
+            it_wiki=1000
+            it_gutenberg=1000
+            nl=1000
+            nl_wiki=1000
+            nl_gutenberg=1000
+            pt=1000
+            pt_wiki=1000
+            pt_gutenberg=1000
+            pl=1000
+            pl_wiki=1000
+            pl_gutenberg=1000
+            ru=1000
+            ru_wiki=1000
+            ru_gutenberg=1000
+            sv=1000
+            sv_wiki=1000
+            sv_gutenberg=1000
+            ko=1000
+            ko_wiki=1000
+            ko_gutenberg=1000
+            zh=1000
+            zh_wiki=1000
+            zh_gutenberg=1000
+            code=1000
+            bilingual=1000
+    )
+
+    n_tokens_test=(
+        Dataset:
+            en=1000
+            en_wiki=1000
+            en_gutenberg=1000
+            en_arxiv=1000
+            en_bookcorpus=1000
+            de=1000
+            de_wiki=1000
+            de_gutenberg=1000
+            es=1000
+            es_wiki=1000
+            es_gutenberg=1000
+            fr=1000
+            fr_wiki=1000
+            fr_gutenberg=1000
+            it=1000
+            it_wiki=1000
+            it_gutenberg=1000
+            nl=1000
+            nl_wiki=1000
+            nl_gutenberg=1000
+            pt=1000
+            pt_wiki=1000
+            pt_gutenberg=1000
+            pl=1000
+            pl_wiki=1000
+            pl_gutenberg=1000
+            ru=1000
+            ru_wiki=1000
+            ru_gutenberg=1000
+            sv=1000
+            sv_wiki=1000
+            sv_gutenberg=1000
+            ko=1000
+            ko_wiki=1000
+            ko_gutenberg=1000
+            zh=1000
+            zh_wiki=1000
+            zh_gutenberg=1000
+            code=1000
+            bilingual=1000
     )
 
     datamix_weights=(
         DataMix:
-            mix1="54 4 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 0"
-            mix2="43 4 4 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 2 1 1 3 0"
-            mix3="32 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3 0"
-            mix4="30 4 4 1 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 3 2"
+            enplus=(Dataset: 
+                en=54 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
+                de=1 de_wiki=1 de_gutenberg=1 
+                es=1 es_wiki=1 es_gutenberg=1 
+                fr=1 fr_wiki=1 fr_gutenberg=1 
+                it=1 it_wiki=1 it_gutenberg=1 
+                nl=1 nl_wiki=1 nl_gutenberg=1 
+                pt=1 pt_wiki=1 pt_gutenberg=1 
+                pl=1 pl_wiki=1 pl_gutenberg=1 
+                ru=1 ru_wiki=1 ru_gutenberg=1 
+                sv=1 sv_wiki=1 sv_gutenberg=1 
+                ko=1 ko_wiki=1 ko_gutenberg=1 
+                zh=1 zh_wiki=1 zh_gutenberg=1 
+                code=3 bilingual=0
+                )
+            enmid=(Dataset: 
+                en=43 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
+                de=2 de_wiki=1 de_gutenberg=1 
+                es=2 es_wiki=1 es_gutenberg=1 
+                fr=2 fr_wiki=1 fr_gutenberg=1 
+                it=2 it_wiki=1 it_gutenberg=1 
+                nl=2 nl_wiki=1 nl_gutenberg=1 
+                pt=2 pt_wiki=1 pt_gutenberg=1 
+                pl=2 pl_wiki=1 pl_gutenberg=1 
+                ru=2 ru_wiki=1 ru_gutenberg=1 
+                sv=2 sv_wiki=1 sv_gutenberg=1 
+                ko=2 ko_wiki=1 ko_gutenberg=1 
+                zh=2 zh_wiki=1 zh_gutenberg=1 
+                code=3 bilingual=0
+                )
+            enless=(Dataset: 
+                en=32 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
+                de=2 de_wiki=2 de_gutenberg=1 
+                es=2 es_wiki=2 es_gutenberg=1 
+                fr=2 fr_wiki=2 fr_gutenberg=1 
+                it=2 it_wiki=2 it_gutenberg=1 
+                nl=2 nl_wiki=2 nl_gutenberg=1 
+                pt=2 pt_wiki=2 pt_gutenberg=1 
+                pl=2 pl_wiki=2 pl_gutenberg=1 
+                ru=2 ru_wiki=2 ru_gutenberg=1 
+                sv=2 sv_wiki=2 sv_gutenberg=1 
+                ko=2 ko_wiki=2 ko_gutenberg=1 
+                zh=2 zh_wiki=2 zh_gutenberg=1 
+                code=3 bilingual=0
+                )
+            enless_biling=(Dataset: 
+                en=30 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
+                de=2 de_wiki=2 de_gutenberg=1 
+                es=2 es_wiki=2 es_gutenberg=1 
+                fr=2 fr_wiki=2 fr_gutenberg=1 
+                it=2 it_wiki=2 it_gutenberg=1 
+                nl=2 nl_wiki=2 nl_gutenberg=1 
+                pt=2 pt_wiki=2 pt_gutenberg=1 
+                pl=2 pl_wiki=2 pl_gutenberg=1 
+                ru=2 ru_wiki=2 ru_gutenberg=1 
+                sv=2 sv_wiki=2 sv_gutenberg=1 
+                ko=2 ko_wiki=2 ko_gutenberg=1 
+                zh=2 zh_wiki=2 zh_gutenberg=1 
+                code=3 bilingual=2
+                )
     )
-    
 
-    tokenizer=NousResearch/Llama-2-7b-hf
+    external_tokenizer= manu/tok-fr-en-code
+
+    # training tokenizer parameters
+    # WARNING: not passed to the rest of the pipeline
+    # export and pass as external_tokenizer for now
+    vocab_size=32000
+    tokenizer_words_per_source=1000000000
+    extra_tokens=1000
 
     eval_metric=loss
     
@@ -261,10 +369,10 @@ global {
     train_steps=(
         Size:
             base=500000
-            small4=250000
-            small3=250000
-            small2=250000
-            small1=250000
+            small4=500000
+            small3=500000
+            small2=500000
+            small1=500000
     )
     batch_size=(
         Size:
@@ -276,8 +384,8 @@ global {
     )
     grad_accum_steps=1
 
-    lr=1e-4
-    min_lr=1e-5
+    lr=3e-4
+    min_lr=3e-5
     lr_warmup_steps=2000
     weight_decay=0.1
     grad_clip=1.0

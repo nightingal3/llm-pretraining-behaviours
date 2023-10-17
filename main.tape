@@ -1,7 +1,8 @@
 import "submitters/scslurm.tape"
 
 task DumpHFDataset 
-    >  dataset_json=dataset.json
+    > dataset_json=dataset.json
+    > test_data
     :: dataset_name=@
     :: dataset_path=@
     :: dataset_dirs=@
@@ -9,6 +10,7 @@ task DumpHFDataset
     :: filter=@
     :: percentile=@
     :: n_tokens=@
+    :: n_tokens_test=@
     :: repo=@
     :: hf_dataset=@
     :: bilingual=@
@@ -31,7 +33,8 @@ task DumpHFDataset
         $([ ! -z "$n_tokens" ] && echo "--n_tokens $n_tokens" || echo "") \
         $([ "$dataset_stream" == true ] && echo "--stream" || echo "") \
         $([ "$hf_dataset" == true ] && echo "--hf_dataset" || echo "") \
-        $([ "$bilingual" == true ] && echo "--bilingual" || echo "")
+        $([ "$bilingual" == true ] && echo "--bilingual" || echo "") \
+        $([ ! -z "$n_tokens_test" ] && echo "--n_tokens_test $n_tokens_test" || echo "") \
 }
 
 # Warning: This is working, but isnt passed to subsequent tasks
