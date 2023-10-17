@@ -73,7 +73,7 @@ def get_cleaned_dataset(
         if "json" in folder:
             path=directory+folder
         else:
-            path=directory+folder+"/0000.json.gz"
+            path=directory+folder+"/perplexity/0000.json.gz"
         assert os.path.exists(path), "Path does not exist"
         data = open_read_cleaned(path)
         if i==0:
