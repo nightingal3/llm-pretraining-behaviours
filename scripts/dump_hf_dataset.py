@@ -12,6 +12,7 @@ from typing import (
 import gzip
 import random
 from itertools import chain
+import argparse
 
 
 def _close_when_exhausted(file: TextIO) -> Iterable[str]:
@@ -287,7 +288,6 @@ def dump_hf_dataset(
     text_only: bool=False
 ):
     # Remove columns if they exist
-    import pdb; pdb.set_trace()
     existing_columns = dataset.column_names
     if existing_columns is not None:
         for column in COLUMNS_TO_REMOVE:
@@ -307,7 +307,6 @@ def dump_hf_dataset(
 
 
 if __name__ == "__main__":
-    import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset_name', type=str, required=True)
     parser.add_argument('--output', type=str, required=True)
