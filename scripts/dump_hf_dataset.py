@@ -10,6 +10,7 @@ from typing import (
     Iterable
 )
 import gzip
+import random
 from itertools import chain
 
 
@@ -27,10 +28,12 @@ def get_hf_dataset(
     path: str=None,
     dirs: List[str]=None, 
     split: str='train',
-    stream: bool=False
+    stream: bool=False,
+    shuffle: bool=False,
+    shards: int=1000,
 ):
     if path is not None:
-        assert os.path.exists(path), "Path does not exist"
+        assert os.path.exists(path), f"Path does not exist, {path}"
         assert dirs is None, "Cannot specify both path and dirs"
         dataset = datasets.load_from_disk(path)
     else:
@@ -46,6 +49,18 @@ def get_hf_dataset(
             streaming=stream)
         
     dataset = dataset[split]
+    if shuffle:
+        print("Shuffling dataset")
+        # we shard the dataset to speed up shuffling
+        shards = [
+            dataset.shard(shards, i, contiguous=True).shuffle()
+            for i in range(shards)
+        ]
+        # shuffle the shards
+        random.shuffle(shards)
+        # concatenate the shards
+        dataset = datasets.concatenate_datasets(shards)
+
     return dataset
 
 def get_cleaned_dataset(
@@ -105,10 +120,14 @@ def get_bilingual_dataset(
 
 def filter_hf_dataset(
     dataset: datasets.Dataset,
-    max_tokens: Optional[int]=None, 
+    max_tokens: Optional[int]=None,
+    max_samples: Optional[int]=None,
     percentile: Optional[int]=50
 ):
-    assert max_tokens is not None or percentile is not None, "Must specify either max_tokens or percentile"
+    assert (max_tokens is not None or 
+            max_samples is not None or
+            percentile is not None
+    ), "Must specify either max_tokens or percentile"
 
     if percentile is not None:
         ppl_perc = np.percentile(dataset["perplexity_score"], percentile)
@@ -125,7 +144,10 @@ def filter_hf_dataset(
         print('n words', n_words)
         print('n docs', idx+1)
         dataset = dataset.select(range(idx+1))
-    
+
+    if max_samples is not None:
+        dataset = dataset.select(range(max_samples))
+
     return dataset
 
 def filter_cleaned_dataset(
@@ -202,7 +224,7 @@ def dump_hf_dataset(
     # dataset.to_json(output_file, lines=True)
     # due to stream, print each line to file
     with open(output_file, 'w') as f:
-        for i, example in enumerate(dataset):
+        for i, example in enumerate(dataset, 1):
             if i % 1000 == 0:
                 print("Saved {} examples".format(i))
             if text_only:
@@ -219,28 +241,33 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, required=False, default=None)
     parser.add_argument('--dataset_dirs', type=str, required=False, nargs='+', default=None)
     parser.add_argument('--dataset_split', type=str, required=False, default="train")
+    parser.add_argument('--shuffle', default=False, action='store_true')
     parser.add_argument('--filter', default=False, action='store_true')
-    parser.add_argument('--percentile', type=int, required=False, default=50)
+    parser.add_argument('--percentile', type=int, required=False, default=None)
     parser.add_argument('--n_tokens', type=int, required=False, default=None)
+    parser.add_argument('--n_docs', type=int, required=False, default=None)
     parser.add_argument('--stream', default=False, action='store_true')
     parser.add_argument('--text-only', default=False, action='store_true')
     parser.add_argument('--hf_dataset', default=False, action='store_true')
     parser.add_argument('--bilingual', default=False, action='store_true')
     args = parser.parse_args()
     
+
     if args.hf_dataset:
         dataset = get_hf_dataset(
             dataset_name=args.dataset_name, 
-            path=args.dataset_path, 
-            dirs=args.dataset_dirs,
-            split=args.dataset_split,
-            stream=args.stream
+          path=args.dataset_path, 
+          dirs=args.dataset_dirs,
+          split=args.dataset_split,
+          stream=args.stream,
+          shuffle=args.shuffle,
         )
         if args.filter:
             dataset = filter_hf_dataset(
                 dataset, 
                 percentile=args.percentile,
                 max_tokens=args.n_tokens
+                max_samples=args.n_docs
             )
 
     else:
@@ -261,4 +288,3 @@ if __name__ == "__main__":
                 )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)
-

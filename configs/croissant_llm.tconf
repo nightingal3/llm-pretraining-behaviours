@@ -20,9 +20,9 @@ global {
 
     dataset_path=(
         Dataset:
-            french=/gpfswork/rech/hxz/ued79zb/croissllm-data/manu/french-30b
-            english=/gpfswork/rech/hxz/ued79zb/croissllm-data/manu/english-60b
-            code=/gpfswork/rech/hxz/ued79zb/croissllm-data/manu/code-20b
+            french=/gpfsstore/rech/hxz/ued79zb/croissllm-data/manu/french-30b
+            english=/gpfsstore/rech/hxz/ued79zb/croissllm-data/manu/english-60b
+            code=/gpfsstore/rech/hxz/ued79zb/croissllm-data/manu/code-20b
     )
     dataset_dirs=""
     dataset_stream=false
@@ -32,12 +32,26 @@ global {
 
     datamix_weights=(
         DataMix:
-            mix1="40 40 20"
-            mix2="20 60 20"
-            mix3="60 20 20"
+            equal=(Dataset: french=40 english=40 code=20)
+            frplus=(Dataset: french=60 english=20 code=20)
+            enplus=(Dataset: french=20 english=60 code=20)
     )
 
-    tokenizer=mistralai/Mistral-7B-v0.1
+    # tokenization arguments
+    external_tokenizer=manu/tok-fr-en-code
+
+    # training tokenizer parameters
+    # WARNING: not passed to the rest of the pipeline
+    # export and pass as external_tokenizer for now
+    vocab_size=32000
+    tokenizer_words_per_source=(
+        Dataset:
+            french=3000000000
+            english=2000000000
+            code=1000000000
+    )
+    extra_tokens=1000
+
 
     eval_metric=loss
     
@@ -55,10 +69,10 @@ global {
     train_steps=(
         Size:
             base=500000
-            small4=250000
-            small3=250000
-            small2=250000
-            small1=250000
+            small4=500000
+            small3=500000
+            small2=500000
+            small1=500000
     )
     batch_size=(
         Size:
@@ -70,7 +84,7 @@ global {
     )
     grad_accum_steps=1
 
-    lr=2e-4
+    lr=3e-4
     min_lr=1e-5
     lr_warmup_steps=2000
     weight_decay=0.1
