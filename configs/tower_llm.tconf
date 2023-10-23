@@ -390,6 +390,49 @@ global {
     tokenizer_words_per_source=1000000000
     extra_tokens=2000
 
+    percentile=(
+        Dataset:
+            en='whitespace'
+            en_wiki='whitespace'
+            en_gutenberg='whitespace'
+            en_arxiv='whitespace'
+            en_bookcorpus='whitespace'
+            de='whitespace'
+            de_wiki='whitespace'
+            de_gutenberg='whitespace'
+            es='whitespace'
+            es_wiki='whitespace'
+            es_gutenberg='whitespace'
+            fr='whitespace'
+            fr_wiki='whitespace'
+            fr_gutenberg='whitespace'
+            it='whitespace'
+            it_wiki='whitespace'
+            it_gutenberg='whitespace'
+            nl='whitespace'
+            nl_wiki='whitespace'
+            nl_gutenberg='whitespace'
+            pt='whitespace'
+            pt_wiki='whitespace'
+            pt_gutenberg='whitespace'
+            pl='whitespace'
+            pl_wiki='whitespace'
+            pl_gutenberg='whitespace'
+            ru='whitespace'
+            ru_wiki='whitespace'
+            ru_gutenberg='whitespace'
+            sv='whitespace'
+            sv_wiki='whitespace'
+            sv_gutenberg='whitespace'
+            ko='whitespace'
+            ko_wiki='whitespace'
+            zh='jieba'
+            zh_wiki='jieba'
+            zh_gutenberg='jieba'
+            code='whitespace'
+            bilingual='whitespace'
+    )
+
     eval_metric=loss
     eval_iteration=(
         EvalIteration:

@@ -42,9 +42,10 @@ task TrainTokenizer
     < eval_sets=$eval_set[EvalSet:*]
     > tokenizer
     :: repo=@
+    :: pre_tokenizer=$pre_tokenizer[Dataset:*]
+    :: vocab_size=@
     :: words_per_source=$tokenizer_words_per_source[Dataset:*]
     :: extra_tokens=@
-    :: code=@
     :: .submitter=@
     :: .account=$traintok_account
     :: .partition=$traintok_partition
@@ -53,15 +54,17 @@ task TrainTokenizer
     :: .mem=$traintok_mem
 {
     mkdir tok_corpus
+    mkdir tokenizer
     echo "Preparing tokenizer corpus..."
     python $repo/scripts/prepare_tokenizer_corpus.py \
         --data_paths $dataset_json \
         --words_per_source $words_per_source \
-        --output tok_corpus/data  
-        $([ "$code" == true ] && echo "--code" || echo "") \
+        --output tok_corpus/data \
+        --pre_tokenizer 
     echo "Training tokenizer..."
     python $repo/scripts/train_tokenizer.py \
-        --corpus $tokenizer_corpus \
+        --data_path $tokenizer_corpus \
+        --vocab_size $vocab_size
         --extra_tokens $extra_tokens \
         --output $tokenizer
     echo "Analyzing tokenizer..."

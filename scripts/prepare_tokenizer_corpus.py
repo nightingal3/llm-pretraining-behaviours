@@ -13,7 +13,6 @@ parser.add_argument('--words_per_source', type=int, nargs='+')
 parser.add_argument('--data_type', choices=['jsonl', 'hf', 'gzip'], default='jsonl')
 parser.add_argument('--pre_tokenizer', nargs='+', choices=['whitespace', 'jieba'], default=['whitespace'])
 parser.add_argument('--output_dir')
-parser.add_argument('--code', default=False, action='store_true')')
 args = parser.parse_args()
 
 if len(args.words_per_source) > 1 and len(args.words_per_source) != len(args.data_paths):
@@ -56,13 +55,13 @@ for i, (data_path, max_words, pretok) in enumerate(zip(
             if j % 10000 == 0:
                 print(f"Prepared {j} documents", flush=True)
 
-            text = doc['content'] if args.code else doc['text']
+            text = doc['content'] if 'text' not in doc.keys()  else doc['text']
             print(text, file=f)
 
             if pretok == 'jieba':
-                n_words = len(jieba.lcut(doc['text']))
+                n_words = len(jieba.lcut(text))
             elif pretok == 'whitespace':
-                n_words += len(doc['text'].split(' '))
+                n_words += len(text.split(' '))
             else:
                 raise ValueError(f"Unknown pre-tokenizer: {pretok}")
         
