@@ -33,27 +33,27 @@ global {
             it=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/it/
             it_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/it/lid/
             it_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/it/lid/
-            nl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/nl
+            nl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/nl/
             nl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/nl/lid/
             nl_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/nl/lid/
-            pt=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pt
+            pt=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pt/
             pt_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pt/lid/
             pt_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/pt/lid/
-            pl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pl
+            pl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pl/
             pl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pl/lid/
             pl_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/pl/lid/
-            ru=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ru
+            ru=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ru/
             ru_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ru/lid/
             ru_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/ru/lid/
-            sv=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/sv
+            sv=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/sv/
             sv_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/sv/lid/
             sv_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/sv/lid/
-            ko=/gpfsstore/rech/hxz/ued79zb/towerllm-data/ko/0000.json.gz
+            ko=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ko/
             ko_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ko/lid/
-            zh=/gpfsstore/rech/hxz/ued79zb/towerllm-data/zh/0000.json.gz
+            zh=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/zh/
             zh_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/zh/lid/
             zh_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/zh/lid/
-            code=/gpfsstore/rech/hxz/ued79zb/towerllm-data/code/
+            code=/gpfsstore/rech/hxz/ued79zb/towerllm-data/code/data
             bilingual=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/v1
     )
 
@@ -391,6 +391,11 @@ global {
     extra_tokens=2000
 
     eval_metric=loss
+    eval_iteration=(
+        EvalIteration:
+            latest=""
+            100k=100000
+    )
     
     # model parameters
     model_config=(

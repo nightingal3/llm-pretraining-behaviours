@@ -71,10 +71,13 @@ def get_cleaned_dataset(
     i=0
     for folder in os.listdir(directory):
         if "json" in folder:
+            # not a folder
             path=directory+folder
+        elif "perplexity" in folder:
+            path=directory+folder+"/0000.json.gz"
         else:
             path=directory+folder+"/perplexity/0000.json.gz"
-        assert os.path.exists(path), "Path does not exist"
+        assert os.path.exists(path), f"Path does not exist {path}"
         data = open_read_cleaned(path)
         if i==0:
             i+=1

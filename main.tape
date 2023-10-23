@@ -2,7 +2,6 @@ import "submitters/scslurm.tape"
 
 task DumpHFDataset 
     > dataset_json=dataset.json
-    > test_data
     :: dataset_name=@
     :: dataset_path=@
     :: dataset_dirs=@
@@ -22,11 +21,8 @@ task DumpHFDataset
     :: .cpus=$dump_cpus
     :: .mem=$dump_mem
 {
-    echo "bilingual: $bilingual"
-    # check if filter is set
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
-        --shuffle \
         --output $dataset_json \
         $([ ! -z "$dataset_dirs" ] && echo "--dataset_dirs $dataset_dirs" || echo "") \
         $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
@@ -262,6 +258,7 @@ task Train
     :: .cpus=$train_cpus
     :: .gres=$train_gres
     :: .mem=$train_mem
+    :: .restart_on_timeout=true
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: external_model_dir=@
@@ -360,7 +357,7 @@ task Train
         fi
     fi
 
-    mkdir tensorboard
+    mkdir -p tensorboard
     tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
     micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
     $launcher $distributed_args \
@@ -416,7 +413,11 @@ task Train
 
 
 task Eval
-    < trained_model=$model_dir@Train
+    < trained_model=(
+        UseExternal:
+            false=$model_dir@Train
+            true=$external_model_dir
+        )
     < eval_set=@
     > eval_results 
     :: .submitter=@ 
@@ -436,6 +437,7 @@ task Eval
     :: master_addr=@
     :: master_port=@
     :: eval_metric=@
+    :: eval_iteration=@
     :: external_tokenizer=@
     :: model_config=@
     :: rdzv_port=@
@@ -500,6 +502,7 @@ task Eval
         --tokenizer-type PretrainedFromHF \
         --tokenizer-name-or-path $external_tokenizer \
         --load $trained_model \
+        $( [ "$eval_iteration" != "" ] && echo "--load-iteration $eval_iteration" || echo "") \
         --micro-batch-size $batch_size \
         --log-interval 10 \
         --no-load-optim \
@@ -510,7 +513,11 @@ task Eval
 }
 
 task ConvertHF
-    < trained_model=$model_dir@Train
+    < trained_model=(
+        UseExternal:
+            false=$model_dir@Train
+            true=$external_model_dir
+        )
     > hf_model_dir=hf_model
     :: .submitter=@
     :: .C=$convert_C
@@ -540,7 +547,10 @@ task ConvertHF
     python $repo/scripts/convert_to_hf_model.py \
         model.bin $hf_model_dir \
         --config-yml=$repo/configs/models/$model_config.yml \
-        --tokenizer-name=$external_tokenizer \
+        --tokenizer-name=$external_tokenizer 
+
+    # clean up
+    rm model.bin
 }
 
 plan TrainTokenizer {
@@ -548,15 +558,23 @@ plan TrainTokenizer {
 }
 
 plan Preprocess {
-    reach PreprocessDataset via (Dataset: es es_gutenberg)
+    reach DumpHFDataset via (Dataset: *)
 }
 
 plan ScalingAnalysis {
-    reach Train via (Size: small1 small2 small3 small4) * (DataMix: equal)
+    reach Train via (Size: small1 small2 small3 small4) * (DataMix: *)
 }
 
 plan TrainLLM {
     reach Eval via (Size: base)
+}
+
+plan MidTrainingEval {
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 200k) * (EvalSet: *)
+}
+
+plan MidTrainingConvert {
+    reach ConvertHF via (Size: small4) * (DataMix: *) * (UseExternal: true) 
 }
 
 plan ConvertHF {

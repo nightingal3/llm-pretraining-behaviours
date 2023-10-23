@@ -1,10 +1,9 @@
 import "croissant_llm_uservars.tconf"
 
 global {
-    # WARNING: change these variables to your own paths
-
     ducttape_experimental_imports=true
     ducttape_experimental_submitters=true
+    ducttape_experimental_multiproc=true
 
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
@@ -24,11 +23,14 @@ global {
             english=/gpfsstore/rech/hxz/ued79zb/croissllm-data/manu/english-60b
             code=/gpfsstore/rech/hxz/ued79zb/croissllm-data/manu/code-20b
     )
+    hf_dataset=true
     dataset_dirs=""
     dataset_stream=false
     filter=false
     percentile=50
     n_tokens=""
+    n_tokens_test=""
+    bilingual=false
 
     datamix_weights=(
         DataMix:
@@ -53,9 +55,13 @@ global {
     )
     extra_tokens=1000
 
-
     eval_metric=loss
-    
+    eval_iteration=(
+        EvalIteration:
+            latest=""
+            100k=100000
+            200k=200000
+    )
     # model parameters
     model_config=(
         Size: 

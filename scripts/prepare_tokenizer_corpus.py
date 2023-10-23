@@ -11,6 +11,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--data_paths', type=str, nargs='+')
 parser.add_argument('--words_per_source', type=int, nargs='+')
 parser.add_argument('--data_type', choices=['jsonl', 'hf', 'gzip'], default='jsonl')
+parser.add_argument('--pre_tokenizer', nargs='+', choices=['whitespace', 'jieba'], default=['whitespace'])
 parser.add_argument('--output_dir')
 parser.add_argument('--code', default=False, action='store_true')')
 args = parser.parse_args()
@@ -21,6 +22,12 @@ if len(args.words_per_source) > 1 and len(args.words_per_source) != len(args.dat
 if len(args.words_per_source) == 1:
     args.words_per_source = args.words_per_source[0] * len(args.data_paths)
 
+if len(args.pre_tokenizer) > 1 and len(args.pre_tokenizer) != len(args.data_paths):
+    raise ValueError("`pre_tokenizer` must be either a single value or a list of the same length as `data_paths`")
+
+if len(args.pre_tokenizer) == 1:
+    args.pre_tokenizer = args.pre_tokenizer[0] * len(args.data_paths)
+
 def _close_when_exhausted(file: TextIO) -> Iterable[str]:
     with file:
         for line in file:
@@ -30,7 +37,11 @@ def open_read_cleaned(filename, is_gzip=False) -> Iterable[str]:
     file: TextIO = gzip.open(filename, "rt")  if is_gzip else open(filename, "r")
     return _close_when_exhausted(file)
 
-for i, (data_path, max_words) in enumerate(zip(args.data_paths, args.words_per_source), 1):
+for i, (data_path, max_words, pretok) in enumerate(zip(
+    args.data_paths, 
+    args.words_per_source,
+    args.pre_tokenizer
+), 1):
     print(f"Processing {data_path}...", flush=True)
     # open the json file 
     if args.data_type == 'jsonl' or args.data_type == 'gzip':
@@ -44,14 +55,17 @@ for i, (data_path, max_words) in enumerate(zip(args.data_paths, args.words_per_s
         for j, doc in enumerate(corpus, 1):
             if j % 10000 == 0:
                 print(f"Prepared {j} documents", flush=True)
-            if args.code:
-                print(doc['content'], file=f)
+
+            text = doc['content'] if args.code else doc['text']
+            print(text, file=f)
+
+            if pretok == 'jieba':
+                n_words = len(jieba.lcut(doc['text']))
+            elif pretok == 'whitespace':
+                n_words += len(doc['text'].split(' '))
             else:
-                print(doc['text'], file=f)
-        if args.code:
-            n_words += len(doc['content'].split(' '))
-        else:
-            n_words += len(doc['text'].split(' '))
-        if n_words>=max_words:
-            break
+                raise ValueError(f"Unknown pre-tokenizer: {pretok}")
+        
+            if n_words>=max_words:
+                break
 
