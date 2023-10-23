@@ -43,7 +43,7 @@ task TrainTokenizer
     :: repo=@
     :: pre_tokenizer=$pre_tokenizer[Dataset:*]
     :: vocab_size=@
-    :: words_per_source=$tokenizer_words_per_source[Dataset:*]
+    :: words_per_source=$tokenizer_words_per_source
     :: extra_tokens=@
     :: .submitter=@
     :: .account=$traintok_account
@@ -59,7 +59,7 @@ task TrainTokenizer
         --data_paths $dataset_json \
         --words_per_source $words_per_source \
         --output tok_corpus/data \
-        --pre_tokenizer 
+        --pre_tokenizer $pre_tokenizer
     echo "Training tokenizer..."
     python $repo/scripts/train_tokenizer.py \
         --data_path $tokenizer_corpus \

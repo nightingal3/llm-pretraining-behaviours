@@ -8,6 +8,7 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=true
+    external_tensorboard=""
 
     # dataset pamaeters
     dataset_name=(
@@ -55,6 +56,7 @@ global {
             code=1000000000
     )
     extra_tokens=1000
+    pre_tokenizer=whitespace
 
     eval_metric=loss
     eval_iteration=(

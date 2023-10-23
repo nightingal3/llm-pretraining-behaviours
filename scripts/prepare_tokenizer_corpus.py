@@ -9,7 +9,7 @@ print("Running prepare_tokenizer_corpus.py", flush=True)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_paths', type=str, nargs='+')
-parser.add_argument('--words_per_source', type=int, nargs='+')
+parser.add_argument('--words_per_source', type=int, nargs='+', default=[1000000])
 parser.add_argument('--data_type', choices=['jsonl', 'hf', 'gzip'], default='jsonl')
 parser.add_argument('--pre_tokenizer', nargs='+', choices=['whitespace', 'jieba'], default=['whitespace'])
 parser.add_argument('--output_dir')
@@ -20,13 +20,13 @@ if len(args.words_per_source) > 1 and len(args.words_per_source) != len(args.dat
     raise ValueError("`words_per_source` must be either a single value or a list of the same length as `data_paths`")
 
 if len(args.words_per_source) == 1:
-    args.words_per_source = args.words_per_source[0] * len(args.data_paths)
+    args.words_per_source = [args.words_per_source[0]] * len(args.data_paths)
 
 if len(args.pre_tokenizer) > 1 and len(args.pre_tokenizer) != len(args.data_paths):
     raise ValueError("`pre_tokenizer` must be either a single value or a list of the same length as `data_paths`")
 
 if len(args.pre_tokenizer) == 1:
-    args.pre_tokenizer = args.pre_tokenizer[0] * len(args.data_paths)
+    args.pre_tokenizer = [args.pre_tokenizer[0]] * len(args.data_paths)
 
 print(args.data_paths, args.words_per_source, args.pre_tokenizer)
 

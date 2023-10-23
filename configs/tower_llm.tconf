@@ -369,7 +369,7 @@ global {
     tokenizer_words_per_source=1000000000
     extra_tokens=2000
 
-    percentile=(
+    pre_tokenizer=(
         Dataset:
             en='whitespace'
             en_wiki='whitespace'
@@ -409,7 +409,6 @@ global {
             zh_wiki='jieba'
             zh_gutenberg='jieba'
             code='whitespace'
-            bilingual='whitespace'
     )
 
     eval_metric=loss
