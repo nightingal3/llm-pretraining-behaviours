@@ -32,6 +32,7 @@ def get_hf_dataset(
     stream: bool=False,
     shuffle: bool=False,
     shards: int=1000,
+    code: bool=False
 ):
     if path is not None:
         assert os.path.exists(path), f"Path does not exist, {path}"
@@ -48,8 +49,8 @@ def get_hf_dataset(
             dataset_name, 
             data_files=data_files,
             streaming=stream)
-        
-    dataset = dataset[split]
+    if not code:
+        dataset = dataset[split]
     if shuffle:
         print("Shuffling dataset")
         # we shard the dataset to speed up shuffling
@@ -186,6 +187,61 @@ def filter_hf_dataset(
 
     return dataset
 
+def filter_code_dataset(
+    dataset: datasets.Dataset,
+    max_tokens: Optional[int]=None,
+    max_tokens_test: Optional[int]=None,
+    max_samples: Optional[int]=None,
+    percentile: Optional[int]=50
+):
+    assert (max_tokens is not None or 
+            max_samples is not None or
+            percentile is not None
+    ), "Must specify either max_tokens or percentile"
+
+    if percentile is not None:
+        stars=[]
+        for doc in dataset:
+            if doc['source'] not in ['git-commits', 'git-issues']:
+                stars.append(doc['max_stars_count'])
+            if len(stars)>1000000:
+                break
+        threshold = np.median(np.array(stars))
+        print('threshold', threshold)
+
+    if max_tokens_test is not None:
+        n_words_test=0
+        n_docs_test=0
+        data_test=[]
+        for idx in range(len(dataset)):
+            if dataset[idx]['source'] in ['git-commits', 'git-issues'] or dataset[idx]['max_stars_count']>=threshold:
+                n_words_test += len(dataset[int(idx)]['content'].split(' '))
+                data_test.append(dataset[int(idx)]['content'])
+                if n_words_test>=max_tokens_test:
+                    n_docs_test=idx
+                    break
+        with open('test_data','w') as f:
+            f.write('\n'.join(data_test))
+
+    if max_tokens is not None:
+        n_words=0
+        dataset_idxs=[]
+        for idx in range(n_docs_test+1, len(dataset)):
+            if dataset[idx]['source'] in ['git-commits', 'git-issues'] or dataset[idx]['max_stars_count']>=threshold:
+                dataset_idxs.append(idx)
+                n_words += len(dataset[int(idx)]['content'].split(' '))
+                if n_words>=max_tokens:
+                    break
+    
+        print('n words', n_words)
+        print('n docs', len(dataset_idxs))
+        dataset = dataset.select(dataset_idxs)
+
+    if max_samples is not None:
+        dataset = dataset.select(range(max_samples))
+
+    return dataset
+
 def filter_cleaned_dataset(
     dataset: datasets.Dataset,
     max_tokens: Optional[int]=None,
@@ -200,6 +256,7 @@ def filter_cleaned_dataset(
             perplexities.append(doc['perplexity'])
             if len(perplexities)>1000000:
                 break
+                
         threshold = np.percentile(np.array(perplexities), percentile)
         print('threshold', threshold)
 
@@ -323,6 +380,7 @@ if __name__ == "__main__":
     parser.add_argument('--text-only', default=False, action='store_true')
     parser.add_argument('--hf_dataset', default=False, action='store_true')
     parser.add_argument('--bilingual', default=False, action='store_true')
+    parser.add_argument('--code', default=False, action='store_true')
     args = parser.parse_args()
     
 
@@ -334,15 +392,25 @@ if __name__ == "__main__":
             split=args.dataset_split,
             stream=args.stream,
             shuffle=args.shuffle,
+            code=args.code
             )
         if args.filter:
-            dataset = filter_hf_dataset(
-                dataset, 
-                percentile=args.percentile,
-                max_tokens=args.n_tokens,
-                max_tokens_test=args.n_tokens_test,
-                max_samples=args.n_docs
-            )
+            if args.code:
+                dataset = filter_code_dataset(
+                    dataset, 
+                    percentile=args.percentile,
+                    max_tokens=args.n_tokens,
+                    max_tokens_test=args.n_tokens_test,
+                    max_samples=args.n_docs
+                )
+            else:
+                dataset = filter_hf_dataset(
+                    dataset, 
+                    percentile=args.percentile,
+                    max_tokens=args.n_tokens,
+                    max_tokens_test=args.n_tokens_test,
+                    max_samples=args.n_docs
+                )
 
     else:
         if args.bilingual:

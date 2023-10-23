@@ -3,6 +3,7 @@ import json
 from typing import Iterable, TextIO
 import gzip
 import datasets
+import jieba
 
 print("Running prepare_tokenizer_corpus.py", flush=True)
 
@@ -11,6 +12,7 @@ parser.add_argument('--data_paths', type=str, nargs='+')
 parser.add_argument('--words_per_source', type=int, nargs='+')
 parser.add_argument('--data_type', choices=['jsonl', 'hf', 'gzip'], default='jsonl')
 parser.add_argument('--output_dir')
+parser.add_argument('--code', default=False, action='store_true')')
 args = parser.parse_args()
 
 if len(args.words_per_source) > 1 and len(args.words_per_source) != len(args.data_paths):
@@ -42,9 +44,14 @@ for i, (data_path, max_words) in enumerate(zip(args.data_paths, args.words_per_s
         for j, doc in enumerate(corpus, 1):
             if j % 10000 == 0:
                 print(f"Prepared {j} documents", flush=True)
-            print(doc['text'], file=f)
-
-        n_words += len(doc['text'].split(' '))
+            if args.code:
+                print(doc['content'], file=f)
+            else:
+                print(doc['text'], file=f)
+        if args.code:
+            n_words += len(doc['content'].split(' '))
+        else:
+            n_words += len(doc['text'].split(' '))
         if n_words>=max_words:
             break
 

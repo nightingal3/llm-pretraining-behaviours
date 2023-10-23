@@ -145,6 +145,48 @@ global {
             bilingual=true
     )
 
+    code=(Dataset:
+            en=false
+            en_wiki=false
+            en_gutenberg=false
+            en_arxiv=false
+            en_bookcorpus=false
+            de=false
+            de_wiki=false
+            de_gutenberg=false
+            es=false
+            es_wiki=false
+            es_gutenberg=false
+            fr=false
+            fr_wiki=false
+            fr_gutenberg=false
+            it=false
+            it_wiki=false
+            it_gutenberg=false
+            nl=false
+            nl_wiki=false
+            nl_gutenberg=false
+            pt=false
+            pt_wiki=false
+            pt_gutenberg=false
+            pl=false
+            pl_wiki=false
+            pl_gutenberg=false
+            ru=false
+            ru_wiki=false
+            ru_gutenberg=false
+            sv=false
+            sv_wiki=false
+            sv_gutenberg=false
+            ko=false
+            ko_wiki=false
+            zh=false
+            zh_wiki=false
+            zh_gutenberg=false
+            code=true
+            bilingual=false
+    )
+
     percentile=(
         Dataset:
             en=50
@@ -184,7 +226,7 @@ global {
             zh=50
             zh_wiki=""
             zh_gutenberg=""
-            code=""
+            code=50
             bilingual=""
     )
 

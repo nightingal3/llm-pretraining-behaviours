@@ -14,6 +14,7 @@ task DumpHFDataset
     :: repo=@
     :: hf_dataset=@
     :: bilingual=@
+    :: code=@
     :: .submitter=@
     :: .account=$dump_account
     :: .partition=$dump_partition
@@ -35,6 +36,7 @@ task DumpHFDataset
         $([ "$dataset_stream" == true ] && echo "--stream" || echo "") \
         $([ "$hf_dataset" == true ] && echo "--hf_dataset" || echo "") \
         $([ "$bilingual" == true ] && echo "--bilingual" || echo "") \
+        $([ "$code" == true ] && echo "--code" || echo "") \
         $([ ! -z "$n_tokens_test" ] && echo "--n_tokens_test $n_tokens_test" || echo "") \
 }
 
@@ -46,6 +48,7 @@ task TrainTokenizer
     :: repo=@
     :: words_per_source=$tokenizer_words_per_source[Dataset:*]
     :: extra_tokens=@
+    :: code=@
     :: .submitter=@
     :: .account=$traintok_account
     :: .partition=$traintok_partition
@@ -59,6 +62,7 @@ task TrainTokenizer
         --data_paths $dataset_json \
         --words_per_source $words_per_source \
         --output tok_corpus/data  
+        $([ "$code" == true ] && echo "--code" || echo "") \
     echo "Training tokenizer..."
     python $repo/scripts/train_tokenizer.py \
         --corpus $tokenizer_corpus \
