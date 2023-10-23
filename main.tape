@@ -71,7 +71,6 @@ task TrainTokenizer
     python $repo/scripts/analyze_tokenizer.py \
         --tokenizer_dir $tokenizer \
         --eval_sets $eval_sets \
-        --output $tokenizer
 }
 
 task PreprocessDataset

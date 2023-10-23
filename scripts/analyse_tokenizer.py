@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--tokenizer_dir')
 parser.add_argument('--eval_sets', required=True, nargs='+')
 parser.add_argument('--baseline_tokenizers', nargs='+', default=[
-    'togethercomputer/LLaMA-2-7B-32K', 'mistralai/Mistral-7B-v0.1'
+    'togethercomputer/LLaMA-2-7B-32K', 'mistralai/Mistral-7B-v0.1', 'bigscience/tokenizer'
 ])
 args = parser.parse_args()
 
