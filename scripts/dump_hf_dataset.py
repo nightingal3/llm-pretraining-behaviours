@@ -419,8 +419,8 @@ if __name__ == "__main__":
         if args.bilingual:
             dataset = get_bilingual_dataset(
                 directory=args.dataset_path,
-                max_tokens=args.max_tokens,
-                max_tokens_test=args.max_tokens_test
+                max_tokens=args.n_tokens,
+                max_tokens_test=args.n_tokens_test
             )
         else:
             dataset = get_cleaned_dataset(

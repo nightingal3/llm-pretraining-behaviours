@@ -31,6 +31,7 @@ global {
     n_tokens=""
     n_tokens_test=""
     bilingual=false
+    code=false
 
     datamix_weights=(
         DataMix:
@@ -61,6 +62,7 @@ global {
             latest=""
             100k=100000
             200k=200000
+            340k=340000
     )
     # model parameters
     model_config=(

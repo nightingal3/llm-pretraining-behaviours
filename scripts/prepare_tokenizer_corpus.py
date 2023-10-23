@@ -13,6 +13,7 @@ parser.add_argument('--words_per_source', type=int, nargs='+')
 parser.add_argument('--data_type', choices=['jsonl', 'hf', 'gzip'], default='jsonl')
 parser.add_argument('--pre_tokenizer', nargs='+', choices=['whitespace', 'jieba'], default=['whitespace'])
 parser.add_argument('--output_dir')
+parser.add_argument('--code', default=False, action='store_true')
 args = parser.parse_args()
 
 if len(args.words_per_source) > 1 and len(args.words_per_source) != len(args.data_paths):
@@ -26,6 +27,8 @@ if len(args.pre_tokenizer) > 1 and len(args.pre_tokenizer) != len(args.data_path
 
 if len(args.pre_tokenizer) == 1:
     args.pre_tokenizer = args.pre_tokenizer[0] * len(args.data_paths)
+
+print(args.data_paths, args.words_per_source, args.pre_tokenizer)
 
 def _close_when_exhausted(file: TextIO) -> Iterable[str]:
     with file:

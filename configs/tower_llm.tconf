@@ -9,6 +9,7 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=true
+    external_tensorboard=""
 
     # dataset pamaeters
     # unused since we pass the dataset path directly to the pipeline
@@ -54,7 +55,6 @@ global {
             zh_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/zh/lid/
             zh_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/zh/lid/
             code=/gpfsstore/rech/hxz/ued79zb/towerllm-data/code/data
-            bilingual=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/v1
     )
 
     dataset_dirs=""
@@ -100,7 +100,6 @@ global {
             zh_wiki=false
             zh_gutenberg=false
             code=true
-            bilingual=false
     )
 
     bilingual=(Dataset:
@@ -142,7 +141,6 @@ global {
             zh_wiki=false
             zh_gutenberg=false
             code=false
-            bilingual=true
     )
 
     code=(Dataset:
@@ -184,7 +182,6 @@ global {
             zh_wiki=false
             zh_gutenberg=false
             code=true
-            bilingual=false
     )
 
     percentile=(
@@ -227,7 +224,6 @@ global {
             zh_wiki=""
             zh_gutenberg=""
             code=50
-            bilingual=""
     )
 
 
@@ -271,7 +267,6 @@ global {
             zh_wiki=1000000000
             zh_gutenberg=1000000000
             code=2000000000
-            bilingual=1000000000
     )
 
     n_tokens_test=(
@@ -314,7 +309,6 @@ global {
             zh_wiki=500000
             zh_gutenberg=500000
             code=500000
-            bilingual=500000
     )
 
     datamix_weights=(
@@ -332,7 +326,7 @@ global {
                 sv=1 sv_wiki=1 sv_gutenberg=1 
                 ko=2 ko_wiki=1 
                 zh=1 zh_wiki=1 zh_gutenberg=1 
-                code=3 bilingual=0
+                code=3
                 )
             enmid=(Dataset: 
                 en=43 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
@@ -347,7 +341,7 @@ global {
                 sv=2 sv_wiki=1 sv_gutenberg=1 
                 ko=3 ko_wiki=1 
                 zh=2 zh_wiki=1 zh_gutenberg=1 
-                code=3 bilingual=0
+                code=3
                 )
             enless=(Dataset: 
                 en=32 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
@@ -362,22 +356,7 @@ global {
                 sv=2 sv_wiki=2 sv_gutenberg=1 
                 ko=3 ko_wiki=2  
                 zh=2 zh_wiki=2 zh_gutenberg=1 
-                code=3 bilingual=0
-                )
-            enless_biling=(Dataset: 
-                en=30 en_wiki=4 en_gutenberg=4 en_arxiv=1 en_bookcorpus=1 
-                de=2 de_wiki=2 de_gutenberg=1 
-                es=2 es_wiki=2 es_gutenberg=1 
-                fr=2 fr_wiki=2 fr_gutenberg=1 
-                it=2 it_wiki=2 it_gutenberg=1 
-                nl=2 nl_wiki=2 nl_gutenberg=1 
-                pt=2 pt_wiki=2 pt_gutenberg=1 
-                pl=2 pl_wiki=2 pl_gutenberg=1 
-                ru=2 ru_wiki=2 ru_gutenberg=1 
-                sv=2 sv_wiki=2 sv_gutenberg=1 
-                ko=3 ko_wiki=2
-                zh=2 zh_wiki=2 zh_gutenberg=1 
-                code=3 bilingual=2
+                code=3
                 )
     )
 
