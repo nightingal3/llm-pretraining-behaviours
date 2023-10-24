@@ -7,6 +7,7 @@ import nltk
 import transformers
 import json
 from collections import defaultdict
+import jieba
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--tokenizer_dir')
@@ -43,8 +44,11 @@ for eval_set in args.eval_sets:
         tokenized.append(tokens)
         for i in range(len(baseline_tokenizers)):
             baseline_tokenized[i].append(baseline_tokens[i])
-
-        non_tokenized.append(nltk.word_tokenize(line))
+        
+        if 'zh' in eval_set:
+            non_tokenized.append(jieba.lcut(line))
+        else:
+            non_tokenized.append(nltk.word_tokenize(line))
 
     set_name = os.path.basename(eval_set)
     data[set_name] = non_tokenized
@@ -77,7 +81,9 @@ for set_name in data:
 
     raw_counts = compute_stats(raw)
     seg_counts = compute_stats(seg)
-    baseline_counts = [compute_stats(baseline_seg) for baseline_seg in baseline_segs]
+
+    baseline_counts = [compute_stats(baseline_seg[set_name]) for baseline_seg in baseline_segs]
+    print('baseline', baseline_counts)
     pieces = seg_counts["toks"]
 
     words = raw_counts["toks"]
@@ -87,7 +93,7 @@ for set_name in data:
 
     sents_per_context = 2048 * sents / pieces
 
-    results_json["ours"][eval_set] = {
+    results_json["ours"][set_name] = {
         "pieces/word": pieces / words,
         "pieces/sentence": pieces / sents,
         "chars/piece": nc / pieces,
@@ -96,19 +102,15 @@ for set_name in data:
     }
     for i in range(len(baseline_tokenizers)):
         baseline_pieces = baseline_counts[i]["toks"]
-        baseline_words = baseline_counts[i]["toks"]
-        baseline_sents = baseline_counts[i]["nseqs"]
-        baseline_nc = baseline_counts[i]["chars"]
-        baseline_nb = baseline_counts[i]["bytes"]
 
-        baseline_sents_per_context = 2048 * baseline_sents / baseline_pieces
-        results_json[args.baseline_tokenizers[i]][eval_set] = {
-            "pieces/word": baseline_pieces / baseline_words,
-            "pieces/sentence": baseline_pieces / baseline_sents,
-            "chars/piece": baseline_nc / baseline_pieces,
-            "bytes/piece": baseline_nb / baseline_pieces,
+        baseline_sents_per_context = 2048 * sents / baseline_pieces
+        results_json[args.baseline_tokenizers[i]][set_name] = {
+            "pieces/word": baseline_pieces / words,
+            "pieces/sentence": baseline_pieces / sents,
+            "chars/piece": nc / baseline_pieces,
+            "bytes/piece": nb / baseline_pieces,
             "sentences/context": baseline_sents_per_context,
         }
 
-with open('analysis_results', 'w') as f:
+with open('./analysis_results', 'w') as f:
     json.dump(results_json, f, indent=2)
