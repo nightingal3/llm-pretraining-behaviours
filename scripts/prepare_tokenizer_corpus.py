@@ -59,7 +59,7 @@ for i, (data_path, max_words, pretok) in enumerate(zip(
             print(text, file=f)
 
             if pretok == 'jieba':
-                n_words = len(jieba.lcut(text))
+                n_words += len(jieba.lcut(text))
             elif pretok == 'whitespace':
                 n_words += len(text.split(' '))
             else:

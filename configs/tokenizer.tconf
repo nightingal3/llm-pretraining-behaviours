@@ -1,5 +1,5 @@
 global {
-    ducttape_output=/mnt/data_2/shared/tower_llm_training/tokenizer/tokenizer_en_de_es_fr_it_ko_nl_pl_pt_ru_sv_zh
+    ducttape_output=/mnt/data_2/shared/tower_llm_training/tokenizer/new_tokenizer
     repo=/mnt/data/pmartins/code/tower-llm-training
     
     data_path_de=/mnt/data_2/shared/tower_llm_data/de/2/0000.json.gz
