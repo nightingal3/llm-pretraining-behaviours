@@ -8,6 +8,7 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=true
+    external_tensorboard=""
 
     # dataset pamaeters
     dataset_name=(
@@ -31,6 +32,7 @@ global {
     n_tokens=""
     n_tokens_test=""
     bilingual=false
+    code=false
 
     datamix_weights=(
         DataMix:
@@ -54,6 +56,7 @@ global {
             code=1000000000
     )
     extra_tokens=1000
+    pre_tokenizer=whitespace
 
     eval_metric=loss
     eval_iteration=(
@@ -61,6 +64,7 @@ global {
             latest=""
             100k=100000
             200k=200000
+            340k=340000
     )
     # model parameters
     model_config=(

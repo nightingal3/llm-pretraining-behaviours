@@ -39,12 +39,11 @@ task DumpHFDataset
 # Warning: This is working, but isnt passed to subsequent tasks
 task TrainTokenizer
     < dataset_json=@DumpHFDataset[Dataset:*]
-    < eval_sets=$eval_set[EvalSet:*]
     > tokenizer
     :: repo=@
     :: pre_tokenizer=$pre_tokenizer[Dataset:*]
     :: vocab_size=@
-    :: words_per_source=$tokenizer_words_per_source[Dataset:*]
+    :: words_per_source=$tokenizer_words_per_source
     :: extra_tokens=@
     :: .submitter=@
     :: .account=$traintok_account
@@ -60,7 +59,7 @@ task TrainTokenizer
         --data_paths $dataset_json \
         --words_per_source $words_per_source \
         --output tok_corpus/data \
-        --pre_tokenizer 
+        --pre_tokenizer $pre_tokenizer
     echo "Training tokenizer..."
     python $repo/scripts/train_tokenizer.py \
         --data_path $tokenizer_corpus \
@@ -265,6 +264,7 @@ task Train
     :: use_deepseed=(UseDeepSpeed: true false)
     :: external_model_dir=@
     :: external_resume=@
+    :: external_tensorboard=@
     :: external_tokenizer=@
     :: gpus=@
     :: tp=@
@@ -359,7 +359,13 @@ task Train
         fi
     fi
 
-    mkdir -p tensorboard
+    if [ "$external_tensorboard" != "" ]; then
+        mkdir -p $external_tensorboard
+        ln -s $external_tensorboard tensorboard
+    else
+        mkdir -p tensorboard
+    fi
+
     tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
     micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
     $launcher $distributed_args \
@@ -572,7 +578,7 @@ plan TrainLLM {
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 200k) * (EvalSet: *)
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 340k) * (EvalSet: *)
 }
 
 plan MidTrainingConvert {
