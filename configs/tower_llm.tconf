@@ -360,13 +360,53 @@ global {
                 )
     )
 
-    external_tokenizer=""
+    external_tokenizer="/gpfswork/rech/hxz/ued79zb/towerllm-tokenizer"
 
     # training tokenizer parameters
     # WARNING: not passed to the rest of the pipeline
     # export and pass as external_tokenizer for now
     vocab_size=128000
-    tokenizer_words_per_source=1000000000
+    tokenizer_words_per_source=(
+        Dataset:
+        en=250000000
+        en_wiki=250000000
+        en_gutenberg=250000000
+        en_arxiv=250000000
+        en_bookcorpus=250000000
+        de=250000000
+        de_wiki=250000000
+        de_gutenberg=250000000
+        es=250000000
+        es_wiki=250000000
+        es_gutenberg=250000000
+        fr=250000000
+        fr_wiki=250000000
+        fr_gutenberg=250000000
+        it=250000000
+        it_wiki=250000000
+        it_gutenberg=250000000
+        nl=250000000
+        nl_wiki=250000000
+        nl_gutenberg=250000000
+        pt=250000000
+        pt_wiki=250000000
+        pt_gutenberg=250000000
+        pl=250000000
+        pl_wiki=250000000
+        pl_gutenberg=250000000
+        ru=250000000
+        ru_wiki=250000000
+        ru_gutenberg=250000000
+        sv=250000000
+        sv_wiki=250000000
+        sv_gutenberg=250000000
+        ko=250000000
+        ko_wiki=250000000
+        zh=500000000
+        zh_wiki=500000000
+        zh_gutenberg=250000000
+        code=250000000
+    )
     extra_tokens=2000
 
     pre_tokenizer=(
@@ -405,9 +445,9 @@ global {
             sv_gutenberg='whitespace'
             ko='whitespace'
             ko_wiki='whitespace'
-            zh='words'
-            zh_wiki='words'
-            zh_gutenberg='words'
+            zh='characters'
+            zh_wiki='characters'
+            zh_gutenberg='characters'
             code='whitespace'
     )
 
@@ -468,22 +508,8 @@ global {
     pp=1
     zero_stage=2
     master_addr=localhost
-    master_port=(
-        Size:
-            base=61200
-            small4=61202
-            small3=61203
-            small2=61204
-            small1=61205
-    )
-    rdzv_port=(
-        Size:
-            base=29700
-            small4=29702
-            small3=29703
-            small2=29704
-            small1=29705
-    )
+    master_port=""
+    rdzv_port=""
     cpu_workers=16
     seed=911
 }
