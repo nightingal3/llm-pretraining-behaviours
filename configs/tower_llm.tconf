@@ -230,18 +230,18 @@ global {
     n_tokens=(
         Dataset:
             en=63000000000
-            en_wiki=2000000000
+            en_wiki=5000000000
             en_gutenberg=2000000000
-            en_arxiv=1000000000
+            en_arxiv=14000000000
             en_bookcorpus=1000000000
             de=5000000000
-            de_wiki=1000000000
+            de_wiki=5000000000
             de_gutenberg=1000000000
             es=5000000000
-            es_wiki=1000000000
+            es_wiki=2000000000
             es_gutenberg=1000000000
             fr=5000000000
-            fr_wiki=1000000000
+            fr_wiki=2000000000
             fr_gutenberg=1000000000
             it=5000000000
             it_wiki=1000000000
@@ -256,14 +256,14 @@ global {
             pl_wiki=1000000000
             pl_gutenberg=1000000000
             ru=5000000000
-            ru_wiki=1000000000
+            ru_wiki=2000000000
             ru_gutenberg=1000000000
             sv=5000000000
             sv_wiki=1000000000
             sv_gutenberg=1000000000
             ko=5000000000
             ko_wiki=1000000000
-            zh=10000000000
+            zh=20000000000
             zh_wiki=2000000000
             zh_gutenberg=2000000000
             code=3000000000
@@ -314,48 +314,63 @@ global {
     datamix_weights=(
         DataMix:
             enplus=(Dataset: 
-                en=597 en_wiki=20 en_gutenberg=10 en_arxiv=10 en_bookcorpus=3 
-                de=24 de_wiki=5 de_gutenberg=1 
-                es=24 es_wiki=5 es_gutenberg=1 
-                fr=24 fr_wiki=5 fr_gutenberg=1 
-                it=25 it_wiki=5 it_gutenberg=0 
-                nl=24 nl_wiki=5 nl_gutenberg=1 
-                pt=24 pt_wiki=5 pt_gutenberg=1 
-                pl=25 pl_wiki=5 pl_gutenberg=0 
-                ru=25 ru_wiki=5 ru_gutenberg=0 
+                en=484 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=9 de_wiki=20 de_gutenberg=1 
+                es=17 es_wiki=12 es_gutenberg=1 
+                fr=13 fr_wiki=16 fr_gutenberg=1 
+                it=20 it_wiki=10 it_gutenberg=0 
+                nl=23 nl_wiki=6 nl_gutenberg=1 
+                pt=23 pt_wiki=6 pt_gutenberg=1 
+                pl=24 pl_wiki=6 pl_gutenberg=0 
+                ru=16 ru_wiki=14 ru_gutenberg=0 
                 sv=25 sv_wiki=5 sv_gutenberg=0 
                 ko=25 ko_wiki=5 
-                zh=24 zh_wiki=5 zh_gutenberg=1 
+                zh=22 zh_wiki=7 zh_gutenberg=1 
                 code=30
                 )
             enmid=(Dataset: 
-                en=487 en_wiki=20 en_gutenberg=10 en_arxiv=10 en_bookcorpus=3 
-                de=34 de_wiki=5 de_gutenberg=1 
-                es=34 es_wiki=5 es_gutenberg=1 
-                fr=34 fr_wiki=5 fr_gutenberg=1 
-                it=35 it_wiki=5 it_gutenberg=0 
-                nl=34 nl_wiki=5 nl_gutenberg=1 
-                pt=34 pt_wiki=5 pt_gutenberg=1 
-                pl=35 pl_wiki=5 pl_gutenberg=0 
-                ru=35 ru_wiki=5 ru_gutenberg=0
+                en=374 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=19 de_wiki=20 de_gutenberg=1 
+                es=27 es_wiki=12 es_gutenberg=1 
+                fr=23 fr_wiki=16 fr_gutenberg=1 
+                it=30 it_wiki=10 it_gutenberg=0 
+                nl=33 nl_wiki=6 nl_gutenberg=1 
+                pt=33 pt_wiki=6 pt_gutenberg=1 
+                pl=34 pl_wiki=6 pl_gutenberg=0 
+                ru=26 ru_wiki=14 ru_gutenberg=0
                 sv=35 sv_wiki=5 sv_gutenberg=0 
                 ko=35 ko_wiki=5 
-                zh=34 zh_wiki=5 zh_gutenberg=1 
+                zh=32 zh_wiki=7 zh_gutenberg=1 
                 code=30
                 )
             enless=(Dataset: 
-                en=377 en_wiki=20 en_gutenberg=10 en_arxiv=10 en_bookcorpus=3 
-                de=44 de_wiki=5 de_gutenberg=1 
-                es=44 es_wiki=5 es_gutenberg=1 
-                fr=44 fr_wiki=5 fr_gutenberg=1 
-                it=45 it_wiki=5 it_gutenberg=0 
-                nl=44 nl_wiki=5 nl_gutenberg=1 
-                pt=44 pt_wiki=5 pt_gutenberg=1 
-                pl=45 pl_wiki=5 pl_gutenberg=0 
-                ru=45 ru_wiki=5 ru_gutenberg=0 
+                en=264 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=29 de_wiki=20 de_gutenberg=1 
+                es=37 es_wiki=12 es_gutenberg=1 
+                fr=33 fr_wiki=16 fr_gutenberg=1 
+                it=40 it_wiki=10 it_gutenberg=0 
+                nl=43 nl_wiki=6 nl_gutenberg=1 
+                pt=43 pt_wiki=6 pt_gutenberg=1 
+                pl=44 pl_wiki=6 pl_gutenberg=0 
+                ru=36 ru_wiki=14 ru_gutenberg=0 
                 sv=45 sv_wiki=5 sv_gutenberg=0 
                 ko=45 ko_wiki=5  
-                zh=44 zh_wiki=5 zh_gutenberg=1 
+                zh=42 zh_wiki=7 zh_gutenberg=1 
+                code=30
+                )
+            enmid_twowiki=(Dataset: 
+                en=331 en_wiki=86 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=0 de_wiki=39 de_gutenberg=1 
+                es=15 es_wiki=24 es_gutenberg=1 
+                fr=7 fr_wiki=32 fr_gutenberg=1 
+                it=20 it_wiki=20 it_gutenberg=0 
+                nl=27 nl_wiki=12 nl_gutenberg=1 
+                pt=27 pt_wiki=12 pt_gutenberg=1 
+                pl=28 pl_wiki=12 pl_gutenberg=0 
+                ru=12 ru_wiki=28 ru_gutenberg=0
+                sv=30 sv_wiki=10 sv_gutenberg=0 
+                ko=30 ko_wiki=10 
+                zh=25 zh_wiki=14 zh_gutenberg=1 
                 code=30
                 )
     )
