@@ -62,14 +62,14 @@ task TrainTokenizer
         --pre_tokenizer $pre_tokenizer
     echo "Training tokenizer..."
     python $repo/scripts/train_tokenizer.py \
-        --data_path $tokenizer_corpus \
-        --vocab_size $vocab_size
+        --data_path tok_corpus \
+        --vocab_size $vocab_size \
         --extra_tokens $extra_tokens \
         --output $tokenizer
-    echo "Analyzing tokenizer..."
-    python $repo/scripts/analyze_tokenizer.py \
-        --tokenizer_dir $tokenizer \
-        --eval_sets $eval_sets \
+    #echo "Analyzing tokenizer..."
+    #python $repo/scripts/analyze_tokenizer.py \
+    #    --tokenizer_dir $tokenizer \
+    #    --eval_sets $eval_sets \
 }
 
 task PreprocessDataset
@@ -323,6 +323,16 @@ task Train
     seq_length=$(yq '.seq_length' $model_config_f)
     num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
 
+    # if `master_port` and/or `rdzv_port` are not set, find one automatically
+    if [ "$master_port" == "" ]; then
+        master_port=$(python $repos/scripts/find_free_port.py --starting_port 61250 --interval 8)
+        echo "Using master_port=$master_port"
+    fi
+    if [ "$rdzv_port" == "" ]; then
+        rdzv_port=$(python $repos/scripts/find_free_port.py --starting_port 29500 --interval 8)
+        echo "Using rdzv_port=$rdzv_port"
+    fi
+
     if [ "$use_deepseed" == true ]; then
         # read main optimization parameters from the DeepSpeed config file
         # (in case these were automatically tuned)
@@ -566,7 +576,7 @@ plan TrainTokenizer {
 }
 
 plan Preprocess {
-    reach DumpHFDataset via (Dataset: *)
+    reach PreprocessDataset via (Dataset: *)
 }
 
 plan ScalingAnalysis {
@@ -574,15 +584,15 @@ plan ScalingAnalysis {
 }
 
 plan TrainLLM {
-    reach Eval via (Size: base)
+    reach Train via (Size: small1)
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 340k) * (EvalSet: *)
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
 }
 
 plan MidTrainingConvert {
-    reach ConvertHF via (Size: small4) * (DataMix: *) * (UseExternal: true) 
+    reach ConvertHF via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) 
 }
 
 plan ConvertHF {
