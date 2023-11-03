@@ -562,10 +562,11 @@ task ConvertHF
     python $trained_model/zero_to_fp32.py $trained_model model.bin
 
     # Convert to HF model using convert_megatron_gpt2_checkpoint.py
-    python $repo/scripts/convert_to_hf_model.py \
-        model.bin $hf_model_dir \
-        --config-yml=$repo/configs/models/$model_config.yml \
-        --tokenizer-name=$external_tokenizer 
+    python $repo/scripts/deepspeed_to_hf_llama.py \
+        --fp32-ckpt-path=model.bin \
+        --output-dir=$hf_model_dir \
+        --config-path=$repo/configs/models/$model_config.yml \
+        --tokenizer=$external_tokenizer 
 
     # clean up
     rm model.bin
@@ -597,4 +598,8 @@ plan MidTrainingConvert {
 
 plan ConvertHF {
     reach ConvertHF via (Size: small1)
+}
+
+plan ExternalConvertHF {
+    reach ConvertHF via (Size: small4) * (UseExternal: true)
 }
