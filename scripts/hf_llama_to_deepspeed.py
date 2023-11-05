@@ -2,6 +2,8 @@ import deepspeed
 import torch
 import yaml
 
+from torch.optim import SGD
+
 from megatron import get_args
 from megatron import print_rank_0
 from megatron.core import mpu
@@ -28,12 +30,9 @@ def main():
     # Set up model and load checkpoint
     [ model ] = get_model(model_provider, wrap_with_ddp=False)
 
-    from torch.optim import Adam
-    optimizer = Adam(model.parameters(),
-                    lr=args.lr,
-                    weight_decay=args.weight_decay,
-                    betas=(args.adam_beta1, args.adam_beta2),
-                    eps=args.adam_eps)
+    # Use SGD as optimizer since we don't need to train,
+    # and we don't want to add optimizer state.
+    optimizer = SGD(model.parameters(), lr=args.lr)
     opt_param_scheduler = None
     model, _, _, _ = deepspeed.initialize(
         model=model,
