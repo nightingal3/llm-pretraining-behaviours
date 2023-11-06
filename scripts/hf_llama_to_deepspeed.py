@@ -22,11 +22,6 @@ def main():
     args = get_args()
     assert args.deepspeed, "This script expects deepspeed to be enabled."
 
-    with open(args.config_path, "r") as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-    print_rank_0("Model Config:")
-    print_rank_0(yaml.dump(config))
-
     # Set up model and load checkpoint
     [ model ] = get_model(model_provider, wrap_with_ddp=False)
 
@@ -167,8 +162,6 @@ def set_mlp_state(args, layer, hf_layer, layer_idx):
 def add_load_hf_args(parser):
     group = parser.add_argument_group(title='hf-model')
 
-    group.add_argument("--config-path", type=str, required=True,
-                       help='Path to the model config file to load.')
     group.add_argument("--hf-model", type=str, required=True,
                        help='Path to the checkpoint to load.')
     return parser
