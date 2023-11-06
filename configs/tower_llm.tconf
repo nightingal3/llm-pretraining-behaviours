@@ -9,7 +9,6 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=true
-    external_tensorboard=""
 
     # dataset pamaeters
     # unused since we pass the dataset path directly to the pipeline
@@ -24,36 +23,26 @@ global {
             en_bookcorpus=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bookcorpus/v1/en/lid/
             de=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/de/
             de_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/de/lid/
-            de_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/de/lid/
             es=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/es/
             es_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/es/lid/
-            es_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/es/lid/
             fr=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/fr/
             fr_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/fr/lid/
-            fr_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/fr/lid/
             it=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/it/
             it_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/it/lid/
-            it_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/it/lid/
             nl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/nl/
             nl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/nl/lid/
-            nl_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/nl/lid/
             pt=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pt/
             pt_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pt/lid/
-            pt_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/pt/lid/
             pl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pl/
             pl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pl/lid/
-            pl_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/pl/lid/
             ru=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ru/
             ru_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ru/lid/
-            ru_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/ru/lid/
             sv=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/sv/
             sv_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/sv/lid/
-            sv_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/sv/lid/
             ko=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ko/
             ko_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ko/lid/
             zh=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/zh/
             zh_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/zh/lid/
-            zh_gutenberg=/gpfsstore/rech/hxz/ued79zb/towerllm-data/project_gutenberg/v1/zh/lid/
             code=/gpfsstore/rech/hxz/ued79zb/towerllm-data/code/data
     )
 
@@ -69,36 +58,26 @@ global {
             en_bookcorpus=false
             de=false
             de_wiki=false
-            de_gutenberg=false
             es=false
             es_wiki=false
-            es_gutenberg=false
             fr=false
             fr_wiki=false
-            fr_gutenberg=false
             it=false
             it_wiki=false
-            it_gutenberg=false
             nl=false
             nl_wiki=false
-            nl_gutenberg=false
             pt=false
             pt_wiki=false
-            pt_gutenberg=false
             pl=false
             pl_wiki=false
-            pl_gutenberg=false
             ru=false
             ru_wiki=false
-            ru_gutenberg=false
             sv=false
             sv_wiki=false
-            sv_gutenberg=false
             ko=false
             ko_wiki=false
             zh=false
             zh_wiki=false
-            zh_gutenberg=false
             code=true
     )
 
@@ -110,36 +89,26 @@ global {
             en_bookcorpus=false
             de=false
             de_wiki=false
-            de_gutenberg=false
             es=false
             es_wiki=false
-            es_gutenberg=false
             fr=false
             fr_wiki=false
-            fr_gutenberg=false
             it=false
             it_wiki=false
-            it_gutenberg=false
             nl=false
             nl_wiki=false
-            nl_gutenberg=false
             pt=false
             pt_wiki=false
-            pt_gutenberg=false
             pl=false
             pl_wiki=false
-            pl_gutenberg=false
             ru=false
             ru_wiki=false
-            ru_gutenberg=false
             sv=false
             sv_wiki=false
-            sv_gutenberg=false
             ko=false
             ko_wiki=false
             zh=false
             zh_wiki=false
-            zh_gutenberg=false
             code=false
     )
 
@@ -151,36 +120,26 @@ global {
             en_bookcorpus=false
             de=false
             de_wiki=false
-            de_gutenberg=false
             es=false
             es_wiki=false
-            es_gutenberg=false
             fr=false
             fr_wiki=false
-            fr_gutenberg=false
             it=false
             it_wiki=false
-            it_gutenberg=false
             nl=false
             nl_wiki=false
-            nl_gutenberg=false
             pt=false
             pt_wiki=false
-            pt_gutenberg=false
             pl=false
             pl_wiki=false
-            pl_gutenberg=false
             ru=false
             ru_wiki=false
-            ru_gutenberg=false
             sv=false
             sv_wiki=false
-            sv_gutenberg=false
             ko=false
             ko_wiki=false
             zh=false
             zh_wiki=false
-            zh_gutenberg=false
             code=true
     )
 
@@ -193,36 +152,26 @@ global {
             en_bookcorpus=""
             de=50
             de_wiki=""
-            de_gutenberg=""
             es=50
             es_wiki=""
-            es_gutenberg=""
             fr=50
             fr_wiki=""
-            fr_gutenberg=""
             it=50
             it_wiki=""
-            it_gutenberg=""
             nl=50
             nl_wiki=""
-            nl_gutenberg=""
             pt=50
             pt_wiki=""
-            pt_gutenberg=""
             pl=50
             pl_wiki=""
-            pl_gutenberg=""
             ru=50
             ru_wiki=""
-            ru_gutenberg=""
             sv=50
             sv_wiki=""
-            sv_gutenberg=""
             ko=50
             ko_wiki=""
             zh=50
             zh_wiki=""
-            zh_gutenberg=""
             code=50
     )
 
@@ -236,36 +185,26 @@ global {
             en_bookcorpus=1000000000
             de=5000000000
             de_wiki=5000000000
-            de_gutenberg=1000000000
             es=5000000000
             es_wiki=2000000000
-            es_gutenberg=1000000000
             fr=5000000000
             fr_wiki=2000000000
-            fr_gutenberg=1000000000
             it=5000000000
             it_wiki=1000000000
-            it_gutenberg=1000000000
             nl=5000000000
             nl_wiki=1000000000
-            nl_gutenberg=1000000000
             pt=5000000000
             pt_wiki=1000000000
-            pt_gutenberg=1000000000
             pl=5000000000
             pl_wiki=1000000000
-            pl_gutenberg=1000000000
             ru=5000000000
             ru_wiki=2000000000
-            ru_gutenberg=1000000000
             sv=5000000000
             sv_wiki=1000000000
-            sv_gutenberg=1000000000
             ko=5000000000
             ko_wiki=1000000000
             zh=20000000000
             zh_wiki=2000000000
-            zh_gutenberg=2000000000
             code=3000000000
     )
 
@@ -278,36 +217,26 @@ global {
             en_bookcorpus=500000
             de=500000
             de_wiki=500000
-            de_gutenberg=500000
             es=500000
             es_wiki=500000
-            es_gutenberg=500000
             fr=500000
             fr_wiki=500000
-            fr_gutenberg=500000
             it=500000
             it_wiki=500000
-            it_gutenberg=500000
             nl=500000
             nl_wiki=500000
-            nl_gutenberg=500000
             pt=500000
             pt_wiki=500000
-            pt_gutenberg=500000
             pl=500000
             pl_wiki=500000
-            pl_gutenberg=500000
             ru=500000
             ru_wiki=500000
-            ru_gutenberg=500000
             sv=500000
             sv_wiki=500000
-            sv_gutenberg=500000
             ko=500000
             ko_wiki=500000
             zh=500000
             zh_wiki=500000
-            zh_gutenberg=500000
             code=500000
     )
 
@@ -315,62 +244,62 @@ global {
         DataMix:
             enplus=(Dataset: 
                 en=484 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                de=9 de_wiki=20 de_gutenberg=1 
-                es=17 es_wiki=12 es_gutenberg=1 
-                fr=13 fr_wiki=16 fr_gutenberg=1 
-                it=20 it_wiki=10 it_gutenberg=0 
-                nl=23 nl_wiki=6 nl_gutenberg=1 
-                pt=23 pt_wiki=6 pt_gutenberg=1 
-                pl=24 pl_wiki=6 pl_gutenberg=0 
-                ru=16 ru_wiki=14 ru_gutenberg=0 
-                sv=25 sv_wiki=5 sv_gutenberg=0 
+                de=10 de_wiki=20 
+                es=18 es_wiki=12 
+                fr=14 fr_wiki=16 
+                it=20 it_wiki=10 
+                nl=24 nl_wiki=6 
+                pt=24 pt_wiki=6 
+                pl=24 pl_wiki=6 
+                ru=16 ru_wiki=14 
+                sv=25 sv_wiki=5 
                 ko=25 ko_wiki=5 
-                zh=22 zh_wiki=7 zh_gutenberg=1 
+                zh=23 zh_wiki=7
                 code=30
                 )
             enmid=(Dataset: 
                 en=374 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                de=19 de_wiki=20 de_gutenberg=1 
-                es=27 es_wiki=12 es_gutenberg=1 
-                fr=23 fr_wiki=16 fr_gutenberg=1 
-                it=30 it_wiki=10 it_gutenberg=0 
-                nl=33 nl_wiki=6 nl_gutenberg=1 
-                pt=33 pt_wiki=6 pt_gutenberg=1 
-                pl=34 pl_wiki=6 pl_gutenberg=0 
-                ru=26 ru_wiki=14 ru_gutenberg=0
-                sv=35 sv_wiki=5 sv_gutenberg=0 
+                de=20 de_wiki=20
+                es=28 es_wiki=12 
+                fr=24 fr_wiki=16 
+                it=30 it_wiki=10 
+                nl=34 nl_wiki=6 
+                pt=34 pt_wiki=6 
+                pl=34 pl_wiki=6 
+                ru=26 ru_wiki=14
+                sv=35 sv_wiki=5 
                 ko=35 ko_wiki=5 
-                zh=32 zh_wiki=7 zh_gutenberg=1 
+                zh=33 zh_wiki=7 
                 code=30
                 )
             enless=(Dataset: 
                 en=264 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                de=29 de_wiki=20 de_gutenberg=1 
-                es=37 es_wiki=12 es_gutenberg=1 
-                fr=33 fr_wiki=16 fr_gutenberg=1 
-                it=40 it_wiki=10 it_gutenberg=0 
-                nl=43 nl_wiki=6 nl_gutenberg=1 
-                pt=43 pt_wiki=6 pt_gutenberg=1 
-                pl=44 pl_wiki=6 pl_gutenberg=0 
-                ru=36 ru_wiki=14 ru_gutenberg=0 
-                sv=45 sv_wiki=5 sv_gutenberg=0 
+                de=30 de_wiki=20
+                es=38 es_wiki=12
+                fr=34 fr_wiki=16
+                it=40 it_wiki=10
+                nl=44 nl_wiki=6
+                pt=44 pt_wiki=6
+                pl=44 pl_wiki=6
+                ru=36 ru_wiki=14
+                sv=45 sv_wiki=5
                 ko=45 ko_wiki=5  
-                zh=42 zh_wiki=7 zh_gutenberg=1 
+                zh=43 zh_wiki=7
                 code=30
                 )
             enmid_twowiki=(Dataset: 
                 en=331 en_wiki=86 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                de=0 de_wiki=39 de_gutenberg=1 
-                es=15 es_wiki=24 es_gutenberg=1 
-                fr=7 fr_wiki=32 fr_gutenberg=1 
-                it=20 it_wiki=20 it_gutenberg=0 
-                nl=27 nl_wiki=12 nl_gutenberg=1 
-                pt=27 pt_wiki=12 pt_gutenberg=1 
-                pl=28 pl_wiki=12 pl_gutenberg=0 
-                ru=12 ru_wiki=28 ru_gutenberg=0
-                sv=30 sv_wiki=10 sv_gutenberg=0 
+                de=0 de_wiki=40
+                es=16 es_wiki=24 
+                fr=8 fr_wiki=32 
+                it=20 it_wiki=20
+                nl=28 nl_wiki=12
+                pt=28 pt_wiki=12
+                pl=28 pl_wiki=12
+                ru=12 ru_wiki=28
+                sv=30 sv_wiki=10
                 ko=30 ko_wiki=10 
-                zh=25 zh_wiki=14 zh_gutenberg=1 
+                zh=26 zh_wiki=14
                 code=30
                 )
     )
@@ -390,36 +319,26 @@ global {
         en_bookcorpus=250000000
         de=250000000
         de_wiki=250000000
-        de_gutenberg=250000000
         es=250000000
         es_wiki=250000000
-        es_gutenberg=250000000
         fr=250000000
         fr_wiki=250000000
-        fr_gutenberg=250000000
         it=250000000
         it_wiki=250000000
-        it_gutenberg=250000000
         nl=250000000
         nl_wiki=250000000
-        nl_gutenberg=250000000
         pt=250000000
         pt_wiki=250000000
-        pt_gutenberg=250000000
         pl=250000000
         pl_wiki=250000000
-        pl_gutenberg=250000000
         ru=250000000
         ru_wiki=250000000
-        ru_gutenberg=250000000
         sv=250000000
         sv_wiki=250000000
-        sv_gutenberg=250000000
         ko=250000000
         ko_wiki=250000000
         zh=500000000
         zh_wiki=500000000
-        zh_gutenberg=250000000
         code=250000000
     )
     extra_tokens=2000
@@ -433,36 +352,26 @@ global {
             en_bookcorpus='whitespace'
             de='whitespace'
             de_wiki='whitespace'
-            de_gutenberg='whitespace'
             es='whitespace'
             es_wiki='whitespace'
-            es_gutenberg='whitespace'
             fr='whitespace'
             fr_wiki='whitespace'
-            fr_gutenberg='whitespace'
             it='whitespace'
             it_wiki='whitespace'
-            it_gutenberg='whitespace'
             nl='whitespace'
             nl_wiki='whitespace'
-            nl_gutenberg='whitespace'
             pt='whitespace'
             pt_wiki='whitespace'
-            pt_gutenberg='whitespace'
             pl='whitespace'
             pl_wiki='whitespace'
-            pl_gutenberg='whitespace'
             ru='whitespace'
             ru_wiki='whitespace'
-            ru_gutenberg='whitespace'
             sv='whitespace'
             sv_wiki='whitespace'
-            sv_gutenberg='whitespace'
             ko='whitespace'
             ko_wiki='whitespace'
             zh='characters'
             zh_wiki='characters'
-            zh_gutenberg='characters'
             code='whitespace'
     )
 
@@ -523,8 +432,22 @@ global {
     pp=1
     zero_stage=2
     master_addr=localhost
-    master_port=""
-    rdzv_port=""
+    master_port=(
+        Size:
+            base=62200
+            small4=62202
+            small3=62203
+            small2=62204
+            small1=62205
+    )
+    rdzv_port=(
+        Size:
+            base=29800
+            small4=29802
+            small3=29803
+            small2=29804
+            small1=29805
+    )
     cpu_workers=16
     seed=911
 }

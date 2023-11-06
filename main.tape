@@ -14,6 +14,7 @@ task DumpHFDataset
     :: hf_dataset=@
     :: bilingual=@
     :: code=@
+    :: pre_tokenizer=@
     :: .submitter=@
     :: .account=$dump_account
     :: .partition=$dump_partition
@@ -34,6 +35,7 @@ task DumpHFDataset
         $([ "$bilingual" == true ] && echo "--bilingual" || echo "") \
         $([ "$code" == true ] && echo "--code" || echo "") \
         $([ ! -z "$n_tokens_test" ] && echo "--n_tokens_test $n_tokens_test" || echo "") \
+        $([ ! -z "$pre_tokenizer" ] && echo "--pre_tokenizer $pre_tokenizer" || echo "") 
 }
 
 # Warning: This is working, but isnt passed to subsequent tasks
@@ -323,16 +325,6 @@ task Train
     seq_length=$(yq '.seq_length' $model_config_f)
     num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
 
-    # if `master_port` and/or `rdzv_port` are not set, find one automatically
-    if [ "$master_port" == "" ]; then
-        master_port=$(python $repos/scripts/find_free_port.py --starting_port 61250 --interval 8)
-        echo "Using master_port=$master_port"
-    fi
-    if [ "$rdzv_port" == "" ]; then
-        rdzv_port=$(python $repos/scripts/find_free_port.py --starting_port 29500 --interval 8)
-        echo "Using rdzv_port=$rdzv_port"
-    fi
-
     if [ "$use_deepseed" == true ]; then
         # read main optimization parameters from the DeepSpeed config file
         # (in case these were automatically tuned)
@@ -363,7 +355,7 @@ task Train
             rm -rf $external_model_dir
         fi
         mkdir -p $external_model_dir
-        ln -s $external_model_dir $model_dir
+        ln -sf $external_model_dir $model_dir
         if [ "$use_deepseed" == true ]; then
             cp $ds_config $model_dir
         fi
@@ -371,11 +363,12 @@ task Train
 
     if [ "$external_tensorboard" != "" ]; then
         mkdir -p $external_tensorboard
-        ln -s $external_tensorboard tensorboard
+        ln -sf $external_tensorboard tensorboard
     else
         mkdir -p tensorboard
     fi
 
+    echo "MP: $master_port"
     tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
     micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
     $launcher $distributed_args \
@@ -422,7 +415,7 @@ task Train
        --swiglu \
        --normalization rmsnorm \
        --disable-bias-linear \
-       --use-flash-attn \
+       --use-flash-attn-v2 \
        --distributed-timeout-minutes 60 \
        --seed $seed \
        $tensorboard_args \
@@ -460,6 +453,12 @@ task Eval
     :: model_config=@
     :: rdzv_port=@
 {
+    # since evals easily clash on the same port due to sharing a machine, find a free one if not free
+    master_port=$(python $repo/scripts/find_free_port.py --starting_port $master_port --interval 8)
+    echo "Using master_port=$master_port"
+    rdzv_port=$(python $repo/scripts/find_free_port.py --starting_port $rdzv_port --interval 8)
+    echo "Using rdzv_port=$rdzv_port"
+
     # Read model config and parse to variables
     model_config_f="${repo}/configs/models/${model_config}.yml"
     hidden_size=$(yq '.hidden_size' $model_config_f)
@@ -527,7 +526,6 @@ task Eval
         --no-load-rng \
         --distributed-timeout-minutes 60 \
         $ds_args 
-
 }
 
 task ConvertHF
@@ -621,11 +619,15 @@ plan Preprocess {
 }
 
 plan ScalingAnalysis {
-    reach Train via (Size: small1 small2 small3 small4) * (DataMix: *)
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: enplus) * (EvalSet: *)
 }
 
 plan TrainLLM {
-    reach Train via (Size: small1)
+    reach Train via (Size: base) * (DataMix: equal) 
+}
+
+plan MidTrainingEval {
+    reach Eval via (Size: base) * (DataMix: equal) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
 }
 
 plan MidTrainingEval {
@@ -637,7 +639,7 @@ plan MidTrainingConvert {
 }
 
 plan ConvertHF {
-    reach ConvertHF via (Size: small1)
+    reach ConvertHF via   (Size: small1 small2 small3 small4) * (DataMix: *)
 }
 
 plan ExternalConvertHF {

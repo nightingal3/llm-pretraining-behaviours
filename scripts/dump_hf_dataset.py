@@ -49,8 +49,8 @@ def get_hf_dataset(
             dataset_name, 
             data_files=data_files,
             streaming=stream)
-    if not code:
-        dataset = dataset[split]
+    #if not code:
+    #    dataset = dataset[split]
     if shuffle:
         print("Shuffling dataset")
         # we shard the dataset to speed up shuffling
@@ -84,7 +84,9 @@ def get_cleaned_dataset(
             dataset=data
         else:
             dataset = chain(dataset,data)
-        
+
+    print('got dataset', flush=True)    
+    
     return dataset
 
 def get_bilingual_dataset(
@@ -249,7 +251,8 @@ def filter_cleaned_dataset(
     dataset: datasets.Dataset,
     max_tokens: Optional[int]=None,
     max_tokens_test: Optional[int]=None,
-    percentile: Optional[int]=50
+    percentile: Optional[int]=50,
+    pre_tokenizer: Optional[str]=''
 ):
     assert max_tokens is not None or percentile is not None, "Must specify either max_tokens or percentile"
 
@@ -261,7 +264,7 @@ def filter_cleaned_dataset(
                 break
                 
         threshold = np.percentile(np.array(perplexities), percentile)
-        print('threshold', threshold)
+        print('threshold', threshold, flush=True)
 
         if max_tokens_test is not None:
             data_test = []
@@ -270,12 +273,17 @@ def filter_cleaned_dataset(
             for doc in dataset:
                 n_docs_test+=1
                 if doc['perplexity'] < threshold:
-                    n_words_test += len(doc['text'].split(' '))
+                    if pre_tokenizer=='characters':
+                        n_words_test += len(doc['text'])
+                    else:
+                        n_words_test += len(doc['text'].split(' '))
                     data_test.append(doc['text'])
                     if n_words_test>=max_tokens_test:
                         break
             with open('test_data','w') as f:
                 f.write('\n'.join(data_test))
+
+        print('n words test', n_words_test, flush=True)
 
         data = []
         n_words=0
@@ -285,13 +293,19 @@ def filter_cleaned_dataset(
                 n_docs+=1
             else:
                 if doc['perplexity'] < threshold:
-                    n_words += len(doc['text'].split(' '))
+                    if pre_tokenizer=='characters':
+                        n_words += len(doc['text'])
+                    else:
+                        n_words += len(doc['text'].split(' '))
                     data.append({'text': doc['text']})
                     if max_tokens is not None:
                         if n_words>=max_tokens:
                             break
+                    
+                    if n_words%10000000==0:
+                        print(n_words, max_tokens, flush=True)
     
-        print('n words', n_words)
+        print('n words', n_words, flush=True)
 
         dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
     
@@ -303,7 +317,10 @@ def filter_cleaned_dataset(
             data_test = []
             for doc in dataset:
                 n_docs_test+=1
-                n_words_test += len(doc['text'].split(' '))
+                if pre_tokenizer=='characters':
+                    n_words_test += len(doc['text'])
+                else:
+                    n_words_test += len(doc['text'].split(' '))
                 data_test.append(doc['text'])
                 if n_words_test>=max_tokens_test:
                     break
@@ -318,7 +335,10 @@ def filter_cleaned_dataset(
                 if n_docs<=n_docs_test:
                     n_docs+=1
                 else:
-                    n_words += len(doc['text'].split(' '))
+                    if pre_tokenizer=='characters':
+                        n_words += len(doc['text'])
+                    else:
+                        n_words += len(doc['text'].split(' '))
                     data.append({'text': doc['text']})
                     if n_words>=max_tokens:
                         break
@@ -347,6 +367,7 @@ def dump_hf_dataset(
     output_file: str,
     text_only: bool=False
 ):
+    print('dumping dataset', flush=True)
     # Remove columns if they exist
     existing_columns = dataset.column_names
     if existing_columns is not None:
@@ -384,6 +405,7 @@ if __name__ == "__main__":
     parser.add_argument('--hf_dataset', default=False, action='store_true')
     parser.add_argument('--bilingual', default=False, action='store_true')
     parser.add_argument('--code', default=False, action='store_true')
+    parser.add_argument('--pre_tokenizer', type=str, required=False, default=None)
     args = parser.parse_args()
     
 
@@ -432,7 +454,8 @@ if __name__ == "__main__":
                     dataset, 
                     percentile=args.percentile,
                     max_tokens=args.n_tokens,
-                    max_tokens_test=args.n_tokens_test
+                    max_tokens_test=args.n_tokens_test,
+                    pre_tokenizer=args.pre_tokenizer
                 )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)
