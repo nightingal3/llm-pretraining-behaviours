@@ -9,7 +9,6 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=true
-    external_tensorboard=""
 
     # dataset pamaeters
     # unused since we pass the dataset path directly to the pipeline
@@ -433,8 +432,22 @@ global {
     pp=1
     zero_stage=2
     master_addr=localhost
-    master_port=""
-    rdzv_port=""
+    master_port=(
+        Size:
+            base=62200
+            small4=62202
+            small3=62203
+            small2=62204
+            small1=62205
+    )
+    rdzv_port=(
+        Size:
+            base=29800
+            small4=29802
+            small3=29803
+            small2=29804
+            small1=29805
+    )
     cpu_workers=16
     seed=911
 }

@@ -69,7 +69,7 @@ global {
     # model parameters
     model_config=(
         Size: 
-            base=llama2_1b
+            base=llama2_1b3
             small4=llama2_440m
             small3=llama2_268m
             small2=llama2_166m
@@ -79,7 +79,7 @@ global {
     # training parameters
     train_steps=(
         Size:
-            base=500000
+            base=1000000
             small4=500000
             small3=500000
             small2=500000
@@ -87,7 +87,7 @@ global {
     )
     batch_size=(
         Size:
-            base=128
+            base=64
             small4=128
             small3=126
             small2=128

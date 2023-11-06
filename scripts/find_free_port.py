@@ -15,7 +15,7 @@ def find_free_port(starting_port, interval=1):
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('---starting_port', type=int, default=29500, required=False)
+    argparser.add_argument('--starting_port', type=int, default=29500, required=False)
     argparser.add_argument('--interval', type=int, default=1, required=False)
     args = argparser.parse_args()
     print(find_free_port(args.starting_port, args.interval))

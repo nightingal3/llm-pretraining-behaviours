@@ -212,9 +212,9 @@ def build_index_dict(hf_state_dict, filename: str):
         index_dict["weight_map"][k] = filename
         param_count += v.numel()
     
-    dtype = hf_state_dict["lm_head.weight"].dtype
+    dtype_size = hf_state_dict["lm_head.weight"].element_size()
 
-    index_dict["metadata"] = {"total_size": param_count * dtype.itemsize}
+    index_dict["metadata"] = {"total_size": param_count * dtype_size}
 
     return index_dict
 
