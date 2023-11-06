@@ -1,8 +1,12 @@
-datasets 
+accelerate
+datasets
+flask # For text generation server
+flask_restful
 nltk 
 pybind11 
 deepspeed
 deepspeed[autotune]
+sentencepiece
 transformers
 yq
 tensorboard

@@ -14,7 +14,7 @@ Then, to create a new conda environment with all the necessary dependencies, run
 
 ```bash
 export CONDA_HOME="/path/to/(mini)conda3"
-bash setup_scripts/conda.sh
+bash setup/conda.sh
 ```
 
 ## Running pipelines

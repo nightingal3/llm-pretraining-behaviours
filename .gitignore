@@ -4,3 +4,6 @@
 plot_train_validation_losses.py
 configs/*_uservars.tconf
 private_scripts/
+
+__pycache__/
+.vscode
