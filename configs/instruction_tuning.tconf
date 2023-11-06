@@ -1,0 +1,25 @@
+import "instruction_tuning_uservars.tconf"
+
+global {
+    ducttape_experimental_imports=true
+    ducttape_experimental_submitters=true
+    ducttape_experimental_multiproc=true
+
+    model_config=(
+        BaseModel:
+            croissant-small4=llama2_440m
+            llama2-7b=llama2_7b
+    )
+
+    tp=(
+        BaseModel:
+            croissant-small4=1
+            llama2-7b=4
+    )
+    pp=1
+    gpu_ids=(
+        BaseModel:
+            croissant-small4=0
+            llama2-7b=0,1,2,3
+    )
+}

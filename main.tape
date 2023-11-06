@@ -543,31 +543,71 @@ task ConvertHF
     :: .cpus=$convert_cpus
     :: .gres=$convert_gres
     :: .mem=$convert_mem
+    :: gpus_ids=2
+    :: tp=@
+    :: pp=@
     :: repo=@
     :: external_tokenizer=@
     :: model_config=@
 {
+    export CUDA_DEVICE_MAX_CONNECTIONS=1
+
     export PYTHONPATH=$repo/Megatron-DeepSpeed
+
+    # Read model config and parse to variables
+    model_config_f="${repo}/configs/models/${model_config}.yml"
+    hidden_size=$(yq '.hidden_size' $model_config_f)
+    ffn_hidden_size=$(yq '.ffn_hidden_size' $model_config_f)
+    num_layers=$(yq '.num_layers' $model_config_f)
+    num_attention_heads=$(yq '.num_attention_heads' $model_config_f)
+    seq_length=$(yq '.seq_length' $model_config_f)
+    num_kv_heads=$(yq '.num_kv_heads' $model_config_f)
+
+    ds_args="--deepspeed"
+    echo -n '{
+        "train_batch_size" : 2,
+        "steps_per_print": 1,
+        "zero_optimization": {
+            "stage": 0
+        },
+        "bf16": {
+            "enabled": true
+        }
+    }' | jq . > ds_config.json
+    ds_args="--zero-stage=0 ${ds_args} --deepspeed_config ds_config.json"
+    distributed_args="--include localhost:$gpus_ids --master_port 6000"
     
     mkdir -p $hf_model_dir
 
-    # read last checkpoint
-    #last_checkpoint=$(cat $trained_model/latest_checkpointed_iteration.txt)
-    # get checkpoint dir, with fixed number of digits (iter_0000100)
-    #checkpoint_dir="$trained_model/global_step${last_checkpoint}"
-
-    # Convert from deepspeed to pytorch
-    python $trained_model/zero_to_fp32.py $trained_model model.bin
-
-    # Convert to HF model using convert_megatron_gpt2_checkpoint.py
-    python $repo/scripts/deepspeed_to_hf_llama.py \
-        --fp32-ckpt-path=model.bin \
-        --output-dir=$hf_model_dir \
-        --config-path=$repo/configs/models/$model_config.yml \
-        --tokenizer=$external_tokenizer 
-
-    # clean up
-    rm model.bin
+    deepspeed $distributed_args $repo/scripts/deepspeed_to_hf_llama.py \
+        --output-dir $hf_model_dir \
+        --tensor-model-parallel-size $tp \
+        --pipeline-model-parallel-size $pp \
+        --no-pipeline-parallel \
+        --num-layers $num_layers  \
+        --hidden-size $hidden_size  \
+        --max-position-embeddings $seq_length \
+        --seq-length $seq_length  \
+        --num-attention-heads $num_attention_heads  \
+        --ffn-hidden-size $ffn_hidden_size  \
+        --no-query-key-layer-scaling \
+        --use-rotary-position-embeddings \
+        --untie-embeddings-and-output-weights \
+        --swiglu \
+        --normalization rmsnorm \
+        --disable-bias-linear \
+        --attention-dropout 0 \
+        --hidden-dropout 0 \
+        --bf16 \
+        --micro-batch-size 1 \
+        --tokenizer-type PretrainedFromHF \
+        --tokenizer-name-or-path $external_tokenizer  \
+        --load $trained_model \
+        --no-save-optim \
+        --no-save-rng \
+        --no-load-optim \
+        --no-load-rng \
+        $ds_args
 }
 
 plan TrainTokenizer {
