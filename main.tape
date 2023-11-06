@@ -14,6 +14,7 @@ task DumpHFDataset
     :: hf_dataset=@
     :: bilingual=@
     :: code=@
+    :: pre_tokenizer=@
     :: .submitter=@
     :: .account=$dump_account
     :: .partition=$dump_partition
@@ -34,6 +35,7 @@ task DumpHFDataset
         $([ "$bilingual" == true ] && echo "--bilingual" || echo "") \
         $([ "$code" == true ] && echo "--code" || echo "") \
         $([ ! -z "$n_tokens_test" ] && echo "--n_tokens_test $n_tokens_test" || echo "") \
+        $([ ! -z "$pre_tokenizer" ] && echo "--pre_tokenizer $pre_tokenizer" || echo "") 
 }
 
 # Warning: This is working, but isnt passed to subsequent tasks
