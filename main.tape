@@ -2,6 +2,7 @@ import "submitters/scslurm.tape"
 
 task DumpHFDataset 
     > dataset_json=dataset.json
+    > dataset_json_test=dataset_test.json
     :: dataset_name=@
     :: dataset_path=@
     :: dataset_dirs=@
@@ -15,16 +16,11 @@ task DumpHFDataset
     :: bilingual=@
     :: code=@
     :: pre_tokenizer=@
-    :: .submitter=@
-    :: .account=$dump_account
-    :: .partition=$dump_partition
-    :: .time=$dump_time 
-    :: .cpus=$dump_cpus
-    :: .mem=$dump_mem
 {
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
         --output $dataset_json \
+        --output_test $dataset_json_test \
         $([ ! -z "$dataset_dirs" ] && echo "--dataset_dirs $dataset_dirs" || echo "") \
         $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
         $([ "$filter" == true ] && echo "--filter" || echo "") \
@@ -47,12 +43,6 @@ task TrainTokenizer
     :: vocab_size=@
     :: words_per_source=$tokenizer_words_per_source
     :: extra_tokens=@
-    :: .submitter=@
-    :: .account=$traintok_account
-    :: .partition=$traintok_partition
-    :: .time=$traintok_time
-    :: .cpus=$traintok_cpus
-    :: .mem=$traintok_mem
 {
     mkdir tok_corpus
     mkdir tokenizer
@@ -80,18 +70,31 @@ task PreprocessDataset
     :: repo=@
     :: external_tokenizer=@
     :: cpu_workers=20
-    :: .submitter=@
-    :: .account=$preproc_account
-    :: .partition=$preproc_partition
-    :: .time=$preproc_time
-    :: .cpus=$preproc_cpus
-    :: .mem=$preproc_mem
 {
     set -euo pipefail
     mkdir -p $dataset_bin
     python $repo/Megatron-DeepSpeed/tools/preprocess_data.py \
         --input $dataset_json \
         --output-prefix $dataset_bin/data \
+        --dataset-impl mmap \
+        --tokenizer-type PretrainedFromHF \
+        --tokenizer-name-or-path $external_tokenizer \
+        --append-eod \
+        --workers $cpu_workers 
+}
+
+task PreprocessValidDataset
+    < dataset_json_test=@DumpHFDataset
+    > val_dataset_bin=data_bin
+    :: repo=@
+    :: external_tokenizer=@
+    :: cpu_workers=20
+{
+    set -euo pipefail
+    mkdir -p $val_dataset_bin
+    python $repo/Megatron-DeepSpeed/tools/preprocess_data.py \
+        --input $dataset_json_test \
+        --output-prefix $val_dataset_bin/data \
         --dataset-impl mmap \
         --tokenizer-type PretrainedFromHF \
         --tokenizer-name-or-path $external_tokenizer \
@@ -230,9 +233,16 @@ task TuneDeepSpeedConfig
 }
 
 
-# NOTE: this task is needed to allow proper grafting of the datamix branches
-# since it was not working when grafting directly in the Train task
-task MakeDataMix 
+task GetValidDatasetsPaths
+    < val_dataset_bin=@PreprocessValidDataset
+    > valid_data_file
+    :: dataset_name=@
+{
+    echo "$dataset_name $dataset_bin/data_text_document" > $valid_data_file
+}
+
+
+task MakeDataMix
     < dataset_bin=@PreprocessDataset
     > datamix_file
     :: datamix_weights=@
@@ -243,6 +253,7 @@ task MakeDataMix
 
 task Train
     < datamix_file=@MakeDataMix[Dataset:*]
+    < valid_data_file=@GetValidDatasetsPaths[Dataset:*]
     < ds_config=(
         UseDeepSpeed:
             true=(
@@ -253,15 +264,6 @@ task Train
             false=/dev/null
         )
     > model_dir=checkpoints
-    :: .submitter=@
-    :: .C=$train_C
-    :: .account=$train_account
-    :: .partition=$train_partition
-    :: .time=$train_time
-    :: .cpus=$train_cpus
-    :: .gres=$train_gres
-    :: .mem=$train_mem
-    :: .restart_on_timeout=true
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: external_model_dir=@
@@ -287,6 +289,7 @@ task Train
     :: save_interval=@
     :: eval_interval=@
     :: seed=@
+    :: multiple_valid_sets=@
 {
     data_path=""
     for f in $datamix_file; do
@@ -294,6 +297,15 @@ task Train
         data_path="$data_path `cat $f`"
     done
     echo "Running with data_path=$data_path"
+
+    if [ "$multiple_valid_sets" == true ]; then
+        valid_data_path=""
+        for f in $valid_data_file; do
+            # read file
+            valid_data_path="$valid_data_path `cat $f`"
+        done
+        echo "Running with valid_data_path=$valid_data_path"
+    fi
 
     # check if number folders passed in dataset_bin (space separated) is equal to 
     # the number of datamix weights passed (space separated)
@@ -419,7 +431,9 @@ task Train
        --distributed-timeout-minutes 60 \
        --seed $seed \
        $tensorboard_args \
-       $ds_args 
+       $ds_args \
+       $([ "$multiple_valid_sets" == true ] && echo "--valid-data-path $valid_data_path" || echo "") \
+       $([ "$multiple_valid_sets" == true ] && echo "--multiple-valid-sets" || echo "") \
 }
 
 
@@ -431,14 +445,6 @@ task Eval
         )
     < eval_set=@
     > eval_results 
-    :: .submitter=@ 
-    :: .C=$eval_C
-    :: .account=$eval_account
-    :: .partition=$eval_partition
-    :: .time=$eval_time
-    :: .cpus=$eval_cpus
-    :: .gres=$eval_gres
-    :: .mem=$eval_mem
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: gpus=1
@@ -535,14 +541,6 @@ task ConvertHF
             true=$external_model_dir
         )
     > hf_model_dir=hf_model
-    :: .submitter=@
-    :: .C=$convert_C
-    :: .account=$convert_account
-    :: .partition=$convert_partition
-    :: .time=$convert_time 
-    :: .cpus=$convert_cpus
-    :: .gres=$convert_gres
-    :: .mem=$convert_mem
     :: gpus_ids=2
     :: tp=@
     :: pp=@
@@ -615,23 +613,23 @@ plan TrainTokenizer {
 }
 
 plan Preprocess {
-    reach PreprocessDataset via (Dataset: *)
+    reach MakeDataMix via (Dataset: *)
 }
 
 plan ScalingAnalysis {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: enplus) * (EvalSet: *)
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: enplus) 
 }
 
 plan TrainLLM {
-    reach Train via (Size: base) * (DataMix: equal) 
+    reach Train via (Size: small1) * (DataMix: enplus) * (DSAutotuneConfig: false)
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: base) * (DataMix: equal) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
+    reach Eval via (Size: base) * (DataMix: equal) * (UseExternal: true) * (EvalIteration: 420k) 
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 420k) 
 }
 
 plan MidTrainingConvert {

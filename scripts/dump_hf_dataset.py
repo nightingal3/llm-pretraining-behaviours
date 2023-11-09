@@ -101,6 +101,7 @@ def get_bilingual_dataset(
 
     data = []
     data_test = []
+    data_test_hf = []
     total_words=0
     for folder in os.listdir(directory):
         source_lang = folder.split('-')[0]
@@ -122,6 +123,7 @@ def get_bilingual_dataset(
                 n_docs_test+=1
                 n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
                 data_test.append(source_doc['text'] + "</s>" + "<s>" + target_doc['text'])
+                data_test_hf.append({'text': source_doc['text'] + "</s>" + "<s>" + target_doc['text']})
                 if n_words>=max_tokens_test:
                     break
         
@@ -141,11 +143,12 @@ def get_bilingual_dataset(
     
     print('total words', total_words)
     dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+    test_dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data_test_hf))
 
     with open('test_data','w') as f:
         f.write('\n'.join(data_test))
     
-    return dataset
+    return dataset, test_dataset
 
 def filter_hf_dataset(
     dataset: datasets.Dataset,
@@ -175,6 +178,8 @@ def filter_hf_dataset(
                 break
         with open('test_data','w') as f:
             f.write('\n'.join(data_test))
+        
+        test_dataset = dataset.select(range(n_docs_test))
 
     if max_tokens is not None:
         n_words=0
@@ -190,7 +195,7 @@ def filter_hf_dataset(
     if max_samples is not None:
         dataset = dataset.select(range(max_samples))
 
-    return dataset
+    return dataset, test_dataset
 
 def filter_code_dataset(
     dataset: datasets.Dataset,
@@ -218,15 +223,19 @@ def filter_code_dataset(
         n_words_test=0
         n_docs_test=0
         data_test=[]
+        test_dataset_idxs=[]
         for idx in range(len(dataset)):
             if dataset[idx]['source'] in ['git-commits', 'git-issues'] or dataset[idx]['max_stars_count']>=threshold:
                 n_words_test += len(dataset[int(idx)]['content'].split(' '))
                 data_test.append(dataset[int(idx)]['content'])
+                test_dataset_idxs.append(idx)
                 if n_words_test>=max_tokens_test:
                     n_docs_test=idx
                     break
         with open('test_data','w') as f:
             f.write('\n'.join(data_test))
+        
+        test_dataset = dataset.select(test_dataset_idxs)
 
     if max_tokens is not None:
         n_words=0
@@ -245,7 +254,7 @@ def filter_code_dataset(
     if max_samples is not None:
         dataset = dataset.select(range(max_samples))
 
-    return dataset
+    return dataset, test_dataset
 
 def filter_cleaned_dataset(
     dataset: datasets.Dataset,
@@ -268,6 +277,7 @@ def filter_cleaned_dataset(
 
         if max_tokens_test is not None:
             data_test = []
+            data_test_hf = []
             n_docs_test=0
             n_words_test=0
             for doc in dataset:
@@ -278,6 +288,7 @@ def filter_cleaned_dataset(
                     else:
                         n_words_test += len(doc['text'].split(' '))
                     data_test.append(doc['text'])
+                    data_test_hf.append({'text': doc['text']})
                     if n_words_test>=max_tokens_test:
                         break
             with open('test_data','w') as f:
@@ -308,13 +319,14 @@ def filter_cleaned_dataset(
         print('n words', n_words, flush=True)
 
         dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
-    
+        test_dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data_test_hf))
     else:
 
         if max_tokens_test is not None:
             n_words_test=0
             n_docs_test=0
             data_test = []
+            data_test_hf = []
             for doc in dataset:
                 n_docs_test+=1
                 if pre_tokenizer=='characters':
@@ -322,6 +334,7 @@ def filter_cleaned_dataset(
                 else:
                     n_words_test += len(doc['text'].split(' '))
                 data_test.append(doc['text'])
+                data_test_hf.append({'text': doc['text']})
                 if n_words_test>=max_tokens_test:
                     break
             with open('test_data','w') as f:
@@ -345,8 +358,9 @@ def filter_cleaned_dataset(
         
             print('n words', n_words)
             dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
+            test_dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data_test_hf))
 
-    return dataset
+    return dataset, test_dataset
 
 COLUMNS_TO_REMOVE = [
     'meta', 
@@ -391,6 +405,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset_name', type=str, required=True)
     parser.add_argument('--output', type=str, required=True)
+    parser.add_argument('--output_test', type=str, required=True)
     parser.add_argument('--dataset_path', type=str, required=False, default=None)
     parser.add_argument('--dataset_dirs', type=str, required=False, nargs='+', default=None)
     parser.add_argument('--dataset_split', type=str, required=False, default="train")
@@ -421,7 +436,7 @@ if __name__ == "__main__":
             )
         if args.filter:
             if args.code:
-                dataset = filter_code_dataset(
+                dataset, test_dataset = filter_code_dataset(
                     dataset, 
                     percentile=args.percentile,
                     max_tokens=args.n_tokens,
@@ -429,7 +444,7 @@ if __name__ == "__main__":
                     max_samples=args.n_docs
                 )
             else:
-                dataset = filter_hf_dataset(
+                dataset, test_dataset = filter_hf_dataset(
                     dataset, 
                     percentile=args.percentile,
                     max_tokens=args.n_tokens,
@@ -439,7 +454,7 @@ if __name__ == "__main__":
 
     else:
         if args.bilingual:
-            dataset = get_bilingual_dataset(
+            dataset, test_dataset = get_bilingual_dataset(
                 directory=args.dataset_path,
                 max_tokens=args.n_tokens,
                 max_tokens_test=args.n_tokens_test
@@ -450,7 +465,7 @@ if __name__ == "__main__":
             )
 
             if args.filter:
-                dataset = filter_cleaned_dataset(
+                dataset, test_dataset = filter_cleaned_dataset(
                     dataset, 
                     percentile=args.percentile,
                     max_tokens=args.n_tokens,
@@ -459,3 +474,4 @@ if __name__ == "__main__":
                 )
 
     dump_hf_dataset(dataset, args.output, text_only=args.text_only)
+    dump_hf_dataset(test_dataset, args.output_test, text_only=args.text_only)
