@@ -16,6 +16,12 @@ task DumpHFDataset
     :: bilingual=@
     :: code=@
     :: pre_tokenizer=@
+    :: .submitter=@
+    :: .account=$dump_account
+    :: .partition=$dump_partition
+    :: .time=$dump_time 
+    :: .cpus=$dump_cpus
+    :: .mem=$dump_mem
 {
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
@@ -43,6 +49,12 @@ task TrainTokenizer
     :: vocab_size=@
     :: words_per_source=$tokenizer_words_per_source
     :: extra_tokens=@
+    :: .submitter=@
+    :: .account=$traintok_account
+    :: .partition=$traintok_partition
+    :: .time=$traintok_time
+    :: .cpus=$traintok_cpus
+    :: .mem=$traintok_mem
 {
     mkdir tok_corpus
     mkdir tokenizer
@@ -70,6 +82,12 @@ task PreprocessDataset
     :: repo=@
     :: external_tokenizer=@
     :: cpu_workers=20
+    :: .submitter=@
+    :: .account=$preproc_account
+    :: .partition=$preproc_partition
+    :: .time=$preproc_time
+    :: .cpus=$preproc_cpus
+    :: .mem=$preproc_mem
 {
     set -euo pipefail
     mkdir -p $dataset_bin
@@ -85,10 +103,16 @@ task PreprocessDataset
 
 task PreprocessValidDataset
     < dataset_json_test=@DumpHFDataset
-    > val_dataset_bin=data_bin
+    > val_dataset_bin=val_data_bin
     :: repo=@
     :: external_tokenizer=@
     :: cpu_workers=20
+    :: .submitter=@
+    :: .account=$preproc_account
+    :: .partition=$preproc_partition
+    :: .time=$preproc_time
+    :: .cpus=$preproc_cpus
+    :: .mem=$preproc_mem
 {
     set -euo pipefail
     mkdir -p $val_dataset_bin
@@ -232,15 +256,13 @@ task TuneDeepSpeedConfig
         cp autotuning_results/profile_model_info/ds_config.json $ds_config
 }
 
-
-task GetValidDatasetsPaths
+task GetValidPaths
     < val_dataset_bin=@PreprocessValidDataset
     > valid_data_file
     :: dataset_name=@
 {
-    echo "$dataset_name $dataset_bin/data_text_document" > $valid_data_file
+    echo "$dataset_name $val_dataset_bin/data_text_document" > $valid_data_file
 }
-
 
 task MakeDataMix
     < dataset_bin=@PreprocessDataset
@@ -253,7 +275,7 @@ task MakeDataMix
 
 task Train
     < datamix_file=@MakeDataMix[Dataset:*]
-    < valid_data_file=@GetValidDatasetsPaths[Dataset:*]
+    < valid_data_file=@GetValidPaths[Dataset:*]
     < ds_config=(
         UseDeepSpeed:
             true=(
@@ -264,6 +286,15 @@ task Train
             false=/dev/null
         )
     > model_dir=checkpoints
+    :: .submitter=@
+    :: .C=$train_C
+    :: .account=$train_account
+    :: .partition=$train_partition
+    :: .time=$train_time
+    :: .cpus=$train_cpus
+    :: .gres=$train_gres
+    :: .mem=$train_mem
+    :: .restart_on_timeout=true
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: external_model_dir=@
@@ -379,7 +410,6 @@ task Train
     else
         mkdir -p tensorboard
     fi
-
     echo "MP: $master_port"
     tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
     micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
@@ -399,7 +429,6 @@ task Train
        --train-iters $train_steps \
        --save $model_dir \
        --load $model_dir \
-       --data-path $data_path \
        --data-impl mmap \
        --tokenizer-type PretrainedFromHF \
        --tokenizer-name-or-path $external_tokenizer \
@@ -432,6 +461,8 @@ task Train
        --seed $seed \
        $tensorboard_args \
        $ds_args \
+       $([ "$multiple_valid_sets" == false ] && echo "--data-path $data_path" || echo "") \
+       $([ "$multiple_valid_sets" == true ] && echo "--train-data-path $data_path" || echo "") \
        $([ "$multiple_valid_sets" == true ] && echo "--valid-data-path $valid_data_path" || echo "") \
        $([ "$multiple_valid_sets" == true ] && echo "--multiple-valid-sets" || echo "") \
 }
@@ -444,7 +475,15 @@ task Eval
             true=$external_model_dir
         )
     < eval_set=@
-    > eval_results 
+    > eval_results  
+    :: .submitter=@ 
+    :: .C=$eval_C
+    :: .account=$eval_account
+    :: .partition=$eval_partition
+    :: .time=$eval_time
+    :: .cpus=$eval_cpus
+    :: .gres=$eval_gres
+    :: .mem=$eval_mem
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: gpus=1
@@ -541,6 +580,14 @@ task ConvertHF
             true=$external_model_dir
         )
     > hf_model_dir=hf_model
+    :: .submitter=@
+    :: .C=$convert_C
+    :: .account=$convert_account
+    :: .partition=$convert_partition
+    :: .time=$convert_time 
+    :: .cpus=$convert_cpus
+    :: .gres=$convert_gres
+    :: .mem=$convert_mem
     :: gpus_ids=2
     :: tp=@
     :: pp=@
@@ -613,23 +660,23 @@ plan TrainTokenizer {
 }
 
 plan Preprocess {
-    reach MakeDataMix via (Dataset: *)
+    reach PreprocessDataset via (Dataset: *)
 }
 
 plan ScalingAnalysis {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: enplus) 
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: enplus) * (EvalSet: *)
 }
 
 plan TrainLLM {
-    reach Train via (Size: small1) * (DataMix: enplus) * (DSAutotuneConfig: false)
+    reach Train via (Size: base) * (DataMix: equal) 
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: base) * (DataMix: equal) * (UseExternal: true) * (EvalIteration: 420k) 
+    reach Eval via (Size: base) * (DataMix: equal) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 420k) 
+    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
 }
 
 plan MidTrainingConvert {
