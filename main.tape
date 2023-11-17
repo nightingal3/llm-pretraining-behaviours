@@ -2,6 +2,7 @@ import "submitters/scslurm.tape"
 
 task DumpHFDataset 
     > dataset_json=dataset.json
+    > dataset_json_test=dataset_test.json
     :: dataset_name=@
     :: dataset_path=@
     :: dataset_dirs=@
@@ -25,6 +26,7 @@ task DumpHFDataset
     python $repo/scripts/dump_hf_dataset.py \
         --dataset_name $dataset_name \
         --output $dataset_json \
+        --output_test $dataset_json_test \
         $([ ! -z "$dataset_dirs" ] && echo "--dataset_dirs $dataset_dirs" || echo "") \
         $([ ! -z "$dataset_path" ] && echo "--dataset_path $dataset_path" || echo "") \
         $([ "$filter" == true ] && echo "--filter" || echo "") \
@@ -92,6 +94,31 @@ task PreprocessDataset
     python $repo/Megatron-DeepSpeed/tools/preprocess_data.py \
         --input $dataset_json \
         --output-prefix $dataset_bin/data \
+        --dataset-impl mmap \
+        --tokenizer-type PretrainedFromHF \
+        --tokenizer-name-or-path $external_tokenizer \
+        --append-eod \
+        --workers $cpu_workers 
+}
+
+task PreprocessValidDataset
+    < dataset_json_test=@DumpHFDataset
+    > val_dataset_bin=val_data_bin
+    :: repo=@
+    :: external_tokenizer=@
+    :: cpu_workers=20
+    :: .submitter=@
+    :: .account=$preproc_account
+    :: .partition=$preproc_partition
+    :: .time=$preproc_time
+    :: .cpus=$preproc_cpus
+    :: .mem=$preproc_mem
+{
+    set -euo pipefail
+    mkdir -p $val_dataset_bin
+    python $repo/Megatron-DeepSpeed/tools/preprocess_data.py \
+        --input $dataset_json_test \
+        --output-prefix $val_dataset_bin/data \
         --dataset-impl mmap \
         --tokenizer-type PretrainedFromHF \
         --tokenizer-name-or-path $external_tokenizer \
@@ -229,10 +256,15 @@ task TuneDeepSpeedConfig
         cp autotuning_results/profile_model_info/ds_config.json $ds_config
 }
 
+task GetValidPaths
+    < val_dataset_bin=@PreprocessValidDataset
+    > valid_data_file
+    :: dataset_name=@
+{
+    echo "$dataset_name $val_dataset_bin/data_text_document" > $valid_data_file
+}
 
-# NOTE: this task is needed to allow proper grafting of the datamix branches
-# since it was not working when grafting directly in the Train task
-task MakeDataMix 
+task MakeDataMix
     < dataset_bin=@PreprocessDataset
     > datamix_file
     :: datamix_weights=@
@@ -243,6 +275,7 @@ task MakeDataMix
 
 task Train
     < datamix_file=@MakeDataMix[Dataset:*]
+    < valid_data_file=@GetValidPaths[Dataset:*]
     < ds_config=(
         UseDeepSpeed:
             true=(
@@ -287,6 +320,7 @@ task Train
     :: save_interval=@
     :: eval_interval=@
     :: seed=@
+    :: multiple_valid_sets=@
 {
     data_path=""
     for f in $datamix_file; do
@@ -294,6 +328,15 @@ task Train
         data_path="$data_path `cat $f`"
     done
     echo "Running with data_path=$data_path"
+
+    if [ "$multiple_valid_sets" == true ]; then
+        valid_data_path=""
+        for f in $valid_data_file; do
+            # read file
+            valid_data_path="$valid_data_path `cat $f`"
+        done
+        echo "Running with valid_data_path=$valid_data_path"
+    fi
 
     # check if number folders passed in dataset_bin (space separated) is equal to 
     # the number of datamix weights passed (space separated)
@@ -367,7 +410,6 @@ task Train
     else
         mkdir -p tensorboard
     fi
-
     echo "MP: $master_port"
     tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
     micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
@@ -387,7 +429,6 @@ task Train
        --train-iters $train_steps \
        --save $model_dir \
        --load $model_dir \
-       --data-path $data_path \
        --data-impl mmap \
        --tokenizer-type PretrainedFromHF \
        --tokenizer-name-or-path $external_tokenizer \
@@ -419,7 +460,11 @@ task Train
        --distributed-timeout-minutes 60 \
        --seed $seed \
        $tensorboard_args \
-       $ds_args 
+       $ds_args \
+       $([ "$multiple_valid_sets" == false ] && echo "--data-path $data_path" || echo "") \
+       $([ "$multiple_valid_sets" == true ] && echo "--train-data-path $data_path" || echo "") \
+       $([ "$multiple_valid_sets" == true ] && echo "--valid-data-path $valid_data_path" || echo "") \
+       $([ "$multiple_valid_sets" == true ] && echo "--multiple-valid-sets" || echo "") \
 }
 
 
@@ -430,7 +475,7 @@ task Eval
             true=$external_model_dir
         )
     < eval_set=@
-    > eval_results 
+    > eval_results  
     :: .submitter=@ 
     :: .C=$eval_C
     :: .account=$eval_account

@@ -7,3 +7,4 @@ private_scripts/
 
 __pycache__/
 .vscode
+configs/test.tconf
