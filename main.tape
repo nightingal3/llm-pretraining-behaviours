@@ -410,7 +410,6 @@ task Train
     else
         mkdir -p tensorboard
     fi
-    echo "MP: $master_port"
     tensorboard_args="--tensorboard-dir tensorboard/ --log-validation-ppl-to-tensorboard"
     micro_batch_size=$(($batch_size / ($gpus * $grad_accum_steps)))
     $launcher $distributed_args \
@@ -474,8 +473,8 @@ task Eval
             false=$model_dir@Train
             true=$external_model_dir
         )
-    < eval_set=@
-    > eval_results  
+    < eval_set=$test_data@DumpHFDataset
+    > eval_results 
     :: .submitter=@ 
     :: .C=$eval_C
     :: .account=$eval_account
@@ -487,7 +486,7 @@ task Eval
     :: repo=@
     :: use_deepseed=(UseDeepSpeed: true false)
     :: gpus=1
-    :: batch_size=32
+    :: batch_size=16
     :: tp=@
     :: pp=@
     :: master_addr=@
@@ -556,7 +555,7 @@ task Eval
         --normalization rmsnorm \
         --disable-bias-linear \
         --num-key-value-heads $num_kv_heads \
-        --use-flash-attn \
+        --use-flash-attn-v2 \
         --seq-length $seq_length \
         --max-position-embeddings $seq_length \
         --fp16 \
@@ -664,7 +663,7 @@ plan Preprocess {
 }
 
 plan ScalingAnalysis {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: enplus) * (EvalSet: *)
+    reach Train via (Size: small1 small2 small3 small4) * (DataMix: enplus enmid enless)
 }
 
 plan TrainLLM {
@@ -672,19 +671,15 @@ plan TrainLLM {
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: base) * (DataMix: equal) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
-}
-
-plan MidTrainingEval {
-    reach Eval via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) * (EvalIteration: 420k) * (EvalSet: *)
+    reach Eval via (Size: small3) * (DataMix: enplus enmid enless) * (UseExternal: true) * (EvalIteration: 100k 200k 300k 400k latest) * (Dataset: en en_wiki pt pt_wiki de de_wiki ru ru_wiki ko ko_wiki)
 }
 
 plan MidTrainingConvert {
-    reach ConvertHF via (Size: small1 small2 small3 small4) * (DataMix: *) * (UseExternal: true) 
+    reach ConvertHF via (Size: small4) * (DataMix: enplus) * (UseExternal: true)
 }
-
+ 
 plan ConvertHF {
-    reach ConvertHF via   (Size: small1 small2 small3 small4) * (DataMix: *)
+    reach ConvertHF via (Size: small1 small2 small3 small4) * (DataMix: *)
 }
 
 plan ExternalConvertHF {

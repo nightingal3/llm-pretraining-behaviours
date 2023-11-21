@@ -5,6 +5,7 @@ global {
 
     ducttape_experimental_imports=true
     ducttape_experimental_submitters=true
+    ducttape_experimental_multiproc=true
 
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
@@ -380,6 +381,9 @@ global {
         EvalIteration:
             latest=""
             100k=100000
+            200k=200000
+            300k=300000
+            400k=400000
     )
     
     # model parameters
@@ -398,16 +402,16 @@ global {
             base=500000
             small4=500000
             small3=500000
-            small2=500000
-            small1=500000
+            small2=750000
+            small1=750000
     )
     batch_size=(
         Size:
             base=128
-            small4=128
-            small3=126
-            small2=128
-            small1=128
+            small4=96
+            small3=96
+            small2=64
+            small1=64 
     )
     grad_accum_steps=1
 

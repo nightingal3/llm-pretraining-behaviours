@@ -65,6 +65,7 @@ global {
             340k=340000
             360k=360000
             420k=420000
+            500k=500000
     )
     # model parameters
     model_config=(
