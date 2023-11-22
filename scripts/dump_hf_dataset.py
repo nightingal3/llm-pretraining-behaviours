@@ -24,6 +24,11 @@ def open_read_cleaned(filename) -> Iterable[str]:
     file: TextIO = gzip.open(filename, "rt")  # type: ignore
     return _close_when_exhausted(file)
 
+def open_bilingual_file(filename) -> Iterable[str]:
+    file: TextIO = gzip.open(filename, "rt")  # type: ignore
+    for line in file:
+        yield line.strip()
+
 def get_hf_dataset(
     dataset_name: str, 
     path: str=None,
@@ -91,55 +96,61 @@ def get_cleaned_dataset(
 
 def get_bilingual_dataset(
     directory: str=None,
+    dataset_name: str=None,
     max_tokens: Optional[int]=None,
     max_tokens_test: Optional[int]=None,
 ):
-    if max_tokens is not None:
-        max_tokens = max_tokens/11
-    if max_tokens_test is not None:
-        max_tokens_test = max_tokens_test/11
 
     data = []
     data_test = []
     data_test_hf = []
     total_words=0
-    for folder in os.listdir(directory):
-        source_lang = folder.split('-')[0]
-        target_lang = folder.split('-')[1]
-        
-        source_path=directory+folder+"/cometkiwi/threshold_0.85/cometiwi_data."+source_lang+'-'+target_lang+'.'+source_lang
-        target_path=directory+folder+"/cometkiwi/threshold_0.85/cometiwi_data."+target_lang+'-'+source_lang+'.'+target_lang
-        
-        assert os.path.exists(source_path), "Source path does not exist"
-        assert os.path.exists(target_path), "Target path does not exist"
 
-        source_data = open_read_cleaned(source_path)
-        target_data = open_read_cleaned(target_path)
+    source_lang = dataset_name.split('_')[0]
+    target_lang = dataset_name.split('_')[1]
+    
+    source_path=directory+source_lang+'-'+target_lang+'.'+source_lang
+    target_path=directory+source_lang+'-'+target_lang+'.'+target_lang
 
-        n_words_test=0
-        n_docs_test=0
-        if max_tokens_test is not None:
-            for source_doc, target_doc in zip(source_data, target_data):
-                n_docs_test+=1
-                n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
-                data_test.append(source_doc['text'] + "</s>" + "<s>" + target_doc['text'])
-                data_test_hf.append({'text': source_doc['text'] + "</s>" + "<s>" + target_doc['text']})
-                if n_words>=max_tokens_test:
-                    break
-        
-        n_words=0
-        n_docs=0
+    assert os.path.exists(source_path), "Source path does not exist"
+    assert os.path.exists(target_path), "Target path does not exist"
+
+    source_data = open_bilingual_file(source_path)
+    target_data = open_bilingual_file(target_path)
+
+    n_words_test=0
+    n_docs_test=0
+    if max_tokens_test is not None:
         for source_doc, target_doc in zip(source_data, target_data):
-            if n_docs<=n_docs_test:
-                n_docs+=1
+            n_words_test += len(source_doc.split(' ')) + len(target_doc.split(' '))
+            if n_docs_test%2==0:
+                data_test.append(source_doc + "</s>" + "<s>" + target_doc)
+                data_test_hf.append({'text': source_doc + "</s>" + "<s>" + target_doc})
             else:
-                n_words += len(source_doc['text'].split(' ')) + len(target_doc['text'].split(' '))
-                data.append({'text': source_doc['text'] + "</s>" + "<s>" + target_doc['text']})
-                if max_tokens is not None:
-                    if n_words>=max_tokens:
-                        break
-        print('n words', n_words)
-        total_words += n_words
+                data_test.append(target_doc + "</s>" + "<s>" + source_doc)
+                data_test_hf.append({'text': target_doc + "</s>" + "<s>" + source_doc})
+            n_docs_test+=1
+            if n_words_test>=max_tokens_test:
+                break
+
+    n_words=0
+    n_docs=0
+    for source_doc, target_doc in zip(source_data, target_data):
+        if n_docs<=n_docs_test:
+            n_docs+=1
+        else:
+            n_words += len(source_doc.split(' ')) + len(target_doc.split(' '))
+            if n_docs%2==0:
+                data.append({'text': source_doc + "</s>" + "<s>" + target_doc})
+            else:
+                data.append({'text': target_doc + "</s>" + "<s>" + source_doc})
+            if max_tokens is not None:
+                if n_words>=max_tokens:
+                    break
+            n_docs+=1
+
+    print('n words', n_words)
+    total_words += n_words
     
     print('total words', total_words)
     dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=data))
@@ -456,6 +467,7 @@ if __name__ == "__main__":
         if args.bilingual:
             dataset, test_dataset = get_bilingual_dataset(
                 directory=args.dataset_path,
+                dataset_name=args.dataset_name,
                 max_tokens=args.n_tokens,
                 max_tokens_test=args.n_tokens_test
             )
