@@ -17,8 +17,7 @@ parser.add_argument('--baseline_tokenizers', nargs='+', default=[
 ])
 args = parser.parse_args()
 
-tokenizer = Tokenizer.from_file(args.tokenizer_dir+'/tokenizer.json')
-
+tokenizer = transformers.AutoTokenizer.from_pretrained(args.tokenizer_dir)
 baseline_tokenizers = [
     transformers.AutoTokenizer.from_pretrained(tokenizer_name) 
     for tokenizer_name in args.baseline_tokenizers
@@ -30,6 +29,7 @@ baselines_tokenized_data = [dict() for _ in baseline_tokenizers]
 for eval_set in args.eval_sets:
     non_tokenized = []
     tokenized = []
+    tokenized_v2 = []
     baseline_tokenized = [[] for _ in baseline_tokenizers]
     
     with open(eval_set, 'r') as f:
@@ -37,7 +37,9 @@ for eval_set in args.eval_sets:
     
     for line in original:
         line.strip()
-        tokens = tokenizer.encode(line).tokens
+        tokens_ = tokenizer.convert_ids_to_tokens(tokenizer_v2.encode(line))
+        tokens = [ item for item in tokens_  if item != '<s>' ]
+
         baseline_tokens = [
             tokenizer.convert_ids_to_tokens(tokenizer.encode(line)) for tokenizer in baseline_tokenizers
         ]
@@ -100,6 +102,8 @@ for set_name in data:
         "bytes/piece": nb / pieces,
         "sentences/context": sents_per_context,
     }
+
+
     for i in range(len(baseline_tokenizers)):
         baseline_pieces = baseline_counts[i]["toks"]
 
