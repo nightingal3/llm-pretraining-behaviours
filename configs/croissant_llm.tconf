@@ -31,6 +31,7 @@ global {
     n_tokens_test=""
     bilingual=false
     code=false
+    multiple_valid_sets=false
 
     datamix_weights=(
         DataMix:

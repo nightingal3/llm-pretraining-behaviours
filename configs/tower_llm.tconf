@@ -13,7 +13,22 @@ global {
 
     # dataset pamaeters
     # unused since we pass the dataset path directly to the pipeline
-    dataset_name="towerllm-data"
+    dataset_name=(
+        Dataset: 
+            en en_wiki en_gutenberg en_arxiv en_bookcorpus 
+            de de_wiki 
+            es es_wiki 
+            fr fr_wiki 
+            it it_wiki
+            nl nl_wiki
+            pt pt_wiki
+            pl pl_wiki
+            ru ru_wiki
+            sv sv_wiki
+            ko ko_wiki
+            zh zh_wiki
+            code
+    )
     
     dataset_path=(
         Dataset:
@@ -241,6 +256,8 @@ global {
             code=500000
     )
 
+    multiple_valid_sets=true
+
     datamix_weights=(
         DataMix:
             enplus=(Dataset: 
@@ -305,7 +322,7 @@ global {
                 )
     )
 
-    external_tokenizer="/gpfswork/rech/hxz/ued79zb/towerllm-tokenizer"
+    external_tokenizer="Unbabel/TowerLLM_tokenizer_128k_v2"
 
     # training tokenizer parameters
     # WARNING: not passed to the rest of the pipeline

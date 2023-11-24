@@ -93,6 +93,7 @@ task PreprocessDataset
     mkdir -p $dataset_bin
     python $repo/Megatron-DeepSpeed/tools/preprocess_data.py \
         --input $dataset_json \
+        --json-keys content \
         --output-prefix $dataset_bin/data \
         --dataset-impl mmap \
         --tokenizer-type PretrainedFromHF \
@@ -118,6 +119,7 @@ task PreprocessValidDataset
     mkdir -p $val_dataset_bin
     python $repo/Megatron-DeepSpeed/tools/preprocess_data.py \
         --input $dataset_json_test \
+        --json-keys content \
         --output-prefix $val_dataset_bin/data \
         --dataset-impl mmap \
         --tokenizer-type PretrainedFromHF \
@@ -473,7 +475,7 @@ task Eval
             false=$model_dir@Train
             true=$external_model_dir
         )
-    < eval_set=$test_data@DumpHFDataset
+    < eval_set=@
     > eval_results 
     :: .submitter=@ 
     :: .C=$eval_C
@@ -587,7 +589,7 @@ task ConvertHF
     :: .cpus=$convert_cpus
     :: .gres=$convert_gres
     :: .mem=$convert_mem
-    :: gpus_ids=2
+    :: gpus_ids=0
     :: tp=@
     :: pp=@
     :: repo=@
@@ -659,11 +661,11 @@ plan TrainTokenizer {
 }
 
 plan Preprocess {
-    reach PreprocessDataset via (Dataset: *)
+    reach PreprocessDataset, PreprocessValidDataset via (Dataset: *)
 }
 
 plan ScalingAnalysis {
-    reach Train via (Size: small1 small2 small3 small4) * (DataMix: enplus enmid enless)
+    reach Train via (Size: small1 small2 small3 small4) * (DataMix: enplus enmid enmid_twowiki)
 }
 
 plan TrainLLM {
@@ -671,11 +673,11 @@ plan TrainLLM {
 }
 
 plan MidTrainingEval {
-    reach Eval via (Size: small3) * (DataMix: enplus enmid enless) * (UseExternal: true) * (EvalIteration: 100k 200k 300k 400k latest) * (Dataset: en en_wiki pt pt_wiki de de_wiki ru ru_wiki ko ko_wiki)
+    reach Eval via (Size: small3) * (DataMix: enplus enmid enmid_twowiki) * (UseExternal: true) * (EvalIteration: 100k 200k 300k 400k latest) * (Dataset: en en_wiki pt pt_wiki de de_wiki ru ru_wiki ko ko_wiki)
 }
 
 plan MidTrainingConvert {
-    reach ConvertHF via (Size: small4) * (DataMix: enplus) * (UseExternal: true)
+    reach ConvertHF via (Size: base) * (DataMix: equal) * (UseExternal: true)
 }
  
 plan ConvertHF {
