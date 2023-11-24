@@ -118,17 +118,20 @@ def get_bilingual_dataset(
     source_data = open_bilingual_file(source_path)
     target_data = open_bilingual_file(target_path)
 
+    lang_dict={"en": "English", "de": "German", "es": "Spanish", "fr": "French", "it": "Italian", "nl": "Dutch",
+               "pt": "Portuguese", "pl": "Polish", "ru": "Russian", "sv": "Sweden", "ko": "Korean", "zh": "Chinese"}
+
     n_words_test=0
     n_docs_test=0
     if max_tokens_test is not None:
         for source_doc, target_doc in zip(source_data, target_data):
             n_words_test += len(source_doc.split(' ')) + len(target_doc.split(' '))
             if n_docs_test%2==0:
-                data_test.append(source_doc + "</s>" + "<s>" + target_doc)
-                data_test_hf.append({'text': source_doc + "</s>" + "<s>" + target_doc})
+                data_test.append(lang_dict[source_lang] + ': ' + source_doc + ' ' + lang_dict[target_lang] + ': ' + target_doc)
+                data_test_hf.append({'text': lang_dict[source_lang] + ': ' + source_doc + ' ' +  lang_dict[target_lang] + ': ' + target_doc})
             else:
-                data_test.append(target_doc + "</s>" + "<s>" + source_doc)
-                data_test_hf.append({'text': target_doc + "</s>" + "<s>" + source_doc})
+                data_test.append(lang_dict[target_lang] + ': ' + target_doc + ' ' +  lang_dict[source_lang] + ': ' + source_doc)
+                data_test_hf.append({'text': lang_dict[target_lang] + ': ' + target_doc + ' ' +  lang_dict[source_lang] + ': ' + source_doc})
             n_docs_test+=1
             if n_words_test>=max_tokens_test:
                 break
@@ -141,9 +144,9 @@ def get_bilingual_dataset(
         else:
             n_words += len(source_doc.split(' ')) + len(target_doc.split(' '))
             if n_docs%2==0:
-                data.append({'text': source_doc + "</s>" + "<s>" + target_doc})
+                data.append({'text': lang_dict[source_lang] + ': ' + source_doc + ' ' +  lang_dict[target_lang] + ': ' + target_doc})
             else:
-                data.append({'text': target_doc + "</s>" + "<s>" + source_doc})
+                data.append({'text': lang_dict[target_lang] + ': ' + target_doc + ' ' +  lang_dict[source_lang] + ': ' + source_doc})
             if max_tokens is not None:
                 if n_words>=max_tokens:
                     break
