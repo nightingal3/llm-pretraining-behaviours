@@ -172,7 +172,7 @@ global {
             en_de_biling=false
             es=false
             es_wiki=false
-            en_de_biling=false
+            en_es_biling=false
             fr=false
             fr_wiki=false
             en_fr_biling=false

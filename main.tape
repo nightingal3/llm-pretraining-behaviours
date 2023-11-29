@@ -665,11 +665,11 @@ plan Preprocess {
 }
 
 plan ScalingAnalysis {
-    reach Train via (Size: small1 small2 small3 small4) * (DataMix: enplus enmid enmid_twowiki)
+    reach Train via (Size: small1 small2 small3 small4) * (DataMix: enmid_biling)
 }
 
 plan TrainLLM {
-    reach Train via (Size: base) * (DataMix: equal) 
+    reach Eval via (Size: base) * (DataMix: equal) * (EvalSet: *) * (UseExternal: true)
 }
 
 plan MidTrainingEval {
