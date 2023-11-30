@@ -555,6 +555,32 @@ global {
                 zh=28 zh_wiki=7 en_zh_biling_v2=5
                 code=30
                 )
+            enmid_biling_wiki=(Dataset: 
+                en=331 en_wiki=86 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                #de=10 de_wiki=20 en_de_biling=10
+                #es=18 es_wiki=12 en_es_biling=10
+                #fr=14 fr_wiki=16 en_fr_biling=10
+                #it=20 it_wiki=10 en_it_biling=10
+                #nl=24 nl_wiki=6 en_nl_biling=10
+                #pt=24 pt_wiki=6 en_pt_biling=10
+                #pl=24 pl_wiki=6 en_pl_biling=10
+                #ru=16 ru_wiki=14 en_ru_biling=10
+                #sv=25 sv_wiki=5 en_sv_biling=10
+                #ko=30 ko_wiki=5 en_ko_biling=5
+                #zh=28 zh_wiki=7 en_zh_biling=5
+                de=10 de_wiki=20 en_de_biling_v2=10
+                es=15 es_wiki=15 en_es_biling_v2=10
+                fr=14 fr_wiki=16 en_fr_biling_v2=10
+                it=15 it_wiki=15 en_it_biling_v2=10
+                nl=18 nl_wiki=12 en_nl_biling_v2=10
+                pt=18 pt_wiki=12 en_pt_biling_v2=10
+                pl=18 pl_wiki=12 en_pl_biling_v2=10
+                ru=15 ru_wiki=15 en_ru_biling_v2=10
+                sv=15 sv_wiki=10 en_sv_biling_v2=10
+                ko=25 ko_wiki=10 en_ko_biling_v2=5
+                zh=21 zh_wiki=14 en_zh_biling_v2=5
+                code=30
+                )
     )
 
     external_tokenizer="Unbabel/TowerLLM_tokenizer_128k_v2"
