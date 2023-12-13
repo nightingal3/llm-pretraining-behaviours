@@ -16,17 +16,17 @@ global {
     dataset_name=(
         Dataset: 
             en en_wiki en_gutenberg en_arxiv en_bookcorpus
-            de de_wiki en_de_biling_v2
-            es es_wiki en_es_biling_v2
-            fr fr_wiki en_fr_biling_v2
-            it it_wiki en_it_biling_v2
-            nl nl_wiki en_nl_biling_v2
-            pt pt_wiki en_pt_biling_v2
-            pl pl_wiki en_pl_biling_v2
-            ru ru_wiki en_ru_biling_v2
-            sv sv_wiki en_sv_biling_v2
-            ko ko_wiki en_ko_biling_v2
-            zh zh_wiki en_zh_biling_v2
+            de de_wiki en_de_biling
+            es es_wiki en_es_biling
+            fr fr_wiki en_fr_biling
+            it it_wiki en_it_biling
+            nl nl_wiki en_nl_biling
+            pt pt_wiki en_pt_biling
+            pl pl_wiki en_pl_biling
+            ru ru_wiki en_ru_biling
+            sv sv_wiki en_sv_biling
+            ko ko_wiki en_ko_biling
+            zh zh_wiki en_zh_biling
             code
     )
     
@@ -39,37 +39,37 @@ global {
             en_bookcorpus=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bookcorpus/v1/en/lid/
             de=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/de/
             de_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/de/lid/
-            en_de_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-de/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_de_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-de/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             es=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/es/
             es_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/es/lid/
-            en_es_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-es/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_es_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-es/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             fr=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/fr/
             fr_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/fr/lid/
-            en_fr_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-fr/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_fr_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-fr/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             it=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/it/
             it_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/it/lid/
-            en_it_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-it/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_it_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-it/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             nl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/nl/
             nl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/nl/lid/
-            en_nl_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-nl/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_nl_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-nl/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             pt=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pt/
             pt_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pt/lid/
-            en_pt_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-pt/bicleaner_0.6_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_pt_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-pt/bicleaner_0.6_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             pl=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/pl/
             pl_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/pl/lid/
-            en_pl_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-pl/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_pl_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-pl/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             ru=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ru/
             ru_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ru/lid/
-            en_ru_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-ru/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_ru_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-ru/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             sv=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/sv/
             sv_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/sv/lid/
-            en_sv_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-sv/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_sv_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-sv/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             ko=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/ko/
             ko_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/ko/lid/
-            en_ko_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-ko/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_ko_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-ko/bicleaner_0.5_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             zh=/gpfsstore/rech/hxz/ued79zb/towerllm-data/v1/zh/
             zh_wiki=/gpfsstore/rech/hxz/ued79zb/towerllm-data/wikipedia/v1/zh/lid/
-            en_zh_biling_v2=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-zh/no_bicleaner_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
+            en_zh_biling=/gpfsstore/rech/hxz/ued79zb/towerllm-data/bilingual_data/en-zh/no_bicleaner_cometkiwi-wmt22-cometkiwi-da/threshold_0.75/cometkiwi_data.
             code=/gpfsstore/rech/hxz/ued79zb/towerllm-data/code/data
     )
 
@@ -85,37 +85,37 @@ global {
             en_bookcorpus=false
             de=false
             de_wiki=false
-            en_de_biling_v2=false
+            en_de_biling=false
             es=false
             es_wiki=false
-            en_es_biling_v2=false
+            en_es_biling=false
             fr=false
             fr_wiki=false
-            en_fr_biling_v2=false
+            en_fr_biling=false
             it=false
             it_wiki=false
-            en_it_biling_v2=false
+            en_it_biling=false
             nl=false
             nl_wiki=false
-            en_nl_biling_v2=false
+            en_nl_biling=false
             pt=false
             pt_wiki=false
-            en_pt_biling_v2=false
+            en_pt_biling=false
             pl=false
             pl_wiki=false
-            en_pl_biling_v2=false
+            en_pl_biling=false
             ru=false
             ru_wiki=false
-            en_ru_biling_v2=false
+            en_ru_biling=false
             sv=false
             sv_wiki=false
-            en_sv_biling_v2=false
+            en_sv_biling=false
             ko=false
             ko_wiki=false
-            en_ko_biling_v2=false
+            en_ko_biling=false
             zh=false
             zh_wiki=false
-            en_zh_biling_v2=false
+            en_zh_biling=false
             code=true
     )
 
@@ -127,37 +127,37 @@ global {
             en_bookcorpus=false
             de=false
             de_wiki=false
-            en_de_biling_v2=true
+            en_de_biling=true
             es=false
             es_wiki=false
-            en_es_biling_v2=true
+            en_es_biling=true
             fr=false
             fr_wiki=false
-            en_fr_biling_v2=true
+            en_fr_biling=true
             it=false
             it_wiki=false
-            en_it_biling_v2=true
+            en_it_biling=true
             nl=false
             nl_wiki=false
-            en_nl_biling_v2=true
+            en_nl_biling=true
             pt=false
             pt_wiki=false
-            en_pt_biling_v2=true
+            en_pt_biling=true
             pl=false
             pl_wiki=false
-            en_pl_biling_v2=true
+            en_pl_biling=true
             ru=false
             ru_wiki=false
-            en_ru_biling_v2=true
+            en_ru_biling=true
             sv=false
             sv_wiki=false
-            en_sv_biling_v2=true
+            en_sv_biling=true
             ko=false
             ko_wiki=false
-            en_ko_biling_v2=true
+            en_ko_biling=true
             zh=false
             zh_wiki=false
-            en_zh_biling_v2=true
+            en_zh_biling=true
             code=false
     )
 
@@ -169,37 +169,37 @@ global {
             en_bookcorpus=false
             de=false
             de_wiki=false
-            en_de_biling_v2=false
+            en_de_biling=false
             es=false
             es_wiki=false
-            en_es_biling_v2=false
+            en_es_biling=false
             fr=false
             fr_wiki=false
-            en_fr_biling_v2=false
+            en_fr_biling=false
             it=false
             it_wiki=false
-            en_it_biling_v2=false
+            en_it_biling=false
             nl=false
             nl_wiki=false
-            en_nl_biling_v2=false
+            en_nl_biling=false
             pt=false
             pt_wiki=false
-            en_pt_biling_v2=false
+            en_pt_biling=false
             pl=false
             pl_wiki=false
-            en_pl_biling_v2=false
+            en_pl_biling=false
             ru=false
             ru_wiki=false
-            en_ru_biling_v2=false
+            en_ru_biling=false
             sv=false
             sv_wiki=false
-            en_sv_biling_v2=false
+            en_sv_biling=false
             ko=false
             ko_wiki=false
-            en_ko_biling_v2=false
+            en_ko_biling=false
             zh=false
             zh_wiki=false
-            en_zh_biling_v2=false
+            en_zh_biling=false
             code=true
     )
 
@@ -212,37 +212,37 @@ global {
             en_bookcorpus=""
             de=50
             de_wiki=""
-            en_de_biling_v2=""
+            en_de_biling=""
             es=50
             es_wiki=""
-            en_es_biling_v2=""
+            en_es_biling=""
             fr=50
             fr_wiki=""
-            en_fr_biling_v2=""
+            en_fr_biling=""
             it=50
             it_wiki=""
-            en_it_biling_v2=""
+            en_it_biling=""
             nl=50
             nl_wiki=""
-            en_nl_biling_v2=""
+            en_nl_biling=""
             pt=50
             pt_wiki=""
-            en_pt_biling_v2=""
+            en_pt_biling=""
             pl=50
             pl_wiki=""
-            en_pl_biling_v2=""
+            en_pl_biling=""
             ru=50
             ru_wiki=""
-            en_ru_biling_v2=""
+            en_ru_biling=""
             sv=50
             sv_wiki=""
-            en_sv_biling_v2=""
+            en_sv_biling=""
             ko=50
             ko_wiki=""
-            en_ko_biling_v2=""
+            en_ko_biling=""
             zh=50
             zh_wiki=""
-            en_zh_biling_v2=""
+            en_zh_biling=""
             code=50
     )
 
@@ -256,37 +256,37 @@ global {
             en_bookcorpus=1000000000
             de=5000000000
             de_wiki=5000000000
-            en_de_biling_v2=5000000000
+            en_de_biling=5000000000
             es=5000000000
             es_wiki=2000000000
-            en_es_biling_v2=5000000000
+            en_es_biling=5000000000
             fr=5000000000
             fr_wiki=2000000000
-            en_fr_biling_v2=5000000000
+            en_fr_biling=5000000000
             it=5000000000
             it_wiki=1000000000
-            en_it_biling_v2=5000000000
+            en_it_biling=5000000000
             nl=5000000000
             nl_wiki=1000000000
-            en_nl_biling_v2=5000000000
+            en_nl_biling=5000000000
             pt=5000000000
             pt_wiki=1000000000
-            en_pt_biling_v2=5000000000
+            en_pt_biling=5000000000
             pl=5000000000
             pl_wiki=1000000000
-            en_pl_biling_v2=5000000000
+            en_pl_biling=5000000000
             ru=5000000000
             ru_wiki=2000000000
-            en_ru_biling_v2=5000000000
+            en_ru_biling=5000000000
             sv=5000000000
             sv_wiki=1000000000
-            en_sv_biling_v2=5000000000
+            en_sv_biling=5000000000
             ko=5000000000
             ko_wiki=1000000000
-            en_ko_biling_v2=5000000000
+            en_ko_biling=5000000000
             zh=20000000000
             zh_wiki=2000000000
-            en_zh_biling_v2=5000000000
+            en_zh_biling=5000000000
             code=3000000000
     )
 
@@ -299,37 +299,37 @@ global {
             en_bookcorpus=500000
             de=500000
             de_wiki=500000
-            en_de_biling_v2=500000
+            en_de_biling=500000
             es=500000
             es_wiki=500000
-            en_es_biling_v2=500000
+            en_es_biling=500000
             fr=500000
             fr_wiki=500000
-            en_fr_biling_v2=500000
+            en_fr_biling=500000
             it=500000
             it_wiki=500000
-            en_it_biling_v2=500000
+            en_it_biling=500000
             nl=500000
             nl_wiki=500000
-            en_nl_biling_v2=500000
+            en_nl_biling=500000
             pt=500000
             pt_wiki=500000
-            en_pt_biling_v2=500000
+            en_pt_biling=500000
             pl=500000
             pl_wiki=500000
-            en_pl_biling_v2=500000
+            en_pl_biling=500000
             ru=500000
             ru_wiki=500000
-            en_ru_biling_v2=500000
+            en_ru_biling=500000
             sv=500000
             sv_wiki=500000
-            en_sv_biling_v2=500000
+            en_sv_biling=500000
             ko=500000
             ko_wiki=500000
-            en_ko_biling_v2=500000
+            en_ko_biling=500000
             zh=500000
             zh_wiki=500000
-            en_zh_biling_v2=500000
+            en_zh_biling=500000
             code=500000
     )
 
@@ -337,65 +337,99 @@ global {
 
     datamix_weights=(
         DataMix:
+            enplus=(Dataset: 
+                en=484 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=10 de_wiki=20 en_de_biling=0
+                es=18 es_wiki=12 en_es_biling=0
+                fr=14 fr_wiki=16 en_fr_biling=0
+                it=20 it_wiki=10 en_it_biling=0
+                nl=24 nl_wiki=6 en_nl_biling=0
+                pt=24 pt_wiki=6 en_pt_biling=0
+                pl=24 pl_wiki=6 en_pl_biling=0
+                ru=16 ru_wiki=14 en_ru_biling=0
+                sv=25 sv_wiki=5 en_sv_biling=0
+                ko=25 ko_wiki=5 en_ko_biling=0
+                zh=23 zh_wiki=7 en_zh_biling=0
+                code=30
+                )
             enmid=(Dataset: 
                 en=374 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                de=20 de_wiki=20 en_de_biling_v2=0
-                es=28 es_wiki=12 en_es_biling_v2=0
-                fr=24 fr_wiki=16 en_fr_biling_v2=0
-                it=30 it_wiki=10 en_it_biling_v2=0
-                nl=34 nl_wiki=6 en_nl_biling_v2=0
-                pt=34 pt_wiki=6 en_pt_biling_v2=0
-                pl=34 pl_wiki=6 en_pl_biling_v2=0
-                ru=26 ru_wiki=14 en_ru_biling_v2=0
-                sv=35 sv_wiki=5 en_sv_biling_v2=0
-                ko=35 ko_wiki=5 en_ko_biling_v2=0
-                zh=33 zh_wiki=7 en_zh_biling_v2=0
+                de=20 de_wiki=20 en_de_biling=0
+                es=28 es_wiki=12 en_es_biling=0
+                fr=24 fr_wiki=16 en_fr_biling=0
+                it=30 it_wiki=10 en_it_biling=0
+                nl=34 nl_wiki=6 en_nl_biling=0
+                pt=34 pt_wiki=6 en_pt_biling=0
+                pl=34 pl_wiki=6 en_pl_biling=0
+                ru=26 ru_wiki=14 en_ru_biling=0
+                sv=35 sv_wiki=5 en_sv_biling=0
+                ko=35 ko_wiki=5 en_ko_biling=0
+                zh=33 zh_wiki=7 en_zh_biling=0
+                code=30
+                )
+            enless=(Dataset: 
+                en=264 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=30 de_wiki=20 en_de_biling=0
+                es=38 es_wiki=12 en_es_biling=0
+                fr=34 fr_wiki=16 en_fr_biling=0
+                it=40 it_wiki=10 en_it_biling=0
+                nl=44 nl_wiki=6 en_nl_biling=0
+                pt=44 pt_wiki=6 en_pt_biling=0
+                pl=44 pl_wiki=6 en_pl_biling=0
+                ru=36 ru_wiki=14 en_ru_biling=0
+                sv=45 sv_wiki=5 en_sv_biling=0
+                ko=45 ko_wiki=5 en_ko_biling=0
+                zh=43 zh_wiki=7 en_zh_biling=0
+                code=30
+                )
+            enmid_twowiki=(Dataset: 
+                en=331 en_wiki=86 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=0 de_wiki=40 en_de_biling=0
+                es=16 es_wiki=24 en_es_biling=0
+                fr=8 fr_wiki=32 en_fr_biling=0
+                it=20 it_wiki=20 en_it_biling=0
+                nl=28 nl_wiki=12 en_nl_biling=0
+                pt=28 pt_wiki=12 en_pt_biling=0
+                pl=28 pl_wiki=12 en_pl_biling=0
+                ru=12 ru_wiki=28 en_ru_biling=0
+                sv=30 sv_wiki=10 en_sv_biling=0
+                ko=30 ko_wiki=10 en_ko_biling=0
+                zh=26 zh_wiki=14 en_zh_biling=0
+                code=30
+                )
+            enmid_biling=(Dataset: 
+                en=374 en_wiki=43 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
+                de=10 de_wiki=20 en_de_biling=10
+                es=18 es_wiki=12 en_es_biling=10
+                fr=14 fr_wiki=16 en_fr_biling=10
+                it=20 it_wiki=10 en_it_biling=10
+                nl=24 nl_wiki=6 en_nl_biling=10
+                pt=24 pt_wiki=6 en_pt_biling=10
+                pl=24 pl_wiki=6 en_pl_biling=10
+                ru=16 ru_wiki=14 en_ru_biling=10
+                sv=25 sv_wiki=5 en_sv_biling=10
+                ko=30 ko_wiki=5 en_ko_biling=5
+                zh=28 zh_wiki=7 en_zh_biling=5
                 code=30
                 )
             enmid_biling_wiki=(Dataset: 
                 en=331 en_wiki=86 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                de=10 de_wiki=20 en_de_biling_v2=10
-                es=15 es_wiki=15 en_es_biling_v2=10
-                fr=14 fr_wiki=16 en_fr_biling_v2=10
-                it=15 it_wiki=15 en_it_biling_v2=10
-                nl=18 nl_wiki=12 en_nl_biling_v2=10
-                pt=18 pt_wiki=12 en_pt_biling_v2=10
-                pl=18 pl_wiki=12 en_pl_biling_v2=10
-                ru=15 ru_wiki=15 en_ru_biling_v2=10
-                sv=15 sv_wiki=10 en_sv_biling_v2=10
-                ko=25 ko_wiki=10 en_ko_biling_v2=5
-                zh=21 zh_wiki=14 en_zh_biling_v2=5
-                code=30
-                )
-            enmid_biling_wiki=(Dataset: 
-                en=331 en_wiki=86 en_gutenberg=10 en_arxiv=100 en_bookcorpus=3 
-                #de=10 de_wiki=20 en_de_biling=10
-                #es=18 es_wiki=12 en_es_biling=10
-                #fr=14 fr_wiki=16 en_fr_biling=10
-                #it=20 it_wiki=10 en_it_biling=10
-                #nl=24 nl_wiki=6 en_nl_biling=10
-                #pt=24 pt_wiki=6 en_pt_biling=10
-                #pl=24 pl_wiki=6 en_pl_biling=10
-                #ru=16 ru_wiki=14 en_ru_biling=10
-                #sv=25 sv_wiki=5 en_sv_biling=10
-                #ko=30 ko_wiki=5 en_ko_biling=5
-                #zh=28 zh_wiki=7 en_zh_biling=5
-                de=10 de_wiki=20 en_de_biling_v2=10
-                es=15 es_wiki=15 en_es_biling_v2=10
-                fr=14 fr_wiki=16 en_fr_biling_v2=10
-                it=15 it_wiki=15 en_it_biling_v2=10
-                nl=18 nl_wiki=12 en_nl_biling_v2=10
-                pt=18 pt_wiki=12 en_pt_biling_v2=10
-                pl=18 pl_wiki=12 en_pl_biling_v2=10
-                ru=15 ru_wiki=15 en_ru_biling_v2=10
-                sv=15 sv_wiki=10 en_sv_biling_v2=10
-                ko=25 ko_wiki=10 en_ko_biling_v2=5
-                zh=21 zh_wiki=14 en_zh_biling_v2=5
+                de=10 de_wiki=20 en_de_biling=10
+                es=15 es_wiki=15 en_es_biling=10
+                fr=14 fr_wiki=16 en_fr_biling=10
+                it=15 it_wiki=15 en_it_biling=10
+                nl=18 nl_wiki=12 en_nl_biling=10
+                pt=18 pt_wiki=12 en_pt_biling=10
+                pl=18 pl_wiki=12 en_pl_biling=10
+                ru=15 ru_wiki=15 en_ru_biling=10
+                sv=15 sv_wiki=10 en_sv_biling=10
+                ko=25 ko_wiki=10 en_ko_biling=5
+                zh=21 zh_wiki=14 en_zh_biling=5
                 code=30
                 )
     )
 
-    external_tokenizer="Unbabel/TowerLLM_tokenizer_128k_v3"
+    external_tokenizer="Unbabel/TowerLLM_tokenizer_128k_v2"
 
 
     # training tokenizer parameters
@@ -411,37 +445,37 @@ global {
         en_bookcorpus=250000000
         de=250000000
         de_wiki=250000000
-        en_de_biling_v2=0
+        en_de_biling=0
         es=250000000
         es_wiki=250000000
-        en_es_biling_v2=0
+        en_es_biling=0
         fr=250000000
         fr_wiki=250000000
-        en_fr_biling_v2=0
+        en_fr_biling=0
         it=250000000
         it_wiki=250000000
-        en_it_biling_v2=0
+        en_it_biling=0
         nl=250000000
         nl_wiki=250000000
-        en_nl_biling_v2=0
+        en_nl_biling=0
         pt=250000000
         pt_wiki=250000000
-        en_pt_biling_v2=0
+        en_pt_biling=0
         pl=250000000
         pl_wiki=250000000
-        en_pl_biling_v2=0
+        en_pl_biling=0
         ru=250000000
         ru_wiki=250000000
-        en_ru_biling_v2=0
+        en_ru_biling=0
         sv=250000000
         sv_wiki=250000000
-        en_sv_biling_v2=0
+        en_sv_biling=0
         ko=250000000
         ko_wiki=250000000
-        en_ko_biling_v2=0
+        en_ko_biling=0
         zh=500000000
         zh_wiki=500000000
-        en_zh_biling_v2=0
+        en_zh_biling=0
         code=250000000
     )
     extra_tokens=2000
@@ -455,37 +489,37 @@ global {
             en_bookcorpus='whitespace'
             de='whitespace'
             de_wiki='whitespace'
-            en_de_biling_v2='whitespace'
+            en_de_biling='whitespace'
             es='whitespace'
             es_wiki='whitespace'
-            en_es_biling_v2='whitespace'
+            en_es_biling='whitespace'
             fr='whitespace'
             fr_wiki='whitespace'
-            en_fr_biling_v2='whitespace'
+            en_fr_biling='whitespace'
             it='whitespace'
             it_wiki='whitespace'
-            en_it_biling_v2='whitespace'
+            en_it_biling='whitespace'
             nl='whitespace'
             nl_wiki='whitespace'
-            en_nl_biling_v2='whitespace'
+            en_nl_biling='whitespace'
             pt='whitespace'
             pt_wiki='whitespace'
-            en_pt_biling_v2='whitespace'
+            en_pt_biling='whitespace'
             pl='whitespace'
             pl_wiki='whitespace'
-            en_pl_biling_v2='whitespace'
+            en_pl_biling='whitespace'
             ru='whitespace'
             ru_wiki='whitespace'
-            en_ru_biling_v2='whitespace'
+            en_ru_biling='whitespace'
             sv='whitespace'
             sv_wiki='whitespace'
-            en_sv_biling_v2='whitespace'
+            en_sv_biling='whitespace'
             ko='whitespace'
             ko_wiki='whitespace'
-            en_ko_biling_v2='whitespace'
+            en_ko_biling='whitespace'
             zh='characters'
             zh_wiki='characters'
-            en_zh_biling_v2='whitespace'
+            en_zh_biling='whitespace'
             code='whitespace'
     )
 
