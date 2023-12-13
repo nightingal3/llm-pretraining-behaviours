@@ -1,4 +1,4 @@
-import "tower_llm_uservars.tconf"
+import "tower_llm_v1_uservars.tconf"
 
 global {
     # WARNING: change these variables to your own paths
