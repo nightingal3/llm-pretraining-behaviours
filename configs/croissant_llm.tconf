@@ -8,7 +8,6 @@ global {
     # set this to true if you want to restart from a previous checkpoint saved in external_model_dir
     # WARNING: setting this to false will delete the contents of external_model_dir
     external_resume=true
-    external_tensorboard=""
 
     # dataset pamaeters
     dataset_name=(
@@ -17,7 +16,6 @@ global {
             english=manu/english-60b
             code=manu/code-20b
     )
-
     dataset_path=(
         Dataset:
             french=/gpfsstore/rech/hxz/ued79zb/croissllm-data/manu/french-30b
@@ -33,6 +31,7 @@ global {
     n_tokens_test=""
     bilingual=false
     code=false
+    multiple_valid_sets=false
 
     datamix_weights=(
         DataMix:
@@ -65,11 +64,14 @@ global {
             100k=100000
             200k=200000
             340k=340000
+            360k=360000
+            420k=420000
+            500k=500000
     )
     # model parameters
     model_config=(
         Size: 
-            base=llama2_1b
+            base=llama2_1b3
             small4=llama2_440m
             small3=llama2_268m
             small2=llama2_166m
@@ -79,7 +81,7 @@ global {
     # training parameters
     train_steps=(
         Size:
-            base=500000
+            base=1000000
             small4=500000
             small3=500000
             small2=500000
@@ -87,7 +89,7 @@ global {
     )
     batch_size=(
         Size:
-            base=128
+            base=64
             small4=128
             small3=126
             small2=128
