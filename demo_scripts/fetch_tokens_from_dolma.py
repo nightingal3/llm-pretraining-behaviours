@@ -28,20 +28,10 @@ def process_zipped_file(content: bytes) -> list:
         lines = [line.strip() for line in lines]
         return lines
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--num_tokens", help="Number of tokens to fetch", type=int)
-    parser.add_argument("--output", help="Output file", type=str)
-    parser.add_argument("--domain", help="Domains to fetch", type=str, choices=["peS2o", "common-crawl", "stack-code", "wiki-en-simple", "c4", "gutenberg-books"])
-    args = parser.parse_args()
-
-    output_file = args.output if args.output else f"./{args.domain}_{args.num_tokens}_tokens.arrow"
+def fetch_tokens(num_tokens: int, domain: str, output_file: str or None, all_files_lst: list):
     current_tokens = 0
-    num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[args.domain]
 
-    print(f"Fetching {num_tokens} tokens from {args.domain}")
-    # the flask server has to be up on clio
-    all_files_lst = requests.get("http://128.2.209.71:5000/list-all").json()
+    print(f"Fetching {num_tokens} tokens from {domain}")
 
     # shuffle
     random.seed(42)
@@ -52,7 +42,7 @@ if __name__ == "__main__":
     all_files_lst = [f for f in all_files_lst if f.endswith(".gz")]
 
     # filter by top level domain
-    all_files_lst = [f for f in all_files_lst if args.domain in f]
+    all_files_lst = [f for f in all_files_lst if domain in f]
     tokenizer = AutoTokenizer.from_pretrained(LLAMA_DIR)
     tokenizer.pad_token = tokenizer.eos_token
 
@@ -61,14 +51,17 @@ if __name__ == "__main__":
     with tqdm(total=num_tokens) as pbar:
         while current_tokens < num_tokens:
             response = requests.get(f"http://128.2.209.71:5000/{all_files_lst[i]}")
+
             if response.status_code != 200:
                 print(f"Error fetching {all_files_lst[i]}")
                 continue
             
             i += 1
+
             lines = [json.loads(l) for l in process_zipped_file(response.content)]
             texts = [line["text"] for line in lines]
             all_texts.extend(lines)
+
             # tokenizing individually to avoid oom
             for text in texts:
                 encoded_inputs = tokenizer(text, truncation=True, padding=True, return_tensors="pt")
@@ -82,14 +75,14 @@ if __name__ == "__main__":
             # save the reduced dataset as an arrow file, dump every 1M lines
             if current_tokens >= num_tokens or len(all_texts) >= 1_000_000:
                 part_ind += 1
-                output_file = args.output if args.output else f"./{args.domain}_{num_tokens}/part_{part_ind}.arrow"
+                # NOTE: Unsure if this causes bug when output_file is given; should append new lines but might overwrite - for now just don't specify output file
+                output_file = output_file if output_file else f"./dolma/{domain}_{num_tokens}/part_{part_ind}.arrow"
                 # mkdir -p
                 os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
                 # just keep main data
                 fields_to_keep = ["text", "id", "lang"]
                 all_texts = [{k: v for k, v in line.items() if k in fields_to_keep} for line in all_texts]
-                breakpoint()
                 df = pd.DataFrame(all_texts)
                 df.to_parquet(output_file)
                 print(f"Wrote dataset of size {current_tokens} to {output_file}")
@@ -98,3 +91,23 @@ if __name__ == "__main__":
         
 
     print(f"Saved all output ({current_tokens} tokens)")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--num_tokens", help="Number of tokens to fetch", type=int)
+    parser.add_argument("--output", help="Output file", type=str)
+    parser.add_argument("--domain", help="Domains to fetch", type=str, choices=["peS2o", "common-crawl", "stack-code", "wiki-en-simple", "c4", "gutenberg-books"])
+    args = parser.parse_args()
+
+    # the flask server has to be up on clio
+    all_files_lst = requests.get("http://128.2.209.71:5000/list-all").json()
+
+    if args.domain:
+        num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[args.domain]
+        fetch_tokens(num_tokens=num_tokens, domain=args.domain, 
+                     output_file=args.output, all_files_lst=all_files_lst)
+    else:
+        for domain in TOKENS_TO_FETCH_10B.keys():
+            num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[domain]
+            fetch_tokens(num_tokens=num_tokens, domain=domain, 
+                         output_file=args.output, all_files_lst=all_files_lst)

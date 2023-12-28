@@ -1,4 +1,4 @@
 [submodule "Megatron-DeepSpeed"]
 	path = Megatron-DeepSpeed
-	url = ../Megatron-DeepSpeed.git
+	url = https://github.com/microsoft/Megatron-DeepSpeed.git
 
