@@ -22,15 +22,17 @@ TOKENS_TO_FETCH_10B = {
     "wiki-en-simple": 200_000_000,
 }
 
+DUMP_FREQUENCY = 1_000_000
+
 def process_zipped_file(content: bytes) -> list:
     with gzip.open(BytesIO(content), "rt") as f:
         lines = f.readlines()
         lines = [line.strip() for line in lines]
         return lines
 
-def fetch_tokens(num_tokens: int, domain: str, output_file: str or None, all_files_lst: list):
+def fetch_tokens(num_tokens: int, domain: str, output_dir: str or None, all_files_lst: list):
     current_tokens = 0
-
+    output_dir = output_dir if output_dir else f"./dolma/{domain}_{num_tokens}"
     print(f"Fetching {num_tokens} tokens from {domain}")
 
     # shuffle
@@ -58,56 +60,58 @@ def fetch_tokens(num_tokens: int, domain: str, output_file: str or None, all_fil
             
             i += 1
 
-            lines = [json.loads(l) for l in process_zipped_file(response.content)]
-            texts = [line["text"] for line in lines]
-            all_texts.extend(lines)
+            docs = [json.loads(l) for l in process_zipped_file(response.content)]
+            texts = [d["text"] for d in docs]
+            #all_texts.extend(lines)
 
             # tokenizing individually to avoid oom
-            for text in texts:
+            for i, text in enumerate(texts):
+                all_texts.append(docs[i])
                 encoded_inputs = tokenizer(text, truncation=True, padding=True, return_tensors="pt")
                 num_non_padding_toks = encoded_inputs["attention_mask"].sum(dim=1).tolist()
                 current_tokens += sum(num_non_padding_toks)
                 pbar.update(sum(num_non_padding_toks))
 
-                if current_tokens >= num_tokens:
-                    break
+                #if current_tokens >= num_tokens:
+                    #break
 
-            # save the reduced dataset as an arrow file, dump every 1M lines
-            if current_tokens >= num_tokens or len(all_texts) >= 100:
-                part_ind += 1
-                # NOTE: Unsure if this causes bug when output_file is given; should append new lines but might overwrite - for now just don't specify output file
-                output_file = output_file if output_file else f"./dolma/{domain}_{num_tokens}/part_{part_ind}.arrow"
-                # mkdir -p
-                os.makedirs(os.path.dirname(output_file), exist_ok=True)
+                # save the reduced dataset as an arrow file, dump every 1M lines
+                if current_tokens >= num_tokens or len(all_texts) >= DUMP_FREQUENCY:
+                    part_ind += 1
+                    # NOTE: Unsure if this causes bug when output_file is given; should append new lines but might overwrite - for now just don't specify output file
+                    output_file = f"{output_dir}/part_{part_ind}.arrow"
+                    print("Output file is ", output_file)
+                    # mkdir -p
+                    os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
-                # just keep main data
-                fields_to_keep = ["text", "id", "lang"]
-                all_texts = [{k: v for k, v in line.items() if k in fields_to_keep} for line in all_texts]
-                df = pd.DataFrame(all_texts)
-                df.to_parquet(output_file)
-                print(f"Wrote dataset of size {current_tokens} to {output_file}")
+                    # just keep main data
+                    fields_to_keep = ["text", "id", "lang"]
+                    all_texts = [{k: v for k, v in line.items() if k in fields_to_keep} for line in all_texts]
+                    df = pd.DataFrame(all_texts)
+                    df.to_parquet(output_file)
+                    print(f"Wrote dataset of size {current_tokens} to {output_file}")
 
-                all_texts = []
-        
+                    del df
+                    all_texts = []
+            
 
     print(f"Saved all output ({current_tokens} tokens)")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--num_tokens", help="Number of tokens to fetch", type=int)
-    parser.add_argument("--output", help="Output file", type=str)
+    parser.add_argument("--output", help="Output dir", type=str)
     parser.add_argument("--domain", help="Domains to fetch", type=str, choices=["peS2o", "common-crawl", "stack-code", "wiki-en-simple", "c4", "gutenberg-books"])
     args = parser.parse_args()
 
     # the flask server has to be up on clio
     all_files_lst = requests.get("http://128.2.209.71:5000/list-all").json()
-
     if args.domain:
         num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[args.domain]
         fetch_tokens(num_tokens=num_tokens, domain=args.domain, 
-                     output_file=args.output, all_files_lst=all_files_lst)
+                     output_dir=args.output, all_files_lst=all_files_lst)
     else:
         for domain in TOKENS_TO_FETCH_10B.keys():
             num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[domain]
             fetch_tokens(num_tokens=num_tokens, domain=domain, 
-                         output_file=args.output, all_files_lst=all_files_lst)
+                         output_dir=args.output, all_files_lst=all_files_lst)
