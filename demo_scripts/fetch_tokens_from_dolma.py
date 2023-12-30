@@ -73,7 +73,7 @@ def fetch_tokens(num_tokens: int, domain: str, output_file: str or None, all_fil
                     break
 
             # save the reduced dataset as an arrow file, dump every 1M lines
-            if current_tokens >= num_tokens or len(all_texts) >= 1_000_000:
+            if current_tokens >= num_tokens or len(all_texts) >= 100:
                 part_ind += 1
                 # NOTE: Unsure if this causes bug when output_file is given; should append new lines but might overwrite - for now just don't specify output file
                 output_file = output_file if output_file else f"./dolma/{domain}_{num_tokens}/part_{part_ind}.arrow"
