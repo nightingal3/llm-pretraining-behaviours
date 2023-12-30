@@ -78,7 +78,6 @@ def fetch_tokens(num_tokens: int, domain: str, output_dir: str or None, all_file
                 # save the reduced dataset as an arrow file, dump every 1M lines
                 if current_tokens >= num_tokens or len(all_texts) >= DUMP_FREQUENCY:
                     part_ind += 1
-                    # NOTE: Unsure if this causes bug when output_file is given; should append new lines but might overwrite - for now just don't specify output file
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
                     print("Output file is ", output_file)
                     # mkdir -p
