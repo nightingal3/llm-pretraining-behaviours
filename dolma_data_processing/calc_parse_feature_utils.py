@@ -39,7 +39,7 @@ def get_const_parse_features(
         })
 
     def get_depth_features(
-        tree: stanza.constituency,
+        tree: Any,
     ) -> Tuple[List[int], List[int]]:
         def traverse_get_depth(
             tree,
@@ -65,14 +65,14 @@ def get_const_parse_features(
     for sentence in processed_text.sentences:
         num_words_input += len(sentence.words)
         for word in sentence.words:
-            feature_dict.num_sentences_input.append(len(processed_text.sentences))
-            feature_dict.num_words_sentence.append(len(sentence.words))
-            feature_dict.upos_label.append(word.upos)
-            feature_dict.xpos_label.append(word.xpos)
+            feature_dict["num_sentences_input"].append(len(processed_text.sentences))
+            feature_dict["num_words_sentence"].append(len(sentence.words))
+            feature_dict["upos_label"].append(word.upos)
+            feature_dict["xpos_label"].append(word.xpos)
         word_depths, max_depth = get_depth_features(sentence.constituency)
-        feature_dict.const_word_depth += word_depths
-        feature_dict.const_tree_depth += max_depth
-    feature_dict.num_words_input = [num_words_input] * num_words_input
+        feature_dict["const_word_depth"] += word_depths
+        feature_dict["const_tree_depth"] += max_depth
+    feature_dict["num_words_input"] = [num_words_input] * num_words_input
     return feature_dict
 
 
