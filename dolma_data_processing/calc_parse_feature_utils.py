@@ -10,7 +10,7 @@ from typing import List, Dict, Tuple, Any, Union, Optional, NewType
 # 2. Depth of tree
 # *3. POS (UPOS, XPOS) TODO: map POS labels -> int
 # *4. Number of words per sentence
-# *5. Number of words in input 
+# *5. Number of words in input
 # *6. Number of sentences in input (num_sentences)
 ## Dependency parse
 # 1. Distance of word from immediate head
@@ -28,7 +28,8 @@ def get_const_parse_features(
     Lang for the pipeline should be 'en', processors are 'tokenize,pos,constituency'
     Returns a feature dict, where values are lists features per word
     """
-    feature_dict = FeatureDict({
+    feature_dict = FeatureDict(
+        {
             "words": [],
             "const_word_depth": [],
             "const_tree_depth": [],
@@ -37,7 +38,8 @@ def get_const_parse_features(
             "num_words_sentence": [],
             "num_words_input": [],
             "num_sentences_input": [],
-        })
+        }
+    )
 
     def get_depth_features(
         tree: Any,
@@ -87,11 +89,7 @@ def get_dep_parse_features(
     Lang for the pipeline should be 'en', processors are 'tokenize,pos,lemma,depparse'
     Returns a feature dict, where values are lists features per word
     """
-    feature_dict = FeatureDict({
-        "words": [],
-        "dist_to_head": [],
-        "dist_to_root": []
-    })
+    feature_dict = FeatureDict({"words": [], "dist_to_head": [], "dist_to_root": []})
     processed_text = pipeline(input_text)
     for sentence in processed_text.sentences:
         root_dist = np.zeros(len(sentence.words), dtype=int)
