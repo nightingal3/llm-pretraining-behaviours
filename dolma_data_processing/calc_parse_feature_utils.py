@@ -29,6 +29,7 @@ def get_const_parse_features(
     Returns a feature dict, where values are lists features per word
     """
     feature_dict = FeatureDict({
+            "words": [],
             "const_word_depth": [],
             "const_tree_depth": [],
             "upos_label": [],
@@ -48,23 +49,24 @@ def get_const_parse_features(
         ):
             if len(tree.children) == 0:
                 word_depths.append(depth)
-            subtrees = tree.children
+                return
             depth += 1
+            subtrees = tree.children
             for subtree in subtrees:
                 traverse_get_depth(subtree, word_depths, depth)
 
         word_depths = []
         tree = tree.children[0]
-        traverse_get_depth(tree, word_depths, -1)
+        traverse_get_depth(tree, word_depths, 0)
         max_depth = [max(word_depths)] * len(word_depths)
         return word_depths, max_depth
 
-    # pipeline = stanza.Pipeline(lang='en', processors='tokenize,pos,constituency')
     processed_text = pipeline(input_text)
     num_words_input = 0
     for sentence in processed_text.sentences:
         num_words_input += len(sentence.words)
         for word in sentence.words:
+            feature_dict["words"].append(word.text)
             feature_dict["num_sentences_input"].append(len(processed_text.sentences))
             feature_dict["num_words_sentence"].append(len(sentence.words))
             feature_dict["upos_label"].append(word.upos)
@@ -82,19 +84,21 @@ def get_dep_parse_features(
 ) -> FeatureDict:
     """
     Takes as input a chunk of text (paragraph, document) and stanza pipeline
-    Lang for the pipeline should be 'en', processors are 'tokenize,mwt,pos,lemma,depparse'
+    Lang for the pipeline should be 'en', processors are 'tokenize,pos,lemma,depparse'
     Returns a feature dict, where values are lists features per word
     """
     feature_dict = FeatureDict({
+        "words": [],
         "dist_to_head": [],
         "dist_to_root": []
     })
     processed_text = pipeline(input_text)
     for sentence in processed_text.sentences:
-        root_dist = np.zeros(len(sentence.words), 1)
+        root_dist = np.zeros(len(sentence.words), dtype=int)
         head_dist = []
         root = -1
         for i, word in enumerate(sentence.words):
+            feature_dict["words"].append(word.text)
             root_dist[i] = word.id
             if word.head == 0:
                 head_dist.append(0)
@@ -103,6 +107,7 @@ def get_dep_parse_features(
             if word.head == 0:
                 root = word.id
         root_dist -= root
-        feature_dict.dist_to_head += head_dist
-        feature_dict.dist_to_root += root_dist.tolist()
+        root_dist = np.abs(root_dist)
+        feature_dict["dist_to_head"] += head_dist
+        feature_dict["dist_to_root"] += root_dist.tolist()
     return feature_dict
