@@ -108,7 +108,6 @@ def main(feature: str, input_filepath: str, output_filepath: str):
         feature_udf = pyspark.sql.functions.udf(feature_fn, dtype)
 
     df = spark.read.parquet(input_filepath)
-    
     # sometimes the text column is called content
     if "content" in df.columns and "text" not in df.columns:
         df = df.withColumnRenamed("content", "text")

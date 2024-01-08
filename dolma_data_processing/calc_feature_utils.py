@@ -34,8 +34,8 @@ def get_num_unique_tokens(tokenized_input: tokenized_input) -> int:
 def get_one_ngram_freq(key: Tuple[int], freq_dict: freq_dict) -> int:
     return freq_dict[key]
 
-def get_position_in_sequence(tokenized_input: tokenized_input, token: int) -> int:
-    return tokenized_input.index(token)
+def get_position_in_sequence(tokenized_input: tokenized_input) -> List[int]:
+    return list(range(len(tokenized_input)))
 
 def get_num_times_token_appears(tokenized_input: tokenized_input, token: int) -> int:
     return tokenized_input.count(token)
