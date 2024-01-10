@@ -9,6 +9,7 @@ from io import BytesIO
 import pyarrow
 import pandas as pd
 import os
+import logging
 from tqdm import tqdm
 
 LLAMA_DIR = "/data/datasets/models/huggingface/meta-llama/Llama-2-70b-hf/"
@@ -24,6 +25,17 @@ TOKENS_TO_FETCH_10B = {
 
 DUMP_FREQUENCY = 1_000_000
 
+def parse_num(val: str) -> int:
+    if val.lower().endswith("b"):
+        return int(val[:-1]) * 1_000_000_000
+    elif val.lower().endswith("m"):
+        return int(val[:-1]) * 1_000_000
+    else:
+        try:
+            return int(float(val))
+        except:
+            raise ValueError("You must pass either an integer, scientific notation, or xB/xM for num tokens")    
+
 def process_zipped_file(content: bytes) -> list:
     with gzip.open(BytesIO(content), "rt") as f:
         lines = f.readlines()
@@ -33,7 +45,7 @@ def process_zipped_file(content: bytes) -> list:
 def fetch_tokens(num_tokens: int, domain: str, output_dir: str or None, all_files_lst: list):
     current_tokens = 0
     output_dir = output_dir if output_dir else f"./dolma/{domain}_{num_tokens}"
-    print(f"Fetching {num_tokens} tokens from {domain}")
+    logging.info(f"Fetching {num_tokens} tokens from {domain}")
 
     # shuffle
     random.seed(42)
@@ -55,14 +67,13 @@ def fetch_tokens(num_tokens: int, domain: str, output_dir: str or None, all_file
             response = requests.get(f"http://128.2.209.71:5000/{all_files_lst[i]}")
 
             if response.status_code != 200:
-                print(f"Error fetching {all_files_lst[i]}")
+                logging.info(f"Error fetching {all_files_lst[i]}")
                 continue
             
             i += 1
 
             docs = [json.loads(l) for l in process_zipped_file(response.content)]
             texts = [d["text"] for d in docs]
-            #all_texts.extend(lines)
 
             # tokenizing individually to avoid oom
             for i, text in enumerate(texts):
@@ -72,14 +83,11 @@ def fetch_tokens(num_tokens: int, domain: str, output_dir: str or None, all_file
                 current_tokens += sum(num_non_padding_toks)
                 pbar.update(sum(num_non_padding_toks))
 
-                #if current_tokens >= num_tokens:
-                    #break
-
                 # save the reduced dataset as an arrow file, dump every 1M lines
                 if current_tokens >= num_tokens or len(all_texts) >= DUMP_FREQUENCY:
                     part_ind += 1
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
-                    print("Output file is ", output_file)
+                    logging.info("Output file is ", output_file)
                     # mkdir -p
                     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
@@ -88,29 +96,45 @@ def fetch_tokens(num_tokens: int, domain: str, output_dir: str or None, all_file
                     all_texts = [{k: v for k, v in line.items() if k in fields_to_keep} for line in all_texts]
                     df = pd.DataFrame(all_texts)
                     df.to_parquet(output_file)
-                    print(f"Wrote dataset of size {current_tokens} to {output_file}")
+                    logging.info(f"Wrote dataset of size {current_tokens} to {output_file}")
 
                     del df
                     all_texts = []
             
 
-    print(f"Saved all output ({current_tokens} tokens)")
+    logging.info(f"Saved all output ({current_tokens} tokens)")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--num_tokens", help="Number of tokens to fetch", type=int)
+    parser.add_argument("--num_tokens", help="Number of tokens to fetch. You can also write xB/xM to fetch x billions/millions", type=str)
+    parser.add_argument("--num_total_tokens", help="Total number of tokens to fetch. You can also write xB/xM to fetch x billions/millions", type=str)
     parser.add_argument("--output", help="Output dir", type=str)
     parser.add_argument("--domain", help="Domains to fetch", type=str, choices=["peS2o", "common-crawl", "stack-code", "wiki-en-simple", "c4", "gutenberg-books"])
     args = parser.parse_args()
+    logging.basicConfig(level=logging.INFO)
+
+    if args.num_tokens and args.num_total_tokens:
+        raise ValueError("Please specify only one of --num_tokens or --num_total_tokens (num_tokens is per domain, while num_total will calculate the appropriate number for a domain based on the total)")
+
+    if args.num_tokens:
+        logging.info(f"Fetching {args.num_tokens} tokens")
+        num_tokens = parse_num(args.num_tokens)
+    elif args.num_total_tokens:
+        logging.info("Total domain tokens not specified, using 10B ratio mix")
+        num_tokens = (int(((parse_num(args.num_total_tokens) / 10_000_000_000) * TOKENS_TO_FETCH_10B[args.domain])) // 1_000_000) * 1_000_000
+    else:
+        logging.info("Total tokens/domain tokens not specified, using 10B mix")
+        num_tokens = TOKENS_TO_FETCH_10B[args.domain]
 
     # the flask server has to be up on clio
     all_files_lst = requests.get("http://128.2.209.71:5000/list-all").json()
     if args.domain:
-        num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[args.domain]
         fetch_tokens(num_tokens=num_tokens, domain=args.domain, 
                      output_dir=args.output, all_files_lst=all_files_lst)
     else:
+        logging.info("Fetching from all domains, num_total_tokens will be used, following the 10B ratio mix")
         for domain in TOKENS_TO_FETCH_10B.keys():
-            num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[domain]
+            logging.info(f"Fetching {domain}")
+            num_tokens = (int(((parse_num(args.num_total_tokens) / 10_000_000_000) * TOKENS_TO_FETCH_10B[args.domain])) // 1_000_000) * 1_000_000
             fetch_tokens(num_tokens=num_tokens, domain=domain, 
                          output_dir=args.output, all_files_lst=all_files_lst)
