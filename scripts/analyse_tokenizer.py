@@ -10,16 +10,22 @@ from collections import defaultdict
 import jieba
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--tokenizer_dir')
-parser.add_argument('--eval_sets', required=True, nargs='+')
-parser.add_argument('--baseline_tokenizers', nargs='+', default=[
-    'togethercomputer/LLaMA-2-7B-32K', 'mistralai/Mistral-7B-v0.1', 'bigscience/tokenizer'
-])
+parser.add_argument("--tokenizer_dir")
+parser.add_argument("--eval_sets", required=True, nargs="+")
+parser.add_argument(
+    "--baseline_tokenizers",
+    nargs="+",
+    default=[
+        "togethercomputer/LLaMA-2-7B-32K",
+        "mistralai/Mistral-7B-v0.1",
+        "bigscience/tokenizer",
+    ],
+)
 args = parser.parse_args()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained(args.tokenizer_dir)
 baseline_tokenizers = [
-    transformers.AutoTokenizer.from_pretrained(tokenizer_name) 
+    transformers.AutoTokenizer.from_pretrained(tokenizer_name)
     for tokenizer_name in args.baseline_tokenizers
 ]
 data = dict()
@@ -31,23 +37,24 @@ for eval_set in args.eval_sets:
     tokenized = []
     tokenized_v2 = []
     baseline_tokenized = [[] for _ in baseline_tokenizers]
-    
-    with open(eval_set, 'r') as f:
+
+    with open(eval_set, "r") as f:
         original = f.readlines()
-    
+
     for line in original:
         line.strip()
         tokens_ = tokenizer.convert_ids_to_tokens(tokenizer_v2.encode(line))
-        tokens = [ item for item in tokens_  if item != '<s>' ]
+        tokens = [item for item in tokens_ if item != "<s>"]
 
         baseline_tokens = [
-            tokenizer.convert_ids_to_tokens(tokenizer.encode(line)) for tokenizer in baseline_tokenizers
+            tokenizer.convert_ids_to_tokens(tokenizer.encode(line))
+            for tokenizer in baseline_tokenizers
         ]
         tokenized.append(tokens)
         for i in range(len(baseline_tokenizers)):
             baseline_tokenized[i].append(baseline_tokens[i])
-        
-        if 'zh' in eval_set:
+
+        if "zh" in eval_set:
             non_tokenized.append(jieba.lcut(line))
         else:
             non_tokenized.append(nltk.word_tokenize(line))
@@ -65,7 +72,7 @@ def compute_stats(text):
     nbytes = 0
     ntoks = 0
     nseqs = 0
-    
+
     for toks in text:
         ntoks += len(toks)
         nchars += sum(len(tok) for tok in toks)
@@ -84,8 +91,10 @@ for set_name in data:
     raw_counts = compute_stats(raw)
     seg_counts = compute_stats(seg)
 
-    baseline_counts = [compute_stats(baseline_seg[set_name]) for baseline_seg in baseline_segs]
-    print('baseline', baseline_counts)
+    baseline_counts = [
+        compute_stats(baseline_seg[set_name]) for baseline_seg in baseline_segs
+    ]
+    print("baseline", baseline_counts)
     pieces = seg_counts["toks"]
 
     words = raw_counts["toks"]
@@ -103,7 +112,6 @@ for set_name in data:
         "sentences/context": sents_per_context,
     }
 
-
     for i in range(len(baseline_tokenizers)):
         baseline_pieces = baseline_counts[i]["toks"]
 
@@ -116,5 +124,5 @@ for set_name in data:
             "sentences/context": baseline_sents_per_context,
         }
 
-with open('./analysis_results', 'w') as f:
+with open("./analysis_results", "w") as f:
     json.dump(results_json, f, indent=2)

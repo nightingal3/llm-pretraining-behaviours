@@ -19,25 +19,26 @@ from typing import Sequence, Optional
 
 
 def main():
-    initialize_megatron(extra_args_provider=add_save_hf_args,
-                        args_defaults={'no_load_rng': True,
-                                       'no_load_optim': True})
+    initialize_megatron(
+        extra_args_provider=add_save_hf_args,
+        args_defaults={"no_load_rng": True, "no_load_optim": True},
+    )
 
     args = get_args()
     assert args.deepspeed, "This script expects deepspeed to be enabled."
 
-    [ model ] = get_model(model_provider, wrap_with_ddp=False)
+    [model] = get_model(model_provider, wrap_with_ddp=False)
 
     optimizer = None
     opt_param_scheduler = None
-    
+
     model, _, _, _ = deepspeed.initialize(
         model=model,
         model_parameters=model.parameters(),
         optimizer=optimizer,
         args=args,
         lr_scheduler=opt_param_scheduler,
-        mpu=mpu if args.no_pipeline_parallel else None
+        mpu=mpu if args.no_pipeline_parallel else None,
     )
     # Deepspeed assumes a list of models
     model = [model]
@@ -74,7 +75,7 @@ def main():
         hf_model = AutoModelForCausalLM.from_config(llama_config)
     else:
         hf_model = None
-    
+
     set_preprocess_state(args, model[0].module, hf_model, vocab_size)
     set_postprocess_state(args, model[0].module, hf_model, vocab_size)
     for layer_idx in range(args.num_layers):
@@ -100,7 +101,7 @@ def main():
 
 def set_preprocess_state(args, ds_model, hf_model, vocab_size):
     """Set embedding params.
-    
+
     Embeddings are sharded in dimension 0 (vocab size) so we
     chunk and gather them at dim=0 to obtain the same behaviour.
 
@@ -116,17 +117,18 @@ def set_preprocess_state(args, ds_model, hf_model, vocab_size):
     if tp_rank == 0:
         hf_model.model.embed_tokens.weight.data.copy_(full_weight)
 
+
 def set_postprocess_state(args, ds_model, hf_model, vocab_size):
     """Set final layernorm and output layer params.
-    
+
     Final layernorm is not sharded, so we can just copy it over.
     Output layer is sharded in dimension 0 (vocab size) so we
     chunk and gather it at dim=0 to obtain the same behaviour.
-    
+
     (see Megatron-DeepSpeed/tools/checkpoint_{loader,saver}_megatron.py)
-    """   
+    """
     tp_rank = mpu.get_tensor_model_parallel_rank()
-    
+
     final_layernorm = ds_model.language_model.encoder.final_layernorm.weight
 
     output_size = (vocab_size, args.hidden_size)
@@ -137,9 +139,10 @@ def set_postprocess_state(args, ds_model, hf_model, vocab_size):
         hf_model.model.norm.weight.data.copy_(final_layernorm)
         hf_model.lm_head.weight.data.copy_(output)
 
+
 def set_layer_state(args, ds_model, hf_model, layer_idx):
     """Set layer state.
-    
+
     Layernorms are not sharded, so we can just copy them over.
     """
     tp_rank = mpu.get_tensor_model_parallel_rank()
@@ -152,15 +155,16 @@ def set_layer_state(args, ds_model, hf_model, layer_idx):
         hf_layer = hf_model.model.layers[layer_idx]
         hf_layer.input_layernorm.weight.data.copy_(input_layernorm)
         hf_layer.post_attention_layernorm.weight.data.copy_(post_attention_layernorm)
-    
+
     set_attention_state(args, ds_model, hf_model, layer_idx)
     set_mlp_state(args, ds_model, hf_model, layer_idx)
+
 
 def set_attention_state(args, ds_model, hf_model, layer_idx):
     """Set attention state.
 
     QKV is sharded in dimension 0 (num kv heads)
-    
+
     Dense is sharded in dimension 1 (hidden size) so we
     chunk and gather it at dim=1 to obtain the same behaviour.
     """
@@ -185,13 +189,13 @@ def set_attention_state(args, ds_model, hf_model, layer_idx):
     if tp_rank == 0:
         hf_layer = hf_model.model.layers[layer_idx]
 
-        qkv = qkv.reshape((ng,  dim * (nh // ng + 2), hidden_size))
+        qkv = qkv.reshape((ng, dim * (nh // ng + 2), hidden_size))
 
-        q_proj = qkv[:, :dim*nh//ng, :]
-        k_proj = qkv[:, dim*nh//ng:dim*nh//ng + dim, :]
-        v_proj = qkv[:, dim*nh//ng + dim:, :]
+        q_proj = qkv[:, : dim * nh // ng, :]
+        k_proj = qkv[:, dim * nh // ng : dim * nh // ng + dim, :]
+        v_proj = qkv[:, dim * nh // ng + dim :, :]
 
-        q_proj = q_proj.reshape((ng * dim*nh//ng, -1))
+        q_proj = q_proj.reshape((ng * dim * nh // ng, -1))
         k_proj = k_proj.reshape((ng * dim, -1))
         v_proj = v_proj.reshape((ng * dim, -1))
 
@@ -200,9 +204,10 @@ def set_attention_state(args, ds_model, hf_model, layer_idx):
         hf_layer.self_attn.v_proj.weight.data.copy_(v_proj)
         hf_layer.self_attn.o_proj.weight.data.copy_(dense)
 
+
 def set_mlp_state(args, ds_model, hf_model, layer_idx):
     """Set MLP state.
-    
+
     Dense h to 4h is sharded in dimension 0 (hidden size) so we
     chunk and gather it at dim=0 to obtain the same behaviour.
     We expect this layer to be twice the size as it contains both
@@ -221,11 +226,15 @@ def set_mlp_state(args, ds_model, hf_model, layer_idx):
     # Multiply by 2 as the dense layer contains both the gate and up projections
     dense_h_to_4h_size = (2 * args.ffn_hidden_size, args.hidden_size)
     dense_h_to_4h_shard = ds_layer.mlp.dense_h_to_4h.weight.data
-    dense_h_to_4h = gather_tp_group(dense_h_to_4h_shard, dense_h_to_4h_size, shard_dim=0, root=0)
+    dense_h_to_4h = gather_tp_group(
+        dense_h_to_4h_shard, dense_h_to_4h_size, shard_dim=0, root=0
+    )
 
     dense_4h_to_h_size = (args.hidden_size, args.ffn_hidden_size)
     dense_4h_to_h_shard = ds_layer.mlp.dense_4h_to_h.weight.data
-    dense_4h_to_h = gather_tp_group(dense_4h_to_h_shard, dense_4h_to_h_size, shard_dim=1, root=0)
+    dense_4h_to_h = gather_tp_group(
+        dense_4h_to_h_shard, dense_4h_to_h_size, shard_dim=1, root=0
+    )
 
     if tp_rank == 0:
         tp_shards = torch.chunk(dense_h_to_4h, tp, dim=0)
@@ -257,9 +266,12 @@ def gather_tp_group(
     shard_size = list(full_size)
     shard_size[shard_dim] //= tp_size
     assert shard.size() == torch.Size(shard_size)
-    
+
     if tp_rank == root:
-        shards = [torch.empty(shard_size, dtype=shard.dtype, device=shard.device) for _ in range(tp_size)]
+        shards = [
+            torch.empty(shard_size, dtype=shard.dtype, device=shard.device)
+            for _ in range(tp_size)
+        ]
 
     group = mpu.get_tensor_model_parallel_group()
     D.gather(shard, gather_list=shards, dst=root, group=group)
@@ -267,15 +279,16 @@ def gather_tp_group(
     if tp_rank == root:
         full = torch.cat(shards, dim=shard_dim)
         return full
-    
+
     return None
-  
+
 
 def add_save_hf_args(parser):
     group = parser.add_argument_group(title="Conversion arguments")
     group.add_argument("--output-dir", type=str, required=True)
 
     return parser
+
 
 if __name__ == "__main__":
     main()
