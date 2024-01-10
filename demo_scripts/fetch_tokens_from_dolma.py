@@ -67,17 +67,17 @@ def fetch_tokens(
     tokenizer = AutoTokenizer.from_pretrained(LLAMA_DIR)
     tokenizer.pad_token = tokenizer.eos_token
 
-    i = 0
+    file_ind = 0
     part_ind = 0
     with tqdm(total=num_tokens) as pbar:
-        while current_tokens < num_tokens:
-            response = requests.get(f"http://128.2.209.71:5000/{all_files_lst[i]}")
+        while current_tokens < num_tokens and file_ind < len(all_files_lst):
+            response = requests.get(f"http://128.2.209.71:5000/{all_files_lst[file_ind]}")
 
             if response.status_code != 200:
-                logging.info(f"Error fetching {all_files_lst[i]}")
+                logging.info(f"Error fetching {all_files_lst[file_ind]}")
                 continue
 
-            i += 1
+            file_ind += 1
 
             docs = [json.loads(l) for l in process_zipped_file(response.content)]
             texts = [d["text"] for d in docs]
