@@ -71,7 +71,9 @@ def fetch_tokens(
     part_ind = 0
     with tqdm(total=num_tokens) as pbar:
         while current_tokens < num_tokens and file_ind < len(all_files_lst):
-            response = requests.get(f"http://128.2.209.71:5000/{all_files_lst[file_ind]}")
+            response = requests.get(
+                f"http://128.2.209.71:5000/{all_files_lst[file_ind]}"
+            )
 
             if response.status_code != 200:
                 logging.info(f"Error fetching {all_files_lst[file_ind]}")
