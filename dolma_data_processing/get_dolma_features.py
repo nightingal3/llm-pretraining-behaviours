@@ -11,12 +11,14 @@ import logging
 import stanza
 from transformers import AutoTokenizer
 import time
+from collections import defaultdict
 
 from calc_feature_utils import *
 import calc_parse_feature_utils
 
 
 feature_dict_schema_const = StructType([
+    StructField("words", ArrayType(StringType())),
     StructField("const_word_depth", ArrayType(IntegerType())),
     StructField("const_tree_depth", ArrayType(IntegerType())),
     StructField("upos_label", ArrayType(StringType())),
@@ -70,20 +72,32 @@ feature_registry = {
     },
 }
 
-# we probably shouldn't broadcast this?
-stanza_pipeline = None
+# we probably shouldn't broadcast this, creating global variables instead
+stanza_pipeline = defaultdict(lambda: None)
+stanza_langdetect_pipeline = None
 
 def feat_dict_to_row(feat_dict: dict) -> pyspark.sql.Row:
     return pyspark.sql.Row(**feat_dict) 
 
 def parse_features_udf_wrapper(feature_fn: Callable, stanza_args: str, schema: StructType) -> pyspark.sql.functions.udf:
-    def parse_features_udf(text: str) -> pyspark.sql.Row:
+    def parse_features_udf(text: str, langcode: str = "en") -> pyspark.sql.Row:
         global stanza_pipeline
-        if stanza_pipeline is None:
-            stanza_pipeline = stanza.Pipeline(lang='en', processors=stanza_args)
-        
-        return feat_dict_to_row(feature_fn(text, stanza_pipeline))
+        if stanza_pipeline[langcode] is None:
+            try:
+                stanza_pipeline[langcode] = stanza.Pipeline(lang=langcode, processors=stanza_args)
+            except: # language not supported?
+                return feat_dict_to_row({k: [] for k in schema.fieldNames()})
+
+        language_pipeline = stanza_pipeline[langcode]
+        return feat_dict_to_row(feature_fn(text, language_pipeline))
+    
     return pyspark.sql.functions.udf(parse_features_udf, schema)
+
+def detect_lang(text: str) -> str:
+    global stanza_langdetect_pipeline
+    if stanza_langdetect_pipeline is None:
+        stanza_langdetect_pipeline = stanza.Pipeline(lang="multilingual", processors="langid")
+    return stanza_langdetect_pipeline(text).lang[:2]
 
 def main(feature: str, input_filepath: str, output_filepath: str):
     feature_fn = feature_registry[feature]["tagging_fn"]
@@ -102,10 +116,6 @@ def main(feature: str, input_filepath: str, output_filepath: str):
         return broadcast_tokenizer.value(text, add_special_tokens=False)["input_ids"]
 
     tokenize_udf = pyspark.sql.functions.udf(tokenize, pyspark.sql.types.ArrayType(pyspark.sql.types.IntegerType()))
-    if needs_parse:
-        feature_udf = parse_features_udf_wrapper(feature_fn, stanza_args, dtype)
-    else:
-        feature_udf = pyspark.sql.functions.udf(feature_fn, dtype)
 
     df = spark.read.parquet(input_filepath)
     # sometimes the text column is called content
@@ -119,8 +129,22 @@ def main(feature: str, input_filepath: str, output_filepath: str):
     else:
         df = df.withColumn("token_ids", F.col("text"))
     
+    if needs_parse:
+        feature_udf = parse_features_udf_wrapper(feature_fn, stanza_args, dtype)
+        # detect the languages first
+        detect_lang_udf = pyspark.sql.functions.udf(detect_lang, pyspark.sql.types.StringType())
+        df = df.withColumn("lang", detect_lang_udf("text"))
+        
+    else:
+        feature_udf = pyspark.sql.functions.udf(feature_fn, dtype)
+
     logging.info("Calculating feature...")
-    df = df.withColumn(feature, feature_udf("token_ids"))
+
+    if needs_parse:
+        df = df.withColumn(feature, feature_udf("text", "lang"))
+    else:
+        df = df.withColumn(feature, feature_udf("token_ids"))
+
     feature_df = df.select("id", feature)
     feature_df.write.parquet(output_filepath, mode="overwrite")
     logging.info(f"Saved feature {feature} to {output_filepath}")
