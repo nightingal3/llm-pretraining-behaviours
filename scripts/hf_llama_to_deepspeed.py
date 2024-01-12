@@ -15,15 +15,15 @@ from pretrain_gpt import model_provider
 
 from transformers import LlamaForCausalLM
 
+
 def main():
-    initialize_megatron(extra_args_provider=add_load_hf_args,
-                        args_defaults={})
+    initialize_megatron(extra_args_provider=add_load_hf_args, args_defaults={})
 
     args = get_args()
     assert args.deepspeed, "This script expects deepspeed to be enabled."
 
     # Set up model and load checkpoint
-    [ model ] = get_model(model_provider, wrap_with_ddp=False)
+    [model] = get_model(model_provider, wrap_with_ddp=False)
 
     # Use SGD as optimizer since we don't need to train,
     # and we don't want to add optimizer state.
@@ -35,9 +35,9 @@ def main():
         optimizer=optimizer,
         args=args,
         lr_scheduler=opt_param_scheduler,
-        mpu=mpu if args.no_pipeline_parallel else None
+        mpu=mpu if args.no_pipeline_parallel else None,
     )
-    
+
     hf_model = LlamaForCausalLM.from_pretrained(args.hf_model, device_map="cpu")
     # Set model state.
     set_preprocess_state(args, model.module, hf_model)
@@ -51,13 +51,13 @@ def main():
 
 
 def set_preprocess_state(args, model, hf_model):
-    '''Set embedding params.'''
+    """Set embedding params."""
     tp_rank = mpu.get_tensor_model_parallel_rank()
     tp_size = args.tensor_model_parallel_size
 
     full_weight = hf_model.model.embed_tokens.weight
 
-    # Chunk to obtain the same behaviour as in 
+    # Chunk to obtain the same behaviour as in
     # Megatron-DeepSpeed/tools/checkpoint_saver_megatron.py
     shards = torch.chunk(full_weight, tp_size, dim=0)
 
@@ -67,7 +67,7 @@ def set_preprocess_state(args, model, hf_model):
 
 
 def set_postprocess_state(args, model, hf_model):
-    '''Set output layer & norm params.'''
+    """Set output layer & norm params."""
     model.language_model.encoder.final_layernorm.weight.data.copy_(
         hf_model.model.norm.weight,
     )
@@ -77,7 +77,7 @@ def set_postprocess_state(args, model, hf_model):
 
     full_lm_head_weight = hf_model.lm_head.weight
 
-    # Chunk to obtain the same behaviour as in 
+    # Chunk to obtain the same behaviour as in
     # Megatron-DeepSpeed/tools/checkpoint_saver_megatron.py
     shards = torch.chunk(full_lm_head_weight, tp_size, dim=0)
 
@@ -85,8 +85,9 @@ def set_postprocess_state(args, model, hf_model):
 
     model.language_model.output_layer.weight.data.copy_(shard)
 
+
 def set_layer_state(args, model, hf_model, layer_idx):
-    '''Set transformer layer params.'''
+    """Set transformer layer params."""
 
     layer = model.language_model.encoder.layers[layer_idx]
     hf_layer = hf_model.model.layers[layer_idx]
@@ -94,10 +95,13 @@ def set_layer_state(args, model, hf_model, layer_idx):
     set_attn_state(args, layer, hf_layer)
     set_mlp_state(args, layer, hf_layer, layer_idx)
     layer.input_layernorm.weight.data.copy_(hf_layer.input_layernorm.weight)
-    layer.post_attention_layernorm.weight.data.copy_(hf_layer.post_attention_layernorm.weight)
+    layer.post_attention_layernorm.weight.data.copy_(
+        hf_layer.post_attention_layernorm.weight
+    )
+
 
 def set_attn_state(args, layer, hf_layer):
-    '''Set self-attention params.'''
+    """Set self-attention params."""
 
     # Get attention layer & state.
     attn = layer.self_attention
@@ -112,11 +116,14 @@ def set_attn_state(args, layer, hf_layer):
     assert nh % ng == 0
 
     # Reshape loaded weights.
-    qkv = torch.cat([ 
-        hf_attn.q_proj.weight.reshape((ng, dim*nh//ng, hidden_size)),
-        hf_attn.k_proj.weight.reshape((ng, dim, hidden_size)),
-        hf_attn.v_proj.weight.reshape((ng, dim, hidden_size)),
-    ], dim=1).reshape((-1, args.hidden_size))
+    qkv = torch.cat(
+        [
+            hf_attn.q_proj.weight.reshape((ng, dim * nh // ng, hidden_size)),
+            hf_attn.k_proj.weight.reshape((ng, dim, hidden_size)),
+            hf_attn.v_proj.weight.reshape((ng, dim, hidden_size)),
+        ],
+        dim=1,
+    ).reshape((-1, args.hidden_size))
 
     qkv_shards = torch.chunk(qkv, tp, dim=0)
     qkv_shard = qkv_shards[tp_rank]
@@ -132,7 +139,7 @@ def set_attn_state(args, layer, hf_layer):
 
 
 def set_mlp_state(args, layer, hf_layer, layer_idx):
-    '''Set MLP params.'''
+    """Set MLP params."""
 
     tp_rank = mpu.get_tensor_model_parallel_rank()
     tp = args.tensor_model_parallel_size
@@ -146,7 +153,9 @@ def set_mlp_state(args, layer, hf_layer, layer_idx):
     gate_proj_shards = torch.chunk(gate_proj, tp, dim=0)
     up_proj_shards = torch.chunk(up_proj, tp, dim=0)
 
-    dense_h_to_4h_shards = [torch.cat(weights, dim=0) for weights in zip(gate_proj_shards, up_proj_shards)]
+    dense_h_to_4h_shards = [
+        torch.cat(weights, dim=0) for weights in zip(gate_proj_shards, up_proj_shards)
+    ]
     dense_h_to_4h = dense_h_to_4h_shards[tp_rank]
     mlp.dense_h_to_4h.weight.data.copy_(dense_h_to_4h)
 
@@ -160,11 +169,13 @@ def set_mlp_state(args, layer, hf_layer, layer_idx):
 
 
 def add_load_hf_args(parser):
-    group = parser.add_argument_group(title='hf-model')
+    group = parser.add_argument_group(title="hf-model")
 
-    group.add_argument("--hf-model", type=str, required=True,
-                       help='Path to the checkpoint to load.')
+    group.add_argument(
+        "--hf-model", type=str, required=True, help="Path to the checkpoint to load."
+    )
     return parser
+
 
 if __name__ == "__main__":
     main()
