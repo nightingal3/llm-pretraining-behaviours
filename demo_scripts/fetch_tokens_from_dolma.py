@@ -1,7 +1,7 @@
 import requests
 from transformers import AutoTokenizer
 from datasets import load_dataset
-import argparse 
+import argparse
 import random
 import json
 import gzip
@@ -22,22 +22,42 @@ TOKENS_TO_FETCH_10B = {
     "wiki-en-simple": 200_000_000,
 }
 
+
 def process_zipped_file(content: bytes) -> list:
     with gzip.open(BytesIO(content), "rt") as f:
         lines = f.readlines()
         lines = [line.strip() for line in lines]
         return lines
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--num_tokens", help="Number of tokens to fetch", type=int)
     parser.add_argument("--output", help="Output file", type=str)
-    parser.add_argument("--domain", help="Domains to fetch", type=str, choices=["peS2o", "common-crawl", "stack-code", "wiki-en-simple", "c4", "gutenberg-books"])
+    parser.add_argument(
+        "--domain",
+        help="Domains to fetch",
+        type=str,
+        choices=[
+            "peS2o",
+            "common-crawl",
+            "stack-code",
+            "wiki-en-simple",
+            "c4",
+            "gutenberg-books",
+        ],
+    )
     args = parser.parse_args()
 
-    output_file = args.output if args.output else f"./{args.domain}_{args.num_tokens}_tokens.arrow"
+    output_file = (
+        args.output
+        if args.output
+        else f"./{args.domain}_{args.num_tokens}_tokens.arrow"
+    )
     current_tokens = 0
-    num_tokens = args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[args.domain]
+    num_tokens = (
+        args.num_tokens if args.num_tokens else TOKENS_TO_FETCH_10B[args.domain]
+    )
 
     print(f"Fetching {num_tokens} tokens from {args.domain}")
     # the flask server has to be up on clio
@@ -64,15 +84,19 @@ if __name__ == "__main__":
             if response.status_code != 200:
                 print(f"Error fetching {all_files_lst[i]}")
                 continue
-            
+
             i += 1
             lines = [json.loads(l) for l in process_zipped_file(response.content)]
             texts = [line["text"] for line in lines]
             all_texts.extend(lines)
             # tokenizing individually to avoid oom
             for text in texts:
-                encoded_inputs = tokenizer(text, truncation=True, padding=True, return_tensors="pt")
-                num_non_padding_toks = encoded_inputs["attention_mask"].sum(dim=1).tolist()
+                encoded_inputs = tokenizer(
+                    text, truncation=True, padding=True, return_tensors="pt"
+                )
+                num_non_padding_toks = (
+                    encoded_inputs["attention_mask"].sum(dim=1).tolist()
+                )
                 current_tokens += sum(num_non_padding_toks)
                 pbar.update(sum(num_non_padding_toks))
 
@@ -82,19 +106,25 @@ if __name__ == "__main__":
             # save the reduced dataset as an arrow file, dump every 1M lines
             if current_tokens >= num_tokens or len(all_texts) >= 1_000_000:
                 part_ind += 1
-                output_file = args.output if args.output else f"./{args.domain}_{num_tokens}/part_{part_ind}.arrow"
+                output_file = (
+                    args.output
+                    if args.output
+                    else f"./{args.domain}_{num_tokens}/part_{part_ind}.arrow"
+                )
                 # mkdir -p
                 os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
                 # just keep main data
                 fields_to_keep = ["text", "id", "lang"]
-                all_texts = [{k: v for k, v in line.items() if k in fields_to_keep} for line in all_texts]
+                all_texts = [
+                    {k: v for k, v in line.items() if k in fields_to_keep}
+                    for line in all_texts
+                ]
                 breakpoint()
                 df = pd.DataFrame(all_texts)
                 df.to_parquet(output_file)
                 print(f"Wrote dataset of size {current_tokens} to {output_file}")
 
                 all_texts = []
-        
 
     print(f"Saved all output ({current_tokens} tokens)")

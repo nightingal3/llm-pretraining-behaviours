@@ -4,6 +4,7 @@ import pandas
 import argparse
 import os
 
+
 def arrow_to_jsonl(arrow_file: str, jsonl_out: str) -> None:
     with open(arrow_file, "rb") as f:
         try:
@@ -13,12 +14,12 @@ def arrow_to_jsonl(arrow_file: str, jsonl_out: str) -> None:
         except:
             df = pandas.read_parquet(arrow_file)
 
-       
         if "text" not in df.columns:
             df["text"] = df["content"]
         if not os.path.exists(os.path.dirname(jsonl_out)):
             os.makedirs(os.path.dirname(jsonl_out), exist_ok=True)
         df.to_json(jsonl_out, orient="records", lines=True)
+
 
 def multi_arrows_to_jsonl(arrow_files: list, jsonl_out: str) -> None:
     dfs = []
@@ -32,6 +33,7 @@ def multi_arrows_to_jsonl(arrow_files: list, jsonl_out: str) -> None:
             dfs.append(df)
     df = pandas.concat(dfs)
     df.to_json(jsonl_out, orient="records", lines=True)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -47,5 +49,5 @@ if __name__ == "__main__":
             for f in os.listdir(args.input):
                 if f.endswith(".arrow"):
                     all_arrow_files.append(os.path.join(args.input, f))
-            
+
             multi_arrows_to_jsonl(all_arrow_files, args.output)
