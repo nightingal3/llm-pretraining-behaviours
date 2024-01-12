@@ -2,8 +2,10 @@ import os
 from collections import defaultdict
 import pandas as pd
 
-base_filepath = "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma"
-output_base_filepath="/data/tir/projects/tir6/general/mengyan3/dolma-features"
+base_filepath = (
+    "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma"
+)
+output_base_filepath = "/data/tir/projects/tir6/general/mengyan3/dolma-features"
 last_valid_file = {
     "c4_1396000000": 3,
     "common-crawl_5186000000": 2,

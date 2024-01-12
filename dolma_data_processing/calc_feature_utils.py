@@ -14,20 +14,27 @@
 def get_num_tokens(tokenized_input: list[int]) -> int:
     return len(tokenized_input)
 
+
 def get_num_chars(string_input: str) -> int:
     return len(string_input)
 
-def get_lexical_diversity(tokenized_input: list[int], freq_dict: dict[tuple[int], int]) -> float:
+
+def get_lexical_diversity(
+    tokenized_input: list[int], freq_dict: dict[tuple[int], int]
+) -> float:
     """
     Lexical diversity is the average rank of the ngrams in the sequence
     """
     return sum([freq_dict[(token)] for token in tokenized_input]) / len(tokenized_input)
 
+
 def get_num_unique_tokens(tokenized_input: list[int]) -> int:
     return len(set(tokenized_input))
 
+
 def get_position_in_sequence(tokenized_input: list[int]) -> list[int]:
     return list(range(len(tokenized_input)))
+
 
 def get_num_times_token_appears(tokenized_input: list[int], token: int) -> int:
     return tokenized_input.count(token)

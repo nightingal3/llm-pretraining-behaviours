@@ -16,18 +16,20 @@ from typing import Union, Any
 # 1. Distance of word from immediate head
 # 2. Distance of word to root """
 
+
 def _traverse_get_depth(
-        tree,
-        word_depths: list[int],
-        depth: int,
-    ):
-        if len(tree.children) == 0:
-            word_depths.append(depth)
-            return
-        depth += 1
-        subtrees = tree.children
-        for subtree in subtrees:
-            _traverse_get_depth(subtree, word_depths, depth)
+    tree,
+    word_depths: list[int],
+    depth: int,
+):
+    if len(tree.children) == 0:
+        word_depths.append(depth)
+        return
+    depth += 1
+    subtrees = tree.children
+    for subtree in subtrees:
+        _traverse_get_depth(subtree, word_depths, depth)
+
 
 def _get_depth_features(
     tree: Any,
@@ -37,6 +39,7 @@ def _get_depth_features(
     _traverse_get_depth(tree, word_depths, 0)
     max_depth = [max(word_depths)] * len(word_depths)
     return word_depths, max_depth
+
 
 def get_const_parse_features(
     input_text: str,
@@ -67,7 +70,7 @@ def get_const_parse_features(
         "num_words_input": [],
         "num_sentences_input": [],
     }
-    
+
     processed_text = pipeline(input_text)
     num_words_input = 0
     for sentence in processed_text.sentences:
