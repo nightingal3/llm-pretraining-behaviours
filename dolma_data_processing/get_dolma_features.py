@@ -1,8 +1,7 @@
 import argparse
 import multiprocessing
-import pyarrow
 import pyspark
-from pyspark.sql.types import StructType, StructField, ArrayType, IntegerType, StringType, MapType
+from pyspark.sql.types import StructType, StructField, ArrayType, IntegerType, StringType
 import pyspark.sql.functions as F
 from typing import Callable
 import pandas as pd
@@ -112,7 +111,7 @@ def main(feature: str, input_filepath: str, output_filepath: str):
     spark = pyspark.sql.SparkSession.builder.master("local[*]").config("spark.driver.memory", "50G").config("spark.executor.memory", "40G").getOrCreate()
     broadcast_tokenizer = spark.sparkContext.broadcast(tokenizer)
 
-    def tokenize(text: str) -> List[int]:
+    def tokenize(text: str) -> list[int]:
         return broadcast_tokenizer.value(text, add_special_tokens=False)["input_ids"]
 
     tokenize_udf = pyspark.sql.functions.udf(tokenize, pyspark.sql.types.ArrayType(pyspark.sql.types.IntegerType()))
