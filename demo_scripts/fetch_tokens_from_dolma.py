@@ -39,11 +39,13 @@ def parse_num(val: str) -> int:
                 "You must pass either an integer, scientific notation, or xB/xM for num tokens"
             )
 
+
 def process_zipped_file(content: bytes) -> list:
     with gzip.open(BytesIO(content), "rt") as f:
         lines = f.readlines()
         lines = [line.strip() for line in lines]
         return lines
+
 
 def fetch_tokens(
     num_tokens: int, domain: str, output_dir: str or None, all_files_lst: list
