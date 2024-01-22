@@ -468,7 +468,7 @@ task Train
        $([ "$multiple_valid_sets" == true ] && echo "--multiple-valid-sets" || echo "") \
 }
 
-
+# NOTE from amanda: hasn't been tested since new changes
 task Eval
     < trained_model=(
         UseExternal:
@@ -543,7 +543,7 @@ task Eval
     micro_batch_size=$(($batch_size / $gpus))
     $launcher $distributed_args \
         $repo/Megatron-DeepSpeed/tasks/main.py \
-        --task "WIKITEXT103" \
+        --task "EVAL-HARNESS" \
         --tensor-model-parallel-size $tp \
         --no-pipeline-parallel \
         --num-layers $num_layers \
