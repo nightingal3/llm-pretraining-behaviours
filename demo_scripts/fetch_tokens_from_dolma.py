@@ -186,15 +186,11 @@ if __name__ == "__main__":
             all_files_lst=all_files_lst,
         )
     else:
-        logging.info(
-            "Fetching from all domains following the 10B ratio mix"
-        )
+        logging.info("Fetching from all domains following the 10B ratio mix")
         for domain in TOKENS_TO_FETCH_10B.keys():
             logging.info(f"Fetching {domain}")
             if args.num_total_tokens:
-                logging.info(
-                    "Calculating num_tokens from given args.num_total_tokens"
-                )
+                logging.info("Calculating num_tokens from given args.num_total_tokens")
                 num_tokens = (
                     int(
                         (
@@ -205,9 +201,7 @@ if __name__ == "__main__":
                     // 1_000_000
                 ) * 1_000_000
             else:
-                logging.info(
-                    "Calculating num_tokens from args.num_total_tokens = 10B"
-                )
+                logging.info("Calculating num_tokens from args.num_total_tokens = 10B")
                 num_tokens = TOKENS_TO_FETCH_10B[domain]
             fetch_tokens(
                 num_tokens=num_tokens,
