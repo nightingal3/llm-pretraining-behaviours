@@ -12,3 +12,5 @@ configs/test.tconf
 dolma/
 dolma-old/
 dolma-json-old/
+
+*.out

@@ -41,7 +41,7 @@ def parse_num(val: str) -> int:
 
 
 def process_zipped_file(content: bytes) -> list:
-    with gzip.open(BytesIO(content), "rt") as f:
+    with gzip.open(BytesIO(content), "rt", errors="ignore") as f:
         lines = f.readlines()
         lines = [line.strip() for line in lines]
         return lines
@@ -159,7 +159,8 @@ if __name__ == "__main__":
     if args.num_tokens:
         logging.info(f"Fetching {args.num_tokens} tokens")
         num_tokens = parse_num(args.num_tokens)
-    elif args.num_total_tokens:
+    # Calculate num_tokens from domain and num_total_tokens
+    elif args.num_total_tokens and args.domain:
         logging.info("Total domain tokens not specified, using 10B ratio mix")
         num_tokens = (
             int(
@@ -170,7 +171,8 @@ if __name__ == "__main__":
             )
             // 1_000_000
         ) * 1_000_000
-    else:
+    # Calculate num_tokens from domain and num_total_tokens=10B
+    elif args.domain:
         logging.info("Total tokens/domain tokens not specified, using 10B mix")
         num_tokens = TOKENS_TO_FETCH_10B[args.domain]
 
@@ -185,22 +187,32 @@ if __name__ == "__main__":
         )
     else:
         logging.info(
-            "Fetching from all domains, num_total_tokens will be used, following the 10B ratio mix"
+            "Fetching from all domains following the 10B ratio mix"
         )
         for domain in TOKENS_TO_FETCH_10B.keys():
             logging.info(f"Fetching {domain}")
-            num_tokens = (
-                int(
-                    (
-                        (parse_num(args.num_total_tokens) / 10_000_000_000)
-                        * TOKENS_TO_FETCH_10B[args.domain]
-                    )
+            if args.num_total_tokens:
+                logging.info(
+                    "Calculating num_tokens from given args.num_total_tokens"
                 )
-                // 1_000_000
-            ) * 1_000_000
+                num_tokens = (
+                    int(
+                        (
+                            (parse_num(args.num_total_tokens) / 10_000_000_000)
+                            * TOKENS_TO_FETCH_10B[domain]
+                        )
+                    )
+                    // 1_000_000
+                ) * 1_000_000
+            else:
+                logging.info(
+                    "Calculating num_tokens from args.num_total_tokens = 10B"
+                )
+                num_tokens = TOKENS_TO_FETCH_10B[domain]
             fetch_tokens(
                 num_tokens=num_tokens,
                 domain=domain,
-                output_dir=args.output,
+                # Slightly jank - append domain dir here instead of in get_tokens.sh if running on all domains
+                output_dir=args.output + f"/{domain}",
                 all_files_lst=all_files_lst,
             )
