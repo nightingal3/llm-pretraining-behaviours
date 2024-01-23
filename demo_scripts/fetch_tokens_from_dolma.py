@@ -41,7 +41,7 @@ def parse_num(val: str) -> int:
 
 
 def process_zipped_file(content: bytes, file_ind: int) -> list:
-    if (file_ind % 50 == 0):
+    if file_ind % 50 == 0:
         print(f"Processing file {file_ind}")
     with gzip.open(BytesIO(content), "rt", errors="ignore") as f:
         try:
@@ -88,7 +88,9 @@ def fetch_tokens(
 
             file_ind += 1
 
-            docs = [json.loads(l) for l in process_zipped_file(response.content, file_ind)]
+            docs = [
+                json.loads(l) for l in process_zipped_file(response.content, file_ind)
+            ]
             texts = [d["text"] for d in docs]
 
             # tokenizing individually to avoid oom
