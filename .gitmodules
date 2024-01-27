@@ -2,3 +2,6 @@
 	path = Megatron-DeepSpeed
 	url = https://github.com/microsoft/Megatron-DeepSpeed.git
 
+[submodule "lm-evaluation-harness"]
+	path = lm-evaluation-harness
+	url = https://github.com/EleutherAI/lm-evaluation-harness
