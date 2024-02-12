@@ -10,18 +10,19 @@ domains = [
     "peS2o",
     "stack-code",
     "gutenberg-books",
-    "wiki-en-simple"
+    "wiki-en-simple",
 ]
 MIN_BYTES = 1_000_000
 
 parts = {
-    "c4" : 4213499,
-    "common-crawl" : 510983,
-    "gutenberg-books" : 1178,
-    "peS2o" : 20803,
-    "stack-code" : 103818,
-    "wiki-en-simple" : 2785999,
+    "c4": 4213499,
+    "common-crawl": 510983,
+    "gutenberg-books": 1178,
+    "peS2o": 20803,
+    "stack-code": 103818,
+    "wiki-en-simple": 2785999,
 }
+
 
 def prune_domain(domain: str):
     logging.info(f"Pruning {domain}")
@@ -41,8 +42,13 @@ def prune_domain(domain: str):
             total_bytes += num_bytes
 
             if part % 5000 == 0:
-                logging.info(f"Pruned up to part {part}; copied {bytes_copied:.4e} / {total_bytes:.4e} bytes")
-    logging.info(f"Finished pruning; copied {bytes_copied:.4e} / {total_bytes:.4e} bytes")
+                logging.info(
+                    f"Pruned up to part {part}; copied {bytes_copied:.4e} / {total_bytes:.4e} bytes"
+                )
+    logging.info(
+        f"Finished pruning; copied {bytes_copied:.4e} / {total_bytes:.4e} bytes"
+    )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
