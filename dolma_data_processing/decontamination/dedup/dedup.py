@@ -4,6 +4,7 @@ import pandas as pd
 import sys
 import os
 import multiprocessing
+
 harness_dir = "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/lm-evaluation-harness"
 sys.path.append(harness_dir)
 from lm_eval.decontamination.janitor import Janitor
@@ -13,7 +14,10 @@ os.environ["NUMEXPR_NUM_THREADS"] = "200"
 import numexpr as ne
 
 # Make janitor, register contaminant
-with open("/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma_data_processing/decontamination/dedup/contaminant.txt", "r") as file:
+with open(
+    "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma_data_processing/decontamination/dedup/contaminant.txt",
+    "r",
+) as file:
     contaminant: str = file.read()
 contaminant = contaminant
 janitor = Janitor()
