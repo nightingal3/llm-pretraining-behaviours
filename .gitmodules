@@ -1,6 +1,6 @@
 [submodule "Megatron-DeepSpeed"]
 	path = Megatron-DeepSpeed
-	url = https://github.com/microsoft/Megatron-DeepSpeed.git
+	url = https://github.com/deep-spin/Megatron-DeepSpeed.git
 
 [submodule "lm-evaluation-harness"]
 	path = lm-evaluation-harness
