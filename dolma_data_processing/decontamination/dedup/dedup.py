@@ -51,7 +51,6 @@ logging.info(f"Using {multiprocessing.cpu_count()} CPUs")
 
 # Add exception handling to multiprocessing Process
 class Process(multiprocessing.Process):
-
     def __init__(self, *args, **kwargs):
         multiprocessing.Process.__init__(self, *args, **kwargs)
         self._pconn, self._cconn = multiprocessing.Pipe()
