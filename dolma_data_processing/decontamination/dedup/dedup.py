@@ -80,7 +80,7 @@ def process_file(file_path, directory_name, file_name):
     df = decontaminate(df)
     contamination_indices += df["num_contaminated"].sum()
     df.to_parquet(
-        f"/data/tir/projects/tir7/user_data/mchen5/dolma_100B_deduped_new/{directory_name}/{file_name}"
+        f"/data/tir/projects/tir7/user_data/mchen5/dolma_100B_deduped/{directory_name}/{file_name}"
     )
     logging.info(f"Finished writing deduped {file_name}")
 
