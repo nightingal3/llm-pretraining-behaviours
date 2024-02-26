@@ -6,27 +6,12 @@ import os
 import multiprocessing
 import traceback
 import logging
-
-sys.path.append(
-    "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/lm-evaluation-harness"
-)
 from lm_eval.decontamination.janitor import Janitor
-
-os.environ["NUMEXPR_MAX_THREADS"] = "256"
 import numexpr as ne
-
-# Make janitor, register contaminant
-with open(
-    "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma_data_processing/decontamination/dedup/contaminant.txt",
-    "r",
-) as file:
-    contaminant: str = file.read()
-janitor = Janitor()
-janitor.register_contaminant(contaminant)
-logging.info("Created janitor, registered contaminant")
+import argparse
 
 
-def decontaminate(df: pd.DataFrame) -> pd.DataFrame:
+def decontaminate(df: pd.DataFrame, janitor: Janitor) -> pd.DataFrame:
     df["num_contaminated"] = 0
     df["thrown"] = False
 
@@ -72,11 +57,11 @@ class Process(multiprocessing.Process):
 
 
 # Deduplicate the file at this path and saves the output to dolma_100B_deduped
-def process_file(file_path, directory_name, file_name):
+def process_file(file_path, directory_name, file_name, janitor):
     logging.info(f"Processing {file_path}; process id {os.getpid()} \n")
     global contamination_indices
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
-    df = decontaminate(df)
+    df = decontaminate(df, janitor=janitor)
     contamination_indices += df["num_contaminated"].sum()
     df.to_parquet(
         f"/data/tir/projects/tir7/user_data/mchen5/dolma_100B_deduped/{directory_name}/{file_name}"
@@ -85,25 +70,62 @@ def process_file(file_path, directory_name, file_name):
 
 
 # Start a new process for each file, so we deduplicate fully in parallel
-def process_directory(directory_path, directory_name):
+def process_directory(directory_path, directory_name, janitor):
     for root, _, files in os.walk(directory_path):
         for file_name in files:
             file_path = os.path.join(root, file_name)
             p = multiprocessing.Process(
-                target=process_file, args=(file_path, directory_name, file_name)
+                target=process_file,
+                args=(file_path, directory_name, file_name, janitor),
             )
             p.start()
 
 
 def main():
+    sys.path.append(
+        "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/lm-evaluation-harness"
+    )
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--contaminant_path",
+        help="Path to contaminant .txt file",
+        type=str,
+    )
+    parser.add_argument(
+        "--base_dir",
+        help="Path to dataset base directory (should contain subdirectories for each domain)",
+        type=str,
+    )
+    parser.add_argument(
+        "--num_processes", help="Number of processes to run in parallel", type=int
+    )
+    args = parser.parse_args()
+    if not args.contaminant_path:
+        raise ValueError("Please specify path to contaminant file")
+    if not args.base_dir:
+        raise ValueError("Please specify dataset base directory")
+
+    num_processes = args.num_processes if args.num_processes else 64
+    os.environ["NUMEXPR_MAX_THREADS"] = f"{num_processes}"
+
+    # Make janitor, register contaminant
+    with open(
+        args.contaminant_path,
+        "r",
+    ) as file:
+        contaminant: str = file.read()
+    janitor = Janitor()
+    janitor.register_contaminant(contaminant)
+    logging.info("Created janitor, registered contaminant")
     global contamination_indices
-    base_dir = "/data/tir/projects/tir7/user_data/mchen5/dolma_100B"
+    base_dir = args.base_dir
     directory_processes = []
     for directory_name in os.listdir(base_dir):
         directory_path = os.path.join(base_dir, directory_name)
         if os.path.isdir(directory_path):
             p = multiprocessing.Process(
-                target=process_directory, args=(directory_path, directory_name)
+                target=process_directory, args=(directory_path, directory_name, janitor)
             )
             directory_processes.append(p)
             p.start()
