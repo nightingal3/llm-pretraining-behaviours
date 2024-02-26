@@ -13,8 +13,8 @@ conda activate towerllm-env
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1
 
-# Usage: sbatch demo_scripts/train_model.sh <checkpoint_path> <dataset_bin> <external_tokenizer>
-
+# Usage: sbatch demo_scripts/train_model.sh <checkpoint_path> <model config (see ./configs)> <dataset_bin> <external_tokenizer>
+# to use the wandb logger: --wandb_logger --wandb_entity <your username> --wandb_id <some id> --wandb_api_key <your api key>
 set -euo pipefail
 
 if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
@@ -23,36 +23,37 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
 fi
 
 CHECKPOINT_PATH=${1:-./llama_mini_try}
-dataset_bin=${2:-wiki-en-simple_200000000-bin/data_text_document}
-external_tokenizer=${3:-meta-llama/Llama-2-7b-hf}
+model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
+dataset_bin=${3:-wiki-en-simple_200000000-bin/data_text_document}
+external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 repo=/data/tir/projects/tir6/general/mengyan3/tower-llm-training
 data_path="${repo}/${dataset_bin}"
 
-# TODO - just read this from config
-# llama mini
-num_layers=12
-num_attention_heads=8
-seq_length=2048
-num_kv_heads=8
-hidden_size=1024
-ffn_hidden_size=4096
+num_layers=$(yq '.training.num_layers' $model_config)
+num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
+seq_length=$(yq '.training.seq_length' $model_config)
+num_kv_heads=$(yq '.training.num_kv_heads' $model_config)
+hidden_size=$(yq '.training.hidden_size' $model_config)
+ffn_hidden_size=$(yq '.training.ffn_hidden_size' $model_config)
 
 
-tune_steps=1000
-lr=0.00015
-min_lr=1.0e-5
-weight_decay=1e-2
-grad_clip=1.0
-lr_warmup_steps=100
-save_interval=1000
-eval_interval=1000
-train_steps=100000
+tune_steps=$(yq '.training.tune_steps' $model_config)
+lr=$(yq '.training.lr' $model_config)
+min_lr=$(yq '.training.min_lr' $model_config)
+weight_decay=$(yq '.training.weight_decay' $model_config)
+grad_clip=$(yq '.training.grad_clip' $model_config)
+lr_warmup_steps=$(yq '.training.lr_warmup_steps' $model_config)
+save_interval=$(yq '.training.save_interval' $model_config)
+eval_interval=$(yq '.training.eval_interval' $model_config)
+train_steps=$(yq '.training.train_steps' $model_config)
 
 tp=1 # don't use this
-micro_batch_size=1
-seed=42
+micro_batch_size=$(yq '.training.micro_batch_size' $model_config)
+seed=$(yq '.training.seed' $model_config)
 
-distributed_args="--num_nodes=1 --num_gpus=4 --master_port 12345"
+NUM_GPUS=$(nvidia-smi -L | wc -l)
+
+distributed_args="--num_nodes=1 --num_gpus=${NUM_GPUS} --master_port 12345"
 ds_args="--zero-stage=2 --deepspeed --deepspeed_config /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/ds_config.json"
 deepspeed $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
@@ -97,9 +98,13 @@ deepspeed $distributed_args \
        --swiglu \
        --normalization rmsnorm \
        --disable-bias-linear \
-       --use-flash-attn \
+       --use-flash-attn-v2 \
        --distributed-timeout-minutes 60 \
        --seed $seed \
+       --wandb_logger \
+       --wandb_entity nightingal3 \
+      --wandb_id llama_mini_460M \
+      --wandb_api_key $WANDB_API_KEY \
        $ds_args 
 
 
