@@ -25,6 +25,7 @@ TOKENS_TO_FETCH_10B = {
 
 DUMP_FREQUENCY = 1_000_000
 
+
 def parse_num(val: str) -> int:
     if val.lower().endswith("b"):
         return int(val[:-1]) * 1_000_000_000
