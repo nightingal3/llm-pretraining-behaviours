@@ -55,14 +55,18 @@ def process_zipped_file(content: bytes, file_ind: int) -> list:
 
 
 def fetch_tokens(
-    num_tokens: int, domain: str, output_dir: str or None, all_files_lst: list
+    num_tokens: int,
+    domain: str,
+    output_dir: str or None,
+    all_files_lst: list,
+    seed: int = 42,
 ):
     current_tokens = 0
     output_dir = output_dir if output_dir else f"./dolma/{domain}_{num_tokens}"
     logging.info(f"Fetching {num_tokens} tokens from {domain}")
 
     # shuffle
-    random.seed(42)
+    random.seed(seed)
     random.shuffle(all_files_lst)
     all_texts = []
 
@@ -109,7 +113,8 @@ def fetch_tokens(
                 if current_tokens >= num_tokens or len(all_texts) >= DUMP_FREQUENCY:
                     part_ind += 1
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
-                    logging.info("Output file is ", output_file)
+                    logging.info(f"Output file is: {output_file}")
+
                     # mkdir -p
                     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
@@ -127,6 +132,9 @@ def fetch_tokens(
 
                     del df
                     all_texts = []
+
+                    if current_tokens >= num_tokens:
+                        break
 
     logging.info(f"Saved all output ({current_tokens} tokens)")
 
@@ -157,6 +165,7 @@ if __name__ == "__main__":
             "gutenberg-books",
         ],
     )
+    parser.add_argument("--seed", help="Random seed", type=int, default=42)
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)
 
@@ -193,6 +202,7 @@ if __name__ == "__main__":
             domain=args.domain,
             output_dir=args.output,
             all_files_lst=all_files_lst,
+            seed=args.seed,
         )
     else:
         logging.info("Fetching from all domains following the 10B ratio mix")
