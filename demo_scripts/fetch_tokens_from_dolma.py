@@ -23,30 +23,7 @@ TOKENS_TO_FETCH_10B = {
     "wiki-en-simple": 200_000_000,
 }
 
-denom_no_code = 10_000_000_000 - TOKENS_TO_FETCH_10B["stack-code"]
-TOKENS_REMAINDER_100B_NO_CODE = {
-    "common-crawl": (5_186_000_000 / denom_no_code) * TOKENS_TO_FETCH_10B["stack-code"],
-    "c4": (1_396_000_000 / denom_no_code) * TOKENS_TO_FETCH_10B["stack-code"],
-    "peS2o": (796_000_000 / denom_no_code) * TOKENS_TO_FETCH_10B["stack-code"],
-    "gutenberg-books": (231_000_000 / denom_no_code)
-    * TOKENS_TO_FETCH_10B["stack-code"],
-    "wiki-en-simple": (200_000_000 / denom_no_code) * TOKENS_TO_FETCH_10B["stack-code"],
-}
-
 DUMP_FREQUENCY = 1_000_000
-
-
-class ColorCodes:
-    RED = "\033[91m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    BLUE = "\033[94m"
-    RESET = "\033[0m"
-
-
-def color_text(text, color_code):
-    return f"{color_code}{text}{ColorCodes.RESET}"
-
 
 def parse_num(val: str) -> int:
     if val.lower().endswith("b"):
@@ -135,9 +112,7 @@ def fetch_tokens(
                 if current_tokens >= num_tokens or len(all_texts) >= DUMP_FREQUENCY:
                     part_ind += 1
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
-                    logging.info(
-                        color_text(f"Output file is: {output_file}", ColorCodes.BLUE)
-                    )
+                    logging.info(f"Output file is: {output_file}")
 
                     # mkdir -p
                     os.makedirs(os.path.dirname(output_file), exist_ok=True)
