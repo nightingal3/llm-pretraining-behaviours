@@ -6,12 +6,11 @@ import os
 import multiprocessing
 import traceback
 import logging
-from lm_eval.decontamination.janitor import Janitor
 import numexpr as ne
 import argparse
 
 
-def decontaminate(df: pd.DataFrame, janitor: Janitor) -> pd.DataFrame:
+def decontaminate(df: pd.DataFrame, janitor) -> pd.DataFrame:
     df["num_contaminated"] = 0
     df["thrown"] = False
 
@@ -57,26 +56,24 @@ class Process(multiprocessing.Process):
 
 
 # Deduplicate the file at this path and saves the output to dolma_100B_deduped
-def process_file(file_path, directory_name, file_name, janitor):
+def process_file(file_path, directory_name, file_name, output_dir, janitor):
     logging.info(f"Processing {file_path}; process id {os.getpid()} \n")
     global contamination_indices
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
     df = decontaminate(df, janitor=janitor)
     contamination_indices += df["num_contaminated"].sum()
-    df.to_parquet(
-        f"/data/tir/projects/tir7/user_data/mchen5/dolma_100B_deduped/{directory_name}/{file_name}"
-    )
+    df.to_parquet(f"{output_dir}/{directory_name}/{file_name}")
     logging.info(f"Finished writing deduped {file_name}")
 
 
 # Start a new process for each file, so we deduplicate fully in parallel
-def process_directory(directory_path, directory_name, janitor):
+def process_directory(directory_path, directory_name, output_dir, janitor):
     for root, _, files in os.walk(directory_path):
         for file_name in files:
             file_path = os.path.join(root, file_name)
             p = multiprocessing.Process(
                 target=process_file,
-                args=(file_path, directory_name, file_name, janitor),
+                args=(file_path, directory_name, file_name, output_dir, janitor),
             )
             p.start()
 
@@ -85,6 +82,7 @@ def main():
     sys.path.append(
         "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/lm-evaluation-harness"
     )
+    from lm_eval.decontamination.janitor import Janitor
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -98,13 +96,21 @@ def main():
         type=str,
     )
     parser.add_argument(
+        "--output_dir",
+        help="Path to output base dir (should contain subdirectories for each domain)",
+        type=str,
+    )
+    parser.add_argument(
         "--num_processes", help="Number of processes to run in parallel", type=int
     )
+    logging.basicConfig(level=logging.INFO)
     args = parser.parse_args()
     if not args.contaminant_path:
         raise ValueError("Please specify path to contaminant file")
     if not args.base_dir:
         raise ValueError("Please specify dataset base directory")
+    if not args.output_dir:
+        raise ValueError("Please specify output base directory")
 
     num_processes = args.num_processes if args.num_processes else 64
     os.environ["NUMEXPR_MAX_THREADS"] = f"{num_processes}"
@@ -125,7 +131,8 @@ def main():
         directory_path = os.path.join(base_dir, directory_name)
         if os.path.isdir(directory_path):
             p = multiprocessing.Process(
-                target=process_directory, args=(directory_path, directory_name, janitor)
+                target=process_directory,
+                args=(directory_path, directory_name, args.output_dir, janitor),
             )
             directory_processes.append(p)
             p.start()
