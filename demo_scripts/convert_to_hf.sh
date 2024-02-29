@@ -16,16 +16,18 @@ export CUDA_DEVICE_MAX_CONNECTIONS=1
 # Usage: sbatch demo_scripts/convert_to_hf.sh <checkpoint_path> <model_config> <external_tokenizer> <output_dir>
 
 set -euo pipefail
+set -x
 
 if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
    echo "Usage: sbatch demo_scripts/convert_to_hf.sh [checkpoint_path] [model_config] [external_tokenizer] [output_dir]"
    exit 0
 fi
 
-CHECKPOINT_PATH=${1:-./llama_mini_try}
+CHECKPOINT_PATH=${1:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/llama_mini_try_1B}
 model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
 external_tokenizer=${3:-meta-llama/Llama-2-7b-hf}
-output_dir=${4:-./llama_mini_try_hf}
+output_dir=${4:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama_mini_try_1B_hf}
+repo=/home/pfernand/repos/llm-pretraining-behaviours/
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
@@ -44,6 +46,8 @@ lr_warmup_steps=$(yq '.training.lr_warmup_steps' $model_config)
 save_interval=$(yq '.training.save_interval' $model_config)
 eval_interval=$(yq '.training.eval_interval' $model_config)
 train_steps=$(yq '.training.train_steps' $model_config)
+tp=1 # don't use this
+seed=42
 
 echo -n '{
         "train_batch_size" : 2,
