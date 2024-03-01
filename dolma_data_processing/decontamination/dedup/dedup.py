@@ -7,6 +7,7 @@ import multiprocessing
 import logging
 import argparse
 
+
 def decontaminate(df: pd.DataFrame, janitor) -> (pd.DataFrame, int):
     contamination_indices = 0
 
@@ -98,9 +99,7 @@ def main():
             for root, _, files in os.walk(os.path.join(base_dir, directory_name)):
                 for file_name in files:
                     file_path = os.path.join(root, file_name)
-                    process_inputs.append(
-                        (file_path, directory_name, file_name)
-                    )
+                    process_inputs.append((file_path, directory_name, file_name))
     pool = multiprocessing.Pool(num_processes)
     contamination_indices_list = pool.map(process_file, process_inputs)
     logging.info("Finished decontamination")
