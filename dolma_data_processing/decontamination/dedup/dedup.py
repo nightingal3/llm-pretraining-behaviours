@@ -4,81 +4,46 @@ import pandas as pd
 import sys
 import os
 import multiprocessing
-import traceback
 import logging
-import numexpr as ne
 import argparse
 
+def decontaminate(df: pd.DataFrame, janitor) -> (pd.DataFrame, int):
+    contamination_indices = 0
 
-def decontaminate(df: pd.DataFrame, janitor) -> pd.DataFrame:
-    df["num_contaminated"] = 0
-    df["thrown"] = False
+    def dedup(text: str) -> (str, int, bool):
+        nonlocal contamination_indices
 
-    num_thrown = 0
-    for index, row in df.iterrows():
+        cleaned_text = text
+        thrown = False
         try:
-            (cleaned, num_contaminated) = janitor.clean_python(row["text"])
-            df.at[index, "num_contaminated"] = num_contaminated
+            cleaned, num_contaminated = janitor.clean_python(text)
             if num_contaminated != 0:
-                df.at[index, "text"] = "".join(cleaned)
-        except:
-            df.at[index, "thrown"] = True
-            num_thrown += 1
-
-    return df
-
-
-contamination_indices = 0
-
-logging.info(f"Using {multiprocessing.cpu_count()} CPUs")
-
-
-# Add exception handling to multiprocessing Process
-class Process(multiprocessing.Process):
-    def __init__(self, *args, **kwargs):
-        multiprocessing.Process.__init__(self, *args, **kwargs)
-        self._pconn, self._cconn = multiprocessing.Pipe()
-        self._exception = None
-
-    def run(self):
-        try:
-            multiprocessing.Process.run(self)
-            self._cconn.send(None)
+                contamination_indices += num_contaminated
+                cleaned_text = "".join(cleaned)
         except Exception as e:
-            tb = traceback.format_exc()
-            self._cconn.send((e, tb))
+            logging.error(f"{e}")
+            thrown = True
+        return (cleaned_text, num_contaminated, thrown)
 
-    @property
-    def exception(self):
-        if self._pconn.poll():
-            self._exception = self._pconn.recv()
-        return self._exception
+    dedup_lambda = lambda text: dedup(text)
+    df["text"], df["num_contaminated"], df["thrown"] = zip(
+        *df["text"].map(dedup_lambda)
+    )
+    return (df, contamination_indices)
 
 
 # Deduplicate the file at this path and saves the output to dolma_100B_deduped
-def process_file(file_path, directory_name, file_name, output_dir, janitor):
-    logging.info(f"Processing {file_path}; process id {os.getpid()} \n")
-    global contamination_indices
+def process_file(args):
+    file_path, directory_name, file_name = args
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
-    df = decontaminate(df, janitor=janitor)
-    contamination_indices += df["num_contaminated"].sum()
+    (df, contamination_indices) = decontaminate(df, janitor=janitor)
     df.to_parquet(f"{output_dir}/{directory_name}/{file_name}")
-    logging.info(f"Finished writing deduped {file_name}")
-
-
-# Start a new process for each file, so we deduplicate fully in parallel
-def process_directory(directory_path, directory_name, output_dir, janitor):
-    for root, _, files in os.walk(directory_path):
-        for file_name in files:
-            file_path = os.path.join(root, file_name)
-            p = multiprocessing.Process(
-                target=process_file,
-                args=(file_path, directory_name, file_name, output_dir, janitor),
-            )
-            p.start()
+    return contamination_indices
 
 
 def main():
+    global output_dir
+    global janitor
     sys.path.append(
         "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/lm-evaluation-harness"
     )
@@ -113,7 +78,7 @@ def main():
         raise ValueError("Please specify output base directory")
 
     num_processes = args.num_processes if args.num_processes else 64
-    os.environ["NUMEXPR_MAX_THREADS"] = f"{num_processes}"
+    logging.info(f"num_processes set to {num_processes}")
 
     # Make janitor, register contaminant
     with open(
@@ -124,22 +89,22 @@ def main():
     janitor = Janitor()
     janitor.register_contaminant(contaminant)
     logging.info("Created janitor, registered contaminant")
-    global contamination_indices
     base_dir = args.base_dir
-    directory_processes = []
+    output_dir = args.output_dir
+    process_inputs = []
     for directory_name in os.listdir(base_dir):
         directory_path = os.path.join(base_dir, directory_name)
         if os.path.isdir(directory_path):
-            p = multiprocessing.Process(
-                target=process_directory,
-                args=(directory_path, directory_name, args.output_dir, janitor),
-            )
-            directory_processes.append(p)
-            p.start()
-    for p in directory_processes:
-        p.join()
+            for root, _, files in os.walk(os.path.join(base_dir, directory_name)):
+                for file_name in files:
+                    file_path = os.path.join(root, file_name)
+                    process_inputs.append(
+                        (file_path, directory_name, file_name)
+                    )
+    pool = multiprocessing.Pool(num_processes)
+    contamination_indices_list = pool.map(process_file, process_inputs)
     logging.info("Finished decontamination")
-    logging.info(f"{contamination_indices} total contamination indices")
+    logging.info(f"{sum(contamination_indices_list)} total contamination indices.")
 
 
 if __name__ == "__main__":
