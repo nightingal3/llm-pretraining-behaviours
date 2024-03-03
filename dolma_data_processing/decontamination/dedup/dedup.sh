@@ -13,4 +13,4 @@ conda activate towerllm-env
 
 set -euo pipefail
 
-python dedup.py --contaminant-path=
+python dedup.py --contaminant_path="/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma_data_processing/decontamination/dedup/contaminant.txt" --base_dir="/data/tir/projects/tir7/user_data/mchen5/dolma_100B" --output_dir="/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped" --num_processes=8
