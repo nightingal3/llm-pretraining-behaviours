@@ -33,7 +33,7 @@ def decontaminate(df: pd.DataFrame, janitor) -> (pd.DataFrame, int):
     return (df, contamination_indices)
 
 
-# Deduplicate the file at this path and saves the output to dolma_100B_deduped
+# Deduplicates the file at this path and saves the output to dolma_100B_deduped
 def process_file(args):
     file_path, directory_name, file_name = args
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
@@ -96,7 +96,7 @@ def main():
     for directory_name in os.listdir(base_dir):
         directory_path = os.path.join(base_dir, directory_name)
         if os.path.isdir(directory_path):
-            for root, _, files in os.walk(os.path.join(base_dir, directory_name)):
+            for root, _, files in os.walk(directory_path):
                 for file_name in files:
                     file_path = os.path.join(root, file_name)
                     process_inputs.append((file_path, directory_name, file_name))
