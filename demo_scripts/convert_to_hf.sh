@@ -25,7 +25,7 @@ fi
 
 CHECKPOINT_PATH=${1:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/llama_mini_try_1B}
 model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
-external_tokenizer=${3:-meta-llama/Llama-2-7b-hf}
+external_tokenizer=${3:-NousResearch/Llama-2-7b-hf}
 output_dir=${4:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama_mini_try_1B_hf}
 repo=/home/pfernand/repos/llm-pretraining-behaviours/
 
@@ -59,6 +59,8 @@ echo -n '{
             "enabled": true
         }
 }' | jq . > /tmp/convert_ds_config.json
+
+export PYTHONPATH=$repo/Megatron-DeepSpeed
 
 distributed_args="--num_nodes=1 --num_gpus=1 --master_port 12345"
 ds_args="--zero-stage=0 --deepspeed --deepspeed_config /tmp/convert_ds_config.json"
