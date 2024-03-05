@@ -1,10 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=train_model_try
-#SBATCH --output=train_model_try.out
+#SBATCH --job-name=train_llama_460m_nl_code
+#SBATCH --output=train_model_460m_nl_code.out
 #SBATCH --mem=30G
 #SBATCH --gres=gpu:A6000:4
-#SBATCH --time=1-00:00:00
-#SBATCH --partition=babel-shared-long
+#SBATCH --nodes=1
+#SBATCH --time=7-00:00:00
+#SBATCH --partition=long
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
@@ -26,9 +27,9 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
    exit 0
 fi
 
-CHECKPOINT_PATH=${1:-./llama_mini_try}
+CHECKPOINT_PATH=${1:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama_mini}
 model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
-dataset_bin=${3:-/data/tir/projects/tir7/user_data/lmarinov/dolma_full-bin/data_text_document}
+dataset_bin=${3:-/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_full-bin/data_text_document}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 repo=${BASE_REPO}
 data_path=${dataset_bin}
