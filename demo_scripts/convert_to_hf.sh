@@ -8,8 +8,12 @@
 #SBATCH --mail-user=pfernand@cs.cmu.edu
 #SBATCH --mail-type=END
 
-source ~/conda/etc/profile.d/conda.sh
-conda activate llm-pretraining-env
+set -a 
+source ./demo_scripts/configs/.env
+set +a
+
+source ${MINICONDA_PATH}
+conda activate ${TOWERLLM_ENV_NAME}
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1
 
@@ -27,7 +31,7 @@ CHECKPOINT_PATH=${1:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training
 model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
 external_tokenizer=${3:-NousResearch/Llama-2-7b-hf}
 output_dir=${4:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama_mini_try_1B_hf}
-repo=/home/pfernand/repos/llm-pretraining-behaviours/
+repo=${BASE_REPO}
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
