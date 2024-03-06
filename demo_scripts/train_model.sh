@@ -8,8 +8,12 @@
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate towerllm-env
+set -a 
+source ./demo_scripts/configs/.env
+set +a
+
+source ${MINICONDA_PATH}
+conda activate ${TOWERLLM_ENV_NAME}
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1
 
@@ -26,7 +30,7 @@ CHECKPOINT_PATH=${1:-./llama_mini_try}
 model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
 dataset_bin=${3:-wiki-en-simple_200000000-bin/data_text_document}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
-repo=/data/tir/projects/tir6/general/mengyan3/tower-llm-training
+repo=${BASE_REPO}
 data_path="${repo}/${dataset_bin}"
 
 num_layers=$(yq '.training.num_layers' $model_config)
@@ -53,8 +57,13 @@ seed=$(yq '.training.seed' $model_config)
 
 NUM_GPUS=$(nvidia-smi -L | wc -l)
 
+# if no run id specified, then use unix timestamp as unique id
+if [ -z "$WANDB_ID" ]; then
+    WANDB_ID=$(date +%s)
+fi
+
 distributed_args="--num_nodes=1 --num_gpus=${NUM_GPUS} --master_port 12345"
-ds_args="--zero-stage=2 --deepspeed --deepspeed_config /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/ds_config.json"
+ds_args="--zero-stage=2 --deepspeed --deepspeed_config ${repo}/demo_scripts/ds_config.json"
 deepspeed $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
        --tensor-model-parallel-size $tp \
@@ -102,8 +111,8 @@ deepspeed $distributed_args \
        --distributed-timeout-minutes 60 \
        --seed $seed \
        --wandb_logger \
-       --wandb_entity nightingal3 \
-      --wandb_id llama_mini_460M \
+       --wandb_entity $WANDB_USER \
+      --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
        $ds_args 
 
