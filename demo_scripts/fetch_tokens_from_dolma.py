@@ -11,6 +11,7 @@ import os
 import logging
 from tqdm import tqdm
 import sys
+import gc
 
 LLAMA_DIR = "/data/datasets/models/huggingface/meta-llama/Llama-2-70b-hf/"
 
@@ -114,10 +115,10 @@ def fetch_tokens(
                 texts_to_dump.append(doc)
                 # save the reduced dataset as a <= 500 MB arrow file
                 ## for table of random strings each with length 2000,
-                ## parquet file size is roughly 600 * size in memory
+                ## parquet file size is roughly 500 * size in memory
                 if (
                     current_tokens >= num_tokens
-                    or sys.getsizeof(texts_to_dump) * 600 >= MAX_DUMP_SIZE
+                    or sys.getsizeof(texts_to_dump) * 500 >= MAX_DUMP_SIZE
                 ):
                     part_ind += 1
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
@@ -145,6 +146,7 @@ def fetch_tokens(
                             del df1
                             del df2
                         del df
+                        gc.collect()
 
                     split_file(output_file, df)
                     texts_to_dump = []

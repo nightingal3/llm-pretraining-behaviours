@@ -9,8 +9,8 @@
 
 # domains=("peS2o" "common-crawl" "stack-code" "wiki-en-simple" "c4" "gutenberg-books")
 
-domain="common-crawl"
-num_total_tokens="1T"
+domain=${1:-common-crawl}
+num_total_tokens=${2:-1T}
 base_dir=${3:-/data/tir/projects/tir5/mengyan3/dolma_data_processed/dolma_1T}
 
 output="${base_dir}/${domain}"
