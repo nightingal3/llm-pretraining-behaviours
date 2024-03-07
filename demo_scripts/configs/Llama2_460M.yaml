@@ -1,0 +1,19 @@
+training:
+  num_layers: 24
+  num_attention_heads: 8
+  seq_length: 2048
+  num_kv_heads: 8
+  hidden_size: 1024
+  ffn_hidden_size: 4096
+  tune_steps: 1000
+  lr: 0.00015
+  min_lr: 1.0e-5
+  weight_decay: 1e-2
+  grad_clip: 1.0
+  lr_warmup_steps: 100
+  save_interval: 1000
+  eval_interval: 1000
+  train_steps: 100000
+  tp: 1
+  micro_batch_size: 1
+  seed: 42
