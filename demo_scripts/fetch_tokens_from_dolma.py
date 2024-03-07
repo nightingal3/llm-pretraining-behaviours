@@ -6,11 +6,11 @@ import random
 import json
 import gzip
 from io import BytesIO
-import pyarrow
 import pandas as pd
 import os
 import logging
 from tqdm import tqdm
+import sys
 
 LLAMA_DIR = "/data/datasets/models/huggingface/meta-llama/Llama-2-70b-hf/"
 
@@ -23,7 +23,7 @@ TOKENS_TO_FETCH_10B = {
     "wiki-en-simple": 200_000_000,
 }
 
-DUMP_FREQUENCY = 1_000_000
+MAX_DUMP_SIZE = 1_000_000
 
 
 def parse_num(val: str) -> int:
@@ -68,7 +68,7 @@ def fetch_tokens(
     # shuffle
     random.seed(seed)
     random.shuffle(all_files_lst)
-    all_texts = []
+    texts_to_dump = []
 
     # filter out non-gz files
     all_files_lst = [f for f in all_files_lst if f.endswith(".gz")]
@@ -95,13 +95,15 @@ def fetch_tokens(
             docs = [
                 json.loads(l) for l in process_zipped_file(response.content, file_ind)
             ]
-            texts = [d["text"] for d in docs]
+
+            # just keep main data
+            fields_to_keep = ["text", "id", "lang"]
+            docs = [{k: v for k, v in d.items() if k in fields_to_keep} for d in docs]
 
             # tokenizing individually to avoid oom
-            for i, text in enumerate(texts):
-                all_texts.append(docs[i])
+            for _, doc in enumerate(docs):
                 encoded_inputs = tokenizer(
-                    text, truncation=True, padding=True, return_tensors="pt"
+                    doc["text"], truncation=True, padding=True, return_tensors="pt"
                 )
                 num_non_padding_toks = (
                     encoded_inputs["attention_mask"].sum(dim=1).tolist()
@@ -109,29 +111,43 @@ def fetch_tokens(
                 current_tokens += sum(num_non_padding_toks)
                 pbar.update(sum(num_non_padding_toks))
 
-                # save the reduced dataset as an arrow file, dump every 1M lines
-                if current_tokens >= num_tokens or len(all_texts) >= DUMP_FREQUENCY:
+                texts_to_dump.append(doc)
+                # save the reduced dataset as a <= 500 MB arrow file
+                ## for table of random strings each with length 2000,
+                ## parquet file size is roughly 600 * size in memory
+                if (
+                    current_tokens >= num_tokens
+                    or sys.getsizeof(texts_to_dump) * 600 >= MAX_DUMP_SIZE
+                ):
                     part_ind += 1
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
-                    logging.info(f"Output file is: {output_file}")
 
                     # mkdir -p
                     os.makedirs(os.path.dirname(output_file), exist_ok=True)
-
-                    # just keep main data
-                    fields_to_keep = ["text", "id", "lang"]
-                    all_texts = [
-                        {k: v for k, v in line.items() if k in fields_to_keep}
-                        for line in all_texts
-                    ]
-                    df = pd.DataFrame(all_texts)
+                    df = pd.DataFrame(texts_to_dump, columns=fields_to_keep)
                     df.to_parquet(output_file)
-                    logging.info(
-                        f"Wrote dataset of size {current_tokens} to {output_file}"
-                    )
 
-                    del df
-                    all_texts = []
+                    # if the output file is too large, recursively split it in half
+                    # can't accurately predict parquet compression rate so this is necessary
+                    def split_file(output_file, df):
+                        if os.path.getsize(output_file) > MAX_DUMP_SIZE:
+                            os.remove(output_file)
+                            output_file_1 = f"{output_file[:-6]}_1.arrow"
+                            output_file_2 = f"{output_file[:-6]}_2.arrow"
+                            os.makedirs(os.path.dirname(output_file_1), exist_ok=True)
+                            os.makedirs(os.path.dirname(output_file_2), exist_ok=True)
+                            df1 = df[: df.shape[0] // 2]
+                            df2 = df[df.shape[0] // 2 :]
+                            df1.to_parquet(output_file_1)
+                            df2.to_parquet(output_file_2)
+                            split_file(output_file_1, df1)
+                            split_file(output_file_2, df2)
+                            del df1
+                            del df2
+                        del df
+
+                    split_file(output_file, df)
+                    texts_to_dump = []
 
                     if current_tokens >= num_tokens:
                         break
