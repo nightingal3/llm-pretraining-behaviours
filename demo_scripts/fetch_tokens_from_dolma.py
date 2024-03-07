@@ -104,8 +104,7 @@ def fetch_tokens(
             for _, doc in enumerate(docs):
                 encoded_inputs = tokenizer(doc["text"], return_tensors="pt")
                 num_non_padding_toks = (
-                    encoded_inputs["input_ids"].numel()
-                    - encoded_inputs["special_tokens_mask"].sum()
+                    (encoded_inputs["attention_mask"] == 1).sum(dim=1).tolist()
                 )
                 current_tokens += sum(num_non_padding_toks)
                 pbar.update(sum(num_non_padding_toks))
