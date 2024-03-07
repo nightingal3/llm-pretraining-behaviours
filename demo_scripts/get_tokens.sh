@@ -1,17 +1,17 @@
 #!/bin/bash
-#SBATCH --job-name="get_stack-code"
-#SBATCH --output=get_stack-code.out
+#SBATCH --job-name="get_common_crawl"
+#SBATCH --output=get_common_crawl.out
 #SBATCH --gres=gpu:A6000:1
-#SBATCH --mem=512G
-#SBATCH --time=3-00:00:00
+#SBATCH --mem=128G
+#SBATCH --time=02:00:00
 #SBATCH --mail-type=END
 #SBATCH --mail-user=mchen5@andrew.cmu.edu
 
 # domains=("peS2o" "common-crawl" "stack-code" "wiki-en-simple" "c4" "gutenberg-books")
 
-domain="stack-code"
-num_total_tokens=${2:-100B}
-base_dir=${3:-/data/tir/projects/tir7/user_data/mchen5/dolma_100B}
+domain=${1:-common-crawl}
+num_total_tokens=${2:-1T}
+base_dir=${3:-/data/tir/projects/tir5/mengyan3/dolma_data_processed/dolma_1T}
 
 output="${base_dir}/${domain}"
 
