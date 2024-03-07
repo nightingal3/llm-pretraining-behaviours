@@ -21,3 +21,16 @@ at a later date.
 
 This directory validates that the metadata is in the correct format using JSONSchema. To validate all of the schemas, run `pytest`, which will execute `validate_metadata_test.py`, which validates all of the schemas in the `model_metadata` directory.
 
+If the schema check is not passing, you can install `check-jsonschema`
+
+```bash
+pip install check-jsonschema
+```
+
+and run the following command to check the schema
+
+```bash
+check-jsonschema --schemafile model_metadata_schema.json model_metadata/*.json
+```
+
+to get more information about where things are breaking.
