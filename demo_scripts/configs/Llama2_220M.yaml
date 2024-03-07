@@ -15,5 +15,5 @@ training:
   eval_interval: 1000
   train_epochs: 1
   tp: 1
-  micro_batch_size: 12
+  micro_batch_size: 32
   seed: 42

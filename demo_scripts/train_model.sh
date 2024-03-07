@@ -2,10 +2,11 @@
 #SBATCH --job-name=train_llama_460m_nl_code
 #SBATCH --output=train_model_460m_nl_code.out
 #SBATCH --mem=30G
-#SBATCH --gres=gpu:A6000:4
+#SBATCH --gres=gpu:A6000:8
 #SBATCH --nodes=1
 #SBATCH --time=7-00:00:00
 #SBATCH --partition=long
+#SBATCH --exclude=babel-4-7
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
@@ -27,8 +28,8 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
    exit 0
 fi
 
-CHECKPOINT_PATH=${1:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama_mini}
-model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
+CHECKPOINT_PATH=${1:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_460M_nl_code}
+model_config=${2:-./demo_scripts/configs/Llama2_460M.yaml}
 dataset_bin=${3:-/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_full-bin/data_text_document}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 repo=${BASE_REPO}
@@ -133,8 +134,5 @@ deepspeed $distributed_args \
        --wandb_entity $WANDB_USER \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
+      --data-cache-path ${repo}/100B-cache \
        $ds_args 
-
-
-    #--save $CHECKPOINT_PATH \
-    #--load $CHECKPOINT_PATH \ # don't need these for pretraining

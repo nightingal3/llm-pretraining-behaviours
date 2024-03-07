@@ -2,14 +2,23 @@
 #SBATCH --job-name=preprocess_data
 #SBATCH --output=preprocess_data.out
 #SBATCH --cpus-per-task=30
-#SBATCH --mem=30G
+#SBATCH --mem=100G
+#SBATCH --gres=gpu:A6000:1
 #SBATCH --time=1-00:00:00
-#SBATCH --partition=babel-shared-long
+#SBATCH --partition=general
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
 # Usage: sbatch demo_scripts/preprocess_data.sh <arrow_dir (needs to exist)> <dataset_bin (to be created)> \
 #   <dataset_json (to be created)> <path_to_llama_tok (needs to exist)>
+
+
+set -a 
+source /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/.env
+set +a
+
+source ${MINICONDA_PATH}
+conda activate ${TOWERLLM_ENV_NAME}
 
 set -euo pipefail
 

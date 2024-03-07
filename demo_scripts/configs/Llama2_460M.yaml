@@ -16,5 +16,5 @@ training:
   train_steps: 100000
   train_epochs: 1
   tp: 1
-  micro_batch_size: 1
+  micro_batch_size: 16
   seed: 42
