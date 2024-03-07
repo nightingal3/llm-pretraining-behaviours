@@ -26,11 +26,15 @@
             "anyOf": [
                 {
                     "type": "boolean",
-                    "enum": [false]
+                    "enum": [
+                        false
+                    ]
                 },
                 {
                     "type": "string",
-                    "enum": ["manual"]
+                    "enum": [
+                        "manual"
+                    ]
                 }
             ]
         },
@@ -163,6 +167,80 @@
                 "total"
             ],
             "additionalProperties": false
+        },
+        "dimension": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "num_heads": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "num_layers": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "mlp_ration": {
+            "type": "number",
+            "minimum": 0
+        },
+        "layer_norm_type": {
+            "type": "string",
+            "enum": [
+                "non-paramteric",
+                "parametric",
+                "rmsnorm"
+            ]
+        },
+        "positional_embeddings": {
+            "type": "string",
+            "enum": [
+                "rope"
+            ]
+        },
+        "attention_variant": {
+            "type": "string",
+            "enum": [
+                "full",
+                "gqa",
+                "mqa"
+            ]
+        },
+        "biases": {
+            "type": "string",
+            "enum": [
+                "none",
+                "ln_only"
+            ]
+        },
+        "block_type": {
+            "type": "string",
+            "enum": [
+                "sequential",
+                "parallel"
+            ]
+        },
+        "activation": {
+            "type": "string",
+            "enum": [
+                "swiglu",
+                "gelu"
+            ]
+        },
+        "sequence_length": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_instances": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_tokens": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "weight_tying": {
+            "type": "boolean"
         }
     },
     "required": [
