@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name="get_cc2"
-#SBATCH --output=get_cc2.out
+#SBATCH --job-name="get_common_crawl"
+#SBATCH --output=get_common_crawl.out
 #SBATCH --gres=gpu:A6000:1
 #SBATCH --mem=128G
 #SBATCH --time=02:00:00

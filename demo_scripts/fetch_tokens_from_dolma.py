@@ -23,7 +23,7 @@ TOKENS_TO_FETCH_10B = {
     "wiki-en-simple": 200_000_000,
 }
 
-MAX_DUMP_SIZE = 1_000_000
+MAX_DUMP_SIZE = 500_000_000
 
 
 def parse_num(val: str) -> int:
