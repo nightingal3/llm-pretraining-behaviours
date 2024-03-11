@@ -47,7 +47,6 @@ def get_model_metadata(repo_id: str, token: str = None) -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-
     # Define the command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -57,7 +56,7 @@ if __name__ == "__main__":
         "--token",
         type=str,
         help="The Hugging Face authentication token (only necessary for private "
-             "datasets).",
+        "datasets).",
         default=os.getenv("HF_TOKEN"),
     )
     parser.add_argument(
