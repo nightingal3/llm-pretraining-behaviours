@@ -90,6 +90,7 @@
     "layer_norm_type": "parametric",
     "positional_embeddings": "rope",
     "attention_variant": "mqa",
+    "attention_window": "standard",
     "biases": "ln_only",
     "block_type": "parallel",
     "activation": "gelu",

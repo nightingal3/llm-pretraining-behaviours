@@ -1,24 +1,27 @@
 {
-    "id": "openlm-research/open_llama_7b",
-    "author": "openlm-research",
-    "sha": "6fb184ff23774c25bf84b3628e49c8b78372c7be",
-    "created_at": "2023-06-07T08:54:38+00:00",
-    "last_modified": "2023-06-16T00:45:23+00:00",
+    "id": "meta-llama/Llama-2-70b-hf",
+    "author": "meta-llama",
+    "sha": "ddf3d4193d28a593c46150fd7c03f8d5965e0c9f",
+    "created_at": "2023-07-11T08:56:34+00:00",
+    "last_modified": "2024-03-05T15:13:52+00:00",
     "private": false,
-    "gated": false,
+    "gated": "manual",
     "disabled": false,
-    "downloads": 9315,
-    "likes": 120,
+    "downloads": 122033,
+    "likes": 769,
     "library_name": "transformers",
     "tags": [
         "transformers",
         "pytorch",
+        "safetensors",
         "llama",
         "text-generation",
-        "dataset:togethercomputer/RedPajama-Data-1T",
-        "license:apache-2.0",
+        "facebook",
+        "meta",
+        "llama-2",
+        "en",
+        "arxiv:2307.09288",
         "autotrain_compatible",
-        "endpoints_compatible",
         "has_space",
         "text-generation-inference",
         "region:us"
@@ -59,12 +62,11 @@
         ],
         "model_type": "llama",
         "tokenizer_config": {
-            "pad_token": null,
             "bos_token": {
                 "__type": "AddedToken",
                 "content": "<s>",
                 "lstrip": false,
-                "normalized": true,
+                "normalized": false,
                 "rstrip": false,
                 "single_word": false
             },
@@ -72,15 +74,16 @@
                 "__type": "AddedToken",
                 "content": "</s>",
                 "lstrip": false,
-                "normalized": true,
+                "normalized": false,
                 "rstrip": false,
                 "single_word": false
             },
+            "pad_token": null,
             "unk_token": {
                 "__type": "AddedToken",
                 "content": "<unk>",
                 "lstrip": false,
-                "normalized": true,
+                "normalized": false,
                 "rstrip": false,
                 "single_word": false
             }
@@ -92,19 +95,26 @@
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "dimension": 4096,
-    "num_heads": 32,
-    "num_layers": 32,
+    "safetensors": {
+        "parameters": {
+            "F16": 68976648192,
+            "F32": 5120
+        },
+        "total": 68976653312
+    },
+    "dimension": 8192,
+    "num_heads": 64,
+    "num_layers": 80,
     "mlp_ratio": 2.666667,
-    "layer_norm_type": "parametric",
+    "layer_norm_type": "rmsnorm",
     "positional_embeddings": "rope",
-    "attention_variant": "full",
+    "attention_variant": "gqa",
     "attention_window": "standard",
-    "biases": "ln_only",
+    "biases": "none",
     "block_type": "sequential",
     "activation": "swiglu",
-    "sequence_length": 2048,
-    "batch_instances": 2048,
+    "sequence_length": 4096,
+    "batch_instances": 1024,
     "batch_tokens": 4000000,
     "weight_tying": false
 }

@@ -85,6 +85,7 @@
     "layer_norm_type": "non-paramteric",
     "positional_embeddings": "rope",
     "attention_variant": "full",
+    "attention_window": "standard",
     "biases": "none",
     "block_type": "sequential",
     "activation": "swiglu",

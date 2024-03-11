@@ -58,6 +58,7 @@
     "layer_norm_type": "rmsnorm",
     "positional_embeddings": "rope",
     "attention_variant": "gqa",
+    "attention_window": "standard",
     "biases": "none",
     "block_type": "sequential",
     "activation": "swiglu",
