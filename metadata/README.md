@@ -8,10 +8,8 @@ This metadata contains information regarding the model that may be useful in our
 
 For a new model, you can seed this:
 
-* For models on the huggingface hub, run `python collect_model_metadata.py [model_name]` to
-  grab some data (such as parameter count and architecture) from the hugging face hub.
-  It will be written to the `model_metadata` directory in a json file following the model name
-  (but with slashes replaced by underbars).
+* For models on the huggingface hub, see the "Collecting Data from Hugging Face Hub" section below
+  to seed files in the `model_metadata` directory.
 * For models not on the huggingface hub, you can create a new json file in the `model_metadata`
   directory by hand following a similar format.
 
@@ -25,7 +23,23 @@ One aspect of model metadata is what data it is trained on. We can link models t
 and document the dataset's metdata in a separate directory. The format will be decided
 at a later date.
 
-## Details
+## Collecting Data from Hugging Face Hub
+
+First, you will need to install the requirements in your environment.
+
+```bash
+pip install -r requirements.txt
+```
+
+Then you can run
+
+```bash
+python collect_model_metadata.py [model_name]
+```
+
+to grab some data (such as parameter count and architecture) from the hugging face hub.
+It will be written to the `model_metadata` directory in a json file following the model name
+(but with slashes replaced by underbars).
 
 **Collecting Data from Gated Models/Datasets:**
 If you want to run `collect_model_metadata.py` on a private or gated model/dataset, you can
