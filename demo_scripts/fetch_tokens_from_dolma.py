@@ -120,6 +120,7 @@ def fetch_tokens(
                 ):
                     part_ind += 1
                     output_file = f"{output_dir}/part_{part_ind}.arrow"
+                    logging.info(f"Output file is: {output_file}")
 
                     # mkdir -p
                     os.makedirs(os.path.dirname(output_file), exist_ok=True)
@@ -148,6 +149,9 @@ def fetch_tokens(
 
                     split_file(output_file, df)
                     texts_to_dump = []
+
+                    if current_tokens >= num_tokens:
+                        break
 
                     if current_tokens >= num_tokens:
                         break
