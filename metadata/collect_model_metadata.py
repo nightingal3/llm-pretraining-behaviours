@@ -56,7 +56,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--token",
         type=str,
-        help="The Hugging Face authentication token.",
+        help="The Hugging Face authentication token (only necessary for private "
+             "datasets).",
         default=os.getenv("HF_TOKEN"),
     )
     parser.add_argument(

@@ -24,3 +24,10 @@ The detailed format will be decided at a later date.
 One aspect of model metadata is what data it is trained on. We can link models to datasets
 and document the dataset's metdata in a separate directory. The format will be decided
 at a later date.
+
+## Details
+
+**Collecting Data from Gated Models/Datasets:**
+If you want to run `collect_model_metadata.py` on a private or gated model/dataset, you can
+set the `HF_TOKEN` environmental variable to you hugging face token. For public datasets this
+is not necessary.
