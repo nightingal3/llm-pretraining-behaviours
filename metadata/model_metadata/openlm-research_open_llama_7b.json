@@ -95,7 +95,7 @@
     "dimension": 4096,
     "num_heads": 32,
     "num_layers": 32,
-    "mlp_ration": 2.666667,
+    "mlp_ratio": 2.666667,
     "layer_norm_type": "parametric",
     "positional_embeddings": "rope",
     "attention_variant": "full",
