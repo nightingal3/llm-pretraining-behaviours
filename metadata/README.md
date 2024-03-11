@@ -23,12 +23,24 @@ One aspect of model metadata is what data it is trained on. We can link models t
 and document the dataset's metdata in a separate directory. The format will be decided
 at a later date.
 
-<<<<<<< HEAD
 ## Validation
 
 This directory validates that the metadata is in the correct format using JSONSchema. To validate all of the schemas, run `pytest`, which will execute `validate_metadata_test.py`, which validates all of the schemas in the `model_metadata` directory.
 
-=======
+If the schema check is not passing, you can install `check-jsonschema`
+
+```bash
+pip install check-jsonschema
+```
+
+and run the following command to check the schema
+
+```bash
+check-jsonschema --schemafile model_metadata_schema.json model_metadata/*.json
+```
+
+to get more information about where things are breaking.
+
 ## Collecting Data from Hugging Face Hub
 
 First, you will need to install the requirements in your environment.
@@ -51,4 +63,3 @@ It will be written to the `model_metadata` directory in a json file following th
 If you want to run `collect_model_metadata.py` on a private or gated model/dataset, you can
 set the `HF_TOKEN` environmental variable to you hugging face token. For public datasets this
 is not necessary.
->>>>>>> 3ac660605fe30784cfa8321b9a3b050571738ac9

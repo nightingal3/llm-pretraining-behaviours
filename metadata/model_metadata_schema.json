@@ -23,7 +23,16 @@
             "type": "boolean"
         },
         "gated": {
-            "type": "boolean"
+            "anyOf": [
+                {
+                    "type": "boolean",
+                    "enum": [false]
+                },
+                {
+                    "type": "string",
+                    "enum": ["manual"]
+                }
+            ]
         },
         "disabled": {
             "type": "boolean"
@@ -85,6 +94,10 @@
                         "type": "string"
                     }
                 },
+                "auto_map": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
                 "model_type": {
                     "type": "string"
                 },
@@ -115,7 +128,10 @@
                     "type": "string"
                 },
                 "processor": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 }
             },
             "required": [
@@ -160,16 +176,12 @@
         "disabled",
         "downloads",
         "likes",
-        "library_name",
         "tags",
         "pipeline_tag",
         "mask_token",
         "card_data",
         "widget_data",
-        "model_index",
-        "config",
-        "transformers_info",
-        "safetensors"
+        "model_index"
     ],
     "additionalProperties": false
 }
