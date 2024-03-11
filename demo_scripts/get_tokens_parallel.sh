@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name="get_c4_parallel"
 #SBATCH --output=get_c4_parallel.out
-#SBATCH --mem=1024G
-#SBATCH --time=1-00:00:00
+#SBATCH --mem=512G
+#SBATCH --time=2-00:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=12
 #SBATCH --mail-type=END
