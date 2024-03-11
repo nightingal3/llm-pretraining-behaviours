@@ -26,11 +26,15 @@
             "anyOf": [
                 {
                     "type": "boolean",
-                    "enum": [false]
+                    "enum": [
+                        false
+                    ]
                 },
                 {
                     "type": "string",
-                    "enum": ["manual"]
+                    "enum": [
+                        "manual"
+                    ]
                 }
             ]
         },
@@ -162,6 +166,146 @@
                 "parameters",
                 "total"
             ],
+            "additionalProperties": false
+        },
+        "base_model": {
+            "type": "string"
+        },
+        "dimension": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "num_heads": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "num_layers": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "mlp_ratio": {
+            "type": "number",
+            "minimum": 0
+        },
+        "mlp_experts": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "mlp_experts_top_k": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "layer_norm_type": {
+            "type": "string",
+            "enum": [
+                "non-paramteric",
+                "parametric",
+                "rmsnorm"
+            ]
+        },
+        "positional_embeddings": {
+            "type": "string",
+            "enum": [
+                "rope"
+            ]
+        },
+        "attention_variant": {
+            "type": "string",
+            "enum": [
+                "full",
+                "gqa",
+                "mqa"
+            ]
+        },
+        "attention_window": {
+            "type": "string",
+            "enum": [
+                "standard",
+                "sliding"
+            ]
+        },
+        "biases": {
+            "type": "string",
+            "enum": [
+                "none",
+                "ln_only"
+            ]
+        },
+        "block_type": {
+            "type": "string",
+            "enum": [
+                "sequential",
+                "parallel"
+            ]
+        },
+        "activation": {
+            "type": "string",
+            "enum": [
+                "swiglu",
+                "gelu"
+            ]
+        },
+        "sequence_length": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_instances": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_tokens": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "weight_tying": {
+            "type": "boolean"
+        },
+        "pre_training_data": {
+            "type": "object",
+            "patternProperties": {
+                "^.+$": {
+                    "type": "object",
+                    "properties": {
+                        "doc_type": {
+                            "type": "string",
+                            "enum": [
+                                "web pages",
+                                "code",
+                                "social media",
+                                "stem papers",
+                                "books",
+                                "encyclopedic",
+                                "online qa"
+                            ]
+                        },
+                        "data_size_gb": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "documents": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "tokens_billions": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "epochs": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "sampling_ratio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "required": [
+                        "doc_type"
+                    ],
+                    "additionalProperties": false
+                }
+            },
             "additionalProperties": false
         }
     },

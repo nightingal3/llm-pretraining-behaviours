@@ -50,5 +50,20 @@
             "text": "Once upon a time,"
         }
     ],
-    "model_index": null
+    "model_index": null,
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "gqa",
+    "attention_window": "standard",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 4096,
+    "batch_instances": 1024,
+    "batch_tokens": 4000000,
+    "weight_tying": false
 }
