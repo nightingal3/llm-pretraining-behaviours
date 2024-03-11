@@ -241,7 +241,6 @@
         },
         "weight_tying": {
             "type": "boolean"
-<<<<<<< HEAD
         },
         "pre_training_data": {
             "type": "object",
@@ -283,8 +282,6 @@
                 }
             },
             "additionalProperties": false
-=======
->>>>>>> 6049f9a17443474cc181d1acf0a444188e00d3c9
         }
     },
     "required": [
