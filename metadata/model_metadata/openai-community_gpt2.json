@@ -1,0 +1,83 @@
+{
+    "id": "openai-community/gpt2",
+    "author": "openai-community",
+    "sha": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "created_at": "2022-03-02T23:29:04+00:00",
+    "last_modified": "2024-02-19T10:57:45+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 14888610,
+    "likes": 1705,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "tflite",
+        "rust",
+        "onnx",
+        "safetensors",
+        "gpt2",
+        "text-generation",
+        "exbert",
+        "en",
+        "doi:10.57967/hf/0039",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": [
+        {
+            "text": "My name is Julien and I like to"
+        },
+        {
+            "text": "My name is Thomas and my main"
+        },
+        {
+            "text": "My name is Mariama, my favorite"
+        },
+        {
+            "text": "My name is Clara and I am"
+        },
+        {
+            "text": "My name is Lewis and I like to"
+        },
+        {
+            "text": "My name is Merve and my favorite"
+        },
+        {
+            "text": "My name is Teven and I am"
+        },
+        {
+            "text": "Once upon a time,"
+        }
+    ],
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPT2LMHeadModel"
+        ],
+        "model_type": "gpt2",
+        "tokenizer_config": {}
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F32": 137022720
+        },
+        "total": 137022720
+    }
+}
