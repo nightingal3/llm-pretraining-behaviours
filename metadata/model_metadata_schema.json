@@ -168,12 +168,9 @@
             ],
             "additionalProperties": false
         },
-<<<<<<< HEAD
         "base_model": {
             "type": "string"
         },
-=======
->>>>>>> 0d7573931d6f72a04bbb12337eef393eedf552e6
         "dimension": {
             "type": "integer",
             "minimum": 1
@@ -190,7 +187,6 @@
             "type": "number",
             "minimum": 0
         },
-<<<<<<< HEAD
         "mlp_experts": {
             "type": "integer",
             "minimum": 1
@@ -199,8 +195,6 @@
             "type": "integer",
             "minimum": 1
         },
-=======
->>>>>>> 0d7573931d6f72a04bbb12337eef393eedf552e6
         "layer_norm_type": {
             "type": "string",
             "enum": [
@@ -223,7 +217,6 @@
                 "mqa"
             ]
         },
-<<<<<<< HEAD
         "attention_window": {
             "type": "string",
             "enum": [
@@ -231,8 +224,6 @@
                 "sliding"
             ]
         },
-=======
->>>>>>> 0d7573931d6f72a04bbb12337eef393eedf552e6
         "biases": {
             "type": "string",
             "enum": [
@@ -283,12 +274,8 @@
                                 "social media",
                                 "stem papers",
                                 "books",
-<<<<<<< HEAD
                                 "encyclopedic",
                                 "online qa"
-=======
-                                "encyclopedic"
->>>>>>> 0d7573931d6f72a04bbb12337eef393eedf552e6
                             ]
                         },
                         "data_size_gb": {
@@ -302,7 +289,6 @@
                         "tokens_billions": {
                             "type": "number",
                             "minimum": 0
-<<<<<<< HEAD
                         },
                         "epochs": {
                             "type": "number",
@@ -316,15 +302,6 @@
                     },
                     "required": [
                         "doc_type"
-=======
-                        }
-                    },
-                    "required": [
-                        "doc_type",
-                        "data_size_gb",
-                        "documents",
-                        "tokens_billions"
->>>>>>> 0d7573931d6f72a04bbb12337eef393eedf552e6
                     ],
                     "additionalProperties": false
                 }
