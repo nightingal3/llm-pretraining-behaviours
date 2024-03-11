@@ -1,0 +1,187 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "author": {
+            "type": "string"
+        },
+        "sha": {
+            "type": "string"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "last_modified": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "private": {
+            "type": "boolean"
+        },
+        "gated": {
+            "anyOf": [
+                {
+                    "type": "boolean",
+                    "enum": [false]
+                },
+                {
+                    "type": "string",
+                    "enum": ["manual"]
+                }
+            ]
+        },
+        "disabled": {
+            "type": "boolean"
+        },
+        "downloads": {
+            "type": "integer"
+        },
+        "likes": {
+            "type": "integer"
+        },
+        "library_name": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "pipeline_tag": {
+            "type": "string"
+        },
+        "mask_token": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "card_data": {
+            "type": "object"
+        },
+        "widget_data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "text"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "model_index": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "config": {
+            "type": "object",
+            "properties": {
+                "architectures": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_map": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "model_type": {
+                    "type": "string"
+                },
+                "tokenizer_config": {
+                    "type": "object"
+                }
+            },
+            "required": [
+                "architectures",
+                "model_type",
+                "tokenizer_config"
+            ],
+            "additionalProperties": false
+        },
+        "transformers_info": {
+            "type": "object",
+            "properties": {
+                "auto_model": {
+                    "type": "string"
+                },
+                "custom_class": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "pipeline_tag": {
+                    "type": "string"
+                },
+                "processor": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "auto_model",
+                "custom_class",
+                "pipeline_tag",
+                "processor"
+            ],
+            "additionalProperties": false
+        },
+        "safetensors": {
+            "type": "object",
+            "properties": {
+                "parameters": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[A-Z0-9]+$": {
+                            "type": "integer"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "total": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "parameters",
+                "total"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "id",
+        "author",
+        "sha",
+        "created_at",
+        "last_modified",
+        "private",
+        "gated",
+        "disabled",
+        "downloads",
+        "likes",
+        "tags",
+        "pipeline_tag",
+        "mask_token",
+        "card_data",
+        "widget_data",
+        "model_index"
+    ],
+    "additionalProperties": false
+}
