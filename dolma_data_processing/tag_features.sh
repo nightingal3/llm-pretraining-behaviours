@@ -1,15 +1,15 @@
 #!/bin/bash
-#SBATCH --array=25-32%8
-#SBATCH --time=7-00:00:00
-#SBATCH --partition=babel-shared-long
+#SBATCH --array=1-48%3
+#SBATCH --time=1-00:00:00
+#SBATCH --partition=cpu
 #SBATCH --cpus-per-task=30
 #SBATCH --mem=50G
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
-#SBATCH --job-name=tag_dolma_features
-#SBATCH --output=tag_dolma_features-%a.out
+#SBATCH --job-name=tag_dolma_features_stack-simple
+#SBATCH --output=tag_dolma_features-stack-simple-%A-%a.out
 
-config=/data/tir/projects/tir6/general/mengyan3/tower-llm-training/tag_features_commands.csv
+config=/data/tir/projects/tir6/general/mengyan3/tower-llm-training/slurm_scripts/tag_simple_stack.csv
 
 feature=$(awk -v TaskID=$SLURM_ARRAY_TASK_ID '$1==TaskID {print $2}' $config)
 input_file=$(awk -v TaskID=$SLURM_ARRAY_TASK_ID '$1==TaskID {print $3}' $config)

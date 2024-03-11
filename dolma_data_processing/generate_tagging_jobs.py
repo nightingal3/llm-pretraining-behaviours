@@ -2,24 +2,29 @@ import os
 from collections import defaultdict
 import pandas as pd
 
-base_filepath = (
-    "/data/tir/projects/tir7/user_data/mchen5/llm-pretraining-behaviours/dolma"
-)
+base_filepath = "/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_orig_nl_code"
+
 output_base_filepath = "/data/tir/projects/tir6/general/mengyan3/dolma-features"
 last_valid_file = {
-    "c4_1396000000": 3,
-    "common-crawl_5186000000": 2,
-    "peS2o_796000000": 3,
-    "gutenberg-books_231000000": 0,
-    "wiki-en-simple": 1,
+    "c4": float("inf"),
+    "common-crawl": float("inf"),
+    "peS2o": float("inf"),
+    "gutenberg-books": float("inf"),
+    "wiki-en-simple": float("inf"),
+    "stack-code": float("inf"),
 }
 features_lst = ["num_tokens", "char_len", "unique_tokens", "seq_ind_tok"]
+sel_domains = ["stack-code"]
+# sel_domains = ["c4", "common-crawl", "peS2o", "gutenberg-books", "wiki-en-simple"]
+# features_lst = ["dep_parse", "const_parse"]
 input_files = []
 output_files = []
 all_cmds = defaultdict(list)
 for subdir, dirs, files in os.walk(base_filepath):
     for file in files:
         if file.endswith(".arrow"):
+            if subdir.split("/")[-1] not in sel_domains:
+                continue
             part_num = int(file.split("_")[-1].split(".")[0])
             if part_num > last_valid_file[subdir.split("/")[-1]]:
                 continue
@@ -40,4 +45,4 @@ for feature in features_lst:
         i += 1
 
 df = pd.DataFrame(all_cmds)
-df.to_csv("./tag_features_commands.csv", index=False, sep="\t")
+df.to_csv("./slurm_scripts/tag_simple_stack.csv", index=False, sep="\t")

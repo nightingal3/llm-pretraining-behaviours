@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=train_llama_460m_nl_code
-#SBATCH --output=train_model_460m_nl_code.out
-#SBATCH --mem=30G
-#SBATCH --gres=gpu:A6000:8
+#SBATCH --job-name=train_llama_460m_nl_code_shuf
+#SBATCH --output=train_model_460m_nl_code_shuf.out
+#SBATCH --mem=50G
+#SBATCH --gres=gpu:A100_80GB:4
 #SBATCH --nodes=1
 #SBATCH --time=7-00:00:00
 #SBATCH --partition=long
-#SBATCH --exclude=babel-4-7
+#SBATCH --exclude=babel-4-7,babel-8-11,babel-8-3
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
@@ -28,9 +28,10 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
    exit 0
 fi
 
-CHECKPOINT_PATH=${1:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_460M_nl_code}
+CHECKPOINT_PATH=${1:-/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_460M_nl_code_shuf}
 model_config=${2:-./demo_scripts/configs/Llama2_460M.yaml}
-dataset_bin=${3:-/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_full-bin/data_text_document}
+dataset_bin=${3:-/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_orig_nl}
+#dataset_bin=${3:-/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B-orig_nl-bin/data_text_document}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 repo=${BASE_REPO}
 data_path=${dataset_bin}
@@ -134,5 +135,7 @@ deepspeed $distributed_args \
        --wandb_entity $WANDB_USER \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
-      --data-cache-path ${repo}/100B-cache \
        $ds_args 
+
+# use if index-cache doesn't have write access
+#      --data-cache-path ${repo}/100B-cache \
