@@ -256,7 +256,8 @@
                                 "social media",
                                 "stem papers",
                                 "books",
-                                "encyclopedic"
+                                "encyclopedic",
+                                "online qa"
                             ]
                         },
                         "data_size_gb": {
@@ -270,13 +271,19 @@
                         "tokens_billions": {
                             "type": "number",
                             "minimum": 0
+                        },
+                        "epochs": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "sampling_ratio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
                         }
                     },
                     "required": [
-                        "doc_type",
-                        "data_size_gb",
-                        "documents",
-                        "tokens_billions"
+                        "doc_type"
                     ],
                     "additionalProperties": false
                 }
