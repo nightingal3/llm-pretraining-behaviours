@@ -82,5 +82,19 @@
         "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
-    }
+    },
+    "dimension": 4544,
+    "num_heads": 71,
+    "num_layers": 32,
+    "mlp_ratio": 4,
+    "layer_norm_type": "parametric",
+    "positional_embeddings": "rope",
+    "attention_variant": "mqa",
+    "biases": "ln_only",
+    "block_type": "parallel",
+    "activation": "gelu",
+    "sequence_length": 2048,
+    "batch_instances": 2304,
+    "batch_tokens": 4000000,
+    "weight_tying": false
 }

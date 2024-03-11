@@ -77,5 +77,19 @@
             "F32": 6888095744
         },
         "total": 6888095744
-    }
+    },
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "non-paramteric",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 2048,
+    "batch_instances": 2160,
+    "batch_tokens": 4000000,
+    "weight_tying": false
 }
