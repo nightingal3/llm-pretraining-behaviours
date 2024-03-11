@@ -83,6 +83,7 @@ if __name__ == "__main__":
     if os.path.exists(file_name) and not args.overwrite:
         raise FileExistsError(f"The file '{file_name}' already exists.")
     else:
+        os.makedirs(args.output_dir, exist_ok=True)
         with open(file_name, "w") as json_file:
             json.dump(model_metadata, json_file, indent=4)
 
