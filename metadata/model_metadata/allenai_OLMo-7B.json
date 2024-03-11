@@ -91,5 +91,49 @@
     "sequence_length": 2048,
     "batch_instances": 2160,
     "batch_tokens": 4000000,
-    "weight_tying": false
+    "weight_tying": false,
+    "pre_training_data": {
+        "common_crawl": {
+            "doc_type": "web pages",
+            "data_size_gb": 9022,
+            "documents": 3370000000,
+            "tokens_billions": 2006
+        },
+        "the_stack": {
+            "doc_type": "code",
+            "data_size_gb": 1043,
+            "documents": 210000000,
+            "tokens_billions": 342
+        },
+        "c4": {
+            "doc_type": "web pages",
+            "data_size_gb": 790,
+            "documents": 364000000,
+            "tokens_billions": 180
+        },
+        "reddit": {
+            "doc_type": "social media",
+            "data_size_gb": 339,
+            "documents": 377000000,
+            "tokens_billions": 80
+        },
+        "pes2o": {
+            "doc_type": "stem papers",
+            "data_size_gb": 268,
+            "documents": 38800000,
+            "tokens_billions": 57
+        },
+        "project_gutenberg": {
+            "doc_type": "books",
+            "data_size_gb": 20.4,
+            "documents": 56000,
+            "tokens_billions": 5.2
+        },
+        "wikipedia_wikibooks": {
+            "doc_type": "encyclopedic",
+            "data_size_gb": 16.2,
+            "documents": 6200000,
+            "tokens_billions": 3.7
+        }
+    }
 }

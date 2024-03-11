@@ -241,6 +241,47 @@
         },
         "weight_tying": {
             "type": "boolean"
+        },
+        "pre_training_data": {
+            "type": "object",
+            "patternProperties": {
+                "^.+$": {
+                    "type": "object",
+                    "properties": {
+                        "doc_type": {
+                            "type": "string",
+                            "enum": [
+                                "web pages",
+                                "code",
+                                "social media",
+                                "stem papers",
+                                "books",
+                                "encyclopedic"
+                            ]
+                        },
+                        "data_size_gb": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "documents": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "tokens_billions": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "required": [
+                        "doc_type",
+                        "data_size_gb",
+                        "documents",
+                        "tokens_billions"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
         }
     },
     "required": [
