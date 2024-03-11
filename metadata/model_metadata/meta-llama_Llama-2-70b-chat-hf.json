@@ -99,6 +99,7 @@
         },
         "total": 68976653312
     },
+    "base_model": "meta-llama/Llama-2-70b-hf",
     "dimension": 8192,
     "num_heads": 64,
     "num_layers": 80,

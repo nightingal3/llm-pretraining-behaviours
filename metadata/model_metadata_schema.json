@@ -168,6 +168,9 @@
             ],
             "additionalProperties": false
         },
+        "base_model": {
+            "type": "string"
+        },
         "dimension": {
             "type": "integer",
             "minimum": 1
@@ -183,6 +186,14 @@
         "mlp_ratio": {
             "type": "number",
             "minimum": 0
+        },
+        "mlp_experts": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "mlp_experts_top_k": {
+            "type": "integer",
+            "minimum": 1
         },
         "layer_norm_type": {
             "type": "string",
@@ -206,6 +217,13 @@
                 "mqa"
             ]
         },
+        "attention_window": {
+            "type": "string",
+            "enum": [
+                "standard",
+                "sliding"
+            ]
+        },
         "biases": {
             "type": "string",
             "enum": [
@@ -224,7 +242,8 @@
             "type": "string",
             "enum": [
                 "swiglu",
-                "gelu"
+                "gelu",
+                "silu"
             ]
         },
         "sequence_length": {

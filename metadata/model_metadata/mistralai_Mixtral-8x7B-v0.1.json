@@ -1,24 +1,26 @@
 {
-    "id": "mistralai/Mistral-7B-v0.1",
+    "id": "mistralai/Mixtral-8x7B-v0.1",
     "author": "mistralai",
-    "sha": "26bca36bde8333b5d7f72e9ed20ccda6a618af24",
-    "created_at": "2023-09-20T13:03:50+00:00",
-    "last_modified": "2023-12-11T19:27:24+00:00",
+    "sha": "985aa055896a8f943d4a9f2572e6ea1341823841",
+    "created_at": "2023-12-01T09:42:00+00:00",
+    "last_modified": "2024-01-21T10:35:31+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 1767655,
-    "likes": 2926,
+    "downloads": 184122,
+    "likes": 1403,
     "library_name": "transformers",
     "tags": [
         "transformers",
-        "pytorch",
         "safetensors",
-        "mistral",
+        "mixtral",
         "text-generation",
-        "pretrained",
+        "moe",
+        "fr",
+        "it",
+        "de",
+        "es",
         "en",
-        "arxiv:2310.06825",
         "license:apache-2.0",
         "autotrain_compatible",
         "endpoints_compatible",
@@ -31,36 +33,21 @@
     "card_data": {},
     "widget_data": [
         {
-            "text": "My name is Julien and I like to"
+            "text": "Mon nom est Julien et j'aime"
         },
         {
-            "text": "My name is Thomas and my main"
+            "text": "Mon nom est Thomas et mon principal"
         },
         {
-            "text": "My name is Mariama, my favorite"
-        },
-        {
-            "text": "My name is Clara and I am"
-        },
-        {
-            "text": "My name is Lewis and I like to"
-        },
-        {
-            "text": "My name is Merve and my favorite"
-        },
-        {
-            "text": "My name is Teven and I am"
-        },
-        {
-            "text": "Once upon a time,"
+            "text": "Il \u00e9tait une fois"
         }
     ],
     "model_index": null,
     "config": {
         "architectures": [
-            "MistralForCausalLM"
+            "MixtralForCausalLM"
         ],
-        "model_type": "mistral",
+        "model_type": "mixtral",
         "tokenizer_config": {
             "bos_token": "<s>",
             "eos_token": "</s>",
@@ -77,14 +64,16 @@
     },
     "safetensors": {
         "parameters": {
-            "BF16": 7241732096
+            "BF16": 46702792704
         },
-        "total": 7241732096
+        "total": 46702792704
     },
     "dimension": 4096,
     "num_heads": 32,
     "num_layers": 32,
     "mlp_ratio": 3.5,
+    "mlp_experts": 8,
+    "mlp_experts_top_k": 2,
     "layer_norm_type": "rmsnorm",
     "positional_embeddings": "rope",
     "attention_variant": "gqa",
