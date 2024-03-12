@@ -97,5 +97,21 @@
     "sequence_length": 2048,
     "batch_instances": 2304,
     "batch_tokens": 4000000,
-    "weight_tying": false
+    "weight_tying": false,
+    "optimizer": {
+        "type": "adam",
+        "params": {
+            "lr": 6.0e-4,
+            "lr_min": 1.2e-5,
+            "lr_schedule": "cosine",
+            "lr_warmup": 1000,
+            "betas": [
+                0.99,
+                0.999
+            ],
+            "eps": 1.0e-5,
+            "weight_decay": 0.1,
+            "grad_clip": 1.0
+        }
+    }
 }

@@ -258,8 +258,64 @@
             "type": "integer",
             "minimum": 1
         },
+        "total_tokens_billions": {
+            "type": "number",
+            "minimum": 0
+        },
         "weight_tying": {
             "type": "boolean"
+        },
+        "optimizer": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "adam"
+                    ]
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "lr": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "betas": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0,
+                                    "exclusiveMaximum": 1
+                                },
+                                {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0,
+                                    "exclusiveMaximum": 1
+                                }
+                            ],
+                            "minItems": 2,
+                            "maxItems": 2
+                        },
+                        "eps": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [
+                        "lr",
+                        "betas",
+                        "eps"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "type",
+                "params"
+            ],
+            "additionalProperties": false
         },
         "pre_training_data": {
             "type": "object",
