@@ -228,7 +228,8 @@
             "type": "string",
             "enum": [
                 "none",
-                "ln_only"
+                "ln_only",
+                "attn_only"
             ]
         },
         "block_type": {
