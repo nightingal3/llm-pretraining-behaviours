@@ -281,6 +281,26 @@
                             "type": "number",
                             "exclusiveMinimum": 0
                         },
+                        "lr_min": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "lr_schedule": {
+                            "type": "string",
+                            "enum": ["linear", "cosine"]
+                        },
+                        "lr_warmup": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "weight_decay": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "grad_clip": {
+                            "type": "number",
+                            "minimum": 0
+                        },
                         "betas": {
                             "type": "array",
                             "items": [
