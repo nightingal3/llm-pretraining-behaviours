@@ -1,7 +1,8 @@
 ## Description
 
 <!-- EDIT HERE:
-Write a brief description of this change.
+Write a brief description of this change/fix (e.g. "This fixes the issue of megatron train/valid/test indices not being shuffled at the top level")
+Write a brief description of how it was accomplished (e.g. "I changed the gpt_dataset file to randomize bucket assortment based on a hash")
 -->
 
 ## References
