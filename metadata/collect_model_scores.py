@@ -4,6 +4,7 @@ import subprocess
 import argparse
 from datetime import datetime
 import json
+import warnings
 
 
 def get_latest_results_json(directory: str) -> str:
@@ -22,6 +23,7 @@ def get_latest_results_json(directory: str) -> str:
                     "%Y-%m-%dT%H-%M-%S.%f",
                 )
             except:
+                warnings.warn(f"Ignoring file {file_path} without timestamp")
                 continue
             if latest_time is None or file_time > latest_time:
                 latest_time = file_time
@@ -44,6 +46,7 @@ def merge_all_json_results(directory: str) -> dict:
                 "%Y-%m-%dT%H-%M-%S.%f",
             )
         except:
+            warnings.warn(f"Ignoring file {file_path} without timestamp")
             continue
 
         with open(file_path, "r") as f:
@@ -80,7 +83,7 @@ def merge_all_json_results(directory: str) -> dict:
 
 def convert_results_format(results_json: dict) -> dict:
     """
-    Convert the results JSON format to a more readable format.
+    Convert the results in JSON format to a more readable format.
     """
     results_clean = {
         "model_name": results_json["config_general"]["model_name"],
