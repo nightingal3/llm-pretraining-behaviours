@@ -32,6 +32,7 @@ dataset_bin=${3:-/data/tir/projects/tir7/user_data/lmarinov/dolma_full-bin/data_
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 repo=${BASE_REPO}
 data_path=${dataset_bin}
+TOTAL_TRAIN_TOKENS=98000000000
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
@@ -63,7 +64,7 @@ if [ ! -z "$train_epochs" ]; then
    # TODO: there's an argument --train-data-exact-num-epochs but it seems to be broken
    # manually calculate the number of steps for now: total tokens (rough) / (seq_len x batch size)
       echo "NOTE on epochs: This isn't implemented yet, using rough number for 1 epoch over 100B tokens..."
-      total_seqs_rough=$((98000000000 / seq_length))
+      total_seqs_rough=$((TOTAL_TRAIN_TOKENS / seq_length))
       batch_size=$((micro_batch_size * NUM_GPUS))
       rough_steps=$((total_seqs_rough / batch_size))
 
