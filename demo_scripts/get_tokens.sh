@@ -5,8 +5,7 @@
 #SBATCH --mem=128G
 #SBATCH --time=02:00:00
 #SBATCH --mail-type=END
-#SBATCH --mail-user=emmy@cmu.edu
-#SBATCH --partition long
+#SBATCH --mail-user=mchen5@andrew.cmu.edu
 
 # domains=("peS2o" "common-crawl" "stack-code" "wiki-en-simple" "c4" "gutenberg-books")
 
@@ -22,5 +21,4 @@ conda activate towerllm-env
 set -euo pipefail
 
 # delete intermediate files immediately so we don't run out of space
-# note: new seed for upsampling: 2024
-python demo_scripts/fetch_tokens_from_dolma.py --num_tokens $num_total_tokens --output $output --domain $domain --seed 2024
+python demo_scripts/fetch_tokens_from_dolma.py --num_total_tokens $num_total_tokens --output $output --domain $domain
