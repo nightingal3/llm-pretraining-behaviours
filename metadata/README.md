@@ -23,6 +23,10 @@ One aspect of model metadata is what data it is trained on. We can link models t
 and document the dataset's metdata in a separate directory. The format will be decided
 at a later date.
 
+## Results Metadata
+
+We can also get model results on datasets evaluated by the Huggingface OpenLLM leaderboard in order to track changes in model features and data against final performance. We will also add evaluation options via the EleutherAI evaluation harness for models that have not been uploaded to the leaderboard at a later date.
+
 ## Validation
 
 This directory validates that the metadata is in the correct format using JSONSchema. To validate all of the schemas, run `pytest`, which will execute `validate_metadata_test.py`, which validates all of the schemas in the `model_metadata` directory.
@@ -63,3 +67,14 @@ It will be written to the `model_metadata` directory in a json file following th
 If you want to run `collect_model_metadata.py` on a private or gated model/dataset, you can
 set the `HF_TOKEN` environmental variable to you hugging face token. For public datasets this
 is not necessary.
+
+## Collecting evaluation data
+
+In order to collect data about model performance on the Huggingface Open LLM leaderboard, you can use
+the following command:
+
+```bash
+python collect_model_scores.py [model_name]
+```
+
+This will download the current version of the leaderboard data and output scores to `model_scores` by default in json format.

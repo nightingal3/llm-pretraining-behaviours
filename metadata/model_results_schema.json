@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "model_name": {"type": "string"},
+      "last_updated": {
+        "type": "string",
+        "format": "date"
+      },
+      "results": {
+        "type": "object",
+        "patternProperties": {
+          "^.+$": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "object",
+                "patternProperties": {
+                  "^[0-9]+-shot$": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    },
+                    "required": ["timestamp"],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "required": ["model_name", "last_updated", "results"],
+    "additionalProperties": false
+  }
+  
