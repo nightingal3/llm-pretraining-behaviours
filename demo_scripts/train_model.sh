@@ -30,9 +30,10 @@ CHECKPOINT_PATH=${1:-./llama_mini_try}
 model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
 dataset_bin=${3:-/data/tir/projects/tir7/user_data/lmarinov/dolma_full-bin/data_text_document}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
+TOTAL_TRAIN_TOKENS=${5:-98000000000}
+
 repo=${BASE_REPO}
 data_path=${dataset_bin}
-TOTAL_TRAIN_TOKENS=98000000000
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
@@ -61,6 +62,7 @@ NUM_GPUS=$(nvidia-smi -L | wc -l)
 
 # build train step arguments - disregard steps if epochs are specified, else use steps, else fall back to 100k steps
 if [ ! -z "$train_epochs" ]; then
+   echo "train_epochs has been passed. If you specified the exact number of steps, this will be IGNORED in favour of epochs"
    # TODO: there's an argument --train-data-exact-num-epochs but it seems to be broken
    # manually calculate the number of steps for now: total tokens (rough) / (seq_len x batch size)
       echo "NOTE on epochs: This isn't implemented yet, using rough number for 1 epoch over 100B tokens..."
