@@ -67,6 +67,11 @@ def main():
         type=str,
     )
     parser.add_argument(
+        "--domain",
+        help="Which domain to deduplicate (if not all)",
+        type=str,
+    )
+    parser.add_argument(
         "--num_processes", help="Number of processes to run in parallel", type=int
     )
     logging.basicConfig(level=logging.INFO)
@@ -77,6 +82,15 @@ def main():
         raise ValueError("Please specify dataset base directory")
     if not args.output_dir:
         raise ValueError("Please specify output base directory")
+    if args.domain and args.domain not in [
+        "c4",
+        "common-crawl",
+        "gutenberg-books",
+        "peS2o",
+        "stack-code",
+        "wiki-en-simple",
+    ]:
+        raise ValueError("Invalid domain")
 
     num_processes = args.num_processes if args.num_processes else 64
     logging.info(f"num_processes set to {num_processes}")
@@ -93,10 +107,18 @@ def main():
     base_dir = args.base_dir
     output_dir = args.output_dir
     process_inputs = []
-    for directory_name in os.listdir(base_dir):
-        directory_path = os.path.join(base_dir, directory_name)
+    if not args.domain:
+        for directory_name in os.listdir(base_dir):
+            directory_path = os.path.join(base_dir, directory_name)
+            if os.path.isdir(directory_path):
+                for root, _, files in os.walk(directory_path):
+                    for file_name in files:
+                        file_path = os.path.join(root, file_name)
+                        process_inputs.append((file_path, directory_name, file_name))
+    else:
+        directory_path = os.path.join(base_dir, domain)
         if os.path.isdir(directory_path):
-            for root, _, files in os.walk(directory_path):
+            for root, _, files in os.walk(os.path.join(base_dir, domain)):
                 for file_name in files:
                     file_path = os.path.join(root, file_name)
                     process_inputs.append((file_path, directory_name, file_name))
