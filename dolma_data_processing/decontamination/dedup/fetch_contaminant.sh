@@ -103,3 +103,15 @@ for dir in boxes-dataset-v1/*; do
 done
 cd ..
 rm -rf entity
+
+# Planbench
+mkdir planbench && cd $_
+wget https://github.com/karthikv792/LLMs-Planning/archive/refs/heads/main.zip
+jar -xvf main.zip
+for dir in LLMs-Planning-main/plan-bench/prompts/*; do
+  for file in $dir/*; do
+    cat $file >> ../contaminant.txt
+  done
+done
+cd ..
+rm -rf planbench
