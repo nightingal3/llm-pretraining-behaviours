@@ -17,6 +17,27 @@ export CONDA_HOME="/path/to/(mini)conda3"
 bash setup/conda.sh
 ```
 
+## Running reasoning pretraining (temp)
+
+We're currently using bash scripts (which have roughly the same functionality as the ducttape tapes), stored in `./demo_scripts`.
+
+The three main scripts are (`preprocess_data.sh`, `train_model.sh`, and `eval_model.sh (not finalized)`). Usage is as follows:
+
+Preprocessing:
+```bash
+preprocess_data.sh <arrow file or path to arrow file dir> <output dir for bin dataset> <output dir for dataset json (intermediate output)> <tokenizer> <num cpu workers>
+```
+
+Training:
+```bash
+train_model.sh <path to output checkpoints> <model config yaml> <bin dataset location> <tokenizer>
+```
+
+Models can be customized through `./demo_scripts/configs/`. 
+
+Your personal environment variables (like the repo path, wandb username, etc) can be changed through making a copy of `./demo_scripts/configs/.env.template` at `./demo_scripts/configs/.env`, and filling in your information (don't share this with others). 
+
+
 ## Running pipelines
 
 The core experimentation and training pipelines rely on ducttape, and are defined in `main.tape`. 

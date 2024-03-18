@@ -1,0 +1,97 @@
+{
+    "id": "mistralai/Mistral-7B-v0.1",
+    "author": "mistralai",
+    "sha": "26bca36bde8333b5d7f72e9ed20ccda6a618af24",
+    "created_at": "2023-09-20T13:03:50+00:00",
+    "last_modified": "2023-12-11T19:27:24+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 1767655,
+    "likes": 2926,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "mistral",
+        "text-generation",
+        "pretrained",
+        "en",
+        "arxiv:2310.06825",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": [
+        {
+            "text": "My name is Julien and I like to"
+        },
+        {
+            "text": "My name is Thomas and my main"
+        },
+        {
+            "text": "My name is Mariama, my favorite"
+        },
+        {
+            "text": "My name is Clara and I am"
+        },
+        {
+            "text": "My name is Lewis and I like to"
+        },
+        {
+            "text": "My name is Merve and my favorite"
+        },
+        {
+            "text": "My name is Teven and I am"
+        },
+        {
+            "text": "Once upon a time,"
+        }
+    ],
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MistralForCausalLM"
+        ],
+        "model_type": "mistral",
+        "tokenizer_config": {
+            "bos_token": "<s>",
+            "eos_token": "</s>",
+            "pad_token": null,
+            "unk_token": "<unk>",
+            "use_default_system_prompt": false
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 7241732096
+        },
+        "total": 7241732096
+    },
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 3.5,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "gqa",
+    "attention_window": "sliding",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 4096,
+    "weight_tying": false
+}
