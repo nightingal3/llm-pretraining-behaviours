@@ -26,8 +26,11 @@ web/
 ├─ social_media/
 ├─ news/
 ├─ blogs/
+├─ forums/
 books/
 ├─ literary/
+│  ├─ fiction/
+│  ├─ nonfiction/
 ├─ textbooks/
 reference/
 ├─ encyclopedic/
@@ -38,12 +41,12 @@ academic_papers/
 code/
 ├─ source_code/
 ├─ documentation/
+├─ forums/
 media/
 ├─ podcasts/
 ├─ subtitles/
 specific_datasets/
 ├─ <focus of the dataset here, e.g. "finance", "health">/
-
 
 ## Results Metadata
 
