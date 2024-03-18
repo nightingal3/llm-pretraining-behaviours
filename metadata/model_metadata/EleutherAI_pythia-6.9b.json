@@ -1,31 +1,30 @@
 {
-    "id": "tiiuae/falcon-7b",
-    "author": "tiiuae",
-    "sha": "898df1396f35e447d5fe44e0a3ccaaaa69f30d36",
-    "created_at": "2023-04-24T16:36:24+00:00",
-    "last_modified": "2023-09-29T14:32:19+00:00",
+    "id": "EleutherAI/pythia-6.9b",
+    "author": "EleutherAI",
+    "sha": "f271943e880e60c0c715fd10e4dc74ec4e31eb44",
+    "created_at": "2023-02-14T04:18:48+00:00",
+    "last_modified": "2023-06-08T10:20:26+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 218237,
-    "likes": 1008,
+    "downloads": 17049,
+    "likes": 36,
     "library_name": "transformers",
     "tags": [
         "transformers",
         "pytorch",
-        "falcon",
+        "gpt_neox",
         "text-generation",
-        "custom_code",
+        "causal-lm",
+        "pythia",
         "en",
-        "dataset:tiiuae/falcon-refinedweb",
-        "arxiv:2205.14135",
-        "arxiv:1911.02150",
+        "dataset:EleutherAI/pile",
+        "arxiv:2304.01373",
         "arxiv:2101.00027",
-        "arxiv:2005.14165",
-        "arxiv:2104.09864",
-        "arxiv:2306.01116",
+        "arxiv:2201.07311",
         "license:apache-2.0",
         "autotrain_compatible",
+        "endpoints_compatible",
         "has_space",
         "text-generation-inference",
         "region:us"
@@ -62,19 +61,13 @@
     "model_index": null,
     "config": {
         "architectures": [
-            "FalconForCausalLM"
+            "GPTNeoXForCausalLM"
         ],
-        "auto_map": {
-            "AutoConfig": "configuration_falcon.FalconConfig",
-            "AutoModel": "modeling_falcon.FalconModel",
-            "AutoModelForSequenceClassification": "modeling_falcon.FalconForSequenceClassification",
-            "AutoModelForTokenClassification": "modeling_falcon.FalconForTokenClassification",
-            "AutoModelForQuestionAnswering": "modeling_falcon.FalconForQuestionAnswering",
-            "AutoModelForCausalLM": "modeling_falcon.FalconForCausalLM"
-        },
-        "model_type": "falcon",
+        "model_type": "gpt_neox",
         "tokenizer_config": {
-            "eos_token": "<|endoftext|>"
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
         }
     },
     "transformers_info": {
@@ -83,35 +76,42 @@
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "dimension": 4544,
-    "num_heads": 71,
+    "dimension": 4096,
+    "num_heads": 32,
     "num_layers": 32,
-    "mlp_ratio": 4,
+    "mlp_ratio": 2.666667,
     "layer_norm_type": "parametric",
     "positional_embeddings": "rope",
-    "attention_variant": "mqa",
+    "attention_variant": "full",
     "attention_window": "standard",
-    "biases": "ln_only",
-    "block_type": "parallel",
-    "activation": "gelu",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
     "sequence_length": 2048,
-    "batch_instances": 2304,
-    "batch_tokens": 4000000,
+    "batch_instances": 1024,
+    "batch_tokens": 2000000,
     "weight_tying": false,
+    "total_tokens_billions": 300,
     "optimizer": {
         "type": "adam",
         "params": {
-            "lr": 6.0e-4,
-            "lr_min": 1.2e-5,
-            "lr_schedule": "cosine",
-            "lr_warmup": 1000,
+            "lr": 0.00012,
+            "lr_min": 0.000012,
+            "lr_schedule": "linear",
+            "lr_warmup": 5000,
             "betas": [
-                0.99,
-                0.999
+                0.9,
+                0.95
             ],
-            "eps": 1.0e-5,
-            "weight_decay": 0.1,
-            "grad_clip": 1.0
+            "eps": 1.0e-8
+        }
+    },
+    "pre_training_data": {
+        "the_pile": {
+            "doc_type": "web pages",
+            "sampling_ratio": 1.0,
+            "tokens_billions": 288.0,
+            "epochs": 1.0
         }
     }
 }
