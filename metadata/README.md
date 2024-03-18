@@ -20,8 +20,30 @@ The detailed format will be decided at a later date.
 ## Dataset Metadata
 
 One aspect of model metadata is what data it is trained on. We can link models to datasets
-and document the dataset's metdata in a separate directory. The format will be decided
-at a later date.
+and document the dataset's metdata in a separate directory. Model results link to a dataset, and a dataset can be defined based on other datasets as well. Here is our taxonomy of training data sources (not all of these may be used for real pretraining data).
+
+web/
+├─ social_media/
+├─ news/
+├─ blogs/
+books/
+├─ literary/
+├─ textbooks/
+reference/
+├─ encyclopedic/
+├─ dictionaries/
+academic_papers/
+├─ sciences/
+├─ humanities/
+code/
+├─ source_code/
+├─ documentation/
+media/
+├─ podcasts/
+├─ subtitles/
+specific_datasets/
+├─ <focus of the dataset here, e.g. "finance", "health">/
+
 
 ## Results Metadata
 
