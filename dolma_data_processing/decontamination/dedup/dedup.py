@@ -116,6 +116,7 @@ def main():
                         file_path = os.path.join(root, file_name)
                         process_inputs.append((file_path, directory_name, file_name))
     else:
+        domain = args.domain
         directory_path = os.path.join(base_dir, domain)
         if os.path.isdir(directory_path):
             for root, _, files in os.walk(os.path.join(base_dir, domain)):
