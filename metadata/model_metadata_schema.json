@@ -1,0 +1,408 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "author": {
+            "type": "string"
+        },
+        "sha": {
+            "type": "string"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "last_modified": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "private": {
+            "type": "boolean"
+        },
+        "gated": {
+            "anyOf": [
+                {
+                    "type": "boolean",
+                    "enum": [
+                        false
+                    ]
+                },
+                {
+                    "type": "string",
+                    "enum": [
+                        "manual"
+                    ]
+                }
+            ]
+        },
+        "disabled": {
+            "type": "boolean"
+        },
+        "downloads": {
+            "type": "integer"
+        },
+        "likes": {
+            "type": "integer"
+        },
+        "library_name": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "pipeline_tag": {
+            "type": "string"
+        },
+        "mask_token": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "card_data": {
+            "type": "object"
+        },
+        "widget_data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "text"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "model_index": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "config": {
+            "type": "object",
+            "properties": {
+                "architectures": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "auto_map": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "model_type": {
+                    "type": "string"
+                },
+                "tokenizer_config": {
+                    "type": "object"
+                }
+            },
+            "required": [
+                "architectures",
+                "model_type",
+                "tokenizer_config"
+            ],
+            "additionalProperties": false
+        },
+        "transformers_info": {
+            "type": "object",
+            "properties": {
+                "auto_model": {
+                    "type": "string"
+                },
+                "custom_class": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "pipeline_tag": {
+                    "type": "string"
+                },
+                "processor": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "auto_model",
+                "custom_class",
+                "pipeline_tag",
+                "processor"
+            ],
+            "additionalProperties": false
+        },
+        "safetensors": {
+            "type": "object",
+            "properties": {
+                "parameters": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[A-Z0-9]+$": {
+                            "type": "integer"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "total": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "parameters",
+                "total"
+            ],
+            "additionalProperties": false
+        },
+        "base_model": {
+            "type": "string"
+        },
+        "dimension": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "num_heads": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "num_layers": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "mlp_ratio": {
+            "type": "number",
+            "minimum": 0
+        },
+        "mlp_experts": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "mlp_experts_top_k": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "layer_norm_type": {
+            "type": "string",
+            "enum": [
+                "non-paramteric",
+                "parametric",
+                "rmsnorm"
+            ]
+        },
+        "positional_embeddings": {
+            "type": "string",
+            "enum": [
+                "rope"
+            ]
+        },
+        "attention_variant": {
+            "type": "string",
+            "enum": [
+                "full",
+                "gqa",
+                "mqa"
+            ]
+        },
+        "attention_window": {
+            "type": "string",
+            "enum": [
+                "standard",
+                "sliding"
+            ]
+        },
+        "biases": {
+            "type": "string",
+            "enum": [
+                "none",
+                "ln_only",
+                "attn_only"
+            ]
+        },
+        "block_type": {
+            "type": "string",
+            "enum": [
+                "sequential",
+                "parallel"
+            ]
+        },
+        "activation": {
+            "type": "string",
+            "enum": [
+                "swiglu",
+                "gelu"
+            ]
+        },
+        "sequence_length": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_instances": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_tokens": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "total_tokens_billions": {
+            "type": "number",
+            "minimum": 0
+        },
+        "weight_tying": {
+            "type": "boolean"
+        },
+        "optimizer": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "adam"
+                    ]
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "lr": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "lr_min": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "lr_schedule": {
+                            "type": "string",
+                            "enum": ["linear", "cosine"]
+                        },
+                        "lr_warmup": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "weight_decay": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "grad_clip": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "betas": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0,
+                                    "exclusiveMaximum": 1
+                                },
+                                {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0,
+                                    "exclusiveMaximum": 1
+                                }
+                            ],
+                            "minItems": 2,
+                            "maxItems": 2
+                        },
+                        "eps": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [
+                        "lr",
+                        "betas",
+                        "eps"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "type",
+                "params"
+            ],
+            "additionalProperties": false
+        },
+        "pre_training_data": {
+            "type": "object",
+            "patternProperties": {
+                "^.+$": {
+                    "type": "object",
+                    "properties": {
+                        "doc_type": {
+                            "type": "string",
+                            "enum": [
+                                "web pages",
+                                "code",
+                                "social media",
+                                "stem papers",
+                                "books",
+                                "encyclopedic",
+                                "online qa"
+                            ]
+                        },
+                        "data_size_gb": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "documents": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "tokens_billions": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "epochs": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "sampling_ratio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "required": [
+                        "doc_type"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "id",
+        "author",
+        "sha",
+        "created_at",
+        "last_modified",
+        "private",
+        "gated",
+        "disabled",
+        "downloads",
+        "likes",
+        "tags",
+        "pipeline_tag",
+        "mask_token",
+        "card_data",
+        "widget_data",
+        "model_index"
+    ],
+    "additionalProperties": false
+}
