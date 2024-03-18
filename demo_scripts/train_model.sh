@@ -8,13 +8,17 @@
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate towerllm-env
+set -a 
+source ./demo_scripts/configs/.env
+set +a
+
+source ${MINICONDA_PATH}
+conda activate ${TOWERLLM_ENV_NAME}
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1
 
-# Usage: sbatch demo_scripts/train_model.sh <checkpoint_path> <dataset_bin> <external_tokenizer>
-
+# Usage: sbatch demo_scripts/train_model.sh <checkpoint_path> <model config (see ./configs)> <dataset_bin> <external_tokenizer>
+# to use the wandb logger: --wandb_logger --wandb_entity <your username> --wandb_id <some id> --wandb_api_key <your api key>
 set -euo pipefail
 
 if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
@@ -23,39 +27,67 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
 fi
 
 CHECKPOINT_PATH=${1:-./llama_mini_try}
-dataset_bin=${2:-wiki-en-simple_200000000-bin/data_text_document}
-external_tokenizer=${3:-meta-llama/Llama-2-7b-hf}
-repo=/data/tir/projects/tir6/general/mengyan3/tower-llm-training
-data_path="${repo}/${dataset_bin}"
+model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
+dataset_bin=${3:-/data/tir/projects/tir7/user_data/lmarinov/dolma_full-bin/data_text_document}
+external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
+TOTAL_TRAIN_TOKENS=${5:-98000000000}
 
-# TODO - just read this from config
-# llama mini
-num_layers=12
-num_attention_heads=8
-seq_length=2048
-num_kv_heads=8
-hidden_size=1024
-ffn_hidden_size=4096
+repo=${BASE_REPO}
+data_path=${dataset_bin}
+
+num_layers=$(yq '.training.num_layers' $model_config)
+num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
+seq_length=$(yq '.training.seq_length' $model_config)
+num_kv_heads=$(yq '.training.num_kv_heads' $model_config)
+hidden_size=$(yq '.training.hidden_size' $model_config)
+ffn_hidden_size=$(yq '.training.ffn_hidden_size' $model_config)
 
 
-tune_steps=1000
-lr=0.00015
-min_lr=1.0e-5
-weight_decay=1e-2
-grad_clip=1.0
-lr_warmup_steps=100
-save_interval=1000
-eval_interval=1000
-train_steps=100000
+tune_steps=$(yq '.training.tune_steps' $model_config)
+lr=$(yq '.training.lr' $model_config)
+min_lr=$(yq '.training.min_lr' $model_config)
+weight_decay=$(yq '.training.weight_decay' $model_config)
+grad_clip=$(yq '.training.grad_clip' $model_config)
+lr_warmup_steps=$(yq '.training.lr_warmup_steps' $model_config)
+save_interval=$(yq '.training.save_interval' $model_config)
+eval_interval=$(yq '.training.eval_interval' $model_config)
+train_steps=$(yq '.training.train_steps' $model_config)
+train_epochs=$(yq '.training.train_epochs' $model_config)
 
 tp=1 # don't use this
-micro_batch_size=1
-seed=42
+micro_batch_size=$(yq '.training.micro_batch_size' $model_config)
+seed=$(yq '.training.seed' $model_config)
 
-distributed_args="--num_nodes=1 --num_gpus=4 --master_port 12345"
-ds_args="--zero-stage=2 --deepspeed --deepspeed_config /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/ds_config.json"
+NUM_GPUS=$(nvidia-smi -L | wc -l)
+
+# build train step arguments - disregard steps if epochs are specified, else use steps, else fall back to 100k steps
+if [ ! -z "$train_epochs" ]; then
+   echo "train_epochs has been passed. If you specified the exact number of steps, this will be IGNORED in favour of epochs"
+   # TODO: there's an argument --train-data-exact-num-epochs but it seems to be broken
+   # manually calculate the number of steps for now: total tokens (rough) / (seq_len x batch size)
+      echo "NOTE on epochs: This isn't implemented yet, using rough number for 1 epoch over 100B tokens..."
+      total_seqs_rough=$((TOTAL_TRAIN_TOKENS / seq_length))
+      batch_size=$((micro_batch_size * NUM_GPUS))
+      rough_steps=$((total_seqs_rough / batch_size))
+
+      train_steps_arg="--train-iters $rough_steps"
+elif [ ! -z "$train_steps" ]; then
+      train_steps_arg="--train-iters $train_steps"
+   else
+      train_steps_arg="--train-iters 100000"
+fi
+echo "train_steps_arg: $train_steps_arg"
+
+# if no run id specified, then use unix timestamp as unique id
+if [ -z "$WANDB_ID" ]; then
+    WANDB_ID=$(date +%s)
+fi
+
+distributed_args="--num_nodes=1 --num_gpus=${NUM_GPUS} --master_port 12345"
+ds_args="--zero-stage=2 --deepspeed --deepspeed_config ${repo}/demo_scripts/ds_config.json"
 deepspeed $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
+       $train_steps_arg \
        --tensor-model-parallel-size $tp \
        --no-pipeline-parallel \
        --num-layers $num_layers \
@@ -66,7 +98,6 @@ deepspeed $distributed_args \
        --micro-batch-size $micro_batch_size \
        --seq-length $seq_length \
        --max-position-embeddings $seq_length \
-       --train-iters $train_steps \
        --save $CHECKPOINT_PATH \
        --load $CHECKPOINT_PATH \
        --data-path $data_path \
@@ -97,9 +128,13 @@ deepspeed $distributed_args \
        --swiglu \
        --normalization rmsnorm \
        --disable-bias-linear \
-       --use-flash-attn \
+       --use-flash-attn-v2 \
        --distributed-timeout-minutes 60 \
        --seed $seed \
+       --wandb_logger \
+       --wandb_entity $WANDB_USER \
+      --wandb_id $WANDB_ID \
+      --wandb_api_key $WANDB_API_KEY \
        $ds_args 
 
 

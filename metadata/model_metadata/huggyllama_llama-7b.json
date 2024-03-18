@@ -1,0 +1,161 @@
+{
+    "id": "huggyllama/llama-7b",
+    "author": "huggyllama",
+    "sha": "8416d3fefb0cb3ff5775a7b13c1692d10ff1aa16",
+    "created_at": "2023-04-03T23:16:48+00:00",
+    "last_modified": "2023-04-07T15:50:47+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 226457,
+    "likes": 245,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "license:other",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": [
+        {
+            "text": "My name is Julien and I like to"
+        },
+        {
+            "text": "My name is Thomas and my main"
+        },
+        {
+            "text": "My name is Mariama, my favorite"
+        },
+        {
+            "text": "My name is Clara and I am"
+        },
+        {
+            "text": "My name is Lewis and I like to"
+        },
+        {
+            "text": "My name is Merve and my favorite"
+        },
+        {
+            "text": "My name is Teven and I am"
+        },
+        {
+            "text": "Once upon a time,"
+        }
+    ],
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": {
+                "__type": "AddedToken",
+                "content": "<s>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "eos_token": {
+                "__type": "AddedToken",
+                "content": "</s>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "pad_token": null,
+            "unk_token": {
+                "__type": "AddedToken",
+                "content": "<unk>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F16": 6738415616,
+            "F32": 2048
+        },
+        "total": 6738417664
+    },
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "attention_window": "standard",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 2048,
+    "batch_instances": 1024,
+    "batch_tokens": 4000000,
+    "weight_tying": false,
+    "pre_training_data": {
+        "common_crawl": {
+            "doc_type": "web pages",
+            "sampling_ratio": 0.67,
+            "epochs": 1.10,
+            "data_size_gb": 3300
+        },
+        "c4": {
+            "doc_type": "web pages",
+            "sampling_ratio": 0.15,
+            "epochs": 1.06,
+            "data_size_gb": 783
+        },
+        "github": {
+            "doc_type": "code",
+            "sampling_ratio": 0.045,
+            "epochs": 0.64,
+            "data_size_gb": 328
+        },
+        "wikipedia": {
+            "doc_type": "encyclopedic",
+            "sampling_ratio": 0.045,
+            "epochs": 2.45,
+            "data_size_gb": 83
+        },
+        "books": {
+            "doc_type": "books",
+            "sampling_ratio": 0.045,
+            "epochs": 2.23,
+            "data_size_gb": 85
+        },
+        "arxiv": {
+            "doc_type": "stem papers",
+            "sampling_ratio": 0.025,
+            "epochs": 1.06,
+            "data_size_gb": 92
+        },
+        "stack_exchange": {
+            "doc_type": "online qa",
+            "sampling_ratio": 0.02,
+            "epochs": 1.03,
+            "data_size_gb": 78
+        }
+    }
+}
