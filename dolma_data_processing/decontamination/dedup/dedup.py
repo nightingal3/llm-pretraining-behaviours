@@ -39,6 +39,7 @@ def process_file(args):
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
     (df, contamination_indices) = decontaminate(df, janitor=janitor)
     df.to_parquet(f"{output_dir}/{directory_name}/{file_name}")
+    logging.info(f"Finished processing {directory_name}/{file_name}")
     return contamination_indices
 
 
