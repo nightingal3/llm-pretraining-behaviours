@@ -1,9 +1,7 @@
-from datasets import load_dataset_builder
 from huggingface_hub import hf_hub_download
 from typing import Any
 import json
 import os
-from typing import Optional
 import yaml
 
 DOC_TYPES = [
@@ -86,8 +84,6 @@ def get_dataset_metadata_from_hf(
     Note: fetching through load_dataset_builder can take REALLY long, so fetching through README.md
     """
     try:
-        # builder = load_dataset_builder(dataset_name, streaming=True)
-
         readme_path = hf_hub_download(
             repo_id=dataset_name, filename="README.md", repo_type="dataset"
         )
