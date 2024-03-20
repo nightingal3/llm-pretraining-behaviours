@@ -39,6 +39,7 @@ def process_file(args):
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
     (df, contamination_indices) = decontaminate(df, janitor=janitor)
     df.to_parquet(f"{output_dir}/{directory_name}/{file_name}")
+    logging.info(f"Finished processing {directory_name}/{file_name}")
     return contamination_indices
 
 
@@ -67,6 +68,11 @@ def main():
         type=str,
     )
     parser.add_argument(
+        "--domain",
+        help="Which domain to deduplicate (if not all)",
+        type=str,
+    )
+    parser.add_argument(
         "--num_processes", help="Number of processes to run in parallel", type=int
     )
     logging.basicConfig(level=logging.INFO)
@@ -77,6 +83,15 @@ def main():
         raise ValueError("Please specify dataset base directory")
     if not args.output_dir:
         raise ValueError("Please specify output base directory")
+    if args.domain and args.domain not in [
+        "c4",
+        "common-crawl",
+        "gutenberg-books",
+        "peS2o",
+        "stack-code",
+        "wiki-en-simple",
+    ]:
+        raise ValueError("Invalid domain")
 
     num_processes = args.num_processes if args.num_processes else 64
     logging.info(f"num_processes set to {num_processes}")
@@ -93,13 +108,22 @@ def main():
     base_dir = args.base_dir
     output_dir = args.output_dir
     process_inputs = []
-    for directory_name in os.listdir(base_dir):
-        directory_path = os.path.join(base_dir, directory_name)
+    if not args.domain:
+        for domain in os.listdir(base_dir):
+            directory_path = os.path.join(base_dir, domain)
+            if os.path.isdir(directory_path):
+                for root, _, files in os.walk(directory_path):
+                    for file_name in files:
+                        file_path = os.path.join(root, file_name)
+                        process_inputs.append((file_path, domain, file_name))
+    else:
+        domain = args.domain
+        directory_path = os.path.join(base_dir, domain)
         if os.path.isdir(directory_path):
-            for root, _, files in os.walk(directory_path):
+            for root, _, files in os.walk(os.path.join(base_dir, domain)):
                 for file_name in files:
                     file_path = os.path.join(root, file_name)
-                    process_inputs.append((file_path, directory_name, file_name))
+                    process_inputs.append((file_path, domain, file_name))
     pool = multiprocessing.Pool(num_processes)
     contamination_indices_list = pool.map(process_file, process_inputs)
     logging.info("Finished decontamination")
