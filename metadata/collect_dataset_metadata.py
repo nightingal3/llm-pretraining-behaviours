@@ -7,23 +7,55 @@ from typing import Optional
 import yaml
 
 DOC_TYPES = [
+    "web",
     "web/social_media",
     "web/news",
     "web/blogs",
     "web/forums",
+    "books",
     "books/literary/fiction",
     "books/literary/nonfiction",
     "books/textbooks",
-    "books/reference/encyclopedic",
-    "books/reference/dictionaries",
+    "reference",
+    "reference/encyclopedic",
+    "reference/dictionaries",
+    "academic_papers",
     "academic_papers/sciences",
     "academic_papers/humanities",
+    "code",
     "code/source_code",
     "code/documentation",
     "code/forums",
+    "media",
     "media/podcasts",
     "media/subtitles",
 ]
+doc_type_prompt = """[STEP 3] What type of dataset is this? Refer to this hierarchy: web/
+├─ social_media/
+├─ news/
+├─ blogs/
+├─ forums/
+books/
+├─ literary/
+│  ├─ fiction/
+│  ├─ nonfiction/
+├─ textbooks/
+reference/
+├─ encyclopedic/
+├─ dictionaries/
+academic_papers/
+├─ sciences/
+├─ humanities/
+code/
+├─ source_code/
+├─ documentation/
+├─ forums/
+media/
+├─ podcasts/
+├─ subtitles/
+specific_datasets/
+├─ <focus of the dataset here, e.g. "finance", "health">/
+Enter your choice like this: web/social_media or web or academic_papers/sciences, etc.\nCategory: """
 
 
 def parse_yaml_metadata(readme_str: str) -> dict:
@@ -142,7 +174,6 @@ def aggregate_tokens_from_metadata(metadata: dict) -> int:
     """
     total_tokens = 0
     for domain in metadata.values():
-        print("DOMAIN: ", domain)
         if "file_pointer" in domain:
             with open(domain["file_pointer"], "r") as file:
                 data = json.load(file)
@@ -178,7 +209,7 @@ def main():
     while True:
 
         entry_option = input(
-            "[STEP 1] How do you want to enter the metadata? We can either\n(1) pull from huggingface hub by dataset name, \n(2) reference an existing file under dataset_metadata,\n(3) enter a new dataset manually.\nPlease enter 1, 2, or 3 for these options.\nIf you're not sure, enter 3 and enter the metadata manually. Enter 'stop' to finish.\nYour choice:"
+            "[STEP 1] How do you want to enter the metadata? We can either\n(1) pull from huggingface hub by dataset name, \n(2) reference an existing file under dataset_metadata,\n(3) enter a new dataset manually.\nPlease enter 1, 2, or 3 for these options.\nIf you're not sure, enter 3 and enter the metadata manually. Enter 'stop' to finish.\nYour choice: "
         ).lower()
         if entry_option.lower() == "stop":
             summarize_and_write_to_file(datasets_metadata, output_filename)
@@ -189,34 +220,11 @@ def main():
             summarize_and_write_to_file(datasets_metadata, output_filename)
             break
 
-        doc_type = input(
-            """[STEP 3] What type of dataset is this? Refer to this hierarchy: web/
-├─ social_media/
-├─ news/
-├─ blogs/
-├─ forums/
-books/
-├─ literary/
-│  ├─ fiction/
-│  ├─ nonfiction/
-├─ textbooks/
-reference/
-├─ encyclopedic/
-├─ dictionaries/
-academic_papers/
-├─ sciences/
-├─ humanities/
-code/
-├─ source_code/
-├─ documentation/
-├─ forums/
-media/
-├─ podcasts/
-├─ subtitles/
-specific_datasets/
-├─ <focus of the dataset here, e.g. "finance", "health">/
-Enter your choice like this: web/social_media or web or academic_papers/sciences, etc.\nCategory: """
-        )
+        doc_type = input(doc_type_prompt)
+
+        while not validate_doc_type(doc_type):
+            print("Invalid doc type. Please enter a valid doc type.")
+            doc_type = input(doc_type_prompt)
 
         if entry_option == "1":
             subdataset = input(
