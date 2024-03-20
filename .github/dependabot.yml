@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "submodules" 
+    directory: "/" 
+    schedule:
+      interval: "daily" 
