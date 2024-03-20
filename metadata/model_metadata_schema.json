@@ -338,52 +338,7 @@
             "additionalProperties": false
         },
         "pre_training_data": {
-            "type": "object",
-            "patternProperties": {
-                "^.+$": {
-                    "type": "object",
-                    "properties": {
-                        "doc_type": {
-                            "type": "string",
-                            "enum": [
-                                "web pages",
-                                "code",
-                                "social media",
-                                "stem papers",
-                                "books",
-                                "encyclopedic",
-                                "online qa"
-                            ]
-                        },
-                        "data_size_gb": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "documents": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "tokens_billions": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "epochs": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "sampling_ratio": {
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 1
-                        }
-                    },
-                    "required": [
-                        "doc_type"
-                    ],
-                    "additionalProperties": false
-                }
-            },
-            "additionalProperties": false
+            "type": "string"
         }
     },
     "required": [
