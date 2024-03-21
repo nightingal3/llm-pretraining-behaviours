@@ -1,0 +1,41 @@
+name: Tag Stale PRs
+
+on:
+  schedule:
+    # Runs at the start of every hour
+    - cron: '0 * * * *'
+
+jobs:
+  tag-stale-prs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Tag stale PRs
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { data: pullRequests } = await github.rest.pulls.list({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+          });
+
+          const staleLabel = 'OVERDUE';
+          const maxAgeHours = 72;
+          const cutoffTime = new Date(Date.now() - maxAgeHours * 60 * 60 * 1000);
+
+          for (const pr of pullRequests) {
+            const prCreatedAt = new Date(pr.created_at);
+            if (prCreatedAt < cutoffTime) {
+              // Check if the stale label is not already added
+              const labels = pr.labels.map(label => label.name);
+              if (!labels.includes(staleLabel)) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  labels: [staleLabel],
+                });
+                console.log(`Added stale label to PR #${pr.number}`);
+              }
+            }
+          }
