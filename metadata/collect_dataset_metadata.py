@@ -62,6 +62,8 @@ def parse_yaml_metadata(readme_str: str) -> dict:
     delim = "---"
     delimiter_indices = [i for i, line in enumerate(lines) if line.strip() == delim]
 
+    # In the huggingface README formatting, the metadata is between two sets of "---"
+    # Metadata is optional though, so not all readmes may have this
     if len(delimiter_indices) < 2:
         print("Invalid README.md format")
         return {}
