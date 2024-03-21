@@ -114,48 +114,5 @@
     "batch_instances": 1024,
     "batch_tokens": 4000000,
     "weight_tying": false,
-    "pre_training_data": {
-        "common_crawl": {
-            "doc_type": "web pages",
-            "sampling_ratio": 0.67,
-            "epochs": 1.10,
-            "data_size_gb": 3300
-        },
-        "c4": {
-            "doc_type": "web pages",
-            "sampling_ratio": 0.15,
-            "epochs": 1.06,
-            "data_size_gb": 783
-        },
-        "github": {
-            "doc_type": "code",
-            "sampling_ratio": 0.045,
-            "epochs": 0.64,
-            "data_size_gb": 328
-        },
-        "wikipedia": {
-            "doc_type": "encyclopedic",
-            "sampling_ratio": 0.045,
-            "epochs": 2.45,
-            "data_size_gb": 83
-        },
-        "books": {
-            "doc_type": "books",
-            "sampling_ratio": 0.045,
-            "epochs": 2.23,
-            "data_size_gb": 85
-        },
-        "arxiv": {
-            "doc_type": "stem papers",
-            "sampling_ratio": 0.025,
-            "epochs": 1.06,
-            "data_size_gb": 92
-        },
-        "stack_exchange": {
-            "doc_type": "online qa",
-            "sampling_ratio": 0.02,
-            "epochs": 1.03,
-            "data_size_gb": 78
-        }
-    }
+    "pre_training_data": "./dataset_metadata/llama7b_data.json"
 }
