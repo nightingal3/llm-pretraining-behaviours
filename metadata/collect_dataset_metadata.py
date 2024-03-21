@@ -158,7 +158,7 @@ def summarize_and_write_to_file(dataset_metadata: dict, output_filename: str) ->
 
     domains = [d for d in dataset_metadata.values()]
     total_tokens_billions = aggregate_tokens_from_metadata(dataset_metadata)
-    summary = {"total_size_tokens_billion": total_tokens_billions}
+    summary = {"total_size_tokens_billions": total_tokens_billions}
 
     dataset_metadata_final = {"domains": domains, "summary": summary}
     with open(output_filename, "w") as file:

@@ -16,11 +16,11 @@
                 "type": "string",
                 "enum": [
                   "web", "web/social_media", "web/forums", "web/news",
-                  "books", "books/literary/fiction", "books/literary/nonfiction", "books/textbooks",
-                  "reference/encyclopedic", "reference/dictionaries",
-                  "academic_papers/science", "academic_papers/humanities",
-                  "code/source_code", "code/documentation", "code/forums",
-                  "media/podcasts", "media/subtitles", "specific_datasets"
+                  "books", "books/literary", "books/literary/fiction", "books/literary/nonfiction", "books/textbooks",
+                  "reference", "reference/encyclopedic", "reference/dictionaries", 
+                  "academic_papers", "academic_papers/sciences", "academic_papers/humanities",
+                  "code", "code/source_code", "code/documentation", "code/forums",
+                  "media", "media/podcasts", "media/subtitles", "specific_datasets"
                 ]
               },
               "data_size_gb": {
@@ -67,7 +67,7 @@
           }
         }
       },
-      "required": ["total_size", "mix"]
+      "required": ["total_size_tokens_billions"]
     }
   },
   "required": ["domains", "summary"]

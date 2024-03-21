@@ -106,12 +106,5 @@
             "eps": 1.0e-8
         }
     },
-    "pre_training_data": {
-        "the_pile": {
-            "doc_type": "web pages",
-            "sampling_ratio": 1.0,
-            "tokens_billions": 288.0,
-            "epochs": 1.0
-        }
-    }
+    "pre_training_data": "./dataset_metadata/the_pile.json"
 }
