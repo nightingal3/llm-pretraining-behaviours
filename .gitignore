@@ -13,4 +13,7 @@ dolma/
 dolma-old/
 dolma-json-old/
 
+metadata/training_data/
+
+
 *.out
