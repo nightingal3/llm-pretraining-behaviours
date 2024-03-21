@@ -1,61 +1,38 @@
-name: Tag Stale PRs and email reminder
-
-# used chatgpt to help write this
+name: Tag Stale PRs and (email reminder -- TODO: I don't know how to do this)
 
 on:
   schedule:
-    # Runs at the start of every hour
     - cron: '0 * * * *'
 
 jobs:
   tag-stale-prs:
     runs-on: ubuntu-latest
     steps:
-    - name: Tag stale PRs
-      uses: actions/github-script@v5
-      with:
-        script: |
-          const { data: pullRequests } = await github.rest.pulls.list({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            state: 'open',
-          });
-
-          const staleLabel = 'OVERDUE';
-          const maxAgeHours = 72;
-          const cutoffTime = new Date(Date.now() - maxAgeHours * 60 * 60 * 1000);
-
-          for (const pr of pullRequests) {
-            const prCreatedAt = new Date(pr.created_at);
-            if (prCreatedAt < cutoffTime) {
-              // Check if the stale label is not already added
-              const labels = pr.labels.map(label => label.name);
-              if (!labels.includes(staleLabel)) {
-                await github.rest.issues.addLabels({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: pr.number,
-                  labels: [staleLabel],
-                });
-                console.log(`Added stale label to PR #${pr.number}`);}
-                const emailSubject = `[ACTION REQUIRED] Reminder: You have an open PR ${pr.number}. Please merge ASAP`;
-                const emailBody = `Hello, your PR ${pr.title} needs to be merged in nightingal3/llm-pretraining-behaviours. We encourage all PRs to be merged in 72 hours, and yours is currently overdue. Please make efforts to merge it soon. Thanks! Emmy`;
-                const userEmail = pr.user.email;
+      - name: Tag stale PRs
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const staleLabel = 'OVERDUE';
+            const maxAgeHours = 72;
+            const cutoffTime = new Date(Date.now() - maxAgeHours * 60 * 60 * 1000);
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+            });
+            for (const pr of pullRequests) {
+              const prCreatedAt = new Date(pr.created_at);
+              if (prCreatedAt < cutoffTime) {
+                const labels = pr.labels.map(label => label.name);
+                if (!labels.includes(staleLabel)) {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: pr.number,
+                    labels: [staleLabel],
+                  });
+                  console.log(`Added stale label to PR #${pr.number}`);
+                  // Email sending logic would go here, but it's complex in this context
+                }
               }
             }
-          }
-    - name: Send email reminder
-      uses: dawidd6/action-send-mail@v2
-      with:
-        server_address: smtp.example.com
-        server_port: 587
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: ${{ env.EMAIL_SUBJECT }}
-        body: ${{ env.EMAIL_BODY }}
-        to: ${{ env.USER_EMAIL }}
-        from: Your Project Name <noreply@example.com>
-      env:
-        EMAIL_SUBJECT: ${{ fromJson(steps.tag-and-notify-stale-prs.outputs.emailSubject) }}
-        EMAIL_BODY: ${{ fromJson(steps.tag-and-notify-stale-prs.outputs.emailBody) }}
-        USER_EMAIL: ${{ fromJson(steps.tag-and-notify-stale-prs.outputs.userEmail) }}
