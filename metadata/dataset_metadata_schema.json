@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "domains": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "doc_type": {
+                "type": "string",
+                "enum": [
+                  "web", "web/social_media", "web/forums", "web/news",
+                  "books", "books/literary", "books/literary/fiction", "books/literary/nonfiction", "books/textbooks",
+                  "reference", "reference/encyclopedic", "reference/dictionaries", 
+                  "academic_papers", "academic_papers/sciences", "academic_papers/humanities",
+                  "code", "code/source_code", "code/documentation", "code/forums",
+                  "media", "media/podcasts", "media/subtitles", "specific_datasets"
+                ]
+              },
+              "data_size_gb": {
+                "type": "number"
+              },
+              "documents": {
+                "type": "number"
+              },
+              "tokens_billions": {
+                "type": "number"
+              },
+              "features": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["doc_type", "tokens_billions"]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "file_pointer": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": ["file_pointer"]
+          }
+        ]
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_size_tokens_billions": {
+          "type": "number"
+        },
+        "mix": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "required": ["total_size_tokens_billions"]
+    }
+  },
+  "required": ["domains", "summary"]
+}

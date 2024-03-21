@@ -1,0 +1,14 @@
+{
+    "domains": [
+        {
+            "name": "the_pile",
+            "doc_type": "web",
+            "documents": 211043181,
+            "data_size_gb": 825.18,
+            "tokens_billions": 288
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 288
+    }
+}

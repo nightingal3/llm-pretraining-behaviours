@@ -1,0 +1,28 @@
+{
+    "domains": [
+        {
+            "file_pointer": "./c4.json"
+        },
+        {
+            "file_pointer": "./common_crawl.json"
+        },
+        {
+            "file_pointer": "./gutenberg.json"
+        },
+        {
+            "file_pointer": "./pes2o.json"
+        },
+        {
+            "file_pointer": "./reddit.json"
+        },
+        {
+            "file_pointer": "./the_stack.json"
+        },
+        {
+            "file_pointer": "./wikipedia_wikibooks.json"
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 2673.9
+    }
+}
