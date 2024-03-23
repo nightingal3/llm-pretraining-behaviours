@@ -36,6 +36,10 @@ def decontaminate(df: pd.DataFrame, janitor) -> (pd.DataFrame, int):
 # Deduplicates the file at this path and saves the output to dolma_100B_deduped
 def process_file(args):
     file_path, directory_name, file_name = args
+    output_file_path = Path(f"{output_dir}/{directory_name}/{file_name}")
+    if output_file_path.exists():
+        logging.info(f"Already deduped {file_name}; skipping")
+        return 0
     df: pd.DataFrame = pq.read_table(file_path).to_pandas()
     (df, contamination_indices) = decontaminate(df, janitor=janitor)
     df.to_parquet(f"{output_dir}/{directory_name}/{file_name}")
@@ -126,8 +130,11 @@ def main():
                     process_inputs.append((file_path, domain, file_name))
     pool = multiprocessing.Pool(num_processes)
     contamination_indices_list = pool.map(process_file, process_inputs)
+    pool.close()
+    pool.join()
     logging.info("Finished decontamination")
     logging.info(f"{sum(contamination_indices_list)} total contamination indices.")
+    sys.exit(0)
 
 
 if __name__ == "__main__":
