@@ -15,21 +15,21 @@ RATE = 1000
 
 def read_jsonl(filename, idx):
     """
-    Reads the first 1000 lines from a JSONL file and returns them as a list of dictionaries.
+    Reads the 1000 lines from a JSONL file and returns them as a list of dictionaries.
 
     :param filename: The path to the JSONL file.
-    :return: A list of dictionaries parsed from the first 1000 JSON lines.
+    :return: A list of dictionaries parsed from the 1000 JSON lines.
     """
     ids = []
     texts = []
-    data = []  # Initialize an empty list to store the JSON objects.
+    data = []  
     with open(filename, "r", encoding="utf-8") as file:
         for i, line in enumerate(file):
             try:
                 json_line = json.loads(line)
                 ids.append(json_line["id"])
                 texts.append(json_line["text"])
-                data.append(json_line)  # Parse the JSON line and add it to the list.
+                data.append(json_line)  
             except json.JSONDecodeError:
                 print(f"Error decoding JSON on line {i + 1}")
 
@@ -113,9 +113,6 @@ def main():
     outputs = llm_model.generate(formatted_prompts, sampling_params)
     print("Generated outputs...", flush=True)
 
-    # Print the outputs.
-    print("first prompt is - ", texts[0], flush=True)
-
     decisions_array = []
     for i in range(len(outputs)):
         output = outputs[i]
@@ -135,7 +132,6 @@ def main():
     file_exists = os.path.isfile(csv_file_path)
 
     # Save the DataFrame to a CSV file
-    # mode='a' for appending, header=False to avoid repeating the header if file exists
     df.to_csv(csv_file_path, mode="a", index=False, header=not file_exists)
 
     print("CSV file has been written using pandas.")
