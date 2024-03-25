@@ -9,19 +9,6 @@ import dataclasses
 import datetime
 
 
-def robust_asdict(obj):
-    if isinstance(obj, datetime.datetime):
-        return obj.isoformat()
-    elif dataclasses.is_dataclass(obj):
-        return {k: robust_asdict(v) for k, v in dataclasses.asdict(obj).items()}
-    elif isinstance(obj, list):
-        return [robust_asdict(v) for v in obj]
-    elif isinstance(obj, dict):
-        return {k: robust_asdict(v) for k, v in obj.items()}
-    else:
-        return obj
-
-
 if __name__ == "__main__":
     # Define the command-line arguments
     parser = argparse.ArgumentParser()
