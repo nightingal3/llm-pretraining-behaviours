@@ -3,6 +3,7 @@ import os
 import subprocess
 import argparse
 from datetime import datetime
+from typing import Optional
 import json
 import warnings
 
@@ -106,17 +107,7 @@ def convert_results_format(results_json: dict) -> dict:
     return results_clean
 
 
-def main(model_name: str, output_dir: str, overwrite: bool) -> None:
-    output_file = os.path.join(
-        output_dir, f"results_{model_name.replace('/', '_')}.json"
-    )
-
-    if os.path.exists(output_file) and not overwrite:
-        print(
-            f"File {output_file} already exists, please pass overwrite=True to overwrite."
-        )
-        return
-
+def get_model_scores(model_name: str) -> Optional[dict]:
     openllm_url = "https://huggingface.co/datasets/open-llm-leaderboard/results"
     openllm_prefix = "open-llm-leaderboard-results"
     # Note: this repository contains all results on the openLLM leaderboard but it's not working currently (not loadable):
@@ -125,7 +116,6 @@ def main(model_name: str, output_dir: str, overwrite: bool) -> None:
     dir_is_found = any(
         d.startswith(openllm_prefix) for d in os.listdir(".") if os.path.isdir(d)
     )
-
     if not dir_is_found:
         print("Local results repo not found, cloning...")
         subprocess.run(["git", "clone", openllm_url, openllm_prefix], check=True)
@@ -149,13 +139,32 @@ def main(model_name: str, output_dir: str, overwrite: bool) -> None:
 
             results_clean = convert_results_format(merged_results)
 
-            os.makedirs(output_dir, exist_ok=True)
-            with open(output_file, "w") as f:
-                json.dump(results_clean, f, indent=4)
-            print(f"Results written to {output_file}")
-            return
+            return results_clean
 
-    print(f"No results found for {model_name}")
+    raise ValueError("Model scores not found")
+
+
+def main(model_name: str, output_dir: str, overwrite: bool) -> None:
+    output_file = os.path.join(
+        output_dir, f"results_{model_name.replace('/', '_')}.json"
+    )
+
+    if os.path.exists(output_file) and not overwrite:
+        print(
+            f"File {output_file} already exists, please pass overwrite=True to overwrite."
+        )
+        return
+
+    model_scores = get_model_scores(model_name)
+
+    if model_scores == None:
+        print(f"No results found for {model_name}")
+    else:
+        os.makedirs(output_dir, exist_ok=True)
+        with open(output_file, "w") as f:
+            json.dump(model_scores, f, indent=4)
+        print(f"Results written to {output_file}")
+    return
 
 
 if __name__ == "__main__":
