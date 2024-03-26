@@ -1,0 +1,60 @@
+{
+    "id": "jisukim8873/falcon-7B-case-8",
+    "author": "jisukim8873",
+    "sha": "36a32f6892c9e0b537b8560dd548b29fd5ccb86a",
+    "created_at": "2024-03-08T13:22:23+00:00",
+    "last_modified": "2024-03-08T14:50:12+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 2171,
+    "likes": 0,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "falcon",
+        "text-generation",
+        "custom_code",
+        "arxiv:1910.09700",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": null,
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "FalconForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "tiiuae/falcon-7b--configuration_falcon.FalconConfig",
+            "AutoModel": "tiiuae/falcon-7b--modeling_falcon.FalconModel",
+            "AutoModelForCausalLM": "tiiuae/falcon-7b--modeling_falcon.FalconForCausalLM",
+            "AutoModelForQuestionAnswering": "tiiuae/falcon-7b--modeling_falcon.FalconForQuestionAnswering",
+            "AutoModelForSequenceClassification": "tiiuae/falcon-7b--modeling_falcon.FalconForSequenceClassification",
+            "AutoModelForTokenClassification": "tiiuae/falcon-7b--modeling_falcon.FalconForTokenClassification"
+        },
+        "model_type": "falcon",
+        "tokenizer_config": {
+            "eos_token": "<|endoftext|>",
+            "pad_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 6921720704
+        },
+        "total": 6921720704
+    }
+}

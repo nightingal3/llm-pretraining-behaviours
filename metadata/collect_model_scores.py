@@ -123,7 +123,7 @@ def get_model_scores(model_name: str) -> Optional[dict]:
         os.rename(openllm_prefix, openllm_prefix + "-" + date_str)
 
     dirname_with_date = [d for d in os.listdir(".") if d.startswith(openllm_prefix)][0]
-    print("Searching for model scores...")
+    # print("Searching for model scores...")
     for root, _, _ in os.walk(dirname_with_date):
         path_parts = root.split(os.sep)
         if len(path_parts) < 2:
