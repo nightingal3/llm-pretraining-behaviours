@@ -10,11 +10,8 @@ if [ $ENV_EXISTS -eq 0 ]; then
     conda create -n $ENV_NAME python=$PYTHON_VERSION
 fi
 
-echo "Activating conda environment $ENV_NAME"
-conda activate $ENV_NAME
-
 echo "Installing tree-sitter"
-pip install tree-sitter
+conda run -n "$ENV_NAME" pip install tree-sitter
 
 echo "Downloading tree-sitter grammars"
 # List of languages to install parsers for
@@ -154,9 +151,9 @@ LANGS=(
 
 for LANGUAGE in "${LANGS[@]}"; do
     # Convert language names to tree-sitter package format
-    PACKAGE_NAME=$(echo "tree-sitter-${LANGUAGE,,}") 
+    PACKAGE_NAME="tree-sitter-${LANGUAGE}"
     echo "Installing $PACKAGE_NAME..."
-    pip install "$PACKAGE_NAME"
+    conda run -n "$ENV_NAME" pip install "$PACKAGE_NAME"
 done
 
 echo "All grammars installed"
