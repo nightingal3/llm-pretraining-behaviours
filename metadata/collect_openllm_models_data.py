@@ -102,14 +102,18 @@ if __name__ == "__main__":
                     try:
                         model_metadata = get_model_metadata(model_name, args.token)
                     except Exception as e:
-                        logging.info(f"Exception while fetching {model_name} metadata. Skipping.")
+                        logging.info(
+                            f"Exception while fetching {model_name} metadata. Skipping."
+                        )
                         continue
 
                     # Get the model scores
                     try:
                         model_scores = get_model_scores(model_name)
                     except Exception as e:
-                        logging.info(f"Exception while fetching {model_name} scores. Skipping.")
+                        logging.info(
+                            f"Exception while fetching {model_name} scores. Skipping."
+                        )
                         continue
 
                     # Write the metadata to a JSON file
@@ -124,9 +128,13 @@ if __name__ == "__main__":
                     os.makedirs(args.scores_output_dir, exist_ok=True)
                     with open(scores_file_name, "w") as f:
                         json.dump(model_scores, f, indent=4)
-                    logging.info(f"Scores for '{model_name}' saved to {scores_file_name}")
+                    logging.info(
+                        f"Scores for '{model_name}' saved to {scores_file_name}"
+                    )
 
                     models_fetched += 1
                     if models_fetched == args.num_models:
-                        logging.info(f"Finished collecting metadata and scores for {args.num_models} models.")
+                        logging.info(
+                            f"Finished collecting metadata and scores for {args.num_models} models."
+                        )
                         sys.exit(0)
