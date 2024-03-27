@@ -66,10 +66,10 @@
             ]
         },
         "card_data": {
-            "type": "object"
+            "type": ["object", "null"]
         },
         "widget_data": {
-            "type": "array",
+            "type": ["array", "null"],
             "items": {
                 "type": "object",
                 "properties": {
@@ -85,7 +85,7 @@
         },
         "model_index": {
             "type": [
-                "string",
+                "array",
                 "null"
             ]
         },
@@ -114,7 +114,7 @@
                 "model_type",
                 "tokenizer_config"
             ],
-            "additionalProperties": false
+            "additionalProperties": true
         },
         "transformers_info": {
             "type": "object",
@@ -140,14 +140,13 @@
             },
             "required": [
                 "auto_model",
-                "custom_class",
                 "pipeline_tag",
                 "processor"
             ],
             "additionalProperties": false
         },
         "safetensors": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "parameters": {
                     "type": "object",
