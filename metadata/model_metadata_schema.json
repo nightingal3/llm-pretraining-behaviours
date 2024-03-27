@@ -107,6 +107,9 @@
                 },
                 "tokenizer_config": {
                     "type": "object"
+                },
+                "quantization_config": {
+                    "type": "object"
                 }
             },
             "required": [
@@ -114,7 +117,7 @@
                 "model_type",
                 "tokenizer_config"
             ],
-            "additionalProperties": true
+            "additionalProperties": false
         },
         "transformers_info": {
             "type": "object",
