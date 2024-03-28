@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
 from sklearn import gaussian_process
+from sklearn.preprocessing import OrdinalEncoder
 import argparse
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
 import warnings
@@ -91,10 +92,25 @@ if __name__ == "__main__":
         default=100,
         help="The number of trees in the XGBoost model",
     )
+    parser.add_argument(
+        "--output_file",
+        type=str,
+        help="The path to save the predicted scores",
+        default="predicted_scores.csv",
+    )
     args = parser.parse_args()
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
     assert args.max_depth > 0, "Max depth must be greater than 0"
+
+    categorical_variables = [
+        "activation",
+        "attention_variant",
+        "batch_instances",
+        "biases",
+        "block_type",
+        "layer_norm_type",
+    ]
 
     # Load the CSV files into pandas DataFrames
     training_scores = pd.read_csv(args.train_labels)
@@ -109,6 +125,10 @@ if __name__ == "__main__":
         left_on="model_name",
         right_on="id",
     )
+
+    # ordinal encode
+    enc = OrdinalEncoder()
+    dataset[categorical_variables] = enc.fit_transform(dataset[categorical_variables])
 
     trainset = preprocess_data(dataset)
 
@@ -132,4 +152,18 @@ if __name__ == "__main__":
 
     test_predictions = model.predict(test_feat)
 
-    print(test_predictions)
+    print(
+        f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
+    )
+    print(f"Mean Squared Error: {mean_squared_error(train_labels, test_predictions)}")
+    feature_importances = model.feature_importances_
+    feature_names = train_feats.columns
+
+    # Create a pandas series to associate feature names with their importance scores
+    importances = pd.Series(feature_importances, index=feature_names)
+    print("Feature Importances: ")
+    print(importances)
+
+    test_predictions = pd.DataFrame(test_predictions, columns=["predicted_score"])
+    test_predictions.to_csv(args.output_file, index=False)
+    print(f"Test predictions saved to {args.output_file}")
