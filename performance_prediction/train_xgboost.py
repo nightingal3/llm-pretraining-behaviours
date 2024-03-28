@@ -3,7 +3,9 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
 from sklearn import gaussian_process
+import argparse
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
+import warnings
 
 
 def fit_regressor(reg, train_feats, train_labels):
@@ -17,13 +19,19 @@ def train_regressor(
     regressor="xgboost",
     quantile=0.95,
     verbose=False,
+    lr=0.1,
+    max_depth=10,
+    n_estimators=100,
     **kwargs,
 ):
     print(
         f"Training a {regressor} model with training data of shape {train_feats.shape}."
     )
     reg = xgb.XGBRegressor(
-        objective="reg:squarederror", learning_rate=0.1, max_depth=10, n_estimators=100
+        objective="reg:squarederror",
+        learning_rate=lr,
+        max_depth=max_depth,
+        n_estimators=n_estimators,
     )
 
     fit_regressor(reg, train_feats, train_labels)
@@ -45,28 +53,83 @@ def preprocess_data(data):
     return data
 
 
-# Load the CSV files into pandas DataFrames
-training_scores = pd.read_csv(
-    "../metadata/training_data/training_score_final.csv"
-)  # Replace with the actual path to your first CSV file
-training = pd.read_csv(
-    "../metadata/training_data/training_model_final.csv"
-)  # Replace with the actual path to your second CSV file
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--train_feats",
+        type=str,
+        help="The path to the CSV file containing the training features",
+        required=True,
+    )
+    parser.add_argument(
+        "--train_labels",
+        type=str,
+        help="The path to the CSV file containing the training labels",
+        required=True,
+    )
+    parser.add_argument(
+        "--y_col",
+        type=str,
+        help="The name of the column containing the target variable in the train_labels file",
+        required=True,
+    )
+    parser.add_argument(
+        "--lr",
+        type=float,
+        default=0.1,
+        help="The learning rate for the XGBoost model",
+    )
+    parser.add_argument(
+        "--max_depth",
+        type=int,
+        default=10,
+        help="The maximum depth of the trees in the XGBoost model",
+    )
+    parser.add_argument(
+        "--n_estimators",
+        type=int,
+        default=100,
+        help="The number of trees in the XGBoost model",
+    )
+    args = parser.parse_args()
+    assert args.n_estimators > 0, "Number of trees must be greater than 0"
+    assert args.lr > 0, "Learning rate must be greater than 0"
+    assert args.max_depth > 0, "Max depth must be greater than 0"
 
-# Merge the DataFrames based on 'model_name' and 'id', dropping entries without matches
-dataset = pd.merge(
-    training_scores, training, how="inner", left_on="model_name", right_on="id"
-)
+    # Load the CSV files into pandas DataFrames
+    training_scores = pd.read_csv(args.train_labels)
+    model_metadata = pd.read_csv(args.train_feats)
 
-trainset = preprocess_data(dataset)
+    cols_from_results = set(training_scores.columns) - {"model_name", "id"}
+    # Merge the DataFrames based on 'model_name' and 'id', dropping entries without matches
+    dataset = pd.merge(
+        training_scores,
+        model_metadata,
+        how="inner",
+        left_on="model_name",
+        right_on="id",
+    )
 
-train_feats = trainset.drop(["hellaswag"], axis=1)[:-1]
-train_labels = trainset["hellaswag"][:-1]
+    trainset = preprocess_data(dataset)
 
-model = train_regressor(train_feats, train_labels)
+    train_feats = trainset.drop(columns=cols_from_results, errors="ignore")
+    train_labels = trainset[args.y_col]
 
-test_feat = train_feats
+    if args.n_estimators > len(train_feats):
+        warnings.warn(
+            f"Number of trees ({args.n_estimators}) is greater than the number of training samples ({len(train_feats)}). You will likely overfit."
+        )
 
-test_predictions = model.predict(test_feat)
+    model = train_regressor(
+        train_feats,
+        train_labels,
+        lr=args.lr,
+        max_depth=args.max_depth,
+        n_estimators=args.n_estimators,
+    )
 
-print(test_predictions)
+    test_feat = train_feats
+
+    test_predictions = model.predict(test_feat)
+
+    print(test_predictions)
