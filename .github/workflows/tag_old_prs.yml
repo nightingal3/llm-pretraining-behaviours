@@ -22,7 +22,7 @@ jobs:
             });
             for (const pr of pullRequests) {
               const prCreatedAt = new Date(pr.created_at);
-              if (prCreatedAt < cutoffTime) {
+              if (prCreatedAt < cutoffTime && !pr.title.toLowerCase().includes("draft")) {
                 const labels = pr.labels.map(label => label.name);
                 if (!labels.includes(staleLabel)) {
                   await github.rest.issues.addLabels({
