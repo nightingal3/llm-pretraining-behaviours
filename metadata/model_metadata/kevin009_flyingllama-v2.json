@@ -1,0 +1,220 @@
+{
+    "id": "kevin009/flyingllama-v2",
+    "author": "kevin009",
+    "sha": "ef4c413b145be17d7be742e8eeb2ef1f3dce6716",
+    "created_at": "2024-02-03T20:23:05+00:00",
+    "last_modified": "2024-03-04T22:42:18+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 2385,
+    "likes": 1,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "en",
+        "license:apache-2.0",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": null,
+    "model_index": [
+        {
+            "name": "flyingllama-v2",
+            "results": [
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "AI2 Reasoning Challenge (25-Shot)",
+                        "type": "ai2_arc",
+                        "config": "ARC-Challenge",
+                        "split": "test",
+                        "args": {
+                            "num_few_shot": 25
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc_norm",
+                            "value": 24.74,
+                            "name": "normalized accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=kevin009/flyingllama-v2",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "HellaSwag (10-Shot)",
+                        "type": "hellaswag",
+                        "split": "validation",
+                        "args": {
+                            "num_few_shot": 10
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc_norm",
+                            "value": 38.44,
+                            "name": "normalized accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=kevin009/flyingllama-v2",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "MMLU (5-Shot)",
+                        "type": "cais/mmlu",
+                        "config": "all",
+                        "split": "test",
+                        "args": {
+                            "num_few_shot": 5
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc",
+                            "value": 26.37,
+                            "name": "accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=kevin009/flyingllama-v2",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "TruthfulQA (0-shot)",
+                        "type": "truthful_qa",
+                        "config": "multiple_choice",
+                        "split": "validation",
+                        "args": {
+                            "num_few_shot": 0
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "mc2",
+                            "value": 41.3,
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=kevin009/flyingllama-v2",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "Winogrande (5-shot)",
+                        "type": "winogrande",
+                        "config": "winogrande_xl",
+                        "split": "validation",
+                        "args": {
+                            "num_few_shot": 5
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc",
+                            "value": 50.28,
+                            "name": "accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=kevin009/flyingllama-v2",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "GSM8k (5-shot)",
+                        "type": "gsm8k",
+                        "config": "main",
+                        "split": "test",
+                        "args": {
+                            "num_few_shot": 5
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc",
+                            "value": 0,
+                            "name": "accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=kevin009/flyingllama-v2",
+                        "name": "Open LLM Leaderboard"
+                    }
+                }
+            ]
+        }
+    ],
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "#",
+            "pad_token": "#",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F16": 461685760
+        },
+        "total": 461685760
+    }
+}
