@@ -146,21 +146,20 @@ def process_dataset_scores(input_file: str, ds_value: dict, n_shots: int = -1):
 
     for dataset in ds_value:
         try:
-            try:
-                if n_shots == -1:
-                    avail_shots = list(ds_value[dataset].keys())
-                    for n_s in avail_shots:
-                        n_shots_tmp = int(n_s.split("-")[0])
-                        new_key = f"{dataset}_{n_shots_tmp}-shot"
-                        extracted_features[new_key] = ds_value[dataset][
-                            f"{n_shots_tmp}-shot"
-                        ]
-                else:
-                    new_key = f"{dataset}_{n_shots}-shot"
-                    extracted_features[new_key] = ds_value[dataset][f"{n_shots}-shot"]
-            except KeyError:
-                print(f"{input_file}: {n_shots}-shot results not found in the dataset")
-                continue
+            if n_shots == -1:
+                avail_shots = list(ds_value[dataset].keys())
+                for n_s in avail_shots:
+                    n_shots_tmp = int(n_s.split("-")[0])
+                    new_key = f"{dataset}_{n_shots_tmp}-shot"
+                    extracted_features[new_key] = ds_value[dataset][
+                        f"{n_shots_tmp}-shot"
+                    ]
+            else:
+                new_key = f"{dataset}_{n_shots}-shot"
+                extracted_features[new_key] = ds_value[dataset][f"{n_shots}-shot"]
+        except KeyError:
+            print(f"{input_file}: {n_shots}-shot results not found in the dataset")
+            continue
         except:
             print(f"{input_file}: {dataset} not found in the dataset")
             continue
