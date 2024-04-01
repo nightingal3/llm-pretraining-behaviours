@@ -69,40 +69,37 @@ def main(
 
     extracted_features_all = []
     for input_file in os.listdir(input_dir):
-        input_file = os.path.join(input_dir, input_file)
-        output_file = os.path.join(output_dir, f"training_{type_selection}_final.csv")
-        # Load the JSON file into a dictionary
-        with open(input_file, "r") as file:
+        input_file_path = os.path.join(input_dir, input_file)
+
+        with open(input_file_path, "r") as file:
             json_data = json.load(file)
 
-        extracted_features = extract_features_from_json(json_data, features_to_extract)
-        # Display the extracted features
+        # the processing is pretty different between scores and model/dataset features, so separating them
         if type_selection == "score":
-            if extracted_features[dataset] or dataset == "all":
-                try:
-                    n_shots_selection = list(extracted_features[dataset].keys())
-                    if n_shots == -1:
-                        # take any number of shots
-                        extracted_features[dataset] = extracted_features[dataset][
-                            n_shots_selection[0]
-                        ]
-                    else:
-                        try:
-                            extracted_features[dataset] = extracted_features[dataset][
-                                f"{n_shots}-shot"
-                            ]
-                        except KeyError:
-                            print(
-                                f"{input_file}: {n_shots}-shot results not found in the dataset"
-                            )
-                            continue
-                except:
-                    print(f"{input_file}: {dataset} not found in the dataset")
-                    continue
-
-        extracted_features_all.append(extracted_features)
+            if dataset == "all":
+                for _, ds_value in json_data.get("results", {}).items():
+                    extracted_features = process_dataset_scores(
+                        input_file, ds_value, features_to_extract, n_shots
+                    )
+                    if extracted_features:
+                        extracted_features["model_name"] = json_data["model_name"]
+                        extracted_features_all.append(extracted_features)
+            else:
+                ds_value = json_data.get("results", {}).get(dataset, {})
+                extracted_features = process_dataset_scores(
+                    input_file, ds_value, features_to_extract, n_shots
+                )
+                if extracted_features:
+                    extracted_features["model_name"] = json_data["model_name"]
+                    extracted_features_all.append(extracted_features)
+        else:
+            extracted_features = extract_features_from_json(
+                json_data, features_to_extract
+            )
+            extracted_features_all.append(extracted_features)
 
     df = pd.DataFrame(extracted_features_all)
+
     if type_selection == "score":
         features_df = df.drop(columns=["model_name"]).apply(
             normalize_features, axis=1, result_type="expand"
@@ -111,14 +108,50 @@ def main(
     else:
         final_df = df
 
+    output_file = os.path.join(output_dir, f"training_{type_selection}_final.csv")
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     final_df.to_csv(output_file, index=False)
+    print(f"Features extracted and saved to {output_file}")
+
+
+def process_dataset_scores(input_file: str, ds_value: dict, n_shots: int = -1):
+    """
+    Processes a single dataset's results, handling n-shot scenarios.
+    """
+    extracted_features = {}
+
+    for dataset in ds_value:
+        try:
+            try:
+                if n_shots == -1:
+                    avail_shots = list(ds_value[dataset].keys())
+                    for n_s in avail_shots:
+                        n_shots_tmp = int(n_s.split("-")[0])
+                        new_key = f"{dataset}_{n_shots_tmp}-shot"
+                        extracted_features[new_key] = ds_value[dataset][
+                            f"{n_shots_tmp}-shot"
+                        ]
+                else:
+                    new_key = f"{dataset}_{n_shots}-shot"
+                    extracted_features[new_key] = ds_value[dataset][f"{n_shots}-shot"]
+            except KeyError:
+                print(f"{input_file}: {n_shots}-shot results not found in the dataset")
+                continue
+        except:
+            print(f"{input_file}: {dataset} not found in the dataset")
+            continue
+
+    return extracted_features
+
+
+def process_dataset_model(**kwargs):
+    raise NotImplementedError
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--input_json",
+        "--input_dir",
         type=str,
     )
     parser.add_argument(
@@ -143,7 +176,19 @@ if __name__ == "__main__":
         type=str,
         default="all",
         help="dataset to collect results for. Pass 'all' to collect all datasets",
-    )  # TODO - all is not yet working
-
+    )
+    parser.add_argument(
+        "--n_shots",
+        type=int,
+        default=-1,
+        help="number of shots to collect results for. -1 will attempt to grab all shots available.",
+    )
     args = parser.parse_args()
-    main(args.input_json, args.output_dir, args.config_file, args.type, args.dataset)
+    main(
+        args.input_dir,
+        args.output_dir,
+        args.config_file,
+        args.type,
+        args.dataset,
+        args.n_shots,
+    )
