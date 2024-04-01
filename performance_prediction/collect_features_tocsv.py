@@ -43,8 +43,23 @@ def extract_features_from_json(json_data, features):
     return extracted_features
 
 
-def normalize_features(row):
+def normalize_features(row: pd.Series):
+    """
+    Puts features from scores into a standardized format, since they are dicts inside the dataset's column.
+    Ignores columns that are not dicts.
+
+    Args:
+        row (pd.Series): The row to normalize.
+
+    Returns:
+        dict: The normalized features.
+
+    Example:
+        Given a row with the column "drop_3_shot", which has a dict {"acc": 0.5, "acc_stderr": 0.1},
+        the output will be {"drop_3_shot_acc": 0.5, "drop_3_shot_acc_stderr": 0.1}.
+    """
     normalized_features = {}
+    breakpoint()
     for key, value in row.items():
         if isinstance(value, dict):
             for subkey, subvalue in value.items():
@@ -79,7 +94,7 @@ def main(
             if dataset == "all":
                 for _, ds_value in json_data.get("results", {}).items():
                     extracted_features = process_dataset_scores(
-                        input_file, ds_value, features_to_extract, n_shots
+                        input_file, ds_value, n_shots
                     )
                     if extracted_features:
                         extracted_features["model_name"] = json_data["model_name"]
@@ -87,7 +102,7 @@ def main(
             else:
                 ds_value = json_data.get("results", {}).get(dataset, {})
                 extracted_features = process_dataset_scores(
-                    input_file, ds_value, features_to_extract, n_shots
+                    input_file, ds_value, n_shots
                 )
                 if extracted_features:
                     extracted_features["model_name"] = json_data["model_name"]
@@ -116,7 +131,16 @@ def main(
 
 def process_dataset_scores(input_file: str, ds_value: dict, n_shots: int = -1):
     """
-    Processes a single dataset's results, handling n-shot scenarios.
+    Processes dataset performance results, handling n-shot scenarios.
+
+    Args:
+        input_file (str): The name of the input file.
+        ds_value (dict): The model's performance results across datasets.
+        n_shots (int): The number of shots to use as the model's final result. -1 will attempt to grab all shots available.
+
+    Returns:
+        dict: The extracted features.
+
     """
     extracted_features = {}
 
@@ -142,10 +166,6 @@ def process_dataset_scores(input_file: str, ds_value: dict, n_shots: int = -1):
             continue
 
     return extracted_features
-
-
-def process_dataset_model(**kwargs):
-    raise NotImplementedError
 
 
 if __name__ == "__main__":
