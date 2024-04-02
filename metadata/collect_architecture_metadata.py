@@ -63,7 +63,7 @@ if __name__ == "__main__":
         "--output_dir",
         type=str,
         help="The directory to output to.",
-        default="model_metadata",
+        default="architecture_metadata",
     )
     parser.add_argument(
         "--overwrite",

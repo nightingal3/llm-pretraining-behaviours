@@ -6,7 +6,9 @@ from sklearn import gaussian_process
 from sklearn.preprocessing import OrdinalEncoder
 import argparse
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
+from sklearn.model_selection import cross_val_score, train_test_split
 import warnings
+import os
 
 
 def fit_regressor(reg, train_feats, train_labels):
@@ -98,6 +100,12 @@ if __name__ == "__main__":
         help="The path to save the predicted scores",
         default="predicted_scores.csv",
     )
+    parser.add_argument(
+        "--missing_val",
+        type=float,
+        help="The value used for missing data in features",
+        default=None,
+    )
     args = parser.parse_args()
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
@@ -114,26 +122,33 @@ if __name__ == "__main__":
 
     # Load the CSV files into pandas DataFrames
     training_scores = pd.read_csv(args.train_labels)
-    model_metadata = pd.read_csv(args.train_feats)
+    arch_metadata = pd.read_csv(args.train_feats)
 
     cols_from_results = set(training_scores.columns) - {"model_name", "id"}
     # Merge the DataFrames based on 'model_name' and 'id', dropping entries without matches
     dataset = pd.merge(
         training_scores,
-        model_metadata,
+        arch_metadata,
         how="inner",
         left_on="model_name",
         right_on="id",
     )
 
+    # drop rows with missing values
+    dataset = dataset.dropna(subset=args.y_col)
+
+    trainset = preprocess_data(dataset)
+
+    feats = trainset.drop(columns=cols_from_results, errors="ignore")
+    labels = trainset[args.y_col]
+
     # ordinal encode
     enc = OrdinalEncoder()
     dataset[categorical_variables] = enc.fit_transform(dataset[categorical_variables])
 
-    trainset = preprocess_data(dataset)
-
-    train_feats = trainset.drop(columns=cols_from_results, errors="ignore")
-    train_labels = trainset[args.y_col]
+    train_feats, test_feats, train_labels, test_labels = train_test_split(
+        feats, labels, test_size=0.2, random_state=42
+    )
 
     if args.n_estimators > len(train_feats):
         warnings.warn(
@@ -146,16 +161,15 @@ if __name__ == "__main__":
         lr=args.lr,
         max_depth=args.max_depth,
         n_estimators=args.n_estimators,
+        missing=args.missing_val,
     )
 
-    test_feat = train_feats
-
-    test_predictions = model.predict(test_feat)
+    test_predictions = model.predict(test_feats)
 
     print(
         f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
     )
-    print(f"Mean Squared Error: {mean_squared_error(train_labels, test_predictions)}")
+    print(f"Mean Squared Error: {mean_squared_error(test_labels, test_predictions)}")
     feature_importances = model.feature_importances_
     feature_names = train_feats.columns
 
@@ -163,6 +177,8 @@ if __name__ == "__main__":
     importances = pd.Series(feature_importances, index=feature_names)
     print("Feature Importances: ")
     print(importances)
+
+    os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
 
     test_predictions = pd.DataFrame(test_predictions, columns=["predicted_score"])
     test_predictions.to_csv(args.output_file, index=False)
