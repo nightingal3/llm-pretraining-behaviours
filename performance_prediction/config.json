@@ -3,11 +3,7 @@
       "id", "dimension", "num_heads", "mlp_ratio", "layer_norm_type", 
       "positional_embeddings", "attention_variant", "biases", 
       "block_type", "activation", "sequence_length", "batch_instances", 
-      "batch_tokens", "weight_tying", "deep_key"
-    ],
-
-    "score": [
-        "model_name", "hellaswag"
+      "batch_tokens", "weight_tying", "deep_key", "safetensors:total"
     ]
 }
   
