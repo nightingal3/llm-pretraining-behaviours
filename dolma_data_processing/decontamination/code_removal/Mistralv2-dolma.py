@@ -10,10 +10,8 @@ import pandas as pd
 from vllm import LLM, SamplingParams
 from Mistralv2_prompt import fixed_prompt_mistral
 
-RATE = 1000
 
-
-def read_jsonl(filename, idx):
+def read_jsonl(filename, idx, rate):
     """
     Reads the 1000 lines from a JSONL file and returns them as a list of dictionaries.
 
@@ -22,22 +20,31 @@ def read_jsonl(filename, idx):
     """
     ids = []
     texts = []
-    data = []  
+    data = []
     with open(filename, "r", encoding="utf-8") as file:
         for i, line in enumerate(file):
+            if i < idx:
+                continue
+
+            if i >= idx + rate:
+                break
+
             try:
                 json_line = json.loads(line)
                 ids.append(json_line["id"])
                 texts.append(json_line["text"])
-                data.append(json_line)  
+                data.append(json_line)
             except json.JSONDecodeError:
                 print(f"Error decoding JSON on line {i + 1}")
 
-    return (data[idx : idx + RATE], ids[idx : idx + RATE], texts[idx : idx + RATE])
+    return (data, ids, texts)
 
 
 def get_formatted_prompts(texts):
-
+    """
+    Adds the Mistral Prompt formatting to an array 
+    of texts
+    """
     formatted_prompts = [
         f"[INST]{fixed_prompt_mistral}{prompt}[/INST]" for prompt in texts
     ]
@@ -45,8 +52,11 @@ def get_formatted_prompts(texts):
     return formatted_prompts
 
 
-def load_model(model_name):
-    sampling_params = SamplingParams(temperature=0.1, top_p=0.95)
+def load_model(model_name, temp=0.1, p=0.95 ):
+    """
+    Load the model given the model name and sampling params
+    """
+    sampling_params = SamplingParams(temperature = temp, top_p = p)
     print(f"Initializing LLM with model: {model_name}", flush=True)
     llm = LLM(
         model=model_name,
@@ -83,9 +93,6 @@ def main():
         help="Output directory",
     )
     parser.add_argument(
-        "--n", default=10, type=int, required=False, help="Number of continuations"
-    )
-    parser.add_argument(
         "--max_tokens",
         default=512,
         type=int,
@@ -97,18 +104,19 @@ def main():
     )
     parser.add_argument("--top_p", default=1, type=float, required=False, help="top_p")
     parser.add_argument("--idx", default=0, type=int, required=False, help="index")
+    parser.add_argument("--rate", default=1000, type=int, required=False, help="number of prompts")
 
     args = parser.parse_args()
     print("args:", args, flush=True)
 
     input_file = args.input
     start_time = time.time()
-    data, ids, texts = read_jsonl(input_file, args.idx)
+    data, ids, texts = read_jsonl(input_file, args.idx, args.rate)
 
     texts = [text.replace("\n", "") for text in texts]
     formatted_prompts = get_formatted_prompts(texts)
 
-    llm_model, sampling_params = load_model(args.model)
+    llm_model, sampling_params = load_model(args.model, args.temperature, args.top_p)
     print("Generating outputs...", flush=True)
     outputs = llm_model.generate(formatted_prompts, sampling_params)
     print("Generated outputs...", flush=True)
