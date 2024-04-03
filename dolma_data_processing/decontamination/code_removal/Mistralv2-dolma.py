@@ -42,7 +42,7 @@ def read_jsonl(filename, idx, rate):
 
 def get_formatted_prompts(texts):
     """
-    Adds the Mistral Prompt formatting to an array 
+    Adds the Mistral Prompt formatting to an array
     of texts
     """
     formatted_prompts = [
@@ -52,11 +52,11 @@ def get_formatted_prompts(texts):
     return formatted_prompts
 
 
-def load_model(model_name, temp=0.1, p=0.95 ):
+def load_model(model_name, temp=0.1, p=0.95):
     """
     Load the model given the model name and sampling params
     """
-    sampling_params = SamplingParams(temperature = temp, top_p = p)
+    sampling_params = SamplingParams(temperature=temp, top_p=p)
     print(f"Initializing LLM with model: {model_name}", flush=True)
     llm = LLM(
         model=model_name,
@@ -104,7 +104,9 @@ def main():
     )
     parser.add_argument("--top_p", default=1, type=float, required=False, help="top_p")
     parser.add_argument("--idx", default=0, type=int, required=False, help="index")
-    parser.add_argument("--rate", default=1000, type=int, required=False, help="number of prompts")
+    parser.add_argument(
+        "--rate", default=1000, type=int, required=False, help="number of prompts"
+    )
 
     args = parser.parse_args()
     print("args:", args, flush=True)
