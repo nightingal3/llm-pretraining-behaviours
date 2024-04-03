@@ -1,0 +1,224 @@
+{
+    "id": "AbacusResearch/Jallabi-34B",
+    "author": "AbacusResearch",
+    "sha": "f65696da4ed82c9a20e94b200d9dccffa07af682",
+    "created_at": "2024-03-01T16:53:25+00:00",
+    "last_modified": "2024-03-02T21:31:50+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 1710,
+    "likes": 1,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "LlamaForCausalLM",
+        "LLM",
+        "conversational",
+        "license:apache-2.0",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": null,
+    "model_index": [
+        {
+            "name": "Jallabi-34B",
+            "results": [
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "AI2 Reasoning Challenge (25-Shot)",
+                        "type": "ai2_arc",
+                        "config": "ARC-Challenge",
+                        "split": "test",
+                        "args": {
+                            "num_few_shot": 25
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc_norm",
+                            "value": 66.04,
+                            "name": "normalized accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=AbacusResearch/Jallabi-34B",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "HellaSwag (10-Shot)",
+                        "type": "hellaswag",
+                        "split": "validation",
+                        "args": {
+                            "num_few_shot": 10
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc_norm",
+                            "value": 83.81,
+                            "name": "normalized accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=AbacusResearch/Jallabi-34B",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "MMLU (5-Shot)",
+                        "type": "cais/mmlu",
+                        "config": "all",
+                        "split": "test",
+                        "args": {
+                            "num_few_shot": 5
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc",
+                            "value": 76.4,
+                            "name": "accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=AbacusResearch/Jallabi-34B",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "TruthfulQA (0-shot)",
+                        "type": "truthful_qa",
+                        "config": "multiple_choice",
+                        "split": "validation",
+                        "args": {
+                            "num_few_shot": 0
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "mc2",
+                            "value": 51.46,
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=AbacusResearch/Jallabi-34B",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "Winogrande (5-shot)",
+                        "type": "winogrande",
+                        "config": "winogrande_xl",
+                        "split": "validation",
+                        "args": {
+                            "num_few_shot": 5
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc",
+                            "value": 81.45,
+                            "name": "accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=AbacusResearch/Jallabi-34B",
+                        "name": "Open LLM Leaderboard"
+                    }
+                },
+                {
+                    "task": {
+                        "type": "text-generation",
+                        "name": "Text Generation"
+                    },
+                    "dataset": {
+                        "name": "GSM8k (5-shot)",
+                        "type": "gsm8k",
+                        "config": "main",
+                        "split": "test",
+                        "args": {
+                            "num_few_shot": 5
+                        }
+                    },
+                    "metrics": [
+                        {
+                            "type": "acc",
+                            "value": 65.2,
+                            "name": "accuracy",
+                            "verified": false
+                        }
+                    ],
+                    "source": {
+                        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard?query=AbacusResearch/Jallabi-34B",
+                        "name": "Open LLM Leaderboard"
+                    }
+                }
+            ]
+        }
+    ],
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": "<|startoftext|>",
+            "chat_template": "{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+            "eos_token": "<|im_end|>",
+            "pad_token": "<unk>",
+            "unk_token": "<unk>",
+            "use_default_system_prompt": false
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F32": 34388917248
+        },
+        "total": 34388917248
+    }
+}

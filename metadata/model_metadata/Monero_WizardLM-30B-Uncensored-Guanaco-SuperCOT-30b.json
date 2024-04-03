@@ -1,21 +1,28 @@
 {
-    "id": "huggyllama/llama-7b",
-    "author": "huggyllama",
-    "sha": "8416d3fefb0cb3ff5775a7b13c1692d10ff1aa16",
-    "created_at": "2023-04-03T23:16:48+00:00",
-    "last_modified": "2023-04-07T15:50:47+00:00",
+    "id": "Monero/WizardLM-30B-Uncensored-Guanaco-SuperCOT-30b",
+    "author": "Monero",
+    "sha": "f25d922536e602af035d476a287b68361fdda5de",
+    "created_at": "2023-05-26T02:31:43+00:00",
+    "last_modified": "2023-05-26T08:15:41+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 226457,
-    "likes": 245,
+    "downloads": 2716,
+    "likes": 23,
     "library_name": "transformers",
     "tags": [
         "transformers",
         "pytorch",
-        "safetensors",
         "llama",
         "text-generation",
+        "uncensored",
+        "dataset:ehartford/WizardLM_alpaca_evol_instruct_70k_unfiltered",
+        "dataset:kaiokendev/SuperCOT-dataset",
+        "dataset:neulab/conala",
+        "dataset:yahma/alpaca-cleaned",
+        "dataset:QingyiSi/Alpaca-CoT",
+        "dataset:timdettmers/guanaco-33b",
+        "dataset:JosephusCheung/GuanacoDataset",
         "license:other",
         "autotrain_compatible",
         "endpoints_compatible",
@@ -26,32 +33,7 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": [
-        {
-            "text": "My name is Julien and I like to"
-        },
-        {
-            "text": "My name is Thomas and my main"
-        },
-        {
-            "text": "My name is Mariama, my favorite"
-        },
-        {
-            "text": "My name is Clara and I am"
-        },
-        {
-            "text": "My name is Lewis and I like to"
-        },
-        {
-            "text": "My name is Merve and my favorite"
-        },
-        {
-            "text": "My name is Teven and I am"
-        },
-        {
-            "text": "Once upon a time,"
-        }
-    ],
+    "widget_data": null,
     "model_index": null,
     "config": {
         "architectures": [
@@ -88,31 +70,8 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
-        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "safetensors": {
-        "parameters": {
-            "F16": 6738415616,
-            "F32": 2048
-        },
-        "total": 6738417664
-    },
-    "dimension": 4096,
-    "num_heads": 32,
-    "num_layers": 32,
-    "mlp_ratio": 2.666667,
-    "layer_norm_type": "rmsnorm",
-    "positional_embeddings": "rope",
-    "attention_variant": "full",
-    "attention_window": "standard",
-    "biases": "none",
-    "block_type": "sequential",
-    "activation": "swiglu",
-    "sequence_length": 2048,
-    "batch_instances": 1024,
-    "batch_tokens": 4000000,
-    "weight_tying": false,
-    "pre_training_data": "./dataset_metadata/llama7b_data.json"
+    "safetensors": null
 }

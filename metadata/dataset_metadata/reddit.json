@@ -1,0 +1,14 @@
+{
+    "domains": [
+        {
+            "name": "reddit",
+            "doc_type": "web/forums",
+            "data_size_gb": 339,
+            "documents": 377000000,
+            "tokens_billions": 80
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 80
+    }
+}

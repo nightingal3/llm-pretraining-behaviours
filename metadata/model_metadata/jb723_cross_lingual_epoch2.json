@@ -1,0 +1,75 @@
+{
+    "id": "jb723/cross_lingual_epoch2",
+    "author": "jb723",
+    "sha": "86e59e85b234e6c882758724849d7a1e4fe0b30a",
+    "created_at": "2023-10-26T12:14:27+00:00",
+    "last_modified": "2023-11-22T12:26:36+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 4530,
+    "likes": 0,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "llama",
+        "text-generation",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": null,
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": {
+                "__type": "AddedToken",
+                "content": "<s>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            },
+            "eos_token": {
+                "__type": "AddedToken",
+                "content": "</s>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            },
+            "pad_token": {
+                "__type": "AddedToken",
+                "content": "</s>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            },
+            "unk_token": {
+                "__type": "AddedToken",
+                "content": "<unk>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null
+}
