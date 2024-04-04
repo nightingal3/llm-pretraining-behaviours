@@ -18,9 +18,12 @@ bash setup/conda.sh
 ```
 
 A second optional set up is for vllm inferencing on dolma. If you wish to run inferencing on dolma, set up a vllm environment. 
-1. Download the vllm env from - https://huggingface.co/shreyasinghal/vllm_env
-2. Run conda activate on it and name it vllm1 (to be compatible with scripts)
-3. Add your hf_cache path to config.env
+There are 3 options to do this (be mindful of CUDA versions) - 
+1. (Recommended) vllm source code - https://docs.vllm.ai/en/latest/getting_started/installation.html
+2. pip install vllm
+3. (Easiest) - Download the vllm env from - https://huggingface.co/shreyasinghal/vllm_env
+
+Finally, Add your hf_cache path to config.env
 
 ## Running reasoning pretraining (temp)
 
