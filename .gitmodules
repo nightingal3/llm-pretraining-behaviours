@@ -5,3 +5,6 @@
 [submodule "lm-evaluation-harness"]
 	path = lm-evaluation-harness
 	url = https://github.com/mycoalchen/lm-evaluation-harness
+[submodule "vllm"]
+	path = vllm
+	url = https://github.com/shreyasinghal09/vllm.git
