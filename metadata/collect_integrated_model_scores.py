@@ -58,7 +58,7 @@ def parse_harness_results(
             return {
                 "acc": accuracy,
                 "acc_stderr": stderr,
-                "timestamp": str(datetime.datetime.now()),
+                "timestamp": str(datetime.now()),
             }
         except:
             return {}
@@ -85,6 +85,7 @@ def integrated_eval(
 
     # Update the model scores with the new results
     model_scores["results"]["harness"].update(new_results)
+
     # overwrite the json file
     with open(json_path, "w") as f:
         json.dump(model_scores, f, indent=4)
