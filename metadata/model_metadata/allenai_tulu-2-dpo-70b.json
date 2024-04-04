@@ -1,14 +1,14 @@
 {
-    "id": "huggyllama/llama-7b",
-    "author": "huggyllama",
-    "sha": "8416d3fefb0cb3ff5775a7b13c1692d10ff1aa16",
-    "created_at": "2023-04-03T23:16:48+00:00",
-    "last_modified": "2023-04-07T15:50:47+00:00",
+    "id": "allenai/tulu-2-dpo-70b",
+    "author": "allenai",
+    "sha": "0ab5c875f0070d5aee8d36bc55f41de440a13f02",
+    "created_at": "2023-11-12T22:34:51+00:00",
+    "last_modified": "2024-01-31T19:54:37+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 226457,
-    "likes": 245,
+    "downloads": 5361,
+    "likes": 141,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -16,6 +16,13 @@
         "safetensors",
         "llama",
         "text-generation",
+        "conversational",
+        "en",
+        "dataset:HuggingFaceH4/ultrafeedback_binarized",
+        "dataset:allenai/tulu-v2-sft-mixture",
+        "arxiv:2305.18290",
+        "arxiv:2311.10702",
+        "base_model:meta-llama/Llama-2-70b-hf",
         "license:other",
         "autotrain_compatible",
         "endpoints_compatible",
@@ -26,39 +33,20 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": [
+    "widget_data": null,
+    "model_index": [
         {
-            "text": "My name is Julien and I like to"
-        },
-        {
-            "text": "My name is Thomas and my main"
-        },
-        {
-            "text": "My name is Mariama, my favorite"
-        },
-        {
-            "text": "My name is Clara and I am"
-        },
-        {
-            "text": "My name is Lewis and I like to"
-        },
-        {
-            "text": "My name is Merve and my favorite"
-        },
-        {
-            "text": "My name is Teven and I am"
-        },
-        {
-            "text": "Once upon a time,"
+            "name": "tulu-2-dpo-70b",
+            "results": []
         }
     ],
-    "model_index": null,
     "config": {
         "architectures": [
             "LlamaForCausalLM"
         ],
         "model_type": "llama",
         "tokenizer_config": {
+            "pad_token": null,
             "bos_token": {
                 "__type": "AddedToken",
                 "content": "<s>",
@@ -75,7 +63,6 @@
                 "rstrip": false,
                 "single_word": false
             },
-            "pad_token": null,
             "unk_token": {
                 "__type": "AddedToken",
                 "content": "<unk>",
@@ -83,36 +70,19 @@
                 "normalized": true,
                 "rstrip": false,
                 "single_word": false
-            }
+            },
+            "chat_template": "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
         }
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
-        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
     "safetensors": {
         "parameters": {
-            "F16": 6738415616,
-            "F32": 2048
+            "BF16": 68976648192
         },
-        "total": 6738417664
-    },
-    "dimension": 4096,
-    "num_heads": 32,
-    "num_layers": 32,
-    "mlp_ratio": 2.666667,
-    "layer_norm_type": "rmsnorm",
-    "positional_embeddings": "rope",
-    "attention_variant": "full",
-    "attention_window": "standard",
-    "biases": "none",
-    "block_type": "sequential",
-    "activation": "swiglu",
-    "sequence_length": 2048,
-    "batch_instances": 1024,
-    "batch_tokens": 4000000,
-    "weight_tying": false,
-    "pre_training_data": "./dataset_metadata/llama7b_data.json"
+        "total": 68976648192
+    }
 }

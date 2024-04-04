@@ -13,4 +13,7 @@ dolma/
 dolma-old/
 dolma-json-old/
 
+metadata/training_data/
+metadata/open-llm-leaderboard-results-2024-03-18
+
 *.out

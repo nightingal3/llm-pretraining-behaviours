@@ -1,0 +1,14 @@
+{
+    "domains": [
+        {
+            "name": "wikipedia_wikibooks",
+            "doc_type": "web",
+            "data_size_gb": 16.2,
+            "documents": 6200000,
+            "tokens_billions": 3.7
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 3.7
+    }
+}

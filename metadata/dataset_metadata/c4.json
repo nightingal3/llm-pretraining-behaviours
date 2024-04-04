@@ -1,0 +1,17 @@
+{
+    "domains": [
+        {
+            "name": "c4",
+            "doc_type": "web",
+            "data_size_gb": 790,
+            "documents": 364000000,
+            "tokens_billions": 180
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 180,
+        "mix": {
+            "c4": 1
+        }
+    }
+}
