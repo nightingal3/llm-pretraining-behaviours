@@ -6,39 +6,24 @@ import pandas as pd
 
 def extract_features_from_json(json_data, features):
     """
-    Extracts specified features from a nested JSON data structure.
+    Extract features from JSON. Features should be specified like this in the config:
+    top_level:level1:level2:feature where : represents the hierarchy of the JSON.
 
-    :param json_data: The JSON data as a dictionary.
-    :param features: List of strings representing the keys of the features to extract.
-    :return: Dictionary with the extracted features and their values.
+    Args:
+        json_data (dict): The JSON data to extract features from.
+        features (list): The list of features to extract.
     """
     extracted_features = {}
-
-    def extract(data, keys):
-        """
-        Recursive helper function to search and extract values for specified keys.
-
-        :param data: Current level of the JSON data.
-        :param keys: Remaining keys to search for.
-        """
-        if not keys or not isinstance(data, dict):
-            return
-        for key, value in data.items():
-            if key in keys:
-                extracted_features[key] = value
-            extract(value, keys)
-
-    extract(json_data, features)
     for feature in features:
-        if feature not in extracted_features:
-            print(feature, " was not found so adding default value of -1!")
-            extracted_features[feature] = (
-                -1
-            )  # using -1 as default val since a model could score 0 for real
-
-    extracted_features = {
-        key: extracted_features[key] for key in sorted(extracted_features)
-    }
+        feature_path = feature.split(":")
+        feature_value = json_data
+        for path in feature_path:
+            if isinstance(feature_value, dict):
+                feature_value = feature_value.get(path, -1)
+            else:
+                feature_value = -1
+                break  # Stop iteration if feature_value is not a dictionary
+        extracted_features[feature] = feature_value
 
     return extracted_features
 
@@ -59,7 +44,6 @@ def normalize_features(row: pd.Series):
         the output will be {"drop_3_shot_acc": 0.5, "drop_3_shot_acc_stderr": 0.1}.
     """
     normalized_features = {}
-    breakpoint()
     for key, value in row.items():
         if isinstance(value, dict):
             for subkey, subvalue in value.items():
