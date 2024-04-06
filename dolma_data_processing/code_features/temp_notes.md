@@ -15,3 +15,8 @@ We discussed some basic options [here](https://docs.google.com/document/d/1KrQTx
 
 Tree-sitter returns an AST (you can use the starter code to print out some ASTs on simple code to see how it's structured). We want to use some features from the AST, but then store the final data features in the same format as for natural language (see `dolma_data_processing/calc_parse_feature_utils.py` for return types)
 
+### Possible tree-sitter detail
+
+In `download_tree_sitter_parsers.sh`, I'm using the recomended pip installation [here](dolma_data_processing/calc_parse_feature_utils.py), but it seems like most languages aren't available through pip. We may have to use the "build from source" method on that page (would need to manually download each language parser though)
+
+
