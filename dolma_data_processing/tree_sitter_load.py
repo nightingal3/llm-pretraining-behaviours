@@ -15,6 +15,7 @@ def load_languages():
 
     for pkg in ts_packages:
         pkg_name = pkg.replace("-", "_")
+        print(pkg_name)
         language_name = pkg.split("-")[-1]
         try:
             lang_module = importlib.import_module(pkg_name)

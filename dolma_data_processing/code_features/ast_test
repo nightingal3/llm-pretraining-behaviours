@@ -1,0 +1,181 @@
+Node id : 94573204632816, Node type: module, start: (0, 0), end: (4, 21), 
+text: 'for x in range(100):
+    if x % 2 == 0:
+        print("fizz")
+    if x % 5 == 0:
+        print("buzz")'
+  Node id : 94573204697824, Node type: for_statement, start: (0, 0), end: (4, 21), 
+  text: 'for x in range(100):
+    if x % 2 == 0:
+        print("fizz")
+    if x % 5 == 0:
+        print("buzz")'
+    Node id : 94573204697680, Node type: for, start: (0, 0), end: (0, 3), 
+    text: 'for'
+    Node id : 94573205456096, Node type: identifier, start: (0, 4), end: (0, 5), 
+    text: 'x'
+    Node id : 94573204697696, Node type: in, start: (0, 6), end: (0, 8), 
+    text: 'in'
+    Node id : 94573204289424, Node type: call, start: (0, 9), end: (0, 19), 
+    text: 'range(100)'
+      Node id : 94573205904096, Node type: identifier, start: (0, 9), end: (0, 14), 
+      text: 'range'
+      Node id : 94573204382264, Node type: argument_list, start: (0, 14), end: (0, 19), 
+      text: '(100)'
+        Node id : 94573205855536, Node type: (, start: (0, 14), end: (0, 15), 
+        text: '('
+        Node id : 94573205566896, Node type: integer, start: (0, 15), end: (0, 18), 
+        text: '100'
+        Node id : 94573205855552, Node type: ), start: (0, 18), end: (0, 19), 
+        text: ')'
+    Node id : 94573204697712, Node type: :, start: (0, 19), end: (0, 20), 
+    text: ':'
+    Node id : 94573204697728, Node type: block, start: (1, 4), end: (4, 21), 
+    text: 'if x % 2 == 0:
+        print("fizz")
+    if x % 5 == 0:
+        print("buzz")'
+      Node id : 94573205207440, Node type: if_statement, start: (1, 4), end: (2, 21), 
+      text: 'if x % 2 == 0:
+        print("fizz")'
+        Node id : 94573204239280, Node type: if, start: (1, 4), end: (1, 6), 
+        text: 'if'
+        Node id : 94573205187536, Node type: comparison_operator, start: (1, 7), end: (1, 17), 
+        text: 'x % 2 == 0'
+          Node id : 94573204295888, Node type: binary_operator, start: (1, 7), end: (1, 12), 
+          text: 'x % 2'
+            Node id : 94573205538608, Node type: identifier, start: (1, 7), end: (1, 8), 
+            text: 'x'
+            Node id : 94573205369320, Node type: %, start: (1, 9), end: (1, 10), 
+            text: '%'
+            Node id : 94573205904000, Node type: integer, start: (1, 11), end: (1, 12), 
+            text: '2'
+          Node id : 94573205463216, Node type: ==, start: (1, 13), end: (1, 15), 
+          text: '=='
+          Node id : 94573204294016, Node type: integer, start: (1, 16), end: (1, 17), 
+          text: '0'
+        Node id : 94573204239296, Node type: :, start: (1, 17), end: (1, 18), 
+        text: ':'
+        Node id : 94573204239312, Node type: block, start: (2, 8), end: (2, 21), 
+        text: 'print("fizz")'
+          Node id : 94573204254096, Node type: expression_statement, start: (2, 8), end: (2, 21), 
+          text: 'print("fizz")'
+            Node id : 94573204251104, Node type: call, start: (2, 8), end: (2, 21), 
+            text: 'print("fizz")'
+              Node id : 94573205915520, Node type: identifier, start: (2, 8), end: (2, 13), 
+              text: 'print'
+              Node id : 94573204176680, Node type: argument_list, start: (2, 13), end: (2, 21), 
+              text: '("fizz")'
+                Node id : 94573204176560, Node type: (, start: (2, 13), end: (2, 14), 
+                text: '('
+                Node id : 94573205010048, Node type: string, start: (2, 14), end: (2, 20), 
+                text: '"fizz"'
+                  Node id : 94573205464336, Node type: string_start, start: (2, 14), end: (2, 15), 
+                  text: '"'
+                  Node id : 94573205464344, Node type: string_content, start: (2, 15), end: (2, 19), 
+                  text: 'fizz'
+                  Node id : 94573205464352, Node type: string_end, start: (2, 19), end: (2, 20), 
+                  text: '"'
+                Node id : 94573204176576, Node type: ), start: (2, 20), end: (2, 21), 
+                text: ')'
+      Node id : 94573205207448, Node type: if_statement, start: (3, 4), end: (4, 21), 
+      text: 'if x % 5 == 0:
+        print("buzz")'
+        Node id : 94573203991872, Node type: if, start: (3, 4), end: (3, 6), 
+        text: 'if'
+        Node id : 94573203664448, Node type: comparison_operator, start: (3, 7), end: (3, 17), 
+        text: 'x % 5 == 0'
+          Node id : 94573205739600, Node type: binary_operator, start: (3, 7), end: (3, 12), 
+          text: 'x % 5'
+            Node id : 94573205009952, Node type: identifier, start: (3, 7), end: (3, 8), 
+            text: 'x'
+            Node id : 94573204978664, Node type: %, start: (3, 9), end: (3, 10), 
+            text: '%'
+            Node id : 94573205172112, Node type: integer, start: (3, 11), end: (3, 12), 
+            text: '5'
+          Node id : 94573205815936, Node type: ==, start: (3, 13), end: (3, 15), 
+          text: '=='
+          Node id : 94573205739696, Node type: integer, start: (3, 16), end: (3, 17), 
+          text: '0'
+        Node id : 94573203991888, Node type: :, start: (3, 17), end: (3, 18), 
+        text: ':'
+        Node id : 94573203991904, Node type: block, start: (4, 8), end: (4, 21), 
+        text: 'print("buzz")'
+          Node id : 94573205121680, Node type: expression_statement, start: (4, 8), end: (4, 21), 
+          text: 'print("buzz")'
+            Node id : 94573203337968, Node type: call, start: (4, 8), end: (4, 21), 
+            text: 'print("buzz")'
+              Node id : 94573203664544, Node type: identifier, start: (4, 8), end: (4, 13), 
+              text: 'print'
+              Node id : 94573203525656, Node type: argument_list, start: (4, 13), end: (4, 21), 
+              text: '("buzz")'
+                Node id : 94573203525536, Node type: (, start: (4, 13), end: (4, 14), 
+                text: '('
+                Node id : 94573205306224, Node type: string, start: (4, 14), end: (4, 20), 
+                text: '"buzz"'
+                  Node id : 94573205306112, Node type: string_start, start: (4, 14), end: (4, 15), 
+                  text: '"'
+                  Node id : 94573205306120, Node type: string_content, start: (4, 15), end: (4, 19), 
+                  text: 'buzz'
+                  Node id : 94573205306128, Node type: string_end, start: (4, 19), end: (4, 20), 
+                  text: '"'
+                Node id : 94573203525552, Node type: ), start: (4, 20), end: (4, 21), 
+                text: ')'
+
+--------------------------------------------------
+Word depths:
+94573204632816 (for x i...): 0
+   94573204697824 (for x i...): 1
+      94573204697680 (for): 2
+      94573205456096 (x): 2
+      94573204697696 (in): 2
+      94573204289424 (range(1...): 2
+         94573205904096 (range): 3
+         94573204382264 ((100)): 3
+            94573205855536 ((): 4
+            94573205566896 (100): 4
+            94573205855552 ()): 4
+      94573204697712 (:): 2
+      94573204697728 (if x % ...): 2
+         94573205207440 (if x % ...): 3
+            94573204239280 (if): 4
+            94573205187536 (x % 2 =...): 4
+               94573204295888 (x % 2): 5
+                  94573205538608 (x): 6
+                  94573205369320 (%): 6
+                  94573205904000 (2): 6
+               94573205463216 (==): 5
+               94573204294016 (0): 5
+            94573204239296 (:): 4
+            94573204239312 (print("...): 4
+               94573204254096 (print("...): 5
+                  94573204251104 (print("...): 6
+                     94573205915520 (print): 7
+                     94573204176680 (("fizz")): 7
+                        94573204176560 ((): 8
+                        94573205010048 ("fizz"): 8
+                           94573205464336 ("): 9
+                           94573205464344 (fizz): 9
+                           94573205464352 ("): 9
+                        94573204176576 ()): 8
+         94573205207448 (if x % ...): 3
+            94573203991872 (if): 4
+            94573203664448 (x % 5 =...): 4
+               94573205739600 (x % 5): 5
+                  94573205009952 (x): 6
+                  94573204978664 (%): 6
+                  94573205172112 (5): 6
+               94573205815936 (==): 5
+               94573205739696 (0): 5
+            94573203991888 (:): 4
+            94573203991904 (print("...): 4
+               94573205121680 (print("...): 5
+                  94573203337968 (print("...): 6
+                     94573203664544 (print): 7
+                     94573203525656 (("buzz")): 7
+                        94573203525536 ((): 8
+                        94573205306224 ("buzz"): 8
+                           94573205306112 ("): 9
+                           94573205306120 (buzz): 9
+                           94573205306128 ("): 9
+                        94573203525552 ()): 8
