@@ -19,7 +19,7 @@ bash setup/conda.sh
 
 A second optional set up is for vllm inferencing on dolma. If you wish to run inferencing on dolma, set up a vllm environment. 
 There are 3 options to do this (be mindful of CUDA versions) - 
-1. (Recommended) vllm source code - https://docs.vllm.ai/en/latest/getting_started/installation.html
+1. (Recommended) vllm submodule in this repo for which installation steps can be found here - https://docs.vllm.ai/en/latest/getting_started/installation.html
 2. pip install vllm
 3. (Easiest) - Download the vllm env from - https://huggingface.co/shreyasinghal/vllm_env
 
