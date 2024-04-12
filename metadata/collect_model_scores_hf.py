@@ -107,7 +107,7 @@ def convert_results_format(results_json: dict) -> dict:
     return results_clean
 
 
-def get_model_scores(model_name: str) -> Optional[dict]:
+def get_model_scores(model_name: str) -> dict:
     openllm_url = "https://huggingface.co/datasets/open-llm-leaderboard/results"
     openllm_prefix = "open-llm-leaderboard-results"
     # Note: this repository contains all results on the openLLM leaderboard but it's not working currently (not loadable):
@@ -141,7 +141,11 @@ def get_model_scores(model_name: str) -> Optional[dict]:
 
             return results_clean
 
-    raise ValueError("Model scores not found")
+    return {
+        "model_name": model_name,
+        "last_updated": None,
+        "results": {"harness": {}},
+    }
 
 
 def main(model_name: str, output_dir: str, overwrite: bool) -> tuple[dict, str]:
