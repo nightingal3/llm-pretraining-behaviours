@@ -3,11 +3,11 @@ import json
 import argparse
 
 
-def get_text(batch_id):
+def get_text(tokenizer, batch_id):
     """
     Get the text for a given batch_id
     """
-    with open("/home/lmarinov/pythia/utils/20B_tokenizer.json", "r") as f:
+    with open(tokenizer, "r") as f:
         j = json.load(f)
     d = {v: k for k, v in j["model"]["vocab"].items()}
     return "".join([d[i] for i in indexes[batch_id]])  # .replace('Ġ', ' ')
@@ -43,6 +43,4 @@ if __name__ == "__main__":
     if args.checkpoint_id < 0 or args.checkpoint_id > 63:
         raise Exception("checkpoint_id out of bounds")
     all_toks = get_all_tokens(args.checkpoint_id * 1024)
-    # print(all_toks)
-    # print(len(all_toks))
     np.save("tokens", all_toks)
