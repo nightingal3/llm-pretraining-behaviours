@@ -33,7 +33,7 @@ avail_languages = load_languages()
 if __name__ == "__main__":
     parser = Parser()
     code = "int main() { return 0; }"
-    lang = "c"
+    lang = "sml"
 
     if lang in avail_languages:
         parser.set_language(avail_languages[lang])
