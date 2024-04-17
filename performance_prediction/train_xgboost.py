@@ -6,7 +6,11 @@ from sklearn import gaussian_process
 from sklearn.preprocessing import OrdinalEncoder
 import argparse
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
+from sklearn.model_selection import cross_val_score, train_test_split
 import warnings
+import os
+import shap
+import matplotlib.pyplot as plt
 
 
 def fit_regressor(reg, train_feats, train_labels):
@@ -96,7 +100,20 @@ if __name__ == "__main__":
         "--output_file",
         type=str,
         help="The path to save the predicted scores",
-        default="predicted_scores.csv",
+        default="./predicted_scores.csv",
+    )
+    parser.add_argument(
+        "--missing_val",
+        type=float,
+        help="The value used for missing data in features",
+        default=None,
+    )
+    parser.add_argument(
+        "--interpret_plot",
+        type=str,
+        choices=["shap"],
+        default="shap",
+        help="whether to plot feature importance using SHAP or other methods",
     )
     args = parser.parse_args()
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
@@ -126,14 +143,23 @@ if __name__ == "__main__":
         right_on="id",
     )
 
+    # drop rows with missing values
+    dataset = dataset.dropna(subset=args.y_col)
+
+    dataset = dataset.drop(columns=["assigned person", "notes"])
+
+    trainset = preprocess_data(dataset)
+
+    feats = trainset.drop(columns=cols_from_results, errors="ignore")
+    labels = trainset[args.y_col]
+
     # ordinal encode
     enc = OrdinalEncoder()
     dataset[categorical_variables] = enc.fit_transform(dataset[categorical_variables])
 
-    trainset = preprocess_data(dataset)
-
-    train_feats = trainset.drop(columns=cols_from_results, errors="ignore")
-    train_labels = trainset[args.y_col]
+    train_feats, test_feats, train_labels, test_labels = train_test_split(
+        feats, labels, test_size=0.2, random_state=42
+    )
 
     if args.n_estimators > len(train_feats):
         warnings.warn(
@@ -148,14 +174,12 @@ if __name__ == "__main__":
         n_estimators=args.n_estimators,
     )
 
-    test_feat = train_feats
-
-    test_predictions = model.predict(test_feat)
+    test_predictions = model.predict(test_feats, output_margin=True)
 
     print(
         f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
     )
-    print(f"Mean Squared Error: {mean_squared_error(train_labels, test_predictions)}")
+    print(f"Mean Squared Error: {mean_squared_error(test_labels, test_predictions)}")
     feature_importances = model.feature_importances_
     feature_names = train_feats.columns
 
@@ -163,6 +187,24 @@ if __name__ == "__main__":
     importances = pd.Series(feature_importances, index=feature_names)
     print("Feature Importances: ")
     print(importances)
+
+    # view feature importance/directionality
+    if args.interpret_plot == "shap":
+        explainer = shap.TreeExplainer(model)
+        explanation = explainer(test_feats)
+        shap_values = explanation.values
+        np.abs(
+            shap_values.sum(axis=1) + explanation.base_values - test_predictions
+        ).max()
+        shap.plots.beeswarm(explanation)
+        plt.tight_layout()
+
+        os.makedirs("./figures", exist_ok=True)
+        plt.savefig(f"./figures/shap_{args.y_col}.png")
+    else:
+        raise NotImplementedError
+
+    os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
 
     test_predictions = pd.DataFrame(test_predictions, columns=["predicted_score"])
     test_predictions.to_csv(args.output_file, index=False)
