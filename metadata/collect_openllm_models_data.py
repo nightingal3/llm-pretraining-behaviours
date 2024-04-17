@@ -1,7 +1,7 @@
 from huggingface_hub import model_info
 from typing import Any
 from collect_model_scores import get_model_scores
-from metadata.collect_model_metadata import get_model_metadata
+from collect_model_metadata import get_model_metadata
 import json
 import argparse
 import os

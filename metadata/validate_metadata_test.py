@@ -26,8 +26,8 @@ with open(DATASET_SCHEMA_FILE_PATH, "r") as schema_file:
 
 
 def get_schema(json_file_name):
-    if MODEL_METADATA_DIR in json_file_name:
-        return MODEL_SCHEMA
+    if MODELS_METADATA_DIR in json_file_name:
+        return MODELS_SCHEMA
     elif DATASET_METADATA_DIR in json_file_name:
         return DATASET_SCHEMA
     else:
