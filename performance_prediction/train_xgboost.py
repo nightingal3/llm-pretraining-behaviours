@@ -14,7 +14,6 @@ import shap
 import matplotlib.pyplot as plt
 
 
-
 def fit_regressor(reg, train_feats, train_labels):
     reg.fit(train_feats, train_labels)
     return reg
@@ -184,7 +183,6 @@ if __name__ == "__main__":
     )
 
     test_predictions = model.predict(test_feats, output_margin=True)
-
 
     print(
         f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
