@@ -9,8 +9,10 @@ from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
 from sklearn.model_selection import cross_val_score, train_test_split
 import warnings
 import os
+
 import shap
 import matplotlib.pyplot as plt
+
 
 
 def fit_regressor(reg, train_feats, train_labels):
@@ -115,6 +117,12 @@ if __name__ == "__main__":
         default="shap",
         help="whether to plot feature importance using SHAP or other methods",
     )
+    parser.add_argument(
+        "--missing_val",
+        type=float,
+        help="The value used for missing data in features",
+        default=None,
+    )
     args = parser.parse_args()
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
@@ -131,13 +139,13 @@ if __name__ == "__main__":
 
     # Load the CSV files into pandas DataFrames
     training_scores = pd.read_csv(args.train_labels)
-    model_metadata = pd.read_csv(args.train_feats)
+    arch_metadata = pd.read_csv(args.train_feats)
 
     cols_from_results = set(training_scores.columns) - {"model_name", "id"}
     # Merge the DataFrames based on 'model_name' and 'id', dropping entries without matches
     dataset = pd.merge(
         training_scores,
-        model_metadata,
+        arch_metadata,
         how="inner",
         left_on="model_name",
         right_on="id",
@@ -172,9 +180,11 @@ if __name__ == "__main__":
         lr=args.lr,
         max_depth=args.max_depth,
         n_estimators=args.n_estimators,
+        missing=args.missing_val,
     )
 
     test_predictions = model.predict(test_feats, output_margin=True)
+
 
     print(
         f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
