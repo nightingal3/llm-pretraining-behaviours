@@ -6,10 +6,8 @@ import pytest
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-ARCHITECTURE_METADATA_DIR = os.path.join(BASE_DIR, "architecture_metadata")
-ARCHITECTURE_SCHEMA_FILE_PATH = os.path.join(
-    BASE_DIR, "architecture_metadata_schema.json"
-)
+MODEL_METADATA_DIR = os.path.join(BASE_DIR, "model_metadata")
+MODEL_SCHEMA_FILE_PATH = os.path.join(BASE_DIR, "model_metadata_schema.json")
 
 RESULTS_METADATA_DIR = os.path.join(BASE_DIR, "model_scores")
 RESULTS_SCHEMA_FILE_PATH = os.path.join(BASE_DIR, "model_results_schema.json")
@@ -19,8 +17,8 @@ DATASET_METADATA_DIR = os.path.join(BASE_DIR, "dataset_metadata")
 DATASET_SCHEMA_FILE_PATH = os.path.join(BASE_DIR, "dataset_metadata_schema.json")
 
 # Load the schema file once and use it for all validations
-with open(ARCHITECTURE_SCHEMA_FILE_PATH, "r") as schema_file:
-    ARCHITECTURE_SCHEMA = json.load(schema_file)
+with open(MODEL_SCHEMA_FILE_PATH, "r") as schema_file:
+    MODEL_SCHEMA = json.load(schema_file)
 with open(RESULTS_SCHEMA_FILE_PATH, "r") as schema_file:
     RESULTS_SCHEMA = json.load(schema_file)
 with open(DATASET_SCHEMA_FILE_PATH, "r") as schema_file:
@@ -28,8 +26,8 @@ with open(DATASET_SCHEMA_FILE_PATH, "r") as schema_file:
 
 
 def get_schema(json_file_name):
-    if ARCHITECTURE_METADATA_DIR in json_file_name:
-        return ARCHITECTURE_SCHEMA
+    if MODEL_METADATA_DIR in json_file_name:
+        return MODEL_SCHEMA
     elif DATASET_METADATA_DIR in json_file_name:
         return DATASET_SCHEMA
     else:
@@ -47,7 +45,7 @@ def get_json_files(directory):
 
 @pytest.mark.parametrize(
     "json_file",
-    get_json_files(ARCHITECTURE_METADATA_DIR)
+    get_json_files(MODEL_METADATA_DIR)
     + get_json_files(RESULTS_METADATA_DIR)
     + get_json_files(DATASET_METADATA_DIR),
 )
