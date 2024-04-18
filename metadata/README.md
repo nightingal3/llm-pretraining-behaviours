@@ -57,8 +57,8 @@ If the dataset is stored on disk, the filename should also be indicated. Taggers
 
 ```json
 {
-  "mean_token_len": X,
-  "stdev_token_len": Y, ...
+  "mean_token_len": "X",
+  "stdev_token_len": "Y", ...
 }
 ```
 ## Results Metadata
