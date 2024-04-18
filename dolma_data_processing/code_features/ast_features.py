@@ -3,11 +3,10 @@ from tree_sitter import Parser, Node
 from tree_sitter_languages import get_language, get_parser
 import os
 import sys
+import warnings
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from io import TextIOWrapper
-from tree_sitter_load import load_languages
-
 
 def trunc_str(s: str, maxLen: int):
     s = s.replace("\n", "\\n")
@@ -53,6 +52,7 @@ def _traverse_get_depth(
 
 
 if __name__ == "__main__":
+    warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser()
     parser.add_argument("--lang", type=str, help="The language to parse (if known)")
     parser.add_argument("--input_file", type=str, help="The file to parse")
@@ -69,6 +69,11 @@ if __name__ == "__main__":
         parser = get_parser(args.lang)
     except Exception as e:
         print(f"Error occurred while creating parser: {e}")
+    
+    try:
+        lang = get_language(args.lang)
+    except Exception as e:
+        print(f"Error occurred while getting language: {e}")
 
     with open(args.input_file, "r") as file:
         code = file.read()
@@ -85,4 +90,3 @@ if __name__ == "__main__":
         f.write("-" * 50 + f"\nTree depth: {feature_dict['tree_depth']}\n")
         feature_dict["words"] = word_depths.keys()
         f.write("-" * 50 + f"\nNum words: {len(feature_dict['words'])}")
-
