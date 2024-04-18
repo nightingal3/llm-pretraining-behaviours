@@ -10,7 +10,7 @@ def get_text(tokenizer, batch_id):
     with open(tokenizer, "r") as f:
         j = json.load(f)
     d = {v: k for k, v in j["model"]["vocab"].items()}
-    return "".join([d[i] for i in indexes[batch_id]])  # .replace('Ġ', ' ')
+    return "".join([d[i] for i in indexes[batch_id]])
 
 
 def get_tokens(batch_id):
@@ -34,13 +34,13 @@ if __name__ == "__main__":
         description="",
     )
     parser.add_argument("--checkpoint_id", type=int, default=0)
+    parser.add_argument("--indexes_file")
     args = parser.parse_known_args()[0]
+    print(args)
     # Each indexes[i] is an array of length 2049 of tokens, which were used for training
     # The token mappings come from https://github.com/EleutherAI/pythia/blob/main/utils/20B_tokenizer.json
     indexes = np.load(
-        "/data/datasets/huggingface/eleutherai/pile-deduped-pythia-preshuffled/indices64.npy"
+        args.indexes_file
     )
-    if args.checkpoint_id < 0 or args.checkpoint_id > 63:
-        raise Exception("checkpoint_id out of bounds")
     all_toks = get_all_tokens(args.checkpoint_id * 1024)
     np.save("tokens", all_toks)
