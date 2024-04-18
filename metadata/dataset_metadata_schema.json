@@ -65,9 +65,16 @@
           "additionalProperties": {
             "type": "number"
           }
+        },
+        "epochs": {
+          "type": "number"
+        },
+        "training_stage": {
+          "type": "string",
+          "enum": ["pretraining", "finetuning", "instruction-tuning", "preference-tuning"]
         }
       },
-      "required": ["total_size_tokens_billions"]
+      "required": ["total_size_tokens_billions", "epochs", "training_stage"]
     }
   },
   "required": ["domains", "summary"]
