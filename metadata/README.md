@@ -48,9 +48,22 @@ media/
 specific_datasets/
 ├─ <focus of the dataset here, e.g. "finance", "health">/
 
+
+The dataset metadata should document at least how many tokens are in the full dataset, and can be linked to in the model metadata. The dataset metadata should also indicate how many epochs the model was trained for (the default is 1). This may seem like more of a property of the model, and may cause more dataset files such as pile_model1, pile_model2 etc, but this is probably best for clarity.
+
+There are four types of data that can be indicated, **pretraining**, **finetuning**, **instruction-tuning** and **feedback-tuning**. 
+
+If the dataset is stored on disk, the filename should also be indicated. Taggers will be run on the files in the indicated location to make features like these:
+
+```json
+{
+  "mean_token_len": X,
+  "stdev_token_len": Y, ...
+}
+```
 ## Results Metadata
 
-We can also get model results on datasets evaluated by the Huggingface OpenLLM leaderboard in order to track changes in model features and data against final performance. We will also add evaluation options via the EleutherAI evaluation harness for models that have not been uploaded to the leaderboard at a later date.
+We can also get model results on datasets evaluated by the Huggingface OpenLLM leaderboard in order to track changes in model features and data against final performance. The current integrated results script will pull from the OpenLLM leaderboard if available, and run the eleutherAI evaluation harness for a remaining set of specified tasks found in `metadata/all_tasks.txt`. 
 
 ## Validation
 
