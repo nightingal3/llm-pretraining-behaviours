@@ -10,6 +10,9 @@ from sklearn.model_selection import cross_val_score, train_test_split
 import warnings
 import os
 
+import shap
+import matplotlib.pyplot as plt
+
 
 def fit_regressor(reg, train_feats, train_labels):
     reg.fit(train_feats, train_labels)
@@ -98,7 +101,20 @@ if __name__ == "__main__":
         "--output_file",
         type=str,
         help="The path to save the predicted scores",
-        default="predicted_scores.csv",
+        default="./predicted_scores.csv",
+    )
+    parser.add_argument(
+        "--missing_val",
+        type=float,
+        help="The value used for missing data in features",
+        default=None,
+    )
+    parser.add_argument(
+        "--interpret_plot",
+        type=str,
+        choices=["shap"],
+        default="shap",
+        help="whether to plot feature importance using SHAP or other methods",
     )
     parser.add_argument(
         "--missing_val",
@@ -137,6 +153,8 @@ if __name__ == "__main__":
     # drop rows with missing values
     dataset = dataset.dropna(subset=args.y_col)
 
+    dataset = dataset.drop(columns=["assigned person", "notes"])
+
     trainset = preprocess_data(dataset)
 
     feats = trainset.drop(columns=cols_from_results, errors="ignore")
@@ -164,7 +182,7 @@ if __name__ == "__main__":
         missing=args.missing_val,
     )
 
-    test_predictions = model.predict(test_feats)
+    test_predictions = model.predict(test_feats, output_margin=True)
 
     print(
         f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
@@ -177,6 +195,22 @@ if __name__ == "__main__":
     importances = pd.Series(feature_importances, index=feature_names)
     print("Feature Importances: ")
     print(importances)
+
+    # view feature importance/directionality
+    if args.interpret_plot == "shap":
+        explainer = shap.TreeExplainer(model)
+        explanation = explainer(test_feats)
+        shap_values = explanation.values
+        np.abs(
+            shap_values.sum(axis=1) + explanation.base_values - test_predictions
+        ).max()
+        shap.plots.beeswarm(explanation)
+        plt.tight_layout()
+
+        os.makedirs("./figures", exist_ok=True)
+        plt.savefig(f"./figures/shap_{args.y_col}.png")
+    else:
+        raise NotImplementedError
 
     os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
 
