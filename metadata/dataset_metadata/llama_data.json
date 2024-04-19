@@ -5,52 +5,52 @@
             "doc_type": "web",
             "documents": -1,
             "data_size_gb": 3300.0,
-            "tokens_billions": -1
+            "tokens_billions": 852
         },
         {
             "name": "c4_llama",
             "doc_type": "web",
             "documents": -1,
             "data_size_gb": 783.0,
-            "tokens_billions": -1
+            "tokens_billions": 190
         },
         {
             "name": "github_llama",
             "doc_type": "code/source_code",
             "documents": -1,
             "data_size_gb": 328.0,
-            "tokens_billions": -1
+            "tokens_billions": 100
         },
         {
             "name": "wiki_llama",
             "doc_type": "reference/encyclopedic",
             "documents": -1,
             "data_size_gb": 83.0,
-            "tokens_billions": -1
+            "tokens_billions": 25
         },
         {
             "name": "books_llama",
             "doc_type": "books",
             "documents": -1,
             "data_size_gb": 85.0,
-            "tokens_billions": -1
+            "tokens_billions": 25
         },
         {
             "name": "arxiv_llama",
             "doc_type": "academic_papers/sciences",
             "documents": -1,
             "data_size_gb": 92.0,
-            "tokens_billions": -1
+            "tokens_billions": 33
         },
         {
             "name": "stackexchange_llama",
             "doc_type": "code/forums",
             "documents": -1,
             "data_size_gb": 78.0,
-            "tokens_billions": -1
+            "tokens_billions": 27
         }
     ],
     "summary": {
-        "total_size_tokens_billions": -1
+        "total_size_tokens_billions": 1250
     }
 }
