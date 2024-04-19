@@ -1,0 +1,13 @@
+function f(a) {
+    return;
+}
+
+x = 1;
+var x = 2;
+let x = 3;
+const x = 4;
+
+function main() {
+    x += 1;
+    f(x);
+}

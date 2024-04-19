@@ -1,0 +1,11 @@
+int y = 1;
+const int x = 2;
+
+public void f(int a)
+{
+    // do nothing
+}
+
+int x = 5;
+x += 1;
+f(x);

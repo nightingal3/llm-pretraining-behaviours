@@ -1,0 +1,159 @@
+Node id : 94053409414320, Node type: program, Node text: b'public class Test {\n    int y = 1;\n\n    public static void f(int a) {\n        return;\n    }\n\n    public static void main(String[] args) {\n        int x = 5;\n        x ++;\n        f(x);\n    }\n}\n'
+  Node id : 94053410875968, Node type: class_declaration, Node text: b'public class Test {\n    int y = 1;\n\n    public static void f(int a) {\n        return;\n    }\n\n    public static void main(String[] args) {\n        int x = 5;\n        x ++;\n        f(x);\n    }\n}'
+    Node id : 94053410785376, Node type: modifiers, Node text: b'public'
+      Node id : 94053409660768, Node type: public, Node text: b'public'
+    Node id : 94053410785384, Node type: class, Node text: b'class'
+    Node id : 94053410785392, Node type: identifier, Node text: b'Test'
+    Node id : 94053410785400, Node type: class_body, Node text: b'{\n    int y = 1;\n\n    public static void f(int a) {\n        return;\n    }\n\n    public static void main(String[] args) {\n        int x = 5;\n        x ++;\n        f(x);\n    }\n}'
+      Node id : 94053410785264, Node type: {, Node text: b'{'
+      Node id : 94053410713744, Node type: field_declaration, Node text: b'int y = 1;'
+        Node id : 94053410741360, Node type: integral_type, Node text: b'int'
+          Node id : 94053410741264, Node type: int, Node text: b'int'
+        Node id : 94053410314896, Node type: variable_declarator, Node text: b'y = 1'
+          Node id : 94053409219984, Node type: identifier, Node text: b'y'
+          Node id : 94053410331144, Node type: =, Node text: b'='
+          Node id : 94053409220080, Node type: decimal_integer_literal, Node text: b'1'
+        Node id : 94053410315008, Node type: ;, Node text: b';'
+      Node id : 94053410713752, Node type: method_declaration, Node text: b'public static void f(int a) {\n        return;\n    }'
+        Node id : 94053410728608, Node type: modifiers, Node text: b'public static'
+          Node id : 94053410753920, Node type: public, Node text: b'public'
+          Node id : 94053410753928, Node type: static, Node text: b'static'
+        Node id : 94053410791232, Node type: void_type, Node text: b'void'
+        Node id : 94053410195968, Node type: identifier, Node text: b'f'
+        Node id : 94053410195976, Node type: formal_parameters, Node text: b'(int a)'
+          Node id : 94053410195856, Node type: (, Node text: b'('
+          Node id : 94053410195864, Node type: formal_parameter, Node text: b'int a'
+            Node id : 94053410791424, Node type: integral_type, Node text: b'int'
+              Node id : 94053410791328, Node type: int, Node text: b'int'
+            Node id : 94053410904352, Node type: identifier, Node text: b'a'
+          Node id : 94053410195872, Node type: ), Node text: b')'
+        Node id : 94053410728624, Node type: block, Node text: b'{\n        return;\n    }'
+          Node id : 94053410728496, Node type: {, Node text: b'{'
+          Node id : 94053409527376, Node type: return_statement, Node text: b'return;'
+            Node id : 94053410728384, Node type: return, Node text: b'return'
+            Node id : 94053410728392, Node type: ;, Node text: b';'
+          Node id : 94053410728512, Node type: }, Node text: b'}'
+      Node id : 94053410785160, Node type: method_declaration, Node text: b'public static void main(String[] args) {\n        int x = 5;\n        x ++;\n        f(x);\n    }'
+        Node id : 94053410785040, Node type: modifiers, Node text: b'public static'
+          Node id : 94053410713856, Node type: public, Node text: b'public'
+          Node id : 94053410713864, Node type: static, Node text: b'static'
+        Node id : 94053410713968, Node type: void_type, Node text: b'void'
+        Node id : 94053409789024, Node type: identifier, Node text: b'main'
+        Node id : 94053409789032, Node type: formal_parameters, Node text: b'(String[] args)'
+          Node id : 94053409788912, Node type: (, Node text: b'('
+          Node id : 94053409788920, Node type: formal_parameter, Node text: b'String[] args'
+            Node id : 94053410881776, Node type: array_type, Node text: b'String[]'
+              Node id : 94053410724896, Node type: type_identifier, Node text: b'String'
+              Node id : 94053410725112, Node type: dimensions, Node text: b'[]'
+                Node id : 94053410724992, Node type: [, Node text: b'['
+                Node id : 94053410725000, Node type: ], Node text: b']'
+            Node id : 94053410881872, Node type: identifier, Node text: b'args'
+          Node id : 94053409788928, Node type: ), Node text: b')'
+        Node id : 94053410785056, Node type: block, Node text: b'{\n        int x = 5;\n        x ++;\n        f(x);\n    }'
+          Node id : 94053410789296, Node type: {, Node text: b'{'
+          Node id : 94053409618240, Node type: local_variable_declaration, Node text: b'int x = 5;'
+            Node id : 94053410817888, Node type: integral_type, Node text: b'int'
+              Node id : 94053410817792, Node type: int, Node text: b'int'
+            Node id : 94053410787440, Node type: variable_declarator, Node text: b'x = 5'
+              Node id : 94053410817984, Node type: identifier, Node text: b'x'
+              Node id : 94053410787336, Node type: =, Node text: b'='
+              Node id : 94053410012064, Node type: decimal_integer_literal, Node text: b'5'
+            Node id : 94053410787552, Node type: ;, Node text: b';'
+          Node id : 94053409652864, Node type: expression_statement, Node text: b'x ++;'
+            Node id : 94053409355472, Node type: update_expression, Node text: b'x ++'
+              Node id : 94053409618336, Node type: identifier, Node text: b'x'
+              Node id : 94053409355368, Node type: ++, Node text: b'++'
+            Node id : 94053409355576, Node type: ;, Node text: b';'
+          Node id : 94053410789088, Node type: expression_statement, Node text: b'f(x);'
+            Node id : 94053410111472, Node type: method_invocation, Node text: b'f(x)'
+              Node id : 94053409645152, Node type: identifier, Node text: b'f'
+              Node id : 94053409645160, Node type: argument_list, Node text: b'(x)'
+                Node id : 94053410111360, Node type: (, Node text: b'('
+                Node id : 94053409653072, Node type: identifier, Node text: b'x'
+                Node id : 94053410111376, Node type: ), Node text: b')'
+            Node id : 94053410788984, Node type: ;, Node text: b';'
+          Node id : 94053410789312, Node type: }, Node text: b'}'
+      Node id : 94053410785280, Node type: }, Node text: b'}'
+
+--------------------------------------------------
+Word depths:
+94053409414320 (b'publi...): 0
+   94053410875968 (b'publi...): 1
+      94053410785376 (b'public'): 2
+         94053409660768 (b'public'): 3
+      94053410785384 (b'class'): 2
+      94053410785392 (b'Test'): 2
+      94053410785400 (b'{\n  ...): 2
+         94053410785264 (b'{'): 3
+         94053410713744 (b'int y...): 3
+            94053410741360 (b'int'): 4
+               94053410741264 (b'int'): 5
+            94053410314896 (b'y = 1'): 4
+               94053409219984 (b'y'): 5
+               94053410331144 (b'='): 5
+               94053409220080 (b'1'): 5
+            94053410315008 (b';'): 4
+         94053410713752 (b'publi...): 3
+            94053410728608 (b'publi...): 4
+               94053410753920 (b'public'): 5
+               94053410753928 (b'static'): 5
+            94053410791232 (b'void'): 4
+            94053410195968 (b'f'): 4
+            94053410195976 (b'(int ...): 4
+               94053410195856 (b'('): 5
+               94053410195864 (b'int a'): 5
+                  94053410791424 (b'int'): 6
+                     94053410791328 (b'int'): 7
+                  94053410904352 (b'a'): 6
+               94053410195872 (b')'): 5
+            94053410728624 (b'{\n  ...): 4
+               94053410728496 (b'{'): 5
+               94053409527376 (b'retur...): 5
+                  94053410728384 (b'return'): 6
+                  94053410728392 (b';'): 6
+               94053410728512 (b'}'): 5
+         94053410785160 (b'publi...): 3
+            94053410785040 (b'publi...): 4
+               94053410713856 (b'public'): 5
+               94053410713864 (b'static'): 5
+            94053410713968 (b'void'): 4
+            94053409789024 (b'main'): 4
+            94053409789032 (b'(Stri...): 4
+               94053409788912 (b'('): 5
+               94053409788920 (b'Strin...): 5
+                  94053410881776 (b'Strin...): 6
+                     94053410724896 (b'String'): 7
+                     94053410725112 (b'[]'): 7
+                        94053410724992 (b'['): 8
+                        94053410725000 (b']'): 8
+                  94053410881872 (b'args'): 6
+               94053409788928 (b')'): 5
+            94053410785056 (b'{\n  ...): 4
+               94053410789296 (b'{'): 5
+               94053409618240 (b'int x...): 5
+                  94053410817888 (b'int'): 6
+                     94053410817792 (b'int'): 7
+                  94053410787440 (b'x = 5'): 6
+                     94053410817984 (b'x'): 7
+                     94053410787336 (b'='): 7
+                     94053410012064 (b'5'): 7
+                  94053410787552 (b';'): 6
+               94053409652864 (b'x ++;'): 5
+                  94053409355472 (b'x ++'): 6
+                     94053409618336 (b'x'): 7
+                     94053409355368 (b'++'): 7
+                  94053409355576 (b';'): 6
+               94053410789088 (b'f(x);'): 5
+                  94053410111472 (b'f(x)'): 6
+                     94053409645152 (b'f'): 7
+                     94053409645160 (b'(x)'): 7
+                        94053410111360 (b'('): 8
+                        94053409653072 (b'x'): 8
+                        94053410111376 (b')'): 8
+                  94053410788984 (b';'): 6
+               94053410789312 (b'}'): 5
+         94053410785280 (b'}'): 3
+--------------------------------------------------
+Tree depth: 8
+--------------------------------------------------
+Num words: 76

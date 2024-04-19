@@ -1,0 +1,11 @@
+int y = 1;
+
+void f(int a) {
+    return;
+}
+
+int main() {
+    int x = 5;
+    x ++;
+    f(x);
+}

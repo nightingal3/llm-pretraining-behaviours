@@ -1,0 +1,13 @@
+<?php
+    function f($a) {
+        // do nothing
+    }
+    
+    $x = 5;
+    $x += 1;
+    f($x);
+    
+    function main() {
+        $y = 1;
+    }
+?>

@@ -1,0 +1,10 @@
+def f(a):
+    pass
+
+x = 5
+x = 4
+x += 1
+f(x)
+
+def main():
+    y = 1

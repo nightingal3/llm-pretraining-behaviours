@@ -1,0 +1,8 @@
+var x = 2
+var x int = 1
+x := 3
+var x int
+
+func f() {
+    return x
+}

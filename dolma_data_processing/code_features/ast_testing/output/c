@@ -1,0 +1,141 @@
+Node id : 94336258504736, Node type: translation_unit, Node text: b'int y = 1;\nconst int y = 2;\n\nvoid f(int a) {\n    return;\n}\n\nint main() {\n    int x = 5;\n    x ++;\n    f(x);\n    return 0;\n}'
+  Node id : 94336258287728, Node type: declaration, Node text: b'int y = 1;'
+    Node id : 94336257880768, Node type: primitive_type, Node text: b'int'
+    Node id : 94336259054992, Node type: init_declarator, Node text: b'y = 1'
+      Node id : 94336259033360, Node type: identifier, Node text: b'y'
+      Node id : 94336258163224, Node type: =, Node text: b'='
+      Node id : 94336258163120, Node type: number_literal, Node text: b'1'
+    Node id : 94336259055104, Node type: ;, Node text: b';'
+  Node id : 94336258287736, Node type: declaration, Node text: b'const int y = 2;'
+    Node id : 94336258497392, Node type: type_qualifier, Node text: b'const'
+      Node id : 94336258195680, Node type: const, Node text: b'const'
+    Node id : 94336258195776, Node type: primitive_type, Node text: b'int'
+    Node id : 94336258263520, Node type: init_declarator, Node text: b'y = 2'
+      Node id : 94336258497504, Node type: identifier, Node text: b'y'
+      Node id : 94336258947608, Node type: =, Node text: b'='
+      Node id : 94336258947504, Node type: number_literal, Node text: b'2'
+    Node id : 94336258263632, Node type: ;, Node text: b';'
+  Node id : 94336259134776, Node type: function_definition, Node text: b'void f(int a) {\n    return;\n}'
+    Node id : 94336258287840, Node type: primitive_type, Node text: b'void'
+    Node id : 94336258554320, Node type: function_declarator, Node text: b'f(int a)'
+      Node id : 94336258551328, Node type: identifier, Node text: b'f'
+      Node id : 94336258923032, Node type: parameter_list, Node text: b'(int a)'
+        Node id : 94336258974064, Node type: (, Node text: b'('
+        Node id : 94336258974072, Node type: parameter_declaration, Node text: b'int a'
+          Node id : 94336258551424, Node type: primitive_type, Node text: b'int'
+          Node id : 94336258554224, Node type: identifier, Node text: b'a'
+        Node id : 94336258974080, Node type: ), Node text: b')'
+    Node id : 94336259007696, Node type: compound_statement, Node text: b'{\n    return;\n}'
+      Node id : 94336259007568, Node type: {, Node text: b'{'
+      Node id : 94336259007576, Node type: return_statement, Node text: b'return;'
+        Node id : 94336258923136, Node type: return, Node text: b'return'
+        Node id : 94336258923144, Node type: ;, Node text: b';'
+      Node id : 94336259007584, Node type: }, Node text: b'}'
+  Node id : 94336258212616, Node type: function_definition, Node text: b'int main() {\n    int x = 5;\n    x ++;\n    f(x);\n    return 0;\n}'
+    Node id : 94336259134880, Node type: primitive_type, Node text: b'int'
+    Node id : 94336258419168, Node type: function_declarator, Node text: b'main()'
+      Node id : 94336257750256, Node type: identifier, Node text: b'main'
+      Node id : 94336258419064, Node type: parameter_list, Node text: b'()'
+        Node id : 94336257750352, Node type: (, Node text: b'('
+        Node id : 94336257750360, Node type: ), Node text: b')'
+    Node id : 94336257706672, Node type: compound_statement, Node text: b'{\n    int x = 5;\n    x ++;\n    f(x);\n    return 0;\n}'
+      Node id : 94336257706432, Node type: {, Node text: b'{'
+      Node id : 94336258235184, Node type: declaration, Node text: b'int x = 5;'
+        Node id : 94336258919168, Node type: primitive_type, Node text: b'int'
+        Node id : 94336258977136, Node type: init_declarator, Node text: b'x = 5'
+          Node id : 94336258919360, Node type: identifier, Node text: b'x'
+          Node id : 94336259103016, Node type: =, Node text: b'='
+          Node id : 94336258950832, Node type: number_literal, Node text: b'5'
+        Node id : 94336259103136, Node type: ;, Node text: b';'
+      Node id : 94336258235192, Node type: expression_statement, Node text: b'x ++;'
+        Node id : 94336258021728, Node type: update_expression, Node text: b'x ++'
+          Node id : 94336257840448, Node type: identifier, Node text: b'x'
+          Node id : 94336258021624, Node type: ++, Node text: b'++'
+        Node id : 94336258021832, Node type: ;, Node text: b';'
+      Node id : 94336258928360, Node type: expression_statement, Node text: b'f(x);'
+        Node id : 94336258539536, Node type: call_expression, Node text: b'f(x)'
+          Node id : 94336258235392, Node type: identifier, Node text: b'f'
+          Node id : 94336258539432, Node type: argument_list, Node text: b'(x)'
+            Node id : 94336257890480, Node type: (, Node text: b'('
+            Node id : 94336259097440, Node type: identifier, Node text: b'x'
+            Node id : 94336257890496, Node type: ), Node text: b')'
+        Node id : 94336258539736, Node type: ;, Node text: b';'
+      Node id : 94336258928696, Node type: return_statement, Node text: b'return 0;'
+        Node id : 94336257735696, Node type: return, Node text: b'return'
+        Node id : 94336257836352, Node type: number_literal, Node text: b'0'
+        Node id : 94336257735712, Node type: ;, Node text: b';'
+      Node id : 94336257706448, Node type: }, Node text: b'}'
+
+--------------------------------------------------
+Word depths:
+94336258504736 (b'int y...): 0
+   94336258287728 (b'int y...): 1
+      94336257880768 (b'int'): 2
+      94336259054992 (b'y = 1'): 2
+         94336259033360 (b'y'): 3
+         94336258163224 (b'='): 3
+         94336258163120 (b'1'): 3
+      94336259055104 (b';'): 2
+   94336258287736 (b'const...): 1
+      94336258497392 (b'const'): 2
+         94336258195680 (b'const'): 3
+      94336258195776 (b'int'): 2
+      94336258263520 (b'y = 2'): 2
+         94336258497504 (b'y'): 3
+         94336258947608 (b'='): 3
+         94336258947504 (b'2'): 3
+      94336258263632 (b';'): 2
+   94336259134776 (b'void ...): 1
+      94336258287840 (b'void'): 2
+      94336258554320 (b'f(int...): 2
+         94336258551328 (b'f'): 3
+         94336258923032 (b'(int ...): 3
+            94336258974064 (b'('): 4
+            94336258974072 (b'int a'): 4
+               94336258551424 (b'int'): 5
+               94336258554224 (b'a'): 5
+            94336258974080 (b')'): 4
+      94336259007696 (b'{\n  ...): 2
+         94336259007568 (b'{'): 3
+         94336259007576 (b'retur...): 3
+            94336258923136 (b'return'): 4
+            94336258923144 (b';'): 4
+         94336259007584 (b'}'): 3
+   94336258212616 (b'int m...): 1
+      94336259134880 (b'int'): 2
+      94336258419168 (b'main()'): 2
+         94336257750256 (b'main'): 3
+         94336258419064 (b'()'): 3
+            94336257750352 (b'('): 4
+            94336257750360 (b')'): 4
+      94336257706672 (b'{\n  ...): 2
+         94336257706432 (b'{'): 3
+         94336258235184 (b'int x...): 3
+            94336258919168 (b'int'): 4
+            94336258977136 (b'x = 5'): 4
+               94336258919360 (b'x'): 5
+               94336259103016 (b'='): 5
+               94336258950832 (b'5'): 5
+            94336259103136 (b';'): 4
+         94336258235192 (b'x ++;'): 3
+            94336258021728 (b'x ++'): 4
+               94336257840448 (b'x'): 5
+               94336258021624 (b'++'): 5
+            94336258021832 (b';'): 4
+         94336258928360 (b'f(x);'): 3
+            94336258539536 (b'f(x)'): 4
+               94336258235392 (b'f'): 5
+               94336258539432 (b'(x)'): 5
+                  94336257890480 (b'('): 6
+                  94336259097440 (b'x'): 6
+                  94336257890496 (b')'): 6
+            94336258539736 (b';'): 4
+         94336258928696 (b'retur...): 3
+            94336257735696 (b'return'): 4
+            94336257836352 (b'0'): 4
+            94336257735712 (b';'): 4
+         94336257706448 (b'}'): 3
+--------------------------------------------------
+Tree depth: 6
+--------------------------------------------------
+Num words: 67

@@ -1,0 +1,101 @@
+Node id : 94873923271184, Node type: module, Node text: b'def f(a):\n    pass\n\nx = 5\nx = 4\nx += 1\nf(x)\n\ndef main():\n    y = 1'
+  Node id : 94873924804304, Node type: function_definition, Node text: b'def f(a):\n    pass'
+    Node id : 94873924418224, Node type: def, Node text: b'def'
+    Node id : 94873924418232, Node type: identifier, Node text: b'f'
+    Node id : 94873924418240, Node type: parameters, Node text: b'(a)'
+      Node id : 94873923764000, Node type: (, Node text: b'('
+      Node id : 94873923770880, Node type: identifier, Node text: b'a'
+      Node id : 94873923764016, Node type: ), Node text: b')'
+    Node id : 94873924418248, Node type: :, Node text: b':'
+    Node id : 94873924418264, Node type: block, Node text: b'pass'
+      Node id : 94873924431520, Node type: pass_statement, Node text: b'pass'
+        Node id : 94873923323360, Node type: pass, Node text: b'pass'
+  Node id : 94873924804192, Node type: expression_statement, Node text: b'x = 5'
+    Node id : 94873924894720, Node type: assignment, Node text: b'x = 5'
+      Node id : 94873923323552, Node type: identifier, Node text: b'x'
+      Node id : 94873924894616, Node type: =, Node text: b'='
+      Node id : 94873924857296, Node type: integer, Node text: b'5'
+  Node id : 94873923630608, Node type: expression_statement, Node text: b'x = 4'
+    Node id : 94873923630512, Node type: assignment, Node text: b'x = 4'
+      Node id : 94873923772736, Node type: identifier, Node text: b'x'
+      Node id : 94873925016168, Node type: =, Node text: b'='
+      Node id : 94873923772928, Node type: integer, Node text: b'4'
+  Node id : 94873924817216, Node type: expression_statement, Node text: b'x += 1'
+    Node id : 94873924817120, Node type: augmented_assignment, Node text: b'x += 1'
+      Node id : 94873924299232, Node type: identifier, Node text: b'x'
+      Node id : 94873924831960, Node type: +=, Node text: b'+='
+      Node id : 94873924299424, Node type: integer, Node text: b'1'
+  Node id : 94873924143056, Node type: expression_statement, Node text: b'f(x)'
+    Node id : 94873924984208, Node type: call, Node text: b'f(x)'
+      Node id : 94873924828272, Node type: identifier, Node text: b'f'
+      Node id : 94873923724600, Node type: argument_list, Node text: b'(x)'
+        Node id : 94873923724480, Node type: (, Node text: b'('
+        Node id : 94873924828368, Node type: identifier, Node text: b'x'
+        Node id : 94873923724496, Node type: ), Node text: b')'
+  Node id : 94873923458888, Node type: function_definition, Node text: b'def main():\n    y = 1'
+    Node id : 94873923458736, Node type: def, Node text: b'def'
+    Node id : 94873923458744, Node type: identifier, Node text: b'main'
+    Node id : 94873923458752, Node type: parameters, Node text: b'()'
+      Node id : 94873924143280, Node type: (, Node text: b'('
+      Node id : 94873924143288, Node type: ), Node text: b')'
+    Node id : 94873923458760, Node type: :, Node text: b':'
+    Node id : 94873923458776, Node type: block, Node text: b'y = 1'
+      Node id : 94873923720624, Node type: expression_statement, Node text: b'y = 1'
+        Node id : 94873924890912, Node type: assignment, Node text: b'y = 1'
+          Node id : 94873923892384, Node type: identifier, Node text: b'y'
+          Node id : 94873924890808, Node type: =, Node text: b'='
+          Node id : 94873923892480, Node type: integer, Node text: b'1'
+
+--------------------------------------------------
+Word depths:
+94873923271184 (b'def f...): 0
+   94873924804304 (b'def f...): 1
+      94873924418224 (b'def'): 2
+      94873924418232 (b'f'): 2
+      94873924418240 (b'(a)'): 2
+         94873923764000 (b'('): 3
+         94873923770880 (b'a'): 3
+         94873923764016 (b')'): 3
+      94873924418248 (b':'): 2
+      94873924418264 (b'pass'): 2
+         94873924431520 (b'pass'): 3
+            94873923323360 (b'pass'): 4
+   94873924804192 (b'x = 5'): 1
+      94873924894720 (b'x = 5'): 2
+         94873923323552 (b'x'): 3
+         94873924894616 (b'='): 3
+         94873924857296 (b'5'): 3
+   94873923630608 (b'x = 4'): 1
+      94873923630512 (b'x = 4'): 2
+         94873923772736 (b'x'): 3
+         94873925016168 (b'='): 3
+         94873923772928 (b'4'): 3
+   94873924817216 (b'x += 1'): 1
+      94873924817120 (b'x += 1'): 2
+         94873924299232 (b'x'): 3
+         94873924831960 (b'+='): 3
+         94873924299424 (b'1'): 3
+   94873924143056 (b'f(x)'): 1
+      94873924984208 (b'f(x)'): 2
+         94873924828272 (b'f'): 3
+         94873923724600 (b'(x)'): 3
+            94873923724480 (b'('): 4
+            94873924828368 (b'x'): 4
+            94873923724496 (b')'): 4
+   94873923458888 (b'def m...): 1
+      94873923458736 (b'def'): 2
+      94873923458744 (b'main'): 2
+      94873923458752 (b'()'): 2
+         94873924143280 (b'('): 3
+         94873924143288 (b')'): 3
+      94873923458760 (b':'): 2
+      94873923458776 (b'y = 1'): 2
+         94873923720624 (b'y = 1'): 3
+            94873924890912 (b'y = 1'): 4
+               94873923892384 (b'y'): 5
+               94873924890808 (b'='): 5
+               94873923892480 (b'1'): 5
+--------------------------------------------------
+Tree depth: 5
+--------------------------------------------------
+Num words: 47

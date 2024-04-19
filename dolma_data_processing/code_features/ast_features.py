@@ -8,6 +8,7 @@ import warnings
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from io import TextIOWrapper
 
+
 def trunc_str(s: str, maxLen: int):
     s = s.replace("\n", "\\n")
     if len(s) < maxLen:
@@ -16,9 +17,7 @@ def trunc_str(s: str, maxLen: int):
         return s[: maxLen - 3] + "..."
 
 
-def write_node_with_content(
-    node: Node, output_file: str, level: int = 0
-):
+def write_node_with_content(node: Node, output_file: str, level: int = 0):
     """
     Recursively write the node's type, its start and end positions, and its text content.
 
@@ -69,7 +68,7 @@ if __name__ == "__main__":
         parser = get_parser(args.lang)
     except Exception as e:
         print(f"Error occurred while creating parser: {e}")
-    
+
     try:
         lang = get_language(args.lang)
     except Exception as e:
