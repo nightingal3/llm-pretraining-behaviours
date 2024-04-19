@@ -1,115 +1,1983 @@
-Node id : 94831752596656, Node type: translation_unit, Node text: b'int y = 1;\n\nvoid f(int a) {\n    return;\n}\n\nint main() {\n    int x = 5;\n    x ++;\n    f(x);\n}'
-  Node id : 94831752851808, Node type: declaration, Node text: b'int y = 1;'
-    Node id : 94831752843104, Node type: primitive_type, Node text: b'int'
-    Node id : 94831752402432, Node type: init_declarator, Node text: b'y = 1'
-      Node id : 94831753122432, Node type: identifier, Node text: b'y'
-      Node id : 94831752402328, Node type: =, Node text: b'='
-      Node id : 94831753923600, Node type: number_literal, Node text: b'1'
-    Node id : 94831753222032, Node type: ;, Node text: b';'
-  Node id : 94831752851816, Node type: function_definition, Node text: b'void f(int a) {\n    return;\n}'
-    Node id : 94831753222128, Node type: primitive_type, Node text: b'void'
-    Node id : 94831753973680, Node type: function_declarator, Node text: b'f(int a)'
-      Node id : 94831753247600, Node type: identifier, Node text: b'f'
-      Node id : 94831753513568, Node type: parameter_list, Node text: b'(int a)'
-        Node id : 94831753936368, Node type: (, Node text: b'('
-        Node id : 94831753936376, Node type: parameter_declaration, Node text: b'int a'
-          Node id : 94831753247696, Node type: primitive_type, Node text: b'int'
-          Node id : 94831753513472, Node type: identifier, Node text: b'a'
-        Node id : 94831753936384, Node type: ), Node text: b')'
-    Node id : 94831752851712, Node type: compound_statement, Node text: b'{\n    return;\n}'
-      Node id : 94831753883264, Node type: {, Node text: b'{'
-      Node id : 94831753883272, Node type: return_statement, Node text: b'return;'
-        Node id : 94831753883152, Node type: return, Node text: b'return'
-        Node id : 94831753883160, Node type: ;, Node text: b';'
-      Node id : 94831753883280, Node type: }, Node text: b'}'
-  Node id : 94831754058408, Node type: function_definition, Node text: b'int main() {\n    int x = 5;\n    x ++;\n    f(x);\n}'
-    Node id : 94831754086688, Node type: primitive_type, Node text: b'int'
-    Node id : 94831753378192, Node type: function_declarator, Node text: b'main()'
-      Node id : 94831754086880, Node type: identifier, Node text: b'main'
-      Node id : 94831752709584, Node type: parameter_list, Node text: b'()'
-        Node id : 94831752709472, Node type: (, Node text: b'('
-        Node id : 94831752709480, Node type: ), Node text: b')'
-    Node id : 94831753969920, Node type: compound_statement, Node text: b'{\n    int x = 5;\n    x ++;\n    f(x);\n}'
-      Node id : 94831753194640, Node type: {, Node text: b'{'
-      Node id : 94831752971248, Node type: declaration, Node text: b'int x = 5;'
-        Node id : 94831753378288, Node type: primitive_type, Node text: b'int'
-        Node id : 94831753907440, Node type: init_declarator, Node text: b'x = 5'
-          Node id : 94831753910720, Node type: identifier, Node text: b'x'
-          Node id : 94831753907336, Node type: =, Node text: b'='
-          Node id : 94831753896080, Node type: number_literal, Node text: b'5'
-        Node id : 94831752804448, Node type: ;, Node text: b';'
-      Node id : 94831752971256, Node type: expression_statement, Node text: b'x ++;'
-        Node id : 94831754064224, Node type: update_expression, Node text: b'x ++'
-          Node id : 94831752804544, Node type: identifier, Node text: b'x'
-          Node id : 94831754064120, Node type: ++, Node text: b'++'
-        Node id : 94831754064328, Node type: ;, Node text: b';'
-      Node id : 94831754058616, Node type: expression_statement, Node text: b'f(x);'
-        Node id : 94831753967616, Node type: call_expression, Node text: b'f(x)'
-          Node id : 94831754000128, Node type: identifier, Node text: b'f'
-          Node id : 94831753971672, Node type: argument_list, Node text: b'(x)'
-            Node id : 94831753971552, Node type: (, Node text: b'('
-            Node id : 94831752835440, Node type: identifier, Node text: b'x'
-            Node id : 94831753971568, Node type: ), Node text: b')'
-        Node id : 94831754000328, Node type: ;, Node text: b';'
-      Node id : 94831753194656, Node type: }, Node text: b'}'
+Node id : 93988626234304, Node type: translation_unit, Node text: b'// Fill out your copyright notice in the Description page of Project Settings.\n\n#include "PitchBase.h"\n#include "Components/StaticMeshComponent.h"\n#include "GameFramework/ProjectileMovementComponent.h"\n#include "Materials/Material.h"\n#include "../Pitcher.h"\n#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"\n#include "Components/CapsuleComponent.h"\n#include "../Controllers/PrecisionController.h"\n#include "../CatcherWall.h"\n#include "Components/SphereComponent.h"\n#include "Components/BoxComponent.h"\n#include "DrawDebugHelpers.h"\n#include "Curves/CurveFloat.h"\n#include "Curves/RichCurve.h"\n\n// Sets default values\nAPitchBase::APitchBase()\n{\n\t// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don\'t need it.\n\tPrimaryActorTick.bCanEverTick = true;\n\t\n\tStaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));\n\tStaticMeshComponent->SetMobility(EComponentMobility::Movable);\n\tStaticMeshComponent->OnComponentHit.AddDynamic(this, &APitchBase::OnHit);\n\tSetRootComponent(StaticMeshComponent);\n\t\n\tPMC = CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"));\n\n\tCollisionCapsule = CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"));\n\tCollisionCapsule->SetCapsuleRadius(3.6);\n\tCollisionCapsule->SetCapsuleHalfHeight(0.01);\n\t\n}\n\nvoid APitchBase::PhysicsTick()\n{\t\n\t// Apply sum of drag and Magnus forces\n\t// For some reason PMC forces are scaled up by 100\n\tconst FVector Drag = -GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01;\n\tconst FVector Magnus = MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01;\n\tGEngine->AddOnScreenDebugMessage(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()));\n\tPMC->AddForce(Drag + Magnus);\n}\n\n// Called when the game starts or when spawned\nvoid APitchBase::BeginPlay()\n{\n\tSuper::BeginPlay();\n\n\tif (!Pitcher)\n\t{\n\t\tTArray<AActor*> Pitchers;\n\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);\n\t\tif (Pitchers.Num() == 0)\n\t\t{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}\n\t\tPitcher = Cast<APitcher>(Pitchers.Top());\n\t}\n\tSpawnLocation = GetActorLocation();\n\tSecondsActive = 0;\n\t\n\t// Instance the blur meshes\n\tif (BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh)\n\t{\n\t\tfor (int32 i = 0; i < NumBlurMeshes; i++)\n\t\t{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}\n\t}\n\tif (!BallTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"));\n\tif (!StrapTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"));\n\tif (!OpacityFloatCurve) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"));\n\tif (!BlurStaticMesh) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"));\n\t\n}\n\nvoid APitchBase::Tick(float DeltaTime)\n{\n\tSuper::Tick(DeltaTime);\n\t\n\tAddActorLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6\n\t// StaticMeshComponent->AddLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6\n\tif (CallPhysicsTick) {\n\t\tPhysicsTick();\n\t}\n\t\n\t// DrawDebugLine(GetWorld(), PrevLocation, GetActorLocation(), FColor::Red, false, 1.5);\n\t// DrawDebugSphere(GetWorld(), GetActorLocation(), 0.5, 10, FColor::Red, false, 1.5);\n\tconst FVector DeltaLocation = GetActorLocation() - PrevLocation;\n\tGEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()));\n\tGEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()));\n\n\t// DrawDebugCapsule(GetWorld(), GetActorLocation(), 16, 3.9, DirectionQuat, FColor::Red, false, 1.5);\n\tSecondsActive += DeltaTime;\n\tif (Pitcher)\n\t{\n\t\t// Check if pitch is out of bounds\n\t\tif (SecondsActive >= ActiveDuration && !bExitCalled)\n\t\t{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}\n\t}\n\tif (SecondsActive >= CapsuleUpdateDelay)\n\t{\n\t\tCollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);\n\t\tCollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));\n\t\tCollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);\n\t}\n\tPrevLocation = GetActorLocation();\n\t\n}\n\nvoid APitchBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)\n{\n\tAPrecisionController* PC = Cast<APrecisionController>(OtherActor);\n\tif (PC)\n\t{\n\t\tUSphereComponent* SC = Cast<USphereComponent>(OtherComponent);\n\t\tif (SC && PC->IsSwinging()) // Ball was hit\n\t\t{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}\n\t\telse\n\t\t{\n\t\t}\n\t}\n\telse\n\t{\n\t\tNumBounces += 1;\n\t\tif (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}\n\t}\n\tCallPhysicsTick = false;\n\tPMC->ProjectileGravityScale = 0.6;\n}\n\nvoid APitchBase::DestroyBlurMeshes()\n{\n\tfor (UStaticMeshComponent* BlurMesh : BlurMeshes)\n\t{\n\t\tBlurMesh->DestroyComponent();\n\t}\n}\n'
+  Node id : 93988627142752, Node type: comment, Node text: b'// Fill out your copyright notice in the Description page of Project Settings.'
+  Node id : 93988625950864, Node type: preproc_include, Node text: b'#include "PitchBase.h"\n'
+    Node id : 93988626678536, Node type: string_literal, Node text: b'"PitchBase.h"'
+      Node id : 93988626619016, Node type: string_content, Node text: b'PitchBase.h'
+  Node id : 93988625950872, Node type: preproc_include, Node text: b'#include "Components/StaticMeshComponent.h"\n'
+    Node id : 93988626661512, Node type: string_literal, Node text: b'"Components/StaticMeshComponent.h"'
+      Node id : 93988626661400, Node type: string_content, Node text: b'Components/StaticMeshComponent.h'
+  Node id : 93988626279688, Node type: preproc_include, Node text: b'#include "GameFramework/ProjectileMovementComponent.h"\n'
+    Node id : 93988625986120, Node type: string_literal, Node text: b'"GameFramework/ProjectileMovementComponent.h"'
+      Node id : 93988625986008, Node type: string_content, Node text: b'GameFramework/ProjectileMovementComponent.h'
+  Node id : 93988625586496, Node type: preproc_include, Node text: b'#include "Materials/Material.h"\n'
+    Node id : 93988626282696, Node type: string_literal, Node text: b'"Materials/Material.h"'
+      Node id : 93988626282584, Node type: string_content, Node text: b'Materials/Material.h'
+  Node id : 93988625586504, Node type: preproc_include, Node text: b'#include "../Pitcher.h"\n'
+    Node id : 93988625641416, Node type: string_literal, Node text: b'"../Pitcher.h"'
+      Node id : 93988625641304, Node type: string_content, Node text: b'../Pitcher.h'
+  Node id : 93988625483216, Node type: preproc_include, Node text: b'#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"\n'
+    Node id : 93988625672200, Node type: string_literal, Node text: b'"Runtime/Engine/Classes/Kismet/GameplayStatics.h"'
+      Node id : 93988625672088, Node type: string_content, Node text: b'Runtime/Engine/Classes/Kismet/GameplayStatics.h'
+  Node id : 93988625483224, Node type: preproc_include, Node text: b'#include "Components/CapsuleComponent.h"\n'
+    Node id : 93988625483112, Node type: string_literal, Node text: b'"Components/CapsuleComponent.h"'
+      Node id : 93988626852968, Node type: string_content, Node text: b'Components/CapsuleComponent.h'
+  Node id : 93988625995808, Node type: preproc_include, Node text: b'#include "../Controllers/PrecisionController.h"\n'
+    Node id : 93988626148232, Node type: string_literal, Node text: b'"../Controllers/PrecisionController.h"'
+      Node id : 93988626148120, Node type: string_content, Node text: b'../Controllers/PrecisionController.h'
+  Node id : 93988625995816, Node type: preproc_include, Node text: b'#include "../CatcherWall.h"\n'
+    Node id : 93988626141784, Node type: string_literal, Node text: b'"../CatcherWall.h"'
+      Node id : 93988626141672, Node type: string_content, Node text: b'../CatcherWall.h'
+  Node id : 93988625614288, Node type: preproc_include, Node text: b'#include "Components/SphereComponent.h"\n'
+    Node id : 93988625582648, Node type: string_literal, Node text: b'"Components/SphereComponent.h"'
+      Node id : 93988625996024, Node type: string_content, Node text: b'Components/SphereComponent.h'
+  Node id : 93988625614296, Node type: preproc_include, Node text: b'#include "Components/BoxComponent.h"\n'
+    Node id : 93988625614184, Node type: string_literal, Node text: b'"Components/BoxComponent.h"'
+      Node id : 93988625614072, Node type: string_content, Node text: b'Components/BoxComponent.h'
+  Node id : 93988626687424, Node type: preproc_include, Node text: b'#include "DrawDebugHelpers.h"\n'
+    Node id : 93988625599640, Node type: string_literal, Node text: b'"DrawDebugHelpers.h"'
+      Node id : 93988625599528, Node type: string_content, Node text: b'DrawDebugHelpers.h'
+  Node id : 93988626687432, Node type: preproc_include, Node text: b'#include "Curves/CurveFloat.h"\n'
+    Node id : 93988626687320, Node type: string_literal, Node text: b'"Curves/CurveFloat.h"'
+      Node id : 93988625610792, Node type: string_content, Node text: b'Curves/CurveFloat.h'
+  Node id : 93988626985984, Node type: preproc_include, Node text: b'#include "Curves/RichCurve.h"\n'
+    Node id : 93988626831528, Node type: string_literal, Node text: b'"Curves/RichCurve.h"'
+      Node id : 93988626831416, Node type: string_content, Node text: b'Curves/RichCurve.h'
+  Node id : 93988626985992, Node type: comment, Node text: b'// Sets default values'
+  Node id : 93988626986000, Node type: function_definition, Node text: b'APitchBase::APitchBase()\n{\n\t// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don\'t need it.\n\tPrimaryActorTick.bCanEverTick = true;\n\t\n\tStaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));\n\tStaticMeshComponent->SetMobility(EComponentMobility::Movable);\n\tStaticMeshComponent->OnComponentHit.AddDynamic(this, &APitchBase::OnHit);\n\tSetRootComponent(StaticMeshComponent);\n\t\n\tPMC = CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"));\n\n\tCollisionCapsule = CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"));\n\tCollisionCapsule->SetCapsuleRadius(3.6);\n\tCollisionCapsule->SetCapsuleHalfHeight(0.01);\n\t\n}'
+    Node id : 93988626985872, Node type: function_declarator, Node text: b'APitchBase::APitchBase()'
+      Node id : 93988625968288, Node type: qualified_identifier, Node text: b'APitchBase::APitchBase'
+        Node id : 93988625807888, Node type: namespace_identifier, Node text: b'APitchBase'
+        Node id : 93988625922744, Node type: identifier, Node text: b'APitchBase'
+      Node id : 93988625922960, Node type: parameter_list, Node text: b'()'
+    Node id : 93988626985880, Node type: compound_statement, Node text: b'{\n\t// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don\'t need it.\n\tPrimaryActorTick.bCanEverTick = true;\n\t\n\tStaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));\n\tStaticMeshComponent->SetMobility(EComponentMobility::Movable);\n\tStaticMeshComponent->OnComponentHit.AddDynamic(this, &APitchBase::OnHit);\n\tSetRootComponent(StaticMeshComponent);\n\t\n\tPMC = CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"));\n\n\tCollisionCapsule = CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"));\n\tCollisionCapsule->SetCapsuleRadius(3.6);\n\tCollisionCapsule->SetCapsuleHalfHeight(0.01);\n\t\n}'
+      Node id : 93988626985752, Node type: comment, Node text: b"// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it."
+      Node id : 93988626004064, Node type: expression_statement, Node text: b'PrimaryActorTick.bCanEverTick = true;'
+        Node id : 93988626663792, Node type: assignment_expression, Node text: b'PrimaryActorTick.bCanEverTick = true'
+          Node id : 93988625468208, Node type: field_expression, Node text: b'PrimaryActorTick.bCanEverTick'
+            Node id : 93988625968384, Node type: identifier, Node text: b'PrimaryActorTick'
+            Node id : 93988625668592, Node type: field_identifier, Node text: b'bCanEverTick'
+          Node id : 93988625968192, Node type: true, Node text: b'true'
+      Node id : 93988626004072, Node type: expression_statement, Node text: b'StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));'
+        Node id : 93988626842272, Node type: assignment_expression, Node text: b'StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"))'
+          Node id : 93988626842160, Node type: identifier, Node text: b'StaticMeshComponent'
+          Node id : 93988626841968, Node type: call_expression, Node text: b'CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"))'
+            Node id : 93988626003776, Node type: template_function, Node text: b'CreateDefaultSubobject<UStaticMeshComponent>'
+              Node id : 93988626003664, Node type: identifier, Node text: b'CreateDefaultSubobject'
+              Node id : 93988626003672, Node type: template_argument_list, Node text: b'<UStaticMeshComponent>'
+                Node id : 93988625407672, Node type: type_descriptor, Node text: b'UStaticMeshComponent'
+                  Node id : 93988625439408, Node type: type_identifier, Node text: b'UStaticMeshComponent'
+            Node id : 93988626841864, Node type: argument_list, Node text: b'(FName("StaticMesh"))'
+              Node id : 93988626837184, Node type: call_expression, Node text: b'FName("StaticMesh")'
+                Node id : 93988626769696, Node type: identifier, Node text: b'FName'
+                Node id : 93988626837080, Node type: argument_list, Node text: b'("StaticMesh")'
+                  Node id : 93988625407568, Node type: string_literal, Node text: b'"StaticMesh"'
+                    Node id : 93988625439512, Node type: string_content, Node text: b'StaticMesh'
+      Node id : 93988626844688, Node type: expression_statement, Node text: b'StaticMeshComponent->SetMobility(EComponentMobility::Movable);'
+        Node id : 93988626842992, Node type: call_expression, Node text: b'StaticMeshComponent->SetMobility(EComponentMobility::Movable)'
+          Node id : 93988626698304, Node type: field_expression, Node text: b'StaticMeshComponent->SetMobility'
+            Node id : 93988626836976, Node type: identifier, Node text: b'StaticMeshComponent'
+            Node id : 93988626837392, Node type: field_identifier, Node text: b'SetMobility'
+          Node id : 93988626842888, Node type: argument_list, Node text: b'(EComponentMobility::Movable)'
+            Node id : 93988626842576, Node type: qualified_identifier, Node text: b'EComponentMobility::Movable'
+              Node id : 93988626837488, Node type: namespace_identifier, Node text: b'EComponentMobility'
+              Node id : 93988626842376, Node type: identifier, Node text: b'Movable'
+      Node id : 93988626844696, Node type: expression_statement, Node text: b'StaticMeshComponent->OnComponentHit.AddDynamic(this, &APitchBase::OnHit);'
+        Node id : 93988626844384, Node type: call_expression, Node text: b'StaticMeshComponent->OnComponentHit.AddDynamic(this, &APitchBase::OnHit)'
+          Node id : 93988625284048, Node type: field_expression, Node text: b'StaticMeshComponent->OnComponentHit.AddDynamic'
+            Node id : 93988626003872, Node type: field_expression, Node text: b'StaticMeshComponent->OnComponentHit'
+              Node id : 93988626836880, Node type: identifier, Node text: b'StaticMeshComponent'
+              Node id : 93988626843328, Node type: field_identifier, Node text: b'OnComponentHit'
+            Node id : 93988626843440, Node type: field_identifier, Node text: b'AddDynamic'
+          Node id : 93988626844280, Node type: argument_list, Node text: b'(this, &APitchBase::OnHit)'
+            Node id : 93988626268208, Node type: this, Node text: b'this'
+            Node id : 93988626843968, Node type: pointer_expression, Node text: b'&APitchBase::OnHit'
+              Node id : 93988626843760, Node type: qualified_identifier, Node text: b'APitchBase::OnHit'
+                Node id : 93988626843536, Node type: namespace_identifier, Node text: b'APitchBase'
+                Node id : 93988626843656, Node type: identifier, Node text: b'OnHit'
+      Node id : 93988626980352, Node type: expression_statement, Node text: b'SetRootComponent(StaticMeshComponent);'
+        Node id : 93988626978704, Node type: call_expression, Node text: b'SetRootComponent(StaticMeshComponent)'
+          Node id : 93988626977616, Node type: identifier, Node text: b'SetRootComponent'
+          Node id : 93988626978600, Node type: argument_list, Node text: b'(StaticMeshComponent)'
+            Node id : 93988626977904, Node type: identifier, Node text: b'StaticMeshComponent'
+      Node id : 93988626980360, Node type: expression_statement, Node text: b'PMC = CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"));'
+        Node id : 93988626981904, Node type: assignment_expression, Node text: b'PMC = CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"))'
+          Node id : 93988626981792, Node type: identifier, Node text: b'PMC'
+          Node id : 93988626981600, Node type: call_expression, Node text: b'CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"))'
+            Node id : 93988626979968, Node type: template_function, Node text: b'CreateDefaultSubobject<UProjectileMovementComponent>'
+              Node id : 93988626979856, Node type: identifier, Node text: b'CreateDefaultSubobject'
+              Node id : 93988626979864, Node type: template_argument_list, Node text: b'<UProjectileMovementComponent>'
+                Node id : 93988626979752, Node type: type_descriptor, Node text: b'UProjectileMovementComponent'
+                  Node id : 93988626977424, Node type: type_identifier, Node text: b'UProjectileMovementComponent'
+            Node id : 93988626981496, Node type: argument_list, Node text: b'(FName("PMC"))'
+              Node id : 93988626980768, Node type: call_expression, Node text: b'FName("PMC")'
+                Node id : 93988626978096, Node type: identifier, Node text: b'FName'
+                Node id : 93988626980664, Node type: argument_list, Node text: b'("PMC")'
+                  Node id : 93988626977808, Node type: string_literal, Node text: b'"PMC"'
+                    Node id : 93988626979528, Node type: string_content, Node text: b'PMC'
+      Node id : 93988626984880, Node type: expression_statement, Node text: b'CollisionCapsule = CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"));'
+        Node id : 93988626984272, Node type: assignment_expression, Node text: b'CollisionCapsule = CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"))'
+          Node id : 93988626984160, Node type: identifier, Node text: b'CollisionCapsule'
+          Node id : 93988626983968, Node type: call_expression, Node text: b'CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"))'
+            Node id : 93988626980064, Node type: template_function, Node text: b'CreateDefaultSubobject<UCapsuleComponent>'
+              Node id : 93988626982512, Node type: identifier, Node text: b'CreateDefaultSubobject'
+              Node id : 93988626982520, Node type: template_argument_list, Node text: b'<UCapsuleComponent>'
+                Node id : 93988626982312, Node type: type_descriptor, Node text: b'UCapsuleComponent'
+                  Node id : 93988626981280, Node type: type_identifier, Node text: b'UCapsuleComponent'
+            Node id : 93988626983864, Node type: argument_list, Node text: b'(FName("CollisionCapsule"))'
+              Node id : 93988626983136, Node type: call_expression, Node text: b'FName("CollisionCapsule")'
+                Node id : 93988626982112, Node type: identifier, Node text: b'FName'
+                Node id : 93988626983032, Node type: argument_list, Node text: b'("CollisionCapsule")'
+                  Node id : 93988626980160, Node type: string_literal, Node text: b'"CollisionCapsule"'
+                    Node id : 93988626981080, Node type: string_content, Node text: b'CollisionCapsule'
+      Node id : 93988626984888, Node type: expression_statement, Node text: b'CollisionCapsule->SetCapsuleRadius(3.6);'
+        Node id : 93988626984992, Node type: call_expression, Node text: b'CollisionCapsule->SetCapsuleRadius(3.6)'
+          Node id : 93988626983648, Node type: field_expression, Node text: b'CollisionCapsule->SetCapsuleRadius'
+            Node id : 93988626982928, Node type: identifier, Node text: b'CollisionCapsule'
+            Node id : 93988626983344, Node type: field_identifier, Node text: b'SetCapsuleRadius'
+          Node id : 93988626984376, Node type: argument_list, Node text: b'(3.6)'
+            Node id : 93988626984576, Node type: number_literal, Node text: b'3.6'
+      Node id : 93988626985640, Node type: expression_statement, Node text: b'CollisionCapsule->SetCapsuleHalfHeight(0.01);'
+        Node id : 93988626981184, Node type: call_expression, Node text: b'CollisionCapsule->SetCapsuleHalfHeight(0.01)'
+          Node id : 93988626977520, Node type: field_expression, Node text: b'CollisionCapsule->SetCapsuleHalfHeight'
+            Node id : 93988626982832, Node type: identifier, Node text: b'CollisionCapsule'
+            Node id : 93988626985104, Node type: field_identifier, Node text: b'SetCapsuleHalfHeight'
+          Node id : 93988626985320, Node type: argument_list, Node text: b'(0.01)'
+            Node id : 93988626982624, Node type: number_literal, Node text: b'0.01'
+  Node id : 93988627070144, Node type: function_definition, Node text: b'void APitchBase::PhysicsTick()\n{\t\n\t// Apply sum of drag and Magnus forces\n\t// For some reason PMC forces are scaled up by 100\n\tconst FVector Drag = -GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01;\n\tconst FVector Magnus = MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01;\n\tGEngine->AddOnScreenDebugMessage(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()));\n\tPMC->AddForce(Drag + Magnus);\n}'
+    Node id : 93988626986096, Node type: primitive_type, Node text: b'void'
+    Node id : 93988626986928, Node type: function_declarator, Node text: b'APitchBase::PhysicsTick()'
+      Node id : 93988626986512, Node type: qualified_identifier, Node text: b'APitchBase::PhysicsTick'
+        Node id : 93988626986288, Node type: namespace_identifier, Node text: b'APitchBase'
+        Node id : 93988626986408, Node type: identifier, Node text: b'PhysicsTick'
+      Node id : 93988626986720, Node type: parameter_list, Node text: b'()'
+    Node id : 93988627001584, Node type: compound_statement, Node text: b'{\t\n\t// Apply sum of drag and Magnus forces\n\t// For some reason PMC forces are scaled up by 100\n\tconst FVector Drag = -GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01;\n\tconst FVector Magnus = MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01;\n\tGEngine->AddOnScreenDebugMessage(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()));\n\tPMC->AddForce(Drag + Magnus);\n}'
+      Node id : 93988627001448, Node type: comment, Node text: b'// Apply sum of drag and Magnus forces'
+      Node id : 93988627001456, Node type: comment, Node text: b'// For some reason PMC forces are scaled up by 100'
+      Node id : 93988626994336, Node type: declaration, Node text: b'const FVector Drag = -GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01;'
+        Node id : 93988626987216, Node type: type_qualifier, Node text: b'const'
+        Node id : 93988626987312, Node type: type_identifier, Node text: b'FVector'
+        Node id : 93988626990784, Node type: init_declarator, Node text: b'Drag = -GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01'
+          Node id : 93988626987120, Node type: identifier, Node text: b'Drag'
+          Node id : 93988626990576, Node type: binary_expression, Node text: b'-GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01'
+            Node id : 93988626990176, Node type: binary_expression, Node text: b'-GetVelocity() * DragCoefficient * GetVelocity().Size()'
+              Node id : 93988626988640, Node type: binary_expression, Node text: b'-GetVelocity() * DragCoefficient'
+                Node id : 93988626988240, Node type: unary_expression, Node text: b'-GetVelocity()'
+                  Node id : 93988626987936, Node type: call_expression, Node text: b'GetVelocity()'
+                    Node id : 93988626987520, Node type: identifier, Node text: b'GetVelocity'
+                    Node id : 93988626987832, Node type: argument_list, Node text: b'()'
+                Node id : 93988626988336, Node type: identifier, Node text: b'DragCoefficient'
+              Node id : 93988626989872, Node type: call_expression, Node text: b'GetVelocity().Size()'
+                Node id : 93988626989456, Node type: field_expression, Node text: b'GetVelocity().Size'
+                  Node id : 93988626989152, Node type: call_expression, Node text: b'GetVelocity()'
+                    Node id : 93988626988736, Node type: identifier, Node text: b'GetVelocity'
+                    Node id : 93988626989048, Node type: argument_list, Node text: b'()'
+                  Node id : 93988626989360, Node type: field_identifier, Node text: b'Size'
+                Node id : 93988626989768, Node type: argument_list, Node text: b'()'
+            Node id : 93988626990272, Node type: number_literal, Node text: b'0.01'
+      Node id : 93988626994344, Node type: declaration, Node text: b'const FVector Magnus = MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01;'
+        Node id : 93988626991184, Node type: type_qualifier, Node text: b'const'
+        Node id : 93988626991280, Node type: type_identifier, Node text: b'FVector'
+        Node id : 93988626994128, Node type: init_declarator, Node text: b'Magnus = MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01'
+          Node id : 93988626991088, Node type: identifier, Node text: b'Magnus'
+          Node id : 93988626993920, Node type: binary_expression, Node text: b'MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01'
+            Node id : 93988626993520, Node type: binary_expression, Node text: b'MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared()'
+              Node id : 93988626991984, Node type: binary_expression, Node text: b'MagnusVector * MagnusCoefficient'
+                Node id : 93988626991488, Node type: identifier, Node text: b'MagnusVector'
+                Node id : 93988626991680, Node type: identifier, Node text: b'MagnusCoefficient'
+              Node id : 93988626993216, Node type: call_expression, Node text: b'GetVelocity().SizeSquared()'
+                Node id : 93988626992800, Node type: field_expression, Node text: b'GetVelocity().SizeSquared'
+                  Node id : 93988626992496, Node type: call_expression, Node text: b'GetVelocity()'
+                    Node id : 93988626992080, Node type: identifier, Node text: b'GetVelocity'
+                    Node id : 93988626992392, Node type: argument_list, Node text: b'()'
+                  Node id : 93988626992704, Node type: field_identifier, Node text: b'SizeSquared'
+                Node id : 93988626993112, Node type: argument_list, Node text: b'()'
+            Node id : 93988626993616, Node type: number_literal, Node text: b'0.01'
+      Node id : 93988626999608, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()));'
+        Node id : 93988626999296, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()))'
+          Node id : 93988626994752, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+            Node id : 93988626994448, Node type: identifier, Node text: b'GEngine'
+            Node id : 93988626994656, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+          Node id : 93988626999192, Node type: argument_list, Node text: b'(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()))'
+            Node id : 93988626994944, Node type: number_literal, Node text: b'-1'
+            Node id : 93988626996272, Node type: call_expression, Node text: b'GetWorld()->GetDeltaSeconds()'
+              Node id : 93988626995856, Node type: field_expression, Node text: b'GetWorld()->GetDeltaSeconds'
+                Node id : 93988626995552, Node type: call_expression, Node text: b'GetWorld()'
+                  Node id : 93988626995136, Node type: identifier, Node text: b'GetWorld'
+                  Node id : 93988626995448, Node type: argument_list, Node text: b'()'
+                Node id : 93988626995760, Node type: field_identifier, Node text: b'GetDeltaSeconds'
+              Node id : 93988626996168, Node type: argument_list, Node text: b'()'
+            Node id : 93988626996800, Node type: qualified_identifier, Node text: b'FColor::Cyan'
+              Node id : 93988626996576, Node type: namespace_identifier, Node text: b'FColor'
+              Node id : 93988626996696, Node type: identifier, Node text: b'Cyan'
+            Node id : 93988626998768, Node type: call_expression, Node text: b'FString::SanitizeFloat(Magnus.Size())'
+              Node id : 93988626997440, Node type: qualified_identifier, Node text: b'FString::SanitizeFloat'
+                Node id : 93988626997216, Node type: namespace_identifier, Node text: b'FString'
+                Node id : 93988626997336, Node type: identifier, Node text: b'SanitizeFloat'
+              Node id : 93988626998664, Node type: argument_list, Node text: b'(Magnus.Size())'
+                Node id : 93988626998352, Node type: call_expression, Node text: b'Magnus.Size()'
+                  Node id : 93988626997936, Node type: field_expression, Node text: b'Magnus.Size'
+                    Node id : 93988626997632, Node type: identifier, Node text: b'Magnus'
+                    Node id : 93988626997840, Node type: field_identifier, Node text: b'Size'
+                  Node id : 93988626998248, Node type: argument_list, Node text: b'()'
+      Node id : 93988627001336, Node type: expression_statement, Node text: b'PMC->AddForce(Drag + Magnus);'
+        Node id : 93988627001024, Node type: call_expression, Node text: b'PMC->AddForce(Drag + Magnus)'
+          Node id : 93988627000016, Node type: field_expression, Node text: b'PMC->AddForce'
+            Node id : 93988626999712, Node type: identifier, Node text: b'PMC'
+            Node id : 93988626999920, Node type: field_identifier, Node text: b'AddForce'
+          Node id : 93988627000920, Node type: argument_list, Node text: b'(Drag + Magnus)'
+            Node id : 93988627000704, Node type: binary_expression, Node text: b'Drag + Magnus'
+              Node id : 93988627000208, Node type: identifier, Node text: b'Drag'
+              Node id : 93988627000400, Node type: identifier, Node text: b'Magnus'
+  Node id : 93988627070152, Node type: comment, Node text: b'// Called when the game starts or when spawned'
+  Node id : 93988627070160, Node type: function_definition, Node text: b'void APitchBase::BeginPlay()\n{\n\tSuper::BeginPlay();\n\n\tif (!Pitcher)\n\t{\n\t\tTArray<AActor*> Pitchers;\n\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);\n\t\tif (Pitchers.Num() == 0)\n\t\t{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}\n\t\tPitcher = Cast<APitcher>(Pitchers.Top());\n\t}\n\tSpawnLocation = GetActorLocation();\n\tSecondsActive = 0;\n\t\n\t// Instance the blur meshes\n\tif (BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh)\n\t{\n\t\tfor (int32 i = 0; i < NumBlurMeshes; i++)\n\t\t{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}\n\t}\n\tif (!BallTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"));\n\tif (!StrapTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"));\n\tif (!OpacityFloatCurve) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"));\n\tif (!BlurStaticMesh) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"));\n\t\n}'
+    Node id : 93988627001792, Node type: primitive_type, Node text: b'void'
+    Node id : 93988627002624, Node type: function_declarator, Node text: b'APitchBase::BeginPlay()'
+      Node id : 93988627002208, Node type: qualified_identifier, Node text: b'APitchBase::BeginPlay'
+        Node id : 93988627001984, Node type: namespace_identifier, Node text: b'APitchBase'
+        Node id : 93988627002104, Node type: identifier, Node text: b'BeginPlay'
+      Node id : 93988627002416, Node type: parameter_list, Node text: b'()'
+    Node id : 93988627070048, Node type: compound_statement, Node text: b'{\n\tSuper::BeginPlay();\n\n\tif (!Pitcher)\n\t{\n\t\tTArray<AActor*> Pitchers;\n\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);\n\t\tif (Pitchers.Num() == 0)\n\t\t{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}\n\t\tPitcher = Cast<APitcher>(Pitchers.Top());\n\t}\n\tSpawnLocation = GetActorLocation();\n\tSecondsActive = 0;\n\t\n\t// Instance the blur meshes\n\tif (BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh)\n\t{\n\t\tfor (int32 i = 0; i < NumBlurMeshes; i++)\n\t\t{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}\n\t}\n\tif (!BallTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"));\n\tif (!StrapTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"));\n\tif (!OpacityFloatCurve) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"));\n\tif (!BlurStaticMesh) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"));\n\t\n}'
+      Node id : 93988627017920, Node type: expression_statement, Node text: b'Super::BeginPlay();'
+        Node id : 93988627003056, Node type: call_expression, Node text: b'Super::BeginPlay()'
+          Node id : 93988627003344, Node type: qualified_identifier, Node text: b'Super::BeginPlay'
+            Node id : 93988627002720, Node type: namespace_identifier, Node text: b'Super'
+            Node id : 93988627002840, Node type: identifier, Node text: b'BeginPlay'
+          Node id : 93988627003640, Node type: argument_list, Node text: b'()'
+      Node id : 93988627017928, Node type: if_statement, Node text: b'if (!Pitcher)\n\t{\n\t\tTArray<AActor*> Pitchers;\n\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);\n\t\tif (Pitchers.Num() == 0)\n\t\t{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}\n\t\tPitcher = Cast<APitcher>(Pitchers.Top());\n\t}'
+        Node id : 93988627017000, Node type: condition_clause, Node text: b'(!Pitcher)'
+          Node id : 93988627003968, Node type: unary_expression, Node text: b'!Pitcher'
+            Node id : 93988627003248, Node type: identifier, Node text: b'Pitcher'
+        Node id : 93988627017008, Node type: compound_statement, Node text: b'{\n\t\tTArray<AActor*> Pitchers;\n\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);\n\t\tif (Pitchers.Num() == 0)\n\t\t{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}\n\t\tPitcher = Cast<APitcher>(Pitchers.Top());\n\t}'
+          Node id : 93988627009440, Node type: declaration, Node text: b'TArray<AActor*> Pitchers;'
+            Node id : 93988627004176, Node type: template_type, Node text: b'TArray<AActor*>'
+              Node id : 93988627005264, Node type: type_identifier, Node text: b'TArray'
+              Node id : 93988627005272, Node type: template_argument_list, Node text: b'<AActor*>'
+                Node id : 93988627005160, Node type: type_descriptor, Node text: b'AActor*'
+                  Node id : 93988627004368, Node type: type_identifier, Node text: b'AActor'
+                  Node id : 93988627004944, Node type: abstract_pointer_declarator, Node text: b'*'
+            Node id : 93988627004656, Node type: identifier, Node text: b'Pitchers'
+          Node id : 93988627009448, Node type: expression_statement, Node text: b'UGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);'
+            Node id : 93988627011232, Node type: call_expression, Node text: b'UGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers)'
+              Node id : 93988627005920, Node type: qualified_identifier, Node text: b'UGameplayStatics::GetAllActorsOfClass'
+                Node id : 93988627005488, Node type: namespace_identifier, Node text: b'UGameplayStatics'
+                Node id : 93988627005608, Node type: identifier, Node text: b'GetAllActorsOfClass'
+              Node id : 93988627011128, Node type: argument_list, Node text: b'(GetWorld(), APitcher::StaticClass(), Pitchers)'
+                Node id : 93988627007776, Node type: call_expression, Node text: b'GetWorld()'
+                  Node id : 93988627006208, Node type: identifier, Node text: b'GetWorld'
+                  Node id : 93988627007992, Node type: argument_list, Node text: b'()'
+                Node id : 93988627009136, Node type: call_expression, Node text: b'APitcher::StaticClass()'
+                  Node id : 93988627004464, Node type: qualified_identifier, Node text: b'APitcher::StaticClass'
+                    Node id : 93988627005712, Node type: namespace_identifier, Node text: b'APitcher'
+                    Node id : 93988627007320, Node type: identifier, Node text: b'StaticClass'
+                  Node id : 93988627009032, Node type: argument_list, Node text: b'()'
+                Node id : 93988627010064, Node type: identifier, Node text: b'Pitchers'
+          Node id : 93988627014264, Node type: if_statement, Node text: b'if (Pitchers.Num() == 0)\n\t\t{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}'
+            Node id : 93988627014152, Node type: condition_clause, Node text: b'(Pitchers.Num() == 0)'
+              Node id : 93988627008816, Node type: binary_expression, Node text: b'Pitchers.Num() == 0'
+                Node id : 93988627010672, Node type: call_expression, Node text: b'Pitchers.Num()'
+                  Node id : 93988627010480, Node type: field_expression, Node text: b'Pitchers.Num'
+                    Node id : 93988627009648, Node type: identifier, Node text: b'Pitchers'
+                    Node id : 93988627009856, Node type: field_identifier, Node text: b'Num'
+                  Node id : 93988627010776, Node type: argument_list, Node text: b'()'
+                Node id : 93988627011760, Node type: number_literal, Node text: b'0'
+            Node id : 93988627014160, Node type: compound_statement, Node text: b'{\n\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));\n\t\t}'
+              Node id : 93988627014040, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));'
+                Node id : 93988627013728, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"))'
+                  Node id : 93988627008288, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+                    Node id : 93988627006112, Node type: identifier, Node text: b'GEngine'
+                    Node id : 93988627007440, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+                  Node id : 93988627013624, Node type: argument_list, Node text: b'(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"))'
+                    Node id : 93988627006496, Node type: number_literal, Node text: b'-1'
+                    Node id : 93988627009552, Node type: number_literal, Node text: b'1'
+                    Node id : 93988627012064, Node type: qualified_identifier, Node text: b'FColor::Red'
+                      Node id : 93988627008480, Node type: namespace_identifier, Node text: b'FColor'
+                      Node id : 93988627011960, Node type: identifier, Node text: b'Red'
+                    Node id : 93988627013200, Node type: call_expression, Node text: b'TEXT("0 pitchers found in PitchBase")'
+                      Node id : 93988627012480, Node type: identifier, Node text: b'TEXT'
+                      Node id : 93988627013096, Node type: argument_list, Node text: b'("0 pitchers found in PitchBase")'
+                        Node id : 93988627012784, Node type: string_literal, Node text: b'"0 pitchers found in PitchBase"'
+                          Node id : 93988627012680, Node type: string_content, Node text: b'0 pitchers found in PitchBase'
+          Node id : 93988627015464, Node type: expression_statement, Node text: b'Pitcher = Cast<APitcher>(Pitchers.Top());'
+            Node id : 93988627017824, Node type: assignment_expression, Node text: b'Pitcher = Cast<APitcher>(Pitchers.Top())'
+              Node id : 93988627017712, Node type: identifier, Node text: b'Pitcher'
+              Node id : 93988627017520, Node type: call_expression, Node text: b'Cast<APitcher>(Pitchers.Top())'
+                Node id : 93988627015888, Node type: template_function, Node text: b'Cast<APitcher>'
+                  Node id : 93988627015776, Node type: identifier, Node text: b'Cast'
+                  Node id : 93988627015784, Node type: template_argument_list, Node text: b'<APitcher>'
+                    Node id : 93988627015672, Node type: type_descriptor, Node text: b'APitcher'
+                      Node id : 93988627014560, Node type: type_identifier, Node text: b'APitcher'
+                Node id : 93988627017416, Node type: argument_list, Node text: b'(Pitchers.Top())'
+                  Node id : 93988627016688, Node type: call_expression, Node text: b'Pitchers.Top()'
+                    Node id : 93988627016080, Node type: field_expression, Node text: b'Pitchers.Top'
+                      Node id : 93988627014656, Node type: identifier, Node text: b'Pitchers'
+                      Node id : 93988627015360, Node type: field_identifier, Node text: b'Top'
+                    Node id : 93988627016584, Node type: argument_list, Node text: b'()'
+      Node id : 93988627019200, Node type: expression_statement, Node text: b'SpawnLocation = GetActorLocation();'
+        Node id : 93988627018128, Node type: assignment_expression, Node text: b'SpawnLocation = GetActorLocation()'
+          Node id : 93988627018640, Node type: identifier, Node text: b'SpawnLocation'
+          Node id : 93988627017200, Node type: call_expression, Node text: b'GetActorLocation()'
+            Node id : 93988627016368, Node type: identifier, Node text: b'GetActorLocation'
+            Node id : 93988627018440, Node type: argument_list, Node text: b'()'
+      Node id : 93988627019208, Node type: expression_statement, Node text: b'SecondsActive = 0;'
+        Node id : 93988627014368, Node type: assignment_expression, Node text: b'SecondsActive = 0'
+          Node id : 93988627018976, Node type: identifier, Node text: b'SecondsActive'
+          Node id : 93988627018336, Node type: number_literal, Node text: b'0'
+      Node id : 93988627053624, Node type: comment, Node text: b'// Instance the blur meshes'
+      Node id : 93988627057664, Node type: if_statement, Node text: b'if (BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh)\n\t{\n\t\tfor (int32 i = 0; i < NumBlurMeshes; i++)\n\t\t{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}\n\t}'
+        Node id : 93988627053512, Node type: condition_clause, Node text: b'(BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh)'
+          Node id : 93988627019936, Node type: binary_expression, Node text: b'BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh'
+            Node id : 93988627019424, Node type: binary_expression, Node text: b'BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve'
+              Node id : 93988627014464, Node type: binary_expression, Node text: b'BallTranslucentMaterial && StrapTranslucentMaterial'
+                Node id : 93988627015984, Node type: identifier, Node text: b'BallTranslucentMaterial'
+                Node id : 93988627014944, Node type: identifier, Node text: b'StrapTranslucentMaterial'
+              Node id : 93988627016272, Node type: identifier, Node text: b'OpacityFloatCurve'
+            Node id : 93988627019632, Node type: identifier, Node text: b'BlurStaticMesh'
+        Node id : 93988627053520, Node type: compound_statement, Node text: b'{\n\t\tfor (int32 i = 0; i < NumBlurMeshes; i++)\n\t\t{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}\n\t}'
+          Node id : 93988627053400, Node type: for_statement, Node text: b'for (int32 i = 0; i < NumBlurMeshes; i++)\n\t\t{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}'
+            Node id : 93988627021936, Node type: declaration, Node text: b'int32 i = 0;'
+              Node id : 93988627020144, Node type: type_identifier, Node text: b'int32'
+              Node id : 93988627020736, Node type: init_declarator, Node text: b'i = 0'
+                Node id : 93988627020336, Node type: identifier, Node text: b'i'
+                Node id : 93988627020432, Node type: number_literal, Node text: b'0'
+            Node id : 93988627021440, Node type: binary_expression, Node text: b'i < NumBlurMeshes'
+              Node id : 93988627020944, Node type: identifier, Node text: b'i'
+              Node id : 93988627021136, Node type: identifier, Node text: b'NumBlurMeshes'
+            Node id : 93988627021840, Node type: update_expression, Node text: b'i++'
+              Node id : 93988627021536, Node type: identifier, Node text: b'i'
+            Node id : 93988627053296, Node type: compound_statement, Node text: b'{\n\t\t\tUStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);\n\t\t\tBlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));\n\t\t\tBlurMesh->RegisterComponent();\n\t\t\tBlurMesh->SetStaticMesh(BlurStaticMesh);\n\t\t\tBlurMeshes.Add(BlurMesh);\n\t\t\tBlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));\n\t\t\tconst float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));\n\t\t\t// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));\n\t\t\tUMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);\n\t\t\tBallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t\tUMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);\n\t\t\tStrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);\n\t\t}'
+              Node id : 93988627030400, Node type: declaration, Node text: b'UStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);'
+                Node id : 93988627022064, Node type: type_identifier, Node text: b'UStaticMeshComponent'
+                Node id : 93988627028160, Node type: init_declarator, Node text: b'* BlurMesh = NewObject<UStaticMeshComponent>(this)'
+                  Node id : 93988627022656, Node type: pointer_declarator, Node text: b'* BlurMesh'
+                    Node id : 93988627022448, Node type: identifier, Node text: b'BlurMesh'
+                  Node id : 93988627026544, Node type: call_expression, Node text: b'NewObject<UStaticMeshComponent>(this)'
+                    Node id : 93988627027312, Node type: template_function, Node text: b'NewObject<UStaticMeshComponent>'
+                      Node id : 93988627027088, Node type: identifier, Node text: b'NewObject'
+                      Node id : 93988627027096, Node type: template_argument_list, Node text: b'<UStaticMeshComponent>'
+                        Node id : 93988627026744, Node type: type_descriptor, Node text: b'UStaticMeshComponent'
+                          Node id : 93988627023856, Node type: type_identifier, Node text: b'UStaticMeshComponent'
+                    Node id : 93988627026328, Node type: argument_list, Node text: b'(this)'
+                      Node id : 93988627024192, Node type: this, Node text: b'this'
+              Node id : 93988627030408, Node type: expression_statement, Node text: b'BlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));'
+                Node id : 93988627030096, Node type: call_expression, Node text: b'BlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true))'
+                  Node id : 93988627028368, Node type: field_expression, Node text: b'BlurMesh->AttachToComponent'
+                    Node id : 93988627025920, Node type: identifier, Node text: b'BlurMesh'
+                    Node id : 93988627028576, Node type: field_identifier, Node text: b'AttachToComponent'
+                  Node id : 93988627029992, Node type: argument_list, Node text: b'(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true))'
+                    Node id : 93988627028784, Node type: identifier, Node text: b'StaticMeshComponent'
+                    Node id : 93988627029552, Node type: call_expression, Node text: b'FAttachmentTransformRules(EAttachmentRule::KeepRelative, true)'
+                      Node id : 93988627028880, Node type: identifier, Node text: b'FAttachmentTransformRules'
+                      Node id : 93988627029448, Node type: argument_list, Node text: b'(EAttachmentRule::KeepRelative, true)'
+                        Node id : 93988627024960, Node type: qualified_identifier, Node text: b'EAttachmentRule::KeepRelative'
+                          Node id : 93988627025168, Node type: namespace_identifier, Node text: b'EAttachmentRule'
+                          Node id : 93988627029096, Node type: identifier, Node text: b'KeepRelative'
+                        Node id : 93988627022944, Node type: true, Node text: b'true'
+              Node id : 93988627031632, Node type: expression_statement, Node text: b'BlurMesh->RegisterComponent();'
+                Node id : 93988627028064, Node type: call_expression, Node text: b'BlurMesh->RegisterComponent()'
+                  Node id : 93988627027408, Node type: field_expression, Node text: b'BlurMesh->RegisterComponent'
+                    Node id : 93988627022160, Node type: identifier, Node text: b'BlurMesh'
+                    Node id : 93988627027216, Node type: field_identifier, Node text: b'RegisterComponent'
+                  Node id : 93988627027864, Node type: argument_list, Node text: b'()'
+              Node id : 93988627031640, Node type: expression_statement, Node text: b'BlurMesh->SetStaticMesh(BlurStaticMesh);'
+                Node id : 93988627031328, Node type: call_expression, Node text: b'BlurMesh->SetStaticMesh(BlurStaticMesh)'
+                  Node id : 93988627030832, Node type: field_expression, Node text: b'BlurMesh->SetStaticMesh'
+                    Node id : 93988627026016, Node type: identifier, Node text: b'BlurMesh'
+                    Node id : 93988627028272, Node type: field_identifier, Node text: b'SetStaticMesh'
+                  Node id : 93988627031224, Node type: argument_list, Node text: b'(BlurStaticMesh)'
+                    Node id : 93988627031024, Node type: identifier, Node text: b'BlurStaticMesh'
+              Node id : 93988627039936, Node type: expression_statement, Node text: b'BlurMeshes.Add(BlurMesh);'
+                Node id : 93988627032656, Node type: call_expression, Node text: b'BlurMeshes.Add(BlurMesh)'
+                  Node id : 93988627032048, Node type: field_expression, Node text: b'BlurMeshes.Add'
+                    Node id : 93988627031744, Node type: identifier, Node text: b'BlurMeshes'
+                    Node id : 93988627031952, Node type: field_identifier, Node text: b'Add'
+                  Node id : 93988627032552, Node type: argument_list, Node text: b'(BlurMesh)'
+                    Node id : 93988627032240, Node type: identifier, Node text: b'BlurMesh'
+              Node id : 93988627039944, Node type: expression_statement, Node text: b'BlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));'
+                Node id : 93988627039632, Node type: call_expression, Node text: b'BlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)))'
+                  Node id : 93988627033376, Node type: field_expression, Node text: b'BlurMesh->SetRelativeTransform'
+                    Node id : 93988627033072, Node type: identifier, Node text: b'BlurMesh'
+                    Node id : 93988627033280, Node type: field_identifier, Node text: b'SetRelativeTransform'
+                  Node id : 93988627039528, Node type: argument_list, Node text: b'(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)))'
+                    Node id : 93988627039216, Node type: call_expression, Node text: b'FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1))'
+                      Node id : 93988627033568, Node type: identifier, Node text: b'FTransform'
+                      Node id : 93988627039112, Node type: argument_list, Node text: b'(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1))'
+                        Node id : 93988627035376, Node type: call_expression, Node text: b'FRotator(i * SpinRotator * -BlurMeshAngle)'
+                          Node id : 93988627033760, Node type: identifier, Node text: b'FRotator'
+                          Node id : 93988627035272, Node type: argument_list, Node text: b'(i * SpinRotator * -BlurMeshAngle)'
+                            Node id : 93988627035056, Node type: binary_expression, Node text: b'i * SpinRotator * -BlurMeshAngle'
+                              Node id : 93988627034448, Node type: binary_expression, Node text: b'i * SpinRotator'
+                                Node id : 93988627033952, Node type: identifier, Node text: b'i'
+                                Node id : 93988627034144, Node type: identifier, Node text: b'SpinRotator'
+                              Node id : 93988627034848, Node type: unary_expression, Node text: b'-BlurMeshAngle'
+                                Node id : 93988627034544, Node type: identifier, Node text: b'BlurMeshAngle'
+                        Node id : 93988627036912, Node type: call_expression, Node text: b'FVector(0, 0, 0)'
+                          Node id : 93988627035568, Node type: identifier, Node text: b'FVector'
+                          Node id : 93988627036808, Node type: argument_list, Node text: b'(0, 0, 0)'
+                            Node id : 93988627035760, Node type: number_literal, Node text: b'0'
+                            Node id : 93988627035952, Node type: number_literal, Node text: b'0'
+                            Node id : 93988627036256, Node type: number_literal, Node text: b'0'
+                        Node id : 93988627038560, Node type: call_expression, Node text: b'FVector(1, 1, 1)'
+                          Node id : 93988627037216, Node type: identifier, Node text: b'FVector'
+                          Node id : 93988627038456, Node type: argument_list, Node text: b'(1, 1, 1)'
+                            Node id : 93988627037408, Node type: number_literal, Node text: b'1'
+                            Node id : 93988627037600, Node type: number_literal, Node text: b'1'
+                            Node id : 93988627037904, Node type: number_literal, Node text: b'1'
+              Node id : 93988627047488, Node type: declaration, Node text: b'const float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));'
+                Node id : 93988627040144, Node type: type_qualifier, Node text: b'const'
+                Node id : 93988627040240, Node type: primitive_type, Node text: b'float'
+                Node id : 93988627043392, Node type: init_declarator, Node text: b'Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes))'
+                  Node id : 93988627040448, Node type: identifier, Node text: b'Opacity'
+                  Node id : 93988627043184, Node type: binary_expression, Node text: b'BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes))'
+                    Node id : 93988627040544, Node type: identifier, Node text: b'BlurMeshMaxOpacity'
+                    Node id : 93988627042880, Node type: call_expression, Node text: b'OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes))'
+                      Node id : 93988627041040, Node type: field_expression, Node text: b'OpacityFloatCurve->GetFloatValue'
+                        Node id : 93988627040736, Node type: identifier, Node text: b'OpacityFloatCurve'
+                        Node id : 93988627040944, Node type: field_identifier, Node text: b'GetFloatValue'
+                      Node id : 93988627042776, Node type: argument_list, Node text: b'(float(i) / float(NumBlurMeshes))'
+                        Node id : 93988627042560, Node type: binary_expression, Node text: b'float(i) / float(NumBlurMeshes)'
+                          Node id : 93988627041648, Node type: call_expression, Node text: b'float(i)'
+                            Node id : 93988627041536, Node type: primitive_type, Node text: b'float'
+                            Node id : 93988627041544, Node type: argument_list, Node text: b'(i)'
+                              Node id : 93988627041232, Node type: identifier, Node text: b'i'
+                          Node id : 93988627042256, Node type: call_expression, Node text: b'float(NumBlurMeshes)'
+                            Node id : 93988627042144, Node type: primitive_type, Node text: b'float'
+                            Node id : 93988627042152, Node type: argument_list, Node text: b'(NumBlurMeshes)'
+                              Node id : 93988627041840, Node type: identifier, Node text: b'NumBlurMeshes'
+              Node id : 93988627047496, Node type: comment, Node text: b'// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));'
+              Node id : 93988627047504, Node type: declaration, Node text: b'UMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);'
+                Node id : 93988627043712, Node type: type_identifier, Node text: b'UMaterialInstanceDynamic'
+                Node id : 93988627046864, Node type: init_declarator, Node text: b'* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial)'
+                  Node id : 93988627044304, Node type: pointer_declarator, Node text: b'* BallMaterial'
+                    Node id : 93988627044096, Node type: identifier, Node text: b'BallMaterial'
+                  Node id : 93988627046368, Node type: call_expression, Node text: b'BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial)'
+                    Node id : 93988627045008, Node type: field_expression, Node text: b'BlurMesh->CreateDynamicMaterialInstance'
+                      Node id : 93988627044400, Node type: identifier, Node text: b'BlurMesh'
+                      Node id : 93988627044800, Node type: field_identifier, Node text: b'CreateDynamicMaterialInstance'
+                    Node id : 93988627046152, Node type: argument_list, Node text: b'(0, BallTranslucentMaterial)'
+                      Node id : 93988627045392, Node type: number_literal, Node text: b'0'
+                      Node id : 93988627045584, Node type: identifier, Node text: b'BallTranslucentMaterial'
+              Node id : 93988627052208, Node type: expression_statement, Node text: b'BallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);'
+                Node id : 93988627048016, Node type: call_expression, Node text: b'BallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity)'
+                  Node id : 93988627045296, Node type: field_expression, Node text: b'BallMaterial->SetScalarParameterValue'
+                    Node id : 93988627044688, Node type: identifier, Node text: b'BallMaterial'
+                    Node id : 93988627044912, Node type: field_identifier, Node text: b'SetScalarParameterValue'
+                  Node id : 93988627047720, Node type: argument_list, Node text: b'(FName("Opacity"), Opacity)'
+                    Node id : 93988627044496, Node type: call_expression, Node text: b'FName("Opacity")'
+                      Node id : 93988627046656, Node type: identifier, Node text: b'FName'
+                      Node id : 93988627047176, Node type: argument_list, Node text: b'("Opacity")'
+                        Node id : 93988627047280, Node type: string_literal, Node text: b'"Opacity"'
+                          Node id : 93988627046264, Node type: string_content, Node text: b'Opacity'
+                    Node id : 93988627047824, Node type: identifier, Node text: b'Opacity'
+              Node id : 93988627052216, Node type: declaration, Node text: b'UMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);'
+                Node id : 93988627048432, Node type: type_identifier, Node text: b'UMaterialInstanceDynamic'
+                Node id : 93988627051584, Node type: init_declarator, Node text: b'* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial)'
+                  Node id : 93988627049024, Node type: pointer_declarator, Node text: b'* StrapMaterial'
+                    Node id : 93988627048816, Node type: identifier, Node text: b'StrapMaterial'
+                  Node id : 93988627051088, Node type: call_expression, Node text: b'BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial)'
+                    Node id : 93988627049728, Node type: field_expression, Node text: b'BlurMesh->CreateDynamicMaterialInstance'
+                      Node id : 93988627049120, Node type: identifier, Node text: b'BlurMesh'
+                      Node id : 93988627049520, Node type: field_identifier, Node text: b'CreateDynamicMaterialInstance'
+                    Node id : 93988627050872, Node type: argument_list, Node text: b'(1, StrapTranslucentMaterial)'
+                      Node id : 93988627050112, Node type: number_literal, Node text: b'1'
+                      Node id : 93988627050304, Node type: identifier, Node text: b'StrapTranslucentMaterial'
+              Node id : 93988627053048, Node type: expression_statement, Node text: b'StrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);'
+                Node id : 93988627052736, Node type: call_expression, Node text: b'StrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity)'
+                  Node id : 93988627050016, Node type: field_expression, Node text: b'StrapMaterial->SetScalarParameterValue'
+                    Node id : 93988627049408, Node type: identifier, Node text: b'StrapMaterial'
+                    Node id : 93988627049632, Node type: field_identifier, Node text: b'SetScalarParameterValue'
+                  Node id : 93988627052440, Node type: argument_list, Node text: b'(FName("Opacity"), Opacity)'
+                    Node id : 93988627049216, Node type: call_expression, Node text: b'FName("Opacity")'
+                      Node id : 93988627051376, Node type: identifier, Node text: b'FName'
+                      Node id : 93988627051896, Node type: argument_list, Node text: b'("Opacity")'
+                        Node id : 93988627052000, Node type: string_literal, Node text: b'"Opacity"'
+                          Node id : 93988627050984, Node type: string_content, Node text: b'Opacity'
+                    Node id : 93988627052544, Node type: identifier, Node text: b'Opacity'
+      Node id : 93988627057672, Node type: if_statement, Node text: b'if (!BallTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"));'
+        Node id : 93988627057560, Node type: condition_clause, Node text: b'(!BallTranslucentMaterial)'
+          Node id : 93988627054032, Node type: unary_expression, Node text: b'!BallTranslucentMaterial'
+            Node id : 93988627053728, Node type: identifier, Node text: b'BallTranslucentMaterial'
+        Node id : 93988627057568, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"));'
+          Node id : 93988627057248, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"))'
+            Node id : 93988627054544, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+              Node id : 93988627054240, Node type: identifier, Node text: b'GEngine'
+              Node id : 93988627054448, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+            Node id : 93988627057144, Node type: argument_list, Node text: b'(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"))'
+              Node id : 93988627054736, Node type: number_literal, Node text: b'-1'
+              Node id : 93988627054928, Node type: number_literal, Node text: b'1'
+              Node id : 93988627055456, Node type: qualified_identifier, Node text: b'FColor::Red'
+                Node id : 93988627055232, Node type: namespace_identifier, Node text: b'FColor'
+                Node id : 93988627055352, Node type: identifier, Node text: b'Red'
+              Node id : 93988627056592, Node type: call_expression, Node text: b'TEXT("BallTranslucentMaterial null")'
+                Node id : 93988627055872, Node type: identifier, Node text: b'TEXT'
+                Node id : 93988627056488, Node type: argument_list, Node text: b'("BallTranslucentMaterial null")'
+                  Node id : 93988627056176, Node type: string_literal, Node text: b'"BallTranslucentMaterial null"'
+                    Node id : 93988627056072, Node type: string_content, Node text: b'BallTranslucentMaterial null'
+      Node id : 93988627065760, Node type: if_statement, Node text: b'if (!StrapTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"));'
+        Node id : 93988627061608, Node type: condition_clause, Node text: b'(!StrapTranslucentMaterial)'
+          Node id : 93988627058080, Node type: unary_expression, Node text: b'!StrapTranslucentMaterial'
+            Node id : 93988627057776, Node type: identifier, Node text: b'StrapTranslucentMaterial'
+        Node id : 93988627061616, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"));'
+          Node id : 93988627061296, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"))'
+            Node id : 93988627058592, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+              Node id : 93988627058288, Node type: identifier, Node text: b'GEngine'
+              Node id : 93988627058496, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+            Node id : 93988627061192, Node type: argument_list, Node text: b'(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"))'
+              Node id : 93988627058784, Node type: number_literal, Node text: b'-1'
+              Node id : 93988627058976, Node type: number_literal, Node text: b'1'
+              Node id : 93988627059504, Node type: qualified_identifier, Node text: b'FColor::Red'
+                Node id : 93988627059280, Node type: namespace_identifier, Node text: b'FColor'
+                Node id : 93988627059400, Node type: identifier, Node text: b'Red'
+              Node id : 93988627060640, Node type: call_expression, Node text: b'TEXT("StrapTranslucentMaterial null")'
+                Node id : 93988627059920, Node type: identifier, Node text: b'TEXT'
+                Node id : 93988627060536, Node type: argument_list, Node text: b'("StrapTranslucentMaterial null")'
+                  Node id : 93988627060224, Node type: string_literal, Node text: b'"StrapTranslucentMaterial null"'
+                    Node id : 93988627060120, Node type: string_content, Node text: b'StrapTranslucentMaterial null'
+      Node id : 93988627065768, Node type: if_statement, Node text: b'if (!OpacityFloatCurve) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"));'
+        Node id : 93988627065656, Node type: condition_clause, Node text: b'(!OpacityFloatCurve)'
+          Node id : 93988627062128, Node type: unary_expression, Node text: b'!OpacityFloatCurve'
+            Node id : 93988627061824, Node type: identifier, Node text: b'OpacityFloatCurve'
+        Node id : 93988627065664, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"));'
+          Node id : 93988627065344, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"))'
+            Node id : 93988627062640, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+              Node id : 93988627062336, Node type: identifier, Node text: b'GEngine'
+              Node id : 93988627062544, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+            Node id : 93988627065240, Node type: argument_list, Node text: b'(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"))'
+              Node id : 93988627062832, Node type: number_literal, Node text: b'-1'
+              Node id : 93988627063024, Node type: number_literal, Node text: b'1'
+              Node id : 93988627063552, Node type: qualified_identifier, Node text: b'FColor::Red'
+                Node id : 93988627063328, Node type: namespace_identifier, Node text: b'FColor'
+                Node id : 93988627063448, Node type: identifier, Node text: b'Red'
+              Node id : 93988627064688, Node type: call_expression, Node text: b'TEXT("OpacityFloatCurve null")'
+                Node id : 93988627063968, Node type: identifier, Node text: b'TEXT'
+                Node id : 93988627064584, Node type: argument_list, Node text: b'("OpacityFloatCurve null")'
+                  Node id : 93988627064272, Node type: string_literal, Node text: b'"OpacityFloatCurve null"'
+                    Node id : 93988627064168, Node type: string_content, Node text: b'OpacityFloatCurve null'
+      Node id : 93988627069816, Node type: if_statement, Node text: b'if (!BlurStaticMesh) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"));'
+        Node id : 93988627069704, Node type: condition_clause, Node text: b'(!BlurStaticMesh)'
+          Node id : 93988627066176, Node type: unary_expression, Node text: b'!BlurStaticMesh'
+            Node id : 93988627065872, Node type: identifier, Node text: b'BlurStaticMesh'
+        Node id : 93988627069712, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"));'
+          Node id : 93988627069392, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"))'
+            Node id : 93988627066688, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+              Node id : 93988627066384, Node type: identifier, Node text: b'GEngine'
+              Node id : 93988627066592, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+            Node id : 93988627069288, Node type: argument_list, Node text: b'(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"))'
+              Node id : 93988627066880, Node type: number_literal, Node text: b'-1'
+              Node id : 93988627067072, Node type: number_literal, Node text: b'1'
+              Node id : 93988627067600, Node type: qualified_identifier, Node text: b'FColor::Red'
+                Node id : 93988627067376, Node type: namespace_identifier, Node text: b'FColor'
+                Node id : 93988627067496, Node type: identifier, Node text: b'Red'
+              Node id : 93988627068736, Node type: call_expression, Node text: b'TEXT("BlurStaticMesh null")'
+                Node id : 93988627068016, Node type: identifier, Node text: b'TEXT'
+                Node id : 93988627068632, Node type: argument_list, Node text: b'("BlurStaticMesh null")'
+                  Node id : 93988627068320, Node type: string_literal, Node text: b'"BlurStaticMesh null"'
+                    Node id : 93988627068216, Node type: string_content, Node text: b'BlurStaticMesh null'
+  Node id : 93988627139200, Node type: function_definition, Node text: b'void APitchBase::Tick(float DeltaTime)\n{\n\tSuper::Tick(DeltaTime);\n\t\n\tAddActorLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6\n\t// StaticMeshComponent->AddLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6\n\tif (CallPhysicsTick) {\n\t\tPhysicsTick();\n\t}\n\t\n\t// DrawDebugLine(GetWorld(), PrevLocation, GetActorLocation(), FColor::Red, false, 1.5);\n\t// DrawDebugSphere(GetWorld(), GetActorLocation(), 0.5, 10, FColor::Red, false, 1.5);\n\tconst FVector DeltaLocation = GetActorLocation() - PrevLocation;\n\tGEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()));\n\tGEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()));\n\n\t// DrawDebugCapsule(GetWorld(), GetActorLocation(), 16, 3.9, DirectionQuat, FColor::Red, false, 1.5);\n\tSecondsActive += DeltaTime;\n\tif (Pitcher)\n\t{\n\t\t// Check if pitch is out of bounds\n\t\tif (SecondsActive >= ActiveDuration && !bExitCalled)\n\t\t{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}\n\t}\n\tif (SecondsActive >= CapsuleUpdateDelay)\n\t{\n\t\tCollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);\n\t\tCollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));\n\t\tCollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);\n\t}\n\tPrevLocation = GetActorLocation();\n\t\n}'
+    Node id : 93988627070256, Node type: primitive_type, Node text: b'void'
+    Node id : 93988627071488, Node type: function_declarator, Node text: b'APitchBase::Tick(float DeltaTime)'
+      Node id : 93988627070672, Node type: qualified_identifier, Node text: b'APitchBase::Tick'
+        Node id : 93988627070448, Node type: namespace_identifier, Node text: b'APitchBase'
+        Node id : 93988627070568, Node type: identifier, Node text: b'Tick'
+      Node id : 93988627071280, Node type: parameter_list, Node text: b'(float DeltaTime)'
+        Node id : 93988627071176, Node type: parameter_declaration, Node text: b'float DeltaTime'
+          Node id : 93988627070768, Node type: primitive_type, Node text: b'float'
+          Node id : 93988627070960, Node type: identifier, Node text: b'DeltaTime'
+    Node id : 93988627101536, Node type: compound_statement, Node text: b'{\n\tSuper::Tick(DeltaTime);\n\t\n\tAddActorLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6\n\t// StaticMeshComponent->AddLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6\n\tif (CallPhysicsTick) {\n\t\tPhysicsTick();\n\t}\n\t\n\t// DrawDebugLine(GetWorld(), PrevLocation, GetActorLocation(), FColor::Red, false, 1.5);\n\t// DrawDebugSphere(GetWorld(), GetActorLocation(), 0.5, 10, FColor::Red, false, 1.5);\n\tconst FVector DeltaLocation = GetActorLocation() - PrevLocation;\n\tGEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()));\n\tGEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()));\n\n\t// DrawDebugCapsule(GetWorld(), GetActorLocation(), 16, 3.9, DirectionQuat, FColor::Red, false, 1.5);\n\tSecondsActive += DeltaTime;\n\tif (Pitcher)\n\t{\n\t\t// Check if pitch is out of bounds\n\t\tif (SecondsActive >= ActiveDuration && !bExitCalled)\n\t\t{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}\n\t}\n\tif (SecondsActive >= CapsuleUpdateDelay)\n\t{\n\t\tCollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);\n\t\tCollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));\n\t\tCollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);\n\t}\n\tPrevLocation = GetActorLocation();\n\t\n}'
+      Node id : 93988627075648, Node type: expression_statement, Node text: b'Super::Tick(DeltaTime);'
+        Node id : 93988627073504, Node type: call_expression, Node text: b'Super::Tick(DeltaTime)'
+          Node id : 93988627072208, Node type: qualified_identifier, Node text: b'Super::Tick'
+            Node id : 93988627071584, Node type: namespace_identifier, Node text: b'Super'
+            Node id : 93988627071704, Node type: identifier, Node text: b'Tick'
+          Node id : 93988627073400, Node type: argument_list, Node text: b'(DeltaTime)'
+            Node id : 93988627072496, Node type: identifier, Node text: b'DeltaTime'
+      Node id : 93988627075656, Node type: expression_statement, Node text: b'AddActorLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime);'
+        Node id : 93988627075344, Node type: call_expression, Node text: b'AddActorLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime)'
+          Node id : 93988627072784, Node type: identifier, Node text: b'AddActorLocalRotation'
+          Node id : 93988627075240, Node type: argument_list, Node text: b'(SpinRotator * SpinRateRPM * 6 * DeltaTime)'
+            Node id : 93988627075024, Node type: binary_expression, Node text: b'SpinRotator * SpinRateRPM * 6 * DeltaTime'
+              Node id : 93988627074304, Node type: binary_expression, Node text: b'SpinRotator * SpinRateRPM * 6'
+                Node id : 93988627074400, Node type: binary_expression, Node text: b'SpinRotator * SpinRateRPM'
+                  Node id : 93988627074016, Node type: identifier, Node text: b'SpinRotator'
+                  Node id : 93988627072688, Node type: identifier, Node text: b'SpinRateRPM'
+                Node id : 93988627072112, Node type: number_literal, Node text: b'6'
+              Node id : 93988627074608, Node type: identifier, Node text: b'DeltaTime'
+      Node id : 93988627076488, Node type: comment, Node text: b'// conversion factor from rpm to d/sec = 6'
+      Node id : 93988627076496, Node type: comment, Node text: b'// StaticMeshComponent->AddLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6'
+      Node id : 93988627076504, Node type: if_statement, Node text: b'if (CallPhysicsTick) {\n\t\tPhysicsTick();\n\t}'
+        Node id : 93988627076376, Node type: condition_clause, Node text: b'(CallPhysicsTick)'
+          Node id : 93988627071920, Node type: identifier, Node text: b'CallPhysicsTick'
+        Node id : 93988627076384, Node type: compound_statement, Node text: b'{\n\t\tPhysicsTick();\n\t}'
+          Node id : 93988627076168, Node type: expression_statement, Node text: b'PhysicsTick();'
+            Node id : 93988627073088, Node type: call_expression, Node text: b'PhysicsTick()'
+              Node id : 93988627073184, Node type: identifier, Node text: b'PhysicsTick'
+              Node id : 93988627073912, Node type: argument_list, Node text: b'()'
+      Node id : 93988627078152, Node type: comment, Node text: b'// DrawDebugLine(GetWorld(), PrevLocation, GetActorLocation(), FColor::Red, false, 1.5);'
+      Node id : 93988627078160, Node type: comment, Node text: b'// DrawDebugSphere(GetWorld(), GetActorLocation(), 0.5, 10, FColor::Red, false, 1.5);'
+      Node id : 93988627082832, Node type: declaration, Node text: b'const FVector DeltaLocation = GetActorLocation() - PrevLocation;'
+        Node id : 93988627076272, Node type: type_qualifier, Node text: b'const'
+        Node id : 93988627076608, Node type: type_identifier, Node text: b'FVector'
+        Node id : 93988627077936, Node type: init_declarator, Node text: b'DeltaLocation = GetActorLocation() - PrevLocation'
+          Node id : 93988627076064, Node type: identifier, Node text: b'DeltaLocation'
+          Node id : 93988627077728, Node type: binary_expression, Node text: b'GetActorLocation() - PrevLocation'
+            Node id : 93988627077232, Node type: call_expression, Node text: b'GetActorLocation()'
+              Node id : 93988627076816, Node type: identifier, Node text: b'GetActorLocation'
+              Node id : 93988627077128, Node type: argument_list, Node text: b'()'
+            Node id : 93988627077424, Node type: identifier, Node text: b'PrevLocation'
+      Node id : 93988627082840, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()));'
+        Node id : 93988627082528, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()))'
+          Node id : 93988627078576, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+            Node id : 93988627078272, Node type: identifier, Node text: b'GEngine'
+            Node id : 93988627078480, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+          Node id : 93988627082424, Node type: argument_list, Node text: b'(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()))'
+            Node id : 93988627078768, Node type: number_literal, Node text: b'-1'
+            Node id : 93988627078960, Node type: identifier, Node text: b'DeltaTime'
+            Node id : 93988627079488, Node type: qualified_identifier, Node text: b'FColor::Orange'
+              Node id : 93988627079264, Node type: namespace_identifier, Node text: b'FColor'
+              Node id : 93988627079384, Node type: identifier, Node text: b'Orange'
+            Node id : 93988627081872, Node type: call_expression, Node text: b'FString::SanitizeFloat(GetVelocity().Size())'
+              Node id : 93988627080128, Node type: qualified_identifier, Node text: b'FString::SanitizeFloat'
+                Node id : 93988627079904, Node type: namespace_identifier, Node text: b'FString'
+                Node id : 93988627080024, Node type: identifier, Node text: b'SanitizeFloat'
+              Node id : 93988627081768, Node type: argument_list, Node text: b'(GetVelocity().Size())'
+                Node id : 93988627081456, Node type: call_expression, Node text: b'GetVelocity().Size()'
+                  Node id : 93988627081040, Node type: field_expression, Node text: b'GetVelocity().Size'
+                    Node id : 93988627080736, Node type: call_expression, Node text: b'GetVelocity()'
+                      Node id : 93988627080320, Node type: identifier, Node text: b'GetVelocity'
+                      Node id : 93988627080632, Node type: argument_list, Node text: b'()'
+                    Node id : 93988627080944, Node type: field_identifier, Node text: b'Size'
+                  Node id : 93988627081352, Node type: argument_list, Node text: b'()'
+      Node id : 93988627087712, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()));'
+        Node id : 93988627086784, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()))'
+          Node id : 93988627083248, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+            Node id : 93988627082944, Node type: identifier, Node text: b'GEngine'
+            Node id : 93988627083152, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+          Node id : 93988627086680, Node type: argument_list, Node text: b'(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()))'
+            Node id : 93988627083440, Node type: number_literal, Node text: b'-1'
+            Node id : 93988627083632, Node type: identifier, Node text: b'DeltaTime'
+            Node id : 93988627084160, Node type: qualified_identifier, Node text: b'FColor::Orange'
+              Node id : 93988627083936, Node type: namespace_identifier, Node text: b'FColor'
+              Node id : 93988627084056, Node type: identifier, Node text: b'Orange'
+            Node id : 93988627086128, Node type: call_expression, Node text: b'FString::SanitizeFloat(PMC->GetGravityZ())'
+              Node id : 93988627084800, Node type: qualified_identifier, Node text: b'FString::SanitizeFloat'
+                Node id : 93988627084576, Node type: namespace_identifier, Node text: b'FString'
+                Node id : 93988627084696, Node type: identifier, Node text: b'SanitizeFloat'
+              Node id : 93988627086024, Node type: argument_list, Node text: b'(PMC->GetGravityZ())'
+                Node id : 93988627085712, Node type: call_expression, Node text: b'PMC->GetGravityZ()'
+                  Node id : 93988627085296, Node type: field_expression, Node text: b'PMC->GetGravityZ'
+                    Node id : 93988627084992, Node type: identifier, Node text: b'PMC'
+                    Node id : 93988627085200, Node type: field_identifier, Node text: b'GetGravityZ'
+                  Node id : 93988627085608, Node type: argument_list, Node text: b'()'
+      Node id : 93988627087720, Node type: comment, Node text: b'// DrawDebugCapsule(GetWorld(), GetActorLocation(), 16, 3.9, DirectionQuat, FColor::Red, false, 1.5);'
+      Node id : 93988627087728, Node type: expression_statement, Node text: b'SecondsActive += DeltaTime;'
+        Node id : 93988627087504, Node type: assignment_expression, Node text: b'SecondsActive += DeltaTime'
+          Node id : 93988627087392, Node type: identifier, Node text: b'SecondsActive'
+          Node id : 93988627087200, Node type: identifier, Node text: b'DeltaTime'
+      Node id : 93988627100256, Node type: if_statement, Node text: b'if (Pitcher)\n\t{\n\t\t// Check if pitch is out of bounds\n\t\tif (SecondsActive >= ActiveDuration && !bExitCalled)\n\t\t{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}\n\t}'
+        Node id : 93988627090824, Node type: condition_clause, Node text: b'(Pitcher)'
+          Node id : 93988627087824, Node type: identifier, Node text: b'Pitcher'
+        Node id : 93988627090832, Node type: compound_statement, Node text: b'{\n\t\t// Check if pitch is out of bounds\n\t\tif (SecondsActive >= ActiveDuration && !bExitCalled)\n\t\t{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}\n\t}'
+          Node id : 93988627090696, Node type: comment, Node text: b'// Check if pitch is out of bounds'
+          Node id : 93988627090704, Node type: if_statement, Node text: b'if (SecondsActive >= ActiveDuration && !bExitCalled)\n\t\t{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}'
+            Node id : 93988627090584, Node type: condition_clause, Node text: b'(SecondsActive >= ActiveDuration && !bExitCalled)'
+              Node id : 93988627089232, Node type: binary_expression, Node text: b'SecondsActive >= ActiveDuration && !bExitCalled'
+                Node id : 93988627088624, Node type: binary_expression, Node text: b'SecondsActive >= ActiveDuration'
+                  Node id : 93988627088128, Node type: identifier, Node text: b'SecondsActive'
+                  Node id : 93988627088320, Node type: identifier, Node text: b'ActiveDuration'
+                Node id : 93988627089024, Node type: unary_expression, Node text: b'!bExitCalled'
+                  Node id : 93988627088720, Node type: identifier, Node text: b'bExitCalled'
+            Node id : 93988627090592, Node type: compound_statement, Node text: b'{\n\t\t\tPitcher->DeactivatePitch();\n\t\t}'
+              Node id : 93988627090472, Node type: expression_statement, Node text: b'Pitcher->DeactivatePitch();'
+                Node id : 93988627090160, Node type: call_expression, Node text: b'Pitcher->DeactivatePitch()'
+                  Node id : 93988627089744, Node type: field_expression, Node text: b'Pitcher->DeactivatePitch'
+                    Node id : 93988627089440, Node type: identifier, Node text: b'Pitcher'
+                    Node id : 93988627089648, Node type: field_identifier, Node text: b'DeactivatePitch'
+                  Node id : 93988627090056, Node type: argument_list, Node text: b'()'
+      Node id : 93988627100264, Node type: if_statement, Node text: b'if (SecondsActive >= CapsuleUpdateDelay)\n\t{\n\t\tCollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);\n\t\tCollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));\n\t\tCollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);\n\t}'
+        Node id : 93988627100152, Node type: condition_clause, Node text: b'(SecondsActive >= CapsuleUpdateDelay)'
+          Node id : 93988627091536, Node type: binary_expression, Node text: b'SecondsActive >= CapsuleUpdateDelay'
+            Node id : 93988627091040, Node type: identifier, Node text: b'SecondsActive'
+            Node id : 93988627091232, Node type: identifier, Node text: b'CapsuleUpdateDelay'
+        Node id : 93988627100160, Node type: compound_statement, Node text: b'{\n\t\tCollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);\n\t\tCollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));\n\t\tCollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);\n\t}'
+          Node id : 93988627097792, Node type: expression_statement, Node text: b'CollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);'
+            Node id : 93988627093776, Node type: call_expression, Node text: b'CollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5)'
+              Node id : 93988627092048, Node type: field_expression, Node text: b'CollisionCapsule->SetCapsuleHalfHeight'
+                Node id : 93988627091744, Node type: identifier, Node text: b'CollisionCapsule'
+                Node id : 93988627091952, Node type: field_identifier, Node text: b'SetCapsuleHalfHeight'
+              Node id : 93988627093672, Node type: argument_list, Node text: b'(DeltaLocation.Size() * 0.5)'
+                Node id : 93988627093456, Node type: binary_expression, Node text: b'DeltaLocation.Size() * 0.5'
+                  Node id : 93988627092960, Node type: call_expression, Node text: b'DeltaLocation.Size()'
+                    Node id : 93988627092544, Node type: field_expression, Node text: b'DeltaLocation.Size'
+                      Node id : 93988627092240, Node type: identifier, Node text: b'DeltaLocation'
+                      Node id : 93988627092448, Node type: field_identifier, Node text: b'Size'
+                    Node id : 93988627092856, Node type: argument_list, Node text: b'()'
+                  Node id : 93988627093152, Node type: number_literal, Node text: b'0.5'
+          Node id : 93988627097800, Node type: expression_statement, Node text: b'CollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));'
+            Node id : 93988627097488, Node type: call_expression, Node text: b'CollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation))'
+              Node id : 93988627094384, Node type: field_expression, Node text: b'CollisionCapsule->SetWorldRotation'
+                Node id : 93988627094080, Node type: identifier, Node text: b'CollisionCapsule'
+                Node id : 93988627094288, Node type: field_identifier, Node text: b'SetWorldRotation'
+              Node id : 93988627097384, Node type: argument_list, Node text: b'(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation))'
+                Node id : 93988627097072, Node type: call_expression, Node text: b'FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation)'
+                  Node id : 93988627094800, Node type: qualified_identifier, Node text: b'FQuat::FindBetweenVectors'
+                    Node id : 93988627094576, Node type: namespace_identifier, Node text: b'FQuat'
+                    Node id : 93988627094696, Node type: identifier, Node text: b'FindBetweenVectors'
+                  Node id : 93988627096968, Node type: argument_list, Node text: b'(FVector(0, 0, 1), DeltaLocation)'
+                    Node id : 93988627096336, Node type: call_expression, Node text: b'FVector(0, 0, 1)'
+                      Node id : 93988627094992, Node type: identifier, Node text: b'FVector'
+                      Node id : 93988627096232, Node type: argument_list, Node text: b'(0, 0, 1)'
+                        Node id : 93988627095184, Node type: number_literal, Node text: b'0'
+                        Node id : 93988627095376, Node type: number_literal, Node text: b'0'
+                        Node id : 93988627095680, Node type: number_literal, Node text: b'1'
+                    Node id : 93988627096528, Node type: identifier, Node text: b'DeltaLocation'
+          Node id : 93988627099928, Node type: expression_statement, Node text: b'CollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);'
+            Node id : 93988627099616, Node type: call_expression, Node text: b'CollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation)'
+              Node id : 93988627098208, Node type: field_expression, Node text: b'CollisionCapsule->SetWorldLocation'
+                Node id : 93988627097904, Node type: identifier, Node text: b'CollisionCapsule'
+                Node id : 93988627098112, Node type: field_identifier, Node text: b'SetWorldLocation'
+              Node id : 93988627099512, Node type: argument_list, Node text: b'(PrevLocation + 0.5 * DeltaLocation)'
+                Node id : 93988627099296, Node type: binary_expression, Node text: b'PrevLocation + 0.5 * DeltaLocation'
+                  Node id : 93988627098400, Node type: identifier, Node text: b'PrevLocation'
+                  Node id : 93988627099088, Node type: binary_expression, Node text: b'0.5 * DeltaLocation'
+                    Node id : 93988627098592, Node type: number_literal, Node text: b'0.5'
+                    Node id : 93988627098784, Node type: identifier, Node text: b'DeltaLocation'
+      Node id : 93988627101304, Node type: expression_statement, Node text: b'PrevLocation = GetActorLocation();'
+        Node id : 93988627101088, Node type: assignment_expression, Node text: b'PrevLocation = GetActorLocation()'
+          Node id : 93988627100976, Node type: identifier, Node text: b'PrevLocation'
+          Node id : 93988627100784, Node type: call_expression, Node text: b'GetActorLocation()'
+            Node id : 93988627100368, Node type: identifier, Node text: b'GetActorLocation'
+            Node id : 93988627100680, Node type: argument_list, Node text: b'()'
+  Node id : 93988627139208, Node type: function_definition, Node text: b'void APitchBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)\n{\n\tAPrecisionController* PC = Cast<APrecisionController>(OtherActor);\n\tif (PC)\n\t{\n\t\tUSphereComponent* SC = Cast<USphereComponent>(OtherComponent);\n\t\tif (SC && PC->IsSwinging()) // Ball was hit\n\t\t{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}\n\t\telse\n\t\t{\n\t\t}\n\t}\n\telse\n\t{\n\t\tNumBounces += 1;\n\t\tif (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}\n\t}\n\tCallPhysicsTick = false;\n\tPMC->ProjectileGravityScale = 0.6;\n}'
+    Node id : 93988627101744, Node type: primitive_type, Node text: b'void'
+    Node id : 93988627106720, Node type: function_declarator, Node text: b'APitchBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)'
+      Node id : 93988627102160, Node type: qualified_identifier, Node text: b'APitchBase::OnHit'
+        Node id : 93988627101936, Node type: namespace_identifier, Node text: b'APitchBase'
+        Node id : 93988627102056, Node type: identifier, Node text: b'OnHit'
+      Node id : 93988627106208, Node type: parameter_list, Node text: b'(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)'
+        Node id : 93988627107048, Node type: parameter_declaration, Node text: b'UPrimitiveComponent* HitComponent'
+          Node id : 93988627102256, Node type: type_identifier, Node text: b'UPrimitiveComponent'
+          Node id : 93988627103248, Node type: pointer_declarator, Node text: b'* HitComponent'
+            Node id : 93988627103040, Node type: identifier, Node text: b'HitComponent'
+        Node id : 93988627104264, Node type: parameter_declaration, Node text: b'AActor* OtherActor'
+          Node id : 93988627103456, Node type: type_identifier, Node text: b'AActor'
+          Node id : 93988627104048, Node type: pointer_declarator, Node text: b'* OtherActor'
+            Node id : 93988627103840, Node type: identifier, Node text: b'OtherActor'
+        Node id : 93988627105688, Node type: parameter_declaration, Node text: b'UPrimitiveComponent* OtherComponent'
+          Node id : 93988627104880, Node type: type_identifier, Node text: b'UPrimitiveComponent'
+          Node id : 93988627105472, Node type: pointer_declarator, Node text: b'* OtherComponent'
+            Node id : 93988627105264, Node type: identifier, Node text: b'OtherComponent'
+        Node id : 93988627104568, Node type: parameter_declaration, Node text: b'FVector NormalImpulse'
+          Node id : 93988627106528, Node type: type_identifier, Node text: b'FVector'
+          Node id : 93988627104672, Node type: identifier, Node text: b'NormalImpulse'
+        Node id : 93988627106824, Node type: parameter_declaration, Node text: b'const FHitResult& Hit'
+          Node id : 93988627106096, Node type: type_qualifier, Node text: b'const'
+          Node id : 93988627105168, Node type: type_identifier, Node text: b'FHitResult'
+          Node id : 93988627106000, Node type: reference_declarator, Node text: b'& Hit'
+            Node id : 93988627105904, Node type: identifier, Node text: b'Hit'
+    Node id : 93988627139104, Node type: compound_statement, Node text: b'{\n\tAPrecisionController* PC = Cast<APrecisionController>(OtherActor);\n\tif (PC)\n\t{\n\t\tUSphereComponent* SC = Cast<USphereComponent>(OtherComponent);\n\t\tif (SC && PC->IsSwinging()) // Ball was hit\n\t\t{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}\n\t\telse\n\t\t{\n\t\t}\n\t}\n\telse\n\t{\n\t\tNumBounces += 1;\n\t\tif (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}\n\t}\n\tCallPhysicsTick = false;\n\tPMC->ProjectileGravityScale = 0.6;\n}'
+      Node id : 93988627138752, Node type: declaration, Node text: b'APrecisionController* PC = Cast<APrecisionController>(OtherActor);'
+        Node id : 93988627102352, Node type: type_identifier, Node text: b'APrecisionController'
+        Node id : 93988627110336, Node type: init_declarator, Node text: b'* PC = Cast<APrecisionController>(OtherActor)'
+          Node id : 93988627102736, Node type: pointer_declarator, Node text: b'* PC'
+            Node id : 93988627102944, Node type: identifier, Node text: b'PC'
+          Node id : 93988627109952, Node type: call_expression, Node text: b'Cast<APrecisionController>(OtherActor)'
+            Node id : 93988627109344, Node type: template_function, Node text: b'Cast<APrecisionController>'
+              Node id : 93988627109120, Node type: identifier, Node text: b'Cast'
+              Node id : 93988627109128, Node type: template_argument_list, Node text: b'<APrecisionController>'
+                Node id : 93988627109016, Node type: type_descriptor, Node text: b'APrecisionController'
+                  Node id : 93988627107488, Node type: type_identifier, Node text: b'APrecisionController'
+            Node id : 93988627108600, Node type: argument_list, Node text: b'(OtherActor)'
+              Node id : 93988627107584, Node type: identifier, Node text: b'OtherActor'
+      Node id : 93988627138760, Node type: if_statement, Node text: b'if (PC)\n\t{\n\t\tUSphereComponent* SC = Cast<USphereComponent>(OtherComponent);\n\t\tif (SC && PC->IsSwinging()) // Ball was hit\n\t\t{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}\n\t\telse\n\t\t{\n\t\t}\n\t}\n\telse\n\t{\n\t\tNumBounces += 1;\n\t\tif (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}\n\t}'
+        Node id : 93988627138632, Node type: condition_clause, Node text: b'(PC)'
+          Node id : 93988627109632, Node type: identifier, Node text: b'PC'
+        Node id : 93988627138640, Node type: compound_statement, Node text: b'{\n\t\tUSphereComponent* SC = Cast<USphereComponent>(OtherComponent);\n\t\tif (SC && PC->IsSwinging()) // Ball was hit\n\t\t{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}\n\t\telse\n\t\t{\n\t\t}\n\t}'
+          Node id : 93988627135584, Node type: declaration, Node text: b'USphereComponent* SC = Cast<USphereComponent>(OtherComponent);'
+            Node id : 93988627109536, Node type: type_identifier, Node text: b'USphereComponent'
+            Node id : 93988627113920, Node type: init_declarator, Node text: b'* SC = Cast<USphereComponent>(OtherComponent)'
+              Node id : 93988627102640, Node type: pointer_declarator, Node text: b'* SC'
+                Node id : 93988627111056, Node type: identifier, Node text: b'SC'
+              Node id : 93988627113536, Node type: call_expression, Node text: b'Cast<USphereComponent>(OtherComponent)'
+                Node id : 93988627112928, Node type: template_function, Node text: b'Cast<USphereComponent>'
+                  Node id : 93988627112704, Node type: identifier, Node text: b'Cast'
+                  Node id : 93988627112712, Node type: template_argument_list, Node text: b'<USphereComponent>'
+                    Node id : 93988627112600, Node type: type_descriptor, Node text: b'USphereComponent'
+                      Node id : 93988627104464, Node type: type_identifier, Node text: b'USphereComponent'
+                Node id : 93988627112184, Node type: argument_list, Node text: b'(OtherComponent)'
+                  Node id : 93988627108192, Node type: identifier, Node text: b'OtherComponent'
+          Node id : 93988627135592, Node type: if_statement, Node text: b'if (SC && PC->IsSwinging()) // Ball was hit\n\t\t{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}\n\t\telse\n\t\t{\n\t\t}'
+            Node id : 93988627135464, Node type: condition_clause, Node text: b'(SC && PC->IsSwinging())'
+              Node id : 93988627111872, Node type: binary_expression, Node text: b'SC && PC->IsSwinging()'
+                Node id : 93988627112496, Node type: identifier, Node text: b'SC'
+                Node id : 93988627114640, Node type: call_expression, Node text: b'PC->IsSwinging()'
+                  Node id : 93988627113216, Node type: field_expression, Node text: b'PC->IsSwinging'
+                    Node id : 93988627114224, Node type: identifier, Node text: b'PC'
+                    Node id : 93988627114032, Node type: field_identifier, Node text: b'IsSwinging'
+                  Node id : 93988627114440, Node type: argument_list, Node text: b'()'
+            Node id : 93988627135472, Node type: comment, Node text: b'// Ball was hit'
+            Node id : 93988627135480, Node type: compound_statement, Node text: b'{\n\t\t\tPMC->Velocity *= 1.1;\n\t\t\t// Tell catcher wall to ignore this ball after it\'s hit\n\t\t\tTArray<AActor*> CatcherWalls;\n\t\t\tUGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);\n\t\t\tif (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());\n\t\t\tfor (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}\n\t\t\tStaticMeshComponent->IgnoreActorWhenMoving(CW, true);\n\t\t}'
+              Node id : 93988627116832, Node type: expression_statement, Node text: b'PMC->Velocity *= 1.1;'
+                Node id : 93988627107776, Node type: assignment_expression, Node text: b'PMC->Velocity *= 1.1'
+                  Node id : 93988627115488, Node type: field_expression, Node text: b'PMC->Velocity'
+                    Node id : 93988627111568, Node type: identifier, Node text: b'PMC'
+                    Node id : 93988627115392, Node type: field_identifier, Node text: b'Velocity'
+                  Node id : 93988627111776, Node type: number_literal, Node text: b'1.1'
+              Node id : 93988627116840, Node type: comment, Node text: b"// Tell catcher wall to ignore this ball after it's hit"
+              Node id : 93988627116848, Node type: declaration, Node text: b'TArray<AActor*> CatcherWalls;'
+                Node id : 93988627107392, Node type: template_type, Node text: b'TArray<AActor*>'
+                  Node id : 93988627116608, Node type: type_identifier, Node text: b'TArray'
+                  Node id : 93988627116616, Node type: template_argument_list, Node text: b'<AActor*>'
+                    Node id : 93988627116504, Node type: type_descriptor, Node text: b'AActor*'
+                      Node id : 93988627115712, Node type: type_identifier, Node text: b'AActor'
+                      Node id : 93988627116288, Node type: abstract_pointer_declarator, Node text: b'*'
+                Node id : 93988627116000, Node type: identifier, Node text: b'CatcherWalls'
+              Node id : 93988627124976, Node type: expression_statement, Node text: b'UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);'
+                Node id : 93988627121728, Node type: call_expression, Node text: b'UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls)'
+                  Node id : 93988627117376, Node type: qualified_identifier, Node text: b'UGameplayStatics::GetAllActorsOfClass'
+                    Node id : 93988627116944, Node type: namespace_identifier, Node text: b'UGameplayStatics'
+                    Node id : 93988627117064, Node type: identifier, Node text: b'GetAllActorsOfClass'
+                  Node id : 93988627121624, Node type: argument_list, Node text: b'(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls)'
+                    Node id : 93988627118272, Node type: call_expression, Node text: b'GetWorld()'
+                      Node id : 93988627117664, Node type: identifier, Node text: b'GetWorld'
+                      Node id : 93988627118488, Node type: argument_list, Node text: b'()'
+                    Node id : 93988627119632, Node type: call_expression, Node text: b'ACatcherWall::StaticClass()'
+                      Node id : 93988627115808, Node type: qualified_identifier, Node text: b'ACatcherWall::StaticClass'
+                        Node id : 93988627117168, Node type: namespace_identifier, Node text: b'ACatcherWall'
+                        Node id : 93988627118056, Node type: identifier, Node text: b'StaticClass'
+                      Node id : 93988627119528, Node type: argument_list, Node text: b'()'
+                    Node id : 93988627120560, Node type: identifier, Node text: b'CatcherWalls'
+              Node id : 93988627124984, Node type: if_statement, Node text: b'if (CatcherWalls.Num() == 0)\n\t\t\t{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}'
+                Node id : 93988627124872, Node type: condition_clause, Node text: b'(CatcherWalls.Num() == 0)'
+                  Node id : 93988627119312, Node type: binary_expression, Node text: b'CatcherWalls.Num() == 0'
+                    Node id : 93988627121168, Node type: call_expression, Node text: b'CatcherWalls.Num()'
+                      Node id : 93988627120976, Node type: field_expression, Node text: b'CatcherWalls.Num'
+                        Node id : 93988627120144, Node type: identifier, Node text: b'CatcherWalls'
+                        Node id : 93988627120352, Node type: field_identifier, Node text: b'Num'
+                      Node id : 93988627121272, Node type: argument_list, Node text: b'()'
+                    Node id : 93988627122256, Node type: number_literal, Node text: b'0'
+                Node id : 93988627124880, Node type: compound_statement, Node text: b'{\n\t\t\t\tGEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));\n\t\t\t\treturn;\n\t\t\t}'
+                  Node id : 93988627124640, Node type: expression_statement, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));'
+                    Node id : 93988627124224, Node type: call_expression, Node text: b'GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"))'
+                      Node id : 93988627118784, Node type: field_expression, Node text: b'GEngine->AddOnScreenDebugMessage'
+                        Node id : 93988627117568, Node type: identifier, Node text: b'GEngine'
+                        Node id : 93988627118176, Node type: field_identifier, Node text: b'AddOnScreenDebugMessage'
+                      Node id : 93988627124120, Node type: argument_list, Node text: b'(-1, 1, FColor::Red, TEXT("No catcher walls!"))'
+                        Node id : 93988627117952, Node type: number_literal, Node text: b'-1'
+                        Node id : 93988627120048, Node type: number_literal, Node text: b'1'
+                        Node id : 93988627122560, Node type: qualified_identifier, Node text: b'FColor::Red'
+                          Node id : 93988627118976, Node type: namespace_identifier, Node text: b'FColor'
+                          Node id : 93988627122456, Node type: identifier, Node text: b'Red'
+                        Node id : 93988627123696, Node type: call_expression, Node text: b'TEXT("No catcher walls!")'
+                          Node id : 93988627122976, Node type: identifier, Node text: b'TEXT'
+                          Node id : 93988627123592, Node type: argument_list, Node text: b'("No catcher walls!")'
+                            Node id : 93988627123280, Node type: string_literal, Node text: b'"No catcher walls!"'
+                              Node id : 93988627123176, Node type: string_content, Node text: b'No catcher walls!'
+                  Node id : 93988627124648, Node type: return_statement, Node text: b'return;'
+              Node id : 93988627133456, Node type: declaration, Node text: b'ACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());'
+                Node id : 93988627125088, Node type: type_identifier, Node text: b'ACatcherWall'
+                Node id : 93988627130256, Node type: init_declarator, Node text: b'* CW = Cast<ACatcherWall>(CatcherWalls.Top())'
+                  Node id : 93988627125680, Node type: pointer_declarator, Node text: b'* CW'
+                    Node id : 93988627125472, Node type: identifier, Node text: b'CW'
+                  Node id : 93988627129760, Node type: call_expression, Node text: b'Cast<ACatcherWall>(CatcherWalls.Top())'
+                    Node id : 93988627128016, Node type: template_function, Node text: b'Cast<ACatcherWall>'
+                      Node id : 93988627127792, Node type: identifier, Node text: b'Cast'
+                      Node id : 93988627127800, Node type: template_argument_list, Node text: b'<ACatcherWall>'
+                        Node id : 93988627127688, Node type: type_descriptor, Node text: b'ACatcherWall'
+                          Node id : 93988627126160, Node type: type_identifier, Node text: b'ACatcherWall'
+                    Node id : 93988627129544, Node type: argument_list, Node text: b'(CatcherWalls.Top())'
+                      Node id : 93988627128704, Node type: call_expression, Node text: b'CatcherWalls.Top()'
+                        Node id : 93988627128208, Node type: field_expression, Node text: b'CatcherWalls.Top'
+                          Node id : 93988627126256, Node type: identifier, Node text: b'CatcherWalls'
+                          Node id : 93988627127168, Node type: field_identifier, Node text: b'Top'
+                        Node id : 93988627128600, Node type: argument_list, Node text: b'()'
+              Node id : 93988627133464, Node type: for_range_loop, Node text: b'for (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })\n\t\t\t{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}'
+                Node id : 93988627129120, Node type: type_identifier, Node text: b'UBoxComponent'
+                Node id : 93988627125872, Node type: pointer_declarator, Node text: b'* Box'
+                  Node id : 93988627130880, Node type: identifier, Node text: b'Box'
+                Node id : 93988627131768, Node type: initializer_list, Node text: b'{ CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left }'
+                  Node id : 93988627130976, Node type: field_expression, Node text: b'CW->Front'
+                    Node id : 93988627129216, Node type: identifier, Node text: b'CW'
+                    Node id : 93988627131088, Node type: field_identifier, Node text: b'Front'
+                  Node id : 93988627126064, Node type: field_expression, Node text: b'CW->Bottom'
+                    Node id : 93988627125776, Node type: identifier, Node text: b'CW'
+                    Node id : 93988627128912, Node type: field_identifier, Node text: b'Bottom'
+                  Node id : 93988627125280, Node type: field_expression, Node text: b'CW->Front'
+                    Node id : 93988627129856, Node type: identifier, Node text: b'CW'
+                    Node id : 93988627130368, Node type: field_identifier, Node text: b'Front'
+                  Node id : 93988627127584, Node type: field_expression, Node text: b'CW->Right'
+                    Node id : 93988627128496, Node type: identifier, Node text: b'CW'
+                    Node id : 93988627127920, Node type: field_identifier, Node text: b'Right'
+                  Node id : 93988627126448, Node type: field_expression, Node text: b'CW->Left'
+                    Node id : 93988627126864, Node type: identifier, Node text: b'CW'
+                    Node id : 93988627131200, Node type: field_identifier, Node text: b'Left'
+                Node id : 93988627133360, Node type: compound_statement, Node text: b'{\n\t\t\t\tBox->IgnoreActorWhenMoving(this, true);\n\t\t\t}'
+                  Node id : 93988627133224, Node type: expression_statement, Node text: b'Box->IgnoreActorWhenMoving(this, true);'
+                    Node id : 93988627132912, Node type: call_expression, Node text: b'Box->IgnoreActorWhenMoving(this, true)'
+                      Node id : 93988627132176, Node type: field_expression, Node text: b'Box->IgnoreActorWhenMoving'
+                        Node id : 93988627131872, Node type: identifier, Node text: b'Box'
+                        Node id : 93988627132080, Node type: field_identifier, Node text: b'IgnoreActorWhenMoving'
+                      Node id : 93988627132808, Node type: argument_list, Node text: b'(this, true)'
+                        Node id : 93988627132368, Node type: this, Node text: b'this'
+                        Node id : 93988627132464, Node type: true, Node text: b'true'
+              Node id : 93988627135016, Node type: expression_statement, Node text: b'StaticMeshComponent->IgnoreActorWhenMoving(CW, true);'
+                Node id : 93988627134704, Node type: call_expression, Node text: b'StaticMeshComponent->IgnoreActorWhenMoving(CW, true)'
+                  Node id : 93988627133872, Node type: field_expression, Node text: b'StaticMeshComponent->IgnoreActorWhenMoving'
+                    Node id : 93988627133568, Node type: identifier, Node text: b'StaticMeshComponent'
+                    Node id : 93988627133776, Node type: field_identifier, Node text: b'IgnoreActorWhenMoving'
+                  Node id : 93988627134600, Node type: argument_list, Node text: b'(CW, true)'
+                    Node id : 93988627134064, Node type: identifier, Node text: b'CW'
+                    Node id : 93988627134256, Node type: true, Node text: b'true'
+            Node id : 93988627135488, Node type: else_clause, Node text: b'else\n\t\t{\n\t\t}'
+              Node id : 93988627135352, Node type: compound_statement, Node text: b'{\n\t\t}'
+        Node id : 93988627138648, Node type: else_clause, Node text: b'else\n\t{\n\t\tNumBounces += 1;\n\t\tif (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}\n\t}'
+          Node id : 93988627138520, Node type: compound_statement, Node text: b'{\n\t\tNumBounces += 1;\n\t\tif (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}\n\t}'
+            Node id : 93988627138288, Node type: expression_statement, Node text: b'NumBounces += 1;'
+              Node id : 93988627113024, Node type: assignment_expression, Node text: b'NumBounces += 1'
+                Node id : 93988627113312, Node type: identifier, Node text: b'NumBounces'
+                Node id : 93988627110544, Node type: number_literal, Node text: b'1'
+            Node id : 93988627138296, Node type: if_statement, Node text: b'if (NumBounces <= 4)\n\t\t{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}'
+              Node id : 93988627138168, Node type: condition_clause, Node text: b'(NumBounces <= 4)'
+                Node id : 93988627135808, Node type: binary_expression, Node text: b'NumBounces <= 4'
+                  Node id : 93988627113632, Node type: identifier, Node text: b'NumBounces'
+                  Node id : 93988627114736, Node type: number_literal, Node text: b'4'
+              Node id : 93988627138176, Node type: compound_statement, Node text: b'{\n\t\t\tPMC->Bounciness -= 0.25;\n\t\t}'
+                Node id : 93988627136504, Node type: expression_statement, Node text: b'PMC->Bounciness -= 0.25;'
+                  Node id : 93988627136288, Node type: assignment_expression, Node text: b'PMC->Bounciness -= 0.25'
+                    Node id : 93988627135696, Node type: field_expression, Node text: b'PMC->Bounciness'
+                      Node id : 93988627135904, Node type: identifier, Node text: b'PMC'
+                      Node id : 93988627111680, Node type: field_identifier, Node text: b'Bounciness'
+                    Node id : 93988627136096, Node type: number_literal, Node text: b'0.25'
+              Node id : 93988627138184, Node type: else_clause, Node text: b'else\n\t\t{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}'
+                Node id : 93988627138056, Node type: compound_statement, Node text: b'{\n\t\t\tStaticMeshComponent->OnComponentHit.Clear();\n\t\t}'
+                  Node id : 93988627137944, Node type: expression_statement, Node text: b'StaticMeshComponent->OnComponentHit.Clear();'
+                    Node id : 93988627137632, Node type: call_expression, Node text: b'StaticMeshComponent->OnComponentHit.Clear()'
+                      Node id : 93988627137216, Node type: field_expression, Node text: b'StaticMeshComponent->OnComponentHit.Clear'
+                        Node id : 93988627136912, Node type: field_expression, Node text: b'StaticMeshComponent->OnComponentHit'
+                          Node id : 93988627136608, Node type: identifier, Node text: b'StaticMeshComponent'
+                          Node id : 93988627136816, Node type: field_identifier, Node text: b'OnComponentHit'
+                        Node id : 93988627137120, Node type: field_identifier, Node text: b'Clear'
+                      Node id : 93988627137528, Node type: argument_list, Node text: b'()'
+      Node id : 93988627109848, Node type: expression_statement, Node text: b'CallPhysicsTick = false;'
+        Node id : 93988627103744, Node type: assignment_expression, Node text: b'CallPhysicsTick = false'
+          Node id : 93988627109232, Node type: identifier, Node text: b'CallPhysicsTick'
+          Node id : 93988627104368, Node type: false, Node text: b'false'
+      Node id : 93988627138872, Node type: expression_statement, Node text: b'PMC->ProjectileGravityScale = 0.6;'
+        Node id : 93988627111472, Node type: assignment_expression, Node text: b'PMC->ProjectileGravityScale = 0.6'
+          Node id : 93988627111360, Node type: field_expression, Node text: b'PMC->ProjectileGravityScale'
+            Node id : 93988627109440, Node type: identifier, Node text: b'PMC'
+            Node id : 93988627111264, Node type: field_identifier, Node text: b'ProjectileGravityScale'
+          Node id : 93988627110240, Node type: number_literal, Node text: b'0.6'
+  Node id : 93988627142552, Node type: function_definition, Node text: b'void APitchBase::DestroyBlurMeshes()\n{\n\tfor (UStaticMeshComponent* BlurMesh : BlurMeshes)\n\t{\n\t\tBlurMesh->DestroyComponent();\n\t}\n}'
+    Node id : 93988627139312, Node type: primitive_type, Node text: b'void'
+    Node id : 93988627140144, Node type: function_declarator, Node text: b'APitchBase::DestroyBlurMeshes()'
+      Node id : 93988627139728, Node type: qualified_identifier, Node text: b'APitchBase::DestroyBlurMeshes'
+        Node id : 93988627139504, Node type: namespace_identifier, Node text: b'APitchBase'
+        Node id : 93988627139624, Node type: identifier, Node text: b'DestroyBlurMeshes'
+      Node id : 93988627139936, Node type: parameter_list, Node text: b'()'
+    Node id : 93988627142448, Node type: compound_statement, Node text: b'{\n\tfor (UStaticMeshComponent* BlurMesh : BlurMeshes)\n\t{\n\t\tBlurMesh->DestroyComponent();\n\t}\n}'
+      Node id : 93988627142328, Node type: for_range_loop, Node text: b'for (UStaticMeshComponent* BlurMesh : BlurMeshes)\n\t{\n\t\tBlurMesh->DestroyComponent();\n\t}'
+        Node id : 93988627140240, Node type: type_identifier, Node text: b'UStaticMeshComponent'
+        Node id : 93988627140832, Node type: pointer_declarator, Node text: b'* BlurMesh'
+          Node id : 93988627140624, Node type: identifier, Node text: b'BlurMesh'
+        Node id : 93988627140336, Node type: identifier, Node text: b'BlurMeshes'
+        Node id : 93988627142224, Node type: compound_statement, Node text: b'{\n\t\tBlurMesh->DestroyComponent();\n\t}'
+          Node id : 93988627142088, Node type: expression_statement, Node text: b'BlurMesh->DestroyComponent();'
+            Node id : 93988627141776, Node type: call_expression, Node text: b'BlurMesh->DestroyComponent()'
+              Node id : 93988627141360, Node type: field_expression, Node text: b'BlurMesh->DestroyComponent'
+                Node id : 93988627141056, Node type: identifier, Node text: b'BlurMesh'
+                Node id : 93988627141264, Node type: field_identifier, Node text: b'DestroyComponent'
+              Node id : 93988627141672, Node type: argument_list, Node text: b'()'
 
 --------------------------------------------------
 Word depths:
-94831752596656 (b'int y...): 0
-   94831752851808 (b'int y...): 1
-      94831752843104 (b'int'): 2
-      94831752402432 (b'y = 1'): 2
-         94831753122432 (b'y'): 3
-         94831752402328 (b'='): 3
-         94831753923600 (b'1'): 3
-      94831753222032 (b';'): 2
-   94831752851816 (b'void ...): 1
-      94831753222128 (b'void'): 2
-      94831753973680 (b'f(int...): 2
-         94831753247600 (b'f'): 3
-         94831753513568 (b'(int ...): 3
-            94831753936368 (b'('): 4
-            94831753936376 (b'int a'): 4
-               94831753247696 (b'int'): 5
-               94831753513472 (b'a'): 5
-            94831753936384 (b')'): 4
-      94831752851712 (b'{\n  ...): 2
-         94831753883264 (b'{'): 3
-         94831753883272 (b'retur...): 3
-            94831753883152 (b'return'): 4
-            94831753883160 (b';'): 4
-         94831753883280 (b'}'): 3
-   94831754058408 (b'int m...): 1
-      94831754086688 (b'int'): 2
-      94831753378192 (b'main()'): 2
-         94831754086880 (b'main'): 3
-         94831752709584 (b'()'): 3
-            94831752709472 (b'('): 4
-            94831752709480 (b')'): 4
-      94831753969920 (b'{\n  ...): 2
-         94831753194640 (b'{'): 3
-         94831752971248 (b'int x...): 3
-            94831753378288 (b'int'): 4
-            94831753907440 (b'x = 5'): 4
-               94831753910720 (b'x'): 5
-               94831753907336 (b'='): 5
-               94831753896080 (b'5'): 5
-            94831752804448 (b';'): 4
-         94831752971256 (b'x ++;'): 3
-            94831754064224 (b'x ++'): 4
-               94831752804544 (b'x'): 5
-               94831754064120 (b'++'): 5
-            94831754064328 (b';'): 4
-         94831754058616 (b'f(x);'): 3
-            94831753967616 (b'f(x)'): 4
-               94831754000128 (b'f'): 5
-               94831753971672 (b'(x)'): 5
-                  94831753971552 (b'('): 6
-                  94831752835440 (b'x'): 6
-                  94831753971568 (b')'): 6
-            94831754000328 (b';'): 4
-         94831753194656 (b'}'): 3
+93988626234304 (b'// Fi...): 0
+   93988627142752 (b'// Fi...): 1
+   93988625950864 (b'#incl...): 1
+      93988626678536 (b'"Pitc...): 2
+         93988626619016 (b'Pitch...): 3
+   93988625950872 (b'#incl...): 1
+      93988626661512 (b'"Comp...): 2
+         93988626661400 (b'Compo...): 3
+   93988626279688 (b'#incl...): 1
+      93988625986120 (b'"Game...): 2
+         93988625986008 (b'GameF...): 3
+   93988625586496 (b'#incl...): 1
+      93988626282696 (b'"Mate...): 2
+         93988626282584 (b'Mater...): 3
+   93988625586504 (b'#incl...): 1
+      93988625641416 (b'"../P...): 2
+         93988625641304 (b'../Pi...): 3
+   93988625483216 (b'#incl...): 1
+      93988625672200 (b'"Runt...): 2
+         93988625672088 (b'Runti...): 3
+   93988625483224 (b'#incl...): 1
+      93988625483112 (b'"Comp...): 2
+         93988626852968 (b'Compo...): 3
+   93988625995808 (b'#incl...): 1
+      93988626148232 (b'"../C...): 2
+         93988626148120 (b'../Co...): 3
+   93988625995816 (b'#incl...): 1
+      93988626141784 (b'"../C...): 2
+         93988626141672 (b'../Ca...): 3
+   93988625614288 (b'#incl...): 1
+      93988625582648 (b'"Comp...): 2
+         93988625996024 (b'Compo...): 3
+   93988625614296 (b'#incl...): 1
+      93988625614184 (b'"Comp...): 2
+         93988625614072 (b'Compo...): 3
+   93988626687424 (b'#incl...): 1
+      93988625599640 (b'"Draw...): 2
+         93988625599528 (b'DrawD...): 3
+   93988626687432 (b'#incl...): 1
+      93988626687320 (b'"Curv...): 2
+         93988625610792 (b'Curve...): 3
+   93988626985984 (b'#incl...): 1
+      93988626831528 (b'"Curv...): 2
+         93988626831416 (b'Curve...): 3
+   93988626985992 (b'// Se...): 1
+   93988626986000 (b'APitc...): 1
+      93988626985872 (b'APitc...): 2
+         93988625968288 (b'APitc...): 3
+            93988625807888 (b'APitc...): 4
+            93988625922744 (b'APitc...): 4
+         93988625922960 (b'()'): 3
+      93988626985880 (b'{\n\t...): 2
+         93988626985752 (b"// Se...): 3
+         93988626004064 (b'Prima...): 3
+            93988626663792 (b'Prima...): 4
+               93988625468208 (b'Prima...): 5
+                  93988625968384 (b'Prima...): 6
+                  93988625668592 (b'bCanE...): 6
+               93988625968192 (b'true'): 5
+         93988626004072 (b'Stati...): 3
+            93988626842272 (b'Stati...): 4
+               93988626842160 (b'Stati...): 5
+               93988626841968 (b'Creat...): 5
+                  93988626003776 (b'Creat...): 6
+                     93988626003664 (b'Creat...): 7
+                     93988626003672 (b'<USta...): 7
+                        93988625407672 (b'UStat...): 8
+                           93988625439408 (b'UStat...): 9
+                  93988626841864 (b'(FNam...): 6
+                     93988626837184 (b'FName...): 7
+                        93988626769696 (b'FName'): 8
+                        93988626837080 (b'("Sta...): 8
+                           93988625407568 (b'"Stat...): 9
+                              93988625439512 (b'Stati...): 10
+         93988626844688 (b'Stati...): 3
+            93988626842992 (b'Stati...): 4
+               93988626698304 (b'Stati...): 5
+                  93988626836976 (b'Stati...): 6
+                  93988626837392 (b'SetMo...): 6
+               93988626842888 (b'(ECom...): 5
+                  93988626842576 (b'EComp...): 6
+                     93988626837488 (b'EComp...): 7
+                     93988626842376 (b'Movab...): 7
+         93988626844696 (b'Stati...): 3
+            93988626844384 (b'Stati...): 4
+               93988625284048 (b'Stati...): 5
+                  93988626003872 (b'Stati...): 6
+                     93988626836880 (b'Stati...): 7
+                     93988626843328 (b'OnCom...): 7
+                  93988626843440 (b'AddDy...): 6
+               93988626844280 (b'(this...): 5
+                  93988626268208 (b'this'): 6
+                  93988626843968 (b'&APit...): 6
+                     93988626843760 (b'APitc...): 7
+                        93988626843536 (b'APitc...): 8
+                        93988626843656 (b'OnHit'): 8
+         93988626980352 (b'SetRo...): 3
+            93988626978704 (b'SetRo...): 4
+               93988626977616 (b'SetRo...): 5
+               93988626978600 (b'(Stat...): 5
+                  93988626977904 (b'Stati...): 6
+         93988626980360 (b'PMC =...): 3
+            93988626981904 (b'PMC =...): 4
+               93988626981792 (b'PMC'): 5
+               93988626981600 (b'Creat...): 5
+                  93988626979968 (b'Creat...): 6
+                     93988626979856 (b'Creat...): 7
+                     93988626979864 (b'<UPro...): 7
+                        93988626979752 (b'UProj...): 8
+                           93988626977424 (b'UProj...): 9
+                  93988626981496 (b'(FNam...): 6
+                     93988626980768 (b'FName...): 7
+                        93988626978096 (b'FName'): 8
+                        93988626980664 (b'("PMC...): 8
+                           93988626977808 (b'"PMC"'): 9
+                              93988626979528 (b'PMC'): 10
+         93988626984880 (b'Colli...): 3
+            93988626984272 (b'Colli...): 4
+               93988626984160 (b'Colli...): 5
+               93988626983968 (b'Creat...): 5
+                  93988626980064 (b'Creat...): 6
+                     93988626982512 (b'Creat...): 7
+                     93988626982520 (b'<UCap...): 7
+                        93988626982312 (b'UCaps...): 8
+                           93988626981280 (b'UCaps...): 9
+                  93988626983864 (b'(FNam...): 6
+                     93988626983136 (b'FName...): 7
+                        93988626982112 (b'FName'): 8
+                        93988626983032 (b'("Col...): 8
+                           93988626980160 (b'"Coll...): 9
+                              93988626981080 (b'Colli...): 10
+         93988626984888 (b'Colli...): 3
+            93988626984992 (b'Colli...): 4
+               93988626983648 (b'Colli...): 5
+                  93988626982928 (b'Colli...): 6
+                  93988626983344 (b'SetCa...): 6
+               93988626984376 (b'(3.6)'): 5
+                  93988626984576 (b'3.6'): 6
+         93988626985640 (b'Colli...): 3
+            93988626981184 (b'Colli...): 4
+               93988626977520 (b'Colli...): 5
+                  93988626982832 (b'Colli...): 6
+                  93988626985104 (b'SetCa...): 6
+               93988626985320 (b'(0.01)'): 5
+                  93988626982624 (b'0.01'): 6
+   93988627070144 (b'void ...): 1
+      93988626986096 (b'void'): 2
+      93988626986928 (b'APitc...): 2
+         93988626986512 (b'APitc...): 3
+            93988626986288 (b'APitc...): 4
+            93988626986408 (b'Physi...): 4
+         93988626986720 (b'()'): 3
+      93988627001584 (b'{\t\n...): 2
+         93988627001448 (b'// Ap...): 3
+         93988627001456 (b'// Fo...): 3
+         93988626994336 (b'const...): 3
+            93988626987216 (b'const'): 4
+            93988626987312 (b'FVect...): 4
+            93988626990784 (b'Drag ...): 4
+               93988626987120 (b'Drag'): 5
+               93988626990576 (b'-GetV...): 5
+                  93988626990176 (b'-GetV...): 6
+                     93988626988640 (b'-GetV...): 7
+                        93988626988240 (b'-GetV...): 8
+                           93988626987936 (b'GetVe...): 9
+                              93988626987520 (b'GetVe...): 10
+                              93988626987832 (b'()'): 10
+                        93988626988336 (b'DragC...): 8
+                     93988626989872 (b'GetVe...): 7
+                        93988626989456 (b'GetVe...): 8
+                           93988626989152 (b'GetVe...): 9
+                              93988626988736 (b'GetVe...): 10
+                              93988626989048 (b'()'): 10
+                           93988626989360 (b'Size'): 9
+                        93988626989768 (b'()'): 8
+                  93988626990272 (b'0.01'): 6
+         93988626994344 (b'const...): 3
+            93988626991184 (b'const'): 4
+            93988626991280 (b'FVect...): 4
+            93988626994128 (b'Magnu...): 4
+               93988626991088 (b'Magnus'): 5
+               93988626993920 (b'Magnu...): 5
+                  93988626993520 (b'Magnu...): 6
+                     93988626991984 (b'Magnu...): 7
+                        93988626991488 (b'Magnu...): 8
+                        93988626991680 (b'Magnu...): 8
+                     93988626993216 (b'GetVe...): 7
+                        93988626992800 (b'GetVe...): 8
+                           93988626992496 (b'GetVe...): 9
+                              93988626992080 (b'GetVe...): 10
+                              93988626992392 (b'()'): 10
+                           93988626992704 (b'SizeS...): 9
+                        93988626993112 (b'()'): 8
+                  93988626993616 (b'0.01'): 6
+         93988626999608 (b'GEngi...): 3
+            93988626999296 (b'GEngi...): 4
+               93988626994752 (b'GEngi...): 5
+                  93988626994448 (b'GEngi...): 6
+                  93988626994656 (b'AddOn...): 6
+               93988626999192 (b'(-1, ...): 5
+                  93988626994944 (b'-1'): 6
+                  93988626996272 (b'GetWo...): 6
+                     93988626995856 (b'GetWo...): 7
+                        93988626995552 (b'GetWo...): 8
+                           93988626995136 (b'GetWo...): 9
+                           93988626995448 (b'()'): 9
+                        93988626995760 (b'GetDe...): 8
+                     93988626996168 (b'()'): 7
+                  93988626996800 (b'FColo...): 6
+                     93988626996576 (b'FColor'): 7
+                     93988626996696 (b'Cyan'): 7
+                  93988626998768 (b'FStri...): 6
+                     93988626997440 (b'FStri...): 7
+                        93988626997216 (b'FStri...): 8
+                        93988626997336 (b'Sanit...): 8
+                     93988626998664 (b'(Magn...): 7
+                        93988626998352 (b'Magnu...): 8
+                           93988626997936 (b'Magnu...): 9
+                              93988626997632 (b'Magnus'): 10
+                              93988626997840 (b'Size'): 10
+                           93988626998248 (b'()'): 9
+         93988627001336 (b'PMC->...): 3
+            93988627001024 (b'PMC->...): 4
+               93988627000016 (b'PMC->...): 5
+                  93988626999712 (b'PMC'): 6
+                  93988626999920 (b'AddFo...): 6
+               93988627000920 (b'(Drag...): 5
+                  93988627000704 (b'Drag ...): 6
+                     93988627000208 (b'Drag'): 7
+                     93988627000400 (b'Magnus'): 7
+   93988627070152 (b'// Ca...): 1
+   93988627070160 (b'void ...): 1
+      93988627001792 (b'void'): 2
+      93988627002624 (b'APitc...): 2
+         93988627002208 (b'APitc...): 3
+            93988627001984 (b'APitc...): 4
+            93988627002104 (b'Begin...): 4
+         93988627002416 (b'()'): 3
+      93988627070048 (b'{\n\t...): 2
+         93988627017920 (b'Super...): 3
+            93988627003056 (b'Super...): 4
+               93988627003344 (b'Super...): 5
+                  93988627002720 (b'Super'): 6
+                  93988627002840 (b'Begin...): 6
+               93988627003640 (b'()'): 5
+         93988627017928 (b'if (!...): 3
+            93988627017000 (b'(!Pit...): 4
+               93988627003968 (b'!Pitc...): 5
+                  93988627003248 (b'Pitch...): 6
+            93988627017008 (b'{\n\t...): 4
+               93988627009440 (b'TArra...): 5
+                  93988627004176 (b'TArra...): 6
+                     93988627005264 (b'TArray'): 7
+                     93988627005272 (b'<AAct...): 7
+                        93988627005160 (b'AActo...): 8
+                           93988627004368 (b'AActor'): 9
+                           93988627004944 (b'*'): 9
+                  93988627004656 (b'Pitch...): 6
+               93988627009448 (b'UGame...): 5
+                  93988627011232 (b'UGame...): 6
+                     93988627005920 (b'UGame...): 7
+                        93988627005488 (b'UGame...): 8
+                        93988627005608 (b'GetAl...): 8
+                     93988627011128 (b'(GetW...): 7
+                        93988627007776 (b'GetWo...): 8
+                           93988627006208 (b'GetWo...): 9
+                           93988627007992 (b'()'): 9
+                        93988627009136 (b'APitc...): 8
+                           93988627004464 (b'APitc...): 9
+                              93988627005712 (b'APitc...): 10
+                              93988627007320 (b'Stati...): 10
+                           93988627009032 (b'()'): 9
+                        93988627010064 (b'Pitch...): 8
+               93988627014264 (b'if (P...): 5
+                  93988627014152 (b'(Pitc...): 6
+                     93988627008816 (b'Pitch...): 7
+                        93988627010672 (b'Pitch...): 8
+                           93988627010480 (b'Pitch...): 9
+                              93988627009648 (b'Pitch...): 10
+                              93988627009856 (b'Num'): 10
+                           93988627010776 (b'()'): 9
+                        93988627011760 (b'0'): 8
+                  93988627014160 (b'{\n\t...): 6
+                     93988627014040 (b'GEngi...): 7
+                        93988627013728 (b'GEngi...): 8
+                           93988627008288 (b'GEngi...): 9
+                              93988627006112 (b'GEngi...): 10
+                              93988627007440 (b'AddOn...): 10
+                           93988627013624 (b'(-1, ...): 9
+                              93988627006496 (b'-1'): 10
+                              93988627009552 (b'1'): 10
+                              93988627012064 (b'FColo...): 10
+                                 93988627008480 (b'FColor'): 11
+                                 93988627011960 (b'Red'): 11
+                              93988627013200 (b'TEXT(...): 10
+                                 93988627012480 (b'TEXT'): 11
+                                 93988627013096 (b'("0 p...): 11
+                                    93988627012784 (b'"0 pi...): 12
+                                       93988627012680 (b'0 pit...): 13
+               93988627015464 (b'Pitch...): 5
+                  93988627017824 (b'Pitch...): 6
+                     93988627017712 (b'Pitch...): 7
+                     93988627017520 (b'Cast<...): 7
+                        93988627015888 (b'Cast<...): 8
+                           93988627015776 (b'Cast'): 9
+                           93988627015784 (b'<APit...): 9
+                              93988627015672 (b'APitc...): 10
+                                 93988627014560 (b'APitc...): 11
+                        93988627017416 (b'(Pitc...): 8
+                           93988627016688 (b'Pitch...): 9
+                              93988627016080 (b'Pitch...): 10
+                                 93988627014656 (b'Pitch...): 11
+                                 93988627015360 (b'Top'): 11
+                              93988627016584 (b'()'): 10
+         93988627019200 (b'Spawn...): 3
+            93988627018128 (b'Spawn...): 4
+               93988627018640 (b'Spawn...): 5
+               93988627017200 (b'GetAc...): 5
+                  93988627016368 (b'GetAc...): 6
+                  93988627018440 (b'()'): 6
+         93988627019208 (b'Secon...): 3
+            93988627014368 (b'Secon...): 4
+               93988627018976 (b'Secon...): 5
+               93988627018336 (b'0'): 5
+         93988627053624 (b'// In...): 3
+         93988627057664 (b'if (B...): 3
+            93988627053512 (b'(Ball...): 4
+               93988627019936 (b'BallT...): 5
+                  93988627019424 (b'BallT...): 6
+                     93988627014464 (b'BallT...): 7
+                        93988627015984 (b'BallT...): 8
+                        93988627014944 (b'Strap...): 8
+                     93988627016272 (b'Opaci...): 7
+                  93988627019632 (b'BlurS...): 6
+            93988627053520 (b'{\n\t...): 4
+               93988627053400 (b'for (...): 5
+                  93988627021936 (b'int32...): 6
+                     93988627020144 (b'int32'): 7
+                     93988627020736 (b'i = 0'): 7
+                        93988627020336 (b'i'): 8
+                        93988627020432 (b'0'): 8
+                  93988627021440 (b'i < N...): 6
+                     93988627020944 (b'i'): 7
+                     93988627021136 (b'NumBl...): 7
+                  93988627021840 (b'i++'): 6
+                     93988627021536 (b'i'): 7
+                  93988627053296 (b'{\n\t...): 6
+                     93988627030400 (b'UStat...): 7
+                        93988627022064 (b'UStat...): 8
+                        93988627028160 (b'* Blu...): 8
+                           93988627022656 (b'* Blu...): 9
+                              93988627022448 (b'BlurM...): 10
+                           93988627026544 (b'NewOb...): 9
+                              93988627027312 (b'NewOb...): 10
+                                 93988627027088 (b'NewOb...): 11
+                                 93988627027096 (b'<USta...): 11
+                                    93988627026744 (b'UStat...): 12
+                                       93988627023856 (b'UStat...): 13
+                              93988627026328 (b'(this)'): 10
+                                 93988627024192 (b'this'): 11
+                     93988627030408 (b'BlurM...): 7
+                        93988627030096 (b'BlurM...): 8
+                           93988627028368 (b'BlurM...): 9
+                              93988627025920 (b'BlurM...): 10
+                              93988627028576 (b'Attac...): 10
+                           93988627029992 (b'(Stat...): 9
+                              93988627028784 (b'Stati...): 10
+                              93988627029552 (b'FAtta...): 10
+                                 93988627028880 (b'FAtta...): 11
+                                 93988627029448 (b'(EAtt...): 11
+                                    93988627024960 (b'EAtta...): 12
+                                       93988627025168 (b'EAtta...): 13
+                                       93988627029096 (b'KeepR...): 13
+                                    93988627022944 (b'true'): 12
+                     93988627031632 (b'BlurM...): 7
+                        93988627028064 (b'BlurM...): 8
+                           93988627027408 (b'BlurM...): 9
+                              93988627022160 (b'BlurM...): 10
+                              93988627027216 (b'Regis...): 10
+                           93988627027864 (b'()'): 9
+                     93988627031640 (b'BlurM...): 7
+                        93988627031328 (b'BlurM...): 8
+                           93988627030832 (b'BlurM...): 9
+                              93988627026016 (b'BlurM...): 10
+                              93988627028272 (b'SetSt...): 10
+                           93988627031224 (b'(Blur...): 9
+                              93988627031024 (b'BlurS...): 10
+                     93988627039936 (b'BlurM...): 7
+                        93988627032656 (b'BlurM...): 8
+                           93988627032048 (b'BlurM...): 9
+                              93988627031744 (b'BlurM...): 10
+                              93988627031952 (b'Add'): 10
+                           93988627032552 (b'(Blur...): 9
+                              93988627032240 (b'BlurM...): 10
+                     93988627039944 (b'BlurM...): 7
+                        93988627039632 (b'BlurM...): 8
+                           93988627033376 (b'BlurM...): 9
+                              93988627033072 (b'BlurM...): 10
+                              93988627033280 (b'SetRe...): 10
+                           93988627039528 (b'(FTra...): 9
+                              93988627039216 (b'FTran...): 10
+                                 93988627033568 (b'FTran...): 11
+                                 93988627039112 (b'(FRot...): 11
+                                    93988627035376 (b'FRota...): 12
+                                       93988627033760 (b'FRota...): 13
+                                       93988627035272 (b'(i * ...): 13
+                                          93988627035056 (b'i * S...): 14
+                                             93988627034448 (b'i * S...): 15
+                                                93988627033952 (b'i'): 16
+                                                93988627034144 (b'SpinR...): 16
+                                             93988627034848 (b'-Blur...): 15
+                                                93988627034544 (b'BlurM...): 16
+                                    93988627036912 (b'FVect...): 12
+                                       93988627035568 (b'FVect...): 13
+                                       93988627036808 (b'(0, 0...): 13
+                                          93988627035760 (b'0'): 14
+                                          93988627035952 (b'0'): 14
+                                          93988627036256 (b'0'): 14
+                                    93988627038560 (b'FVect...): 12
+                                       93988627037216 (b'FVect...): 13
+                                       93988627038456 (b'(1, 1...): 13
+                                          93988627037408 (b'1'): 14
+                                          93988627037600 (b'1'): 14
+                                          93988627037904 (b'1'): 14
+                     93988627047488 (b'const...): 7
+                        93988627040144 (b'const'): 8
+                        93988627040240 (b'float'): 8
+                        93988627043392 (b'Opaci...): 8
+                           93988627040448 (b'Opaci...): 9
+                           93988627043184 (b'BlurM...): 9
+                              93988627040544 (b'BlurM...): 10
+                              93988627042880 (b'Opaci...): 10
+                                 93988627041040 (b'Opaci...): 11
+                                    93988627040736 (b'Opaci...): 12
+                                    93988627040944 (b'GetFl...): 12
+                                 93988627042776 (b'(floa...): 11
+                                    93988627042560 (b'float...): 12
+                                       93988627041648 (b'float...): 13
+                                          93988627041536 (b'float'): 14
+                                          93988627041544 (b'(i)'): 14
+                                             93988627041232 (b'i'): 15
+                                       93988627042256 (b'float...): 13
+                                          93988627042144 (b'float'): 14
+                                          93988627042152 (b'(NumB...): 14
+                                             93988627041840 (b'NumBl...): 15
+                     93988627047496 (b'// GE...): 7
+                     93988627047504 (b'UMate...): 7
+                        93988627043712 (b'UMate...): 8
+                        93988627046864 (b'* Bal...): 8
+                           93988627044304 (b'* Bal...): 9
+                              93988627044096 (b'BallM...): 10
+                           93988627046368 (b'BlurM...): 9
+                              93988627045008 (b'BlurM...): 10
+                                 93988627044400 (b'BlurM...): 11
+                                 93988627044800 (b'Creat...): 11
+                              93988627046152 (b'(0, B...): 10
+                                 93988627045392 (b'0'): 11
+                                 93988627045584 (b'BallT...): 11
+                     93988627052208 (b'BallM...): 7
+                        93988627048016 (b'BallM...): 8
+                           93988627045296 (b'BallM...): 9
+                              93988627044688 (b'BallM...): 10
+                              93988627044912 (b'SetSc...): 10
+                           93988627047720 (b'(FNam...): 9
+                              93988627044496 (b'FName...): 10
+                                 93988627046656 (b'FName'): 11
+                                 93988627047176 (b'("Opa...): 11
+                                    93988627047280 (b'"Opac...): 12
+                                       93988627046264 (b'Opaci...): 13
+                              93988627047824 (b'Opaci...): 10
+                     93988627052216 (b'UMate...): 7
+                        93988627048432 (b'UMate...): 8
+                        93988627051584 (b'* Str...): 8
+                           93988627049024 (b'* Str...): 9
+                              93988627048816 (b'Strap...): 10
+                           93988627051088 (b'BlurM...): 9
+                              93988627049728 (b'BlurM...): 10
+                                 93988627049120 (b'BlurM...): 11
+                                 93988627049520 (b'Creat...): 11
+                              93988627050872 (b'(1, S...): 10
+                                 93988627050112 (b'1'): 11
+                                 93988627050304 (b'Strap...): 11
+                     93988627053048 (b'Strap...): 7
+                        93988627052736 (b'Strap...): 8
+                           93988627050016 (b'Strap...): 9
+                              93988627049408 (b'Strap...): 10
+                              93988627049632 (b'SetSc...): 10
+                           93988627052440 (b'(FNam...): 9
+                              93988627049216 (b'FName...): 10
+                                 93988627051376 (b'FName'): 11
+                                 93988627051896 (b'("Opa...): 11
+                                    93988627052000 (b'"Opac...): 12
+                                       93988627050984 (b'Opaci...): 13
+                              93988627052544 (b'Opaci...): 10
+         93988627057672 (b'if (!...): 3
+            93988627057560 (b'(!Bal...): 4
+               93988627054032 (b'!Ball...): 5
+                  93988627053728 (b'BallT...): 6
+            93988627057568 (b'GEngi...): 4
+               93988627057248 (b'GEngi...): 5
+                  93988627054544 (b'GEngi...): 6
+                     93988627054240 (b'GEngi...): 7
+                     93988627054448 (b'AddOn...): 7
+                  93988627057144 (b'(-1, ...): 6
+                     93988627054736 (b'-1'): 7
+                     93988627054928 (b'1'): 7
+                     93988627055456 (b'FColo...): 7
+                        93988627055232 (b'FColor'): 8
+                        93988627055352 (b'Red'): 8
+                     93988627056592 (b'TEXT(...): 7
+                        93988627055872 (b'TEXT'): 8
+                        93988627056488 (b'("Bal...): 8
+                           93988627056176 (b'"Ball...): 9
+                              93988627056072 (b'BallT...): 10
+         93988627065760 (b'if (!...): 3
+            93988627061608 (b'(!Str...): 4
+               93988627058080 (b'!Stra...): 5
+                  93988627057776 (b'Strap...): 6
+            93988627061616 (b'GEngi...): 4
+               93988627061296 (b'GEngi...): 5
+                  93988627058592 (b'GEngi...): 6
+                     93988627058288 (b'GEngi...): 7
+                     93988627058496 (b'AddOn...): 7
+                  93988627061192 (b'(-1, ...): 6
+                     93988627058784 (b'-1'): 7
+                     93988627058976 (b'1'): 7
+                     93988627059504 (b'FColo...): 7
+                        93988627059280 (b'FColor'): 8
+                        93988627059400 (b'Red'): 8
+                     93988627060640 (b'TEXT(...): 7
+                        93988627059920 (b'TEXT'): 8
+                        93988627060536 (b'("Str...): 8
+                           93988627060224 (b'"Stra...): 9
+                              93988627060120 (b'Strap...): 10
+         93988627065768 (b'if (!...): 3
+            93988627065656 (b'(!Opa...): 4
+               93988627062128 (b'!Opac...): 5
+                  93988627061824 (b'Opaci...): 6
+            93988627065664 (b'GEngi...): 4
+               93988627065344 (b'GEngi...): 5
+                  93988627062640 (b'GEngi...): 6
+                     93988627062336 (b'GEngi...): 7
+                     93988627062544 (b'AddOn...): 7
+                  93988627065240 (b'(-1, ...): 6
+                     93988627062832 (b'-1'): 7
+                     93988627063024 (b'1'): 7
+                     93988627063552 (b'FColo...): 7
+                        93988627063328 (b'FColor'): 8
+                        93988627063448 (b'Red'): 8
+                     93988627064688 (b'TEXT(...): 7
+                        93988627063968 (b'TEXT'): 8
+                        93988627064584 (b'("Opa...): 8
+                           93988627064272 (b'"Opac...): 9
+                              93988627064168 (b'Opaci...): 10
+         93988627069816 (b'if (!...): 3
+            93988627069704 (b'(!Blu...): 4
+               93988627066176 (b'!Blur...): 5
+                  93988627065872 (b'BlurS...): 6
+            93988627069712 (b'GEngi...): 4
+               93988627069392 (b'GEngi...): 5
+                  93988627066688 (b'GEngi...): 6
+                     93988627066384 (b'GEngi...): 7
+                     93988627066592 (b'AddOn...): 7
+                  93988627069288 (b'(-1, ...): 6
+                     93988627066880 (b'-1'): 7
+                     93988627067072 (b'1'): 7
+                     93988627067600 (b'FColo...): 7
+                        93988627067376 (b'FColor'): 8
+                        93988627067496 (b'Red'): 8
+                     93988627068736 (b'TEXT(...): 7
+                        93988627068016 (b'TEXT'): 8
+                        93988627068632 (b'("Blu...): 8
+                           93988627068320 (b'"Blur...): 9
+                              93988627068216 (b'BlurS...): 10
+   93988627139200 (b'void ...): 1
+      93988627070256 (b'void'): 2
+      93988627071488 (b'APitc...): 2
+         93988627070672 (b'APitc...): 3
+            93988627070448 (b'APitc...): 4
+            93988627070568 (b'Tick'): 4
+         93988627071280 (b'(floa...): 3
+            93988627071176 (b'float...): 4
+               93988627070768 (b'float'): 5
+               93988627070960 (b'Delta...): 5
+      93988627101536 (b'{\n\t...): 2
+         93988627075648 (b'Super...): 3
+            93988627073504 (b'Super...): 4
+               93988627072208 (b'Super...): 5
+                  93988627071584 (b'Super'): 6
+                  93988627071704 (b'Tick'): 6
+               93988627073400 (b'(Delt...): 5
+                  93988627072496 (b'Delta...): 6
+         93988627075656 (b'AddAc...): 3
+            93988627075344 (b'AddAc...): 4
+               93988627072784 (b'AddAc...): 5
+               93988627075240 (b'(Spin...): 5
+                  93988627075024 (b'SpinR...): 6
+                     93988627074304 (b'SpinR...): 7
+                        93988627074400 (b'SpinR...): 8
+                           93988627074016 (b'SpinR...): 9
+                           93988627072688 (b'SpinR...): 9
+                        93988627072112 (b'6'): 8
+                     93988627074608 (b'Delta...): 7
+         93988627076488 (b'// co...): 3
+         93988627076496 (b'// St...): 3
+         93988627076504 (b'if (C...): 3
+            93988627076376 (b'(Call...): 4
+               93988627071920 (b'CallP...): 5
+            93988627076384 (b'{\n\t...): 4
+               93988627076168 (b'Physi...): 5
+                  93988627073088 (b'Physi...): 6
+                     93988627073184 (b'Physi...): 7
+                     93988627073912 (b'()'): 7
+         93988627078152 (b'// Dr...): 3
+         93988627078160 (b'// Dr...): 3
+         93988627082832 (b'const...): 3
+            93988627076272 (b'const'): 4
+            93988627076608 (b'FVect...): 4
+            93988627077936 (b'Delta...): 4
+               93988627076064 (b'Delta...): 5
+               93988627077728 (b'GetAc...): 5
+                  93988627077232 (b'GetAc...): 6
+                     93988627076816 (b'GetAc...): 7
+                     93988627077128 (b'()'): 7
+                  93988627077424 (b'PrevL...): 6
+         93988627082840 (b'GEngi...): 3
+            93988627082528 (b'GEngi...): 4
+               93988627078576 (b'GEngi...): 5
+                  93988627078272 (b'GEngi...): 6
+                  93988627078480 (b'AddOn...): 6
+               93988627082424 (b'(-1, ...): 5
+                  93988627078768 (b'-1'): 6
+                  93988627078960 (b'Delta...): 6
+                  93988627079488 (b'FColo...): 6
+                     93988627079264 (b'FColor'): 7
+                     93988627079384 (b'Orange'): 7
+                  93988627081872 (b'FStri...): 6
+                     93988627080128 (b'FStri...): 7
+                        93988627079904 (b'FStri...): 8
+                        93988627080024 (b'Sanit...): 8
+                     93988627081768 (b'(GetV...): 7
+                        93988627081456 (b'GetVe...): 8
+                           93988627081040 (b'GetVe...): 9
+                              93988627080736 (b'GetVe...): 10
+                                 93988627080320 (b'GetVe...): 11
+                                 93988627080632 (b'()'): 11
+                              93988627080944 (b'Size'): 10
+                           93988627081352 (b'()'): 9
+         93988627087712 (b'GEngi...): 3
+            93988627086784 (b'GEngi...): 4
+               93988627083248 (b'GEngi...): 5
+                  93988627082944 (b'GEngi...): 6
+                  93988627083152 (b'AddOn...): 6
+               93988627086680 (b'(-1, ...): 5
+                  93988627083440 (b'-1'): 6
+                  93988627083632 (b'Delta...): 6
+                  93988627084160 (b'FColo...): 6
+                     93988627083936 (b'FColor'): 7
+                     93988627084056 (b'Orange'): 7
+                  93988627086128 (b'FStri...): 6
+                     93988627084800 (b'FStri...): 7
+                        93988627084576 (b'FStri...): 8
+                        93988627084696 (b'Sanit...): 8
+                     93988627086024 (b'(PMC-...): 7
+                        93988627085712 (b'PMC->...): 8
+                           93988627085296 (b'PMC->...): 9
+                              93988627084992 (b'PMC'): 10
+                              93988627085200 (b'GetGr...): 10
+                           93988627085608 (b'()'): 9
+         93988627087720 (b'// Dr...): 3
+         93988627087728 (b'Secon...): 3
+            93988627087504 (b'Secon...): 4
+               93988627087392 (b'Secon...): 5
+               93988627087200 (b'Delta...): 5
+         93988627100256 (b'if (P...): 3
+            93988627090824 (b'(Pitc...): 4
+               93988627087824 (b'Pitch...): 5
+            93988627090832 (b'{\n\t...): 4
+               93988627090696 (b'// Ch...): 5
+               93988627090704 (b'if (S...): 5
+                  93988627090584 (b'(Seco...): 6
+                     93988627089232 (b'Secon...): 7
+                        93988627088624 (b'Secon...): 8
+                           93988627088128 (b'Secon...): 9
+                           93988627088320 (b'Activ...): 9
+                        93988627089024 (b'!bExi...): 8
+                           93988627088720 (b'bExit...): 9
+                  93988627090592 (b'{\n\t...): 6
+                     93988627090472 (b'Pitch...): 7
+                        93988627090160 (b'Pitch...): 8
+                           93988627089744 (b'Pitch...): 9
+                              93988627089440 (b'Pitch...): 10
+                              93988627089648 (b'Deact...): 10
+                           93988627090056 (b'()'): 9
+         93988627100264 (b'if (S...): 3
+            93988627100152 (b'(Seco...): 4
+               93988627091536 (b'Secon...): 5
+                  93988627091040 (b'Secon...): 6
+                  93988627091232 (b'Capsu...): 6
+            93988627100160 (b'{\n\t...): 4
+               93988627097792 (b'Colli...): 5
+                  93988627093776 (b'Colli...): 6
+                     93988627092048 (b'Colli...): 7
+                        93988627091744 (b'Colli...): 8
+                        93988627091952 (b'SetCa...): 8
+                     93988627093672 (b'(Delt...): 7
+                        93988627093456 (b'Delta...): 8
+                           93988627092960 (b'Delta...): 9
+                              93988627092544 (b'Delta...): 10
+                                 93988627092240 (b'Delta...): 11
+                                 93988627092448 (b'Size'): 11
+                              93988627092856 (b'()'): 10
+                           93988627093152 (b'0.5'): 9
+               93988627097800 (b'Colli...): 5
+                  93988627097488 (b'Colli...): 6
+                     93988627094384 (b'Colli...): 7
+                        93988627094080 (b'Colli...): 8
+                        93988627094288 (b'SetWo...): 8
+                     93988627097384 (b'(FQua...): 7
+                        93988627097072 (b'FQuat...): 8
+                           93988627094800 (b'FQuat...): 9
+                              93988627094576 (b'FQuat'): 10
+                              93988627094696 (b'FindB...): 10
+                           93988627096968 (b'(FVec...): 9
+                              93988627096336 (b'FVect...): 10
+                                 93988627094992 (b'FVect...): 11
+                                 93988627096232 (b'(0, 0...): 11
+                                    93988627095184 (b'0'): 12
+                                    93988627095376 (b'0'): 12
+                                    93988627095680 (b'1'): 12
+                              93988627096528 (b'Delta...): 10
+               93988627099928 (b'Colli...): 5
+                  93988627099616 (b'Colli...): 6
+                     93988627098208 (b'Colli...): 7
+                        93988627097904 (b'Colli...): 8
+                        93988627098112 (b'SetWo...): 8
+                     93988627099512 (b'(Prev...): 7
+                        93988627099296 (b'PrevL...): 8
+                           93988627098400 (b'PrevL...): 9
+                           93988627099088 (b'0.5 *...): 9
+                              93988627098592 (b'0.5'): 10
+                              93988627098784 (b'Delta...): 10
+         93988627101304 (b'PrevL...): 3
+            93988627101088 (b'PrevL...): 4
+               93988627100976 (b'PrevL...): 5
+               93988627100784 (b'GetAc...): 5
+                  93988627100368 (b'GetAc...): 6
+                  93988627100680 (b'()'): 6
+   93988627139208 (b'void ...): 1
+      93988627101744 (b'void'): 2
+      93988627106720 (b'APitc...): 2
+         93988627102160 (b'APitc...): 3
+            93988627101936 (b'APitc...): 4
+            93988627102056 (b'OnHit'): 4
+         93988627106208 (b'(UPri...): 3
+            93988627107048 (b'UPrim...): 4
+               93988627102256 (b'UPrim...): 5
+               93988627103248 (b'* Hit...): 5
+                  93988627103040 (b'HitCo...): 6
+            93988627104264 (b'AActo...): 4
+               93988627103456 (b'AActor'): 5
+               93988627104048 (b'* Oth...): 5
+                  93988627103840 (b'Other...): 6
+            93988627105688 (b'UPrim...): 4
+               93988627104880 (b'UPrim...): 5
+               93988627105472 (b'* Oth...): 5
+                  93988627105264 (b'Other...): 6
+            93988627104568 (b'FVect...): 4
+               93988627106528 (b'FVect...): 5
+               93988627104672 (b'Norma...): 5
+            93988627106824 (b'const...): 4
+               93988627106096 (b'const'): 5
+               93988627105168 (b'FHitR...): 5
+               93988627106000 (b'& Hit'): 5
+                  93988627105904 (b'Hit'): 6
+      93988627139104 (b'{\n\t...): 2
+         93988627138752 (b'APrec...): 3
+            93988627102352 (b'APrec...): 4
+            93988627110336 (b'* PC ...): 4
+               93988627102736 (b'* PC'): 5
+                  93988627102944 (b'PC'): 6
+               93988627109952 (b'Cast<...): 5
+                  93988627109344 (b'Cast<...): 6
+                     93988627109120 (b'Cast'): 7
+                     93988627109128 (b'<APre...): 7
+                        93988627109016 (b'APrec...): 8
+                           93988627107488 (b'APrec...): 9
+                  93988627108600 (b'(Othe...): 6
+                     93988627107584 (b'Other...): 7
+         93988627138760 (b'if (P...): 3
+            93988627138632 (b'(PC)'): 4
+               93988627109632 (b'PC'): 5
+            93988627138640 (b'{\n\t...): 4
+               93988627135584 (b'USphe...): 5
+                  93988627109536 (b'USphe...): 6
+                  93988627113920 (b'* SC ...): 6
+                     93988627102640 (b'* SC'): 7
+                        93988627111056 (b'SC'): 8
+                     93988627113536 (b'Cast<...): 7
+                        93988627112928 (b'Cast<...): 8
+                           93988627112704 (b'Cast'): 9
+                           93988627112712 (b'<USph...): 9
+                              93988627112600 (b'USphe...): 10
+                                 93988627104464 (b'USphe...): 11
+                        93988627112184 (b'(Othe...): 8
+                           93988627108192 (b'Other...): 9
+               93988627135592 (b'if (S...): 5
+                  93988627135464 (b'(SC &...): 6
+                     93988627111872 (b'SC &&...): 7
+                        93988627112496 (b'SC'): 8
+                        93988627114640 (b'PC->I...): 8
+                           93988627113216 (b'PC->I...): 9
+                              93988627114224 (b'PC'): 10
+                              93988627114032 (b'IsSwi...): 10
+                           93988627114440 (b'()'): 9
+                  93988627135472 (b'// Ba...): 6
+                  93988627135480 (b'{\n\t...): 6
+                     93988627116832 (b'PMC->...): 7
+                        93988627107776 (b'PMC->...): 8
+                           93988627115488 (b'PMC->...): 9
+                              93988627111568 (b'PMC'): 10
+                              93988627115392 (b'Veloc...): 10
+                           93988627111776 (b'1.1'): 9
+                     93988627116840 (b"// Te...): 7
+                     93988627116848 (b'TArra...): 7
+                        93988627107392 (b'TArra...): 8
+                           93988627116608 (b'TArray'): 9
+                           93988627116616 (b'<AAct...): 9
+                              93988627116504 (b'AActo...): 10
+                                 93988627115712 (b'AActor'): 11
+                                 93988627116288 (b'*'): 11
+                        93988627116000 (b'Catch...): 8
+                     93988627124976 (b'UGame...): 7
+                        93988627121728 (b'UGame...): 8
+                           93988627117376 (b'UGame...): 9
+                              93988627116944 (b'UGame...): 10
+                              93988627117064 (b'GetAl...): 10
+                           93988627121624 (b'(GetW...): 9
+                              93988627118272 (b'GetWo...): 10
+                                 93988627117664 (b'GetWo...): 11
+                                 93988627118488 (b'()'): 11
+                              93988627119632 (b'ACatc...): 10
+                                 93988627115808 (b'ACatc...): 11
+                                    93988627117168 (b'ACatc...): 12
+                                    93988627118056 (b'Stati...): 12
+                                 93988627119528 (b'()'): 11
+                              93988627120560 (b'Catch...): 10
+                     93988627124984 (b'if (C...): 7
+                        93988627124872 (b'(Catc...): 8
+                           93988627119312 (b'Catch...): 9
+                              93988627121168 (b'Catch...): 10
+                                 93988627120976 (b'Catch...): 11
+                                    93988627120144 (b'Catch...): 12
+                                    93988627120352 (b'Num'): 12
+                                 93988627121272 (b'()'): 11
+                              93988627122256 (b'0'): 10
+                        93988627124880 (b'{\n\t...): 8
+                           93988627124640 (b'GEngi...): 9
+                              93988627124224 (b'GEngi...): 10
+                                 93988627118784 (b'GEngi...): 11
+                                    93988627117568 (b'GEngi...): 12
+                                    93988627118176 (b'AddOn...): 12
+                                 93988627124120 (b'(-1, ...): 11
+                                    93988627117952 (b'-1'): 12
+                                    93988627120048 (b'1'): 12
+                                    93988627122560 (b'FColo...): 12
+                                       93988627118976 (b'FColor'): 13
+                                       93988627122456 (b'Red'): 13
+                                    93988627123696 (b'TEXT(...): 12
+                                       93988627122976 (b'TEXT'): 13
+                                       93988627123592 (b'("No ...): 13
+                                          93988627123280 (b'"No c...): 14
+                                             93988627123176 (b'No ca...): 15
+                           93988627124648 (b'retur...): 9
+                     93988627133456 (b'ACatc...): 7
+                        93988627125088 (b'ACatc...): 8
+                        93988627130256 (b'* CW ...): 8
+                           93988627125680 (b'* CW'): 9
+                              93988627125472 (b'CW'): 10
+                           93988627129760 (b'Cast<...): 9
+                              93988627128016 (b'Cast<...): 10
+                                 93988627127792 (b'Cast'): 11
+                                 93988627127800 (b'<ACat...): 11
+                                    93988627127688 (b'ACatc...): 12
+                                       93988627126160 (b'ACatc...): 13
+                              93988627129544 (b'(Catc...): 10
+                                 93988627128704 (b'Catch...): 11
+                                    93988627128208 (b'Catch...): 12
+                                       93988627126256 (b'Catch...): 13
+                                       93988627127168 (b'Top'): 13
+                                    93988627128600 (b'()'): 12
+                     93988627133464 (b'for (...): 7
+                        93988627129120 (b'UBoxC...): 8
+                        93988627125872 (b'* Box'): 8
+                           93988627130880 (b'Box'): 9
+                        93988627131768 (b'{ CW-...): 8
+                           93988627130976 (b'CW->F...): 9
+                              93988627129216 (b'CW'): 10
+                              93988627131088 (b'Front'): 10
+                           93988627126064 (b'CW->B...): 9
+                              93988627125776 (b'CW'): 10
+                              93988627128912 (b'Bottom'): 10
+                           93988627125280 (b'CW->F...): 9
+                              93988627129856 (b'CW'): 10
+                              93988627130368 (b'Front'): 10
+                           93988627127584 (b'CW->R...): 9
+                              93988627128496 (b'CW'): 10
+                              93988627127920 (b'Right'): 10
+                           93988627126448 (b'CW->L...): 9
+                              93988627126864 (b'CW'): 10
+                              93988627131200 (b'Left'): 10
+                        93988627133360 (b'{\n\t...): 8
+                           93988627133224 (b'Box->...): 9
+                              93988627132912 (b'Box->...): 10
+                                 93988627132176 (b'Box->...): 11
+                                    93988627131872 (b'Box'): 12
+                                    93988627132080 (b'Ignor...): 12
+                                 93988627132808 (b'(this...): 11
+                                    93988627132368 (b'this'): 12
+                                    93988627132464 (b'true'): 12
+                     93988627135016 (b'Stati...): 7
+                        93988627134704 (b'Stati...): 8
+                           93988627133872 (b'Stati...): 9
+                              93988627133568 (b'Stati...): 10
+                              93988627133776 (b'Ignor...): 10
+                           93988627134600 (b'(CW, ...): 9
+                              93988627134064 (b'CW'): 10
+                              93988627134256 (b'true'): 10
+                  93988627135488 (b'else\...): 6
+                     93988627135352 (b'{\n\t...): 7
+            93988627138648 (b'else\...): 4
+               93988627138520 (b'{\n\t...): 5
+                  93988627138288 (b'NumBo...): 6
+                     93988627113024 (b'NumBo...): 7
+                        93988627113312 (b'NumBo...): 8
+                        93988627110544 (b'1'): 8
+                  93988627138296 (b'if (N...): 6
+                     93988627138168 (b'(NumB...): 7
+                        93988627135808 (b'NumBo...): 8
+                           93988627113632 (b'NumBo...): 9
+                           93988627114736 (b'4'): 9
+                     93988627138176 (b'{\n\t...): 7
+                        93988627136504 (b'PMC->...): 8
+                           93988627136288 (b'PMC->...): 9
+                              93988627135696 (b'PMC->...): 10
+                                 93988627135904 (b'PMC'): 11
+                                 93988627111680 (b'Bounc...): 11
+                              93988627136096 (b'0.25'): 10
+                     93988627138184 (b'else\...): 7
+                        93988627138056 (b'{\n\t...): 8
+                           93988627137944 (b'Stati...): 9
+                              93988627137632 (b'Stati...): 10
+                                 93988627137216 (b'Stati...): 11
+                                    93988627136912 (b'Stati...): 12
+                                       93988627136608 (b'Stati...): 13
+                                       93988627136816 (b'OnCom...): 13
+                                    93988627137120 (b'Clear'): 12
+                                 93988627137528 (b'()'): 11
+         93988627109848 (b'CallP...): 3
+            93988627103744 (b'CallP...): 4
+               93988627109232 (b'CallP...): 5
+               93988627104368 (b'false'): 5
+         93988627138872 (b'PMC->...): 3
+            93988627111472 (b'PMC->...): 4
+               93988627111360 (b'PMC->...): 5
+                  93988627109440 (b'PMC'): 6
+                  93988627111264 (b'Proje...): 6
+               93988627110240 (b'0.6'): 5
+   93988627142552 (b'void ...): 1
+      93988627139312 (b'void'): 2
+      93988627140144 (b'APitc...): 2
+         93988627139728 (b'APitc...): 3
+            93988627139504 (b'APitc...): 4
+            93988627139624 (b'Destr...): 4
+         93988627139936 (b'()'): 3
+      93988627142448 (b'{\n\t...): 2
+         93988627142328 (b'for (...): 3
+            93988627140240 (b'UStat...): 4
+            93988627140832 (b'* Blu...): 4
+               93988627140624 (b'BlurM...): 5
+            93988627140336 (b'BlurM...): 4
+            93988627142224 (b'{\n\t...): 4
+               93988627142088 (b'BlurM...): 5
+                  93988627141776 (b'BlurM...): 6
+                     93988627141360 (b'BlurM...): 7
+                        93988627141056 (b'BlurM...): 8
+                        93988627141264 (b'Destr...): 8
+                     93988627141672 (b'()'): 7
 --------------------------------------------------
-Tree depth: 6
+Tree depth: 16
 --------------------------------------------------
-Num words: 54
+Num words: 988

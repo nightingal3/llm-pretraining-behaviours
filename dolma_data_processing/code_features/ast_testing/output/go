@@ -1,101 +1,101 @@
-Node id : 94260752971808, Node type: source_file, Node text: b'var x = 2\nvar x int = 1\nx := 3\nvar x int\n\nfunc f() {\n    return x\n}'
-  Node id : 94260753522064, Node type: var_declaration, Node text: b'var x = 2'
-    Node id : 94260752330656, Node type: var, Node text: b'var'
-    Node id : 94260752330664, Node type: var_spec, Node text: b'x = 2'
-      Node id : 94260752330544, Node type: identifier, Node text: b'x'
-      Node id : 94260752330552, Node type: =, Node text: b'='
-      Node id : 94260752330560, Node type: expression_list, Node text: b'2'
-        Node id : 94260753500336, Node type: int_literal, Node text: b'2'
-  Node id : 94260753522168, Node type: 
+Node id : 94609457817632, Node type: source_file, Node text: b'var x = 2\nvar x int = 1\nx := 3\nvar x int\n\nfunc f() {\n    return x\n}'
+  Node id : 94609458367888, Node type: var_declaration, Node text: b'var x = 2'
+    Node id : 94609457176480, Node type: var, Node text: b'var'
+    Node id : 94609457176488, Node type: var_spec, Node text: b'x = 2'
+      Node id : 94609457176368, Node type: identifier, Node text: b'x'
+      Node id : 94609457176376, Node type: =, Node text: b'='
+      Node id : 94609457176384, Node type: expression_list, Node text: b'2'
+        Node id : 94609458346160, Node type: int_literal, Node text: b'2'
+  Node id : 94609458367992, Node type: 
 , Node text: b'\n'
-  Node id : 94260752754800, Node type: var_declaration, Node text: b'var x int = 1'
-    Node id : 94260752730720, Node type: var, Node text: b'var'
-    Node id : 94260752730728, Node type: var_spec, Node text: b'x int = 1'
-      Node id : 94260752730592, Node type: identifier, Node text: b'x'
-      Node id : 94260752662752, Node type: type_identifier, Node text: b'int'
-      Node id : 94260752730608, Node type: =, Node text: b'='
-      Node id : 94260752730616, Node type: expression_list, Node text: b'1'
-        Node id : 94260753414576, Node type: int_literal, Node text: b'1'
-  Node id : 94260752754904, Node type: 
+  Node id : 94609457600624, Node type: var_declaration, Node text: b'var x int = 1'
+    Node id : 94609457576544, Node type: var, Node text: b'var'
+    Node id : 94609457576552, Node type: var_spec, Node text: b'x int = 1'
+      Node id : 94609457576416, Node type: identifier, Node text: b'x'
+      Node id : 94609457508576, Node type: type_identifier, Node text: b'int'
+      Node id : 94609457576432, Node type: =, Node text: b'='
+      Node id : 94609457576440, Node type: expression_list, Node text: b'1'
+        Node id : 94609458260400, Node type: int_literal, Node text: b'1'
+  Node id : 94609457600728, Node type: 
 , Node text: b'\n'
-  Node id : 94260753441024, Node type: short_var_declaration, Node text: b'x := 3'
-    Node id : 94260753005056, Node type: expression_list, Node text: b'x'
-      Node id : 94260753018416, Node type: identifier, Node text: b'x'
-    Node id : 94260753005064, Node type: :=, Node text: b':='
-    Node id : 94260753005072, Node type: expression_list, Node text: b'3'
-      Node id : 94260753021392, Node type: int_literal, Node text: b'3'
-  Node id : 94260753390104, Node type: 
+  Node id : 94609458286848, Node type: short_var_declaration, Node text: b'x := 3'
+    Node id : 94609457850880, Node type: expression_list, Node text: b'x'
+      Node id : 94609457864240, Node type: identifier, Node text: b'x'
+    Node id : 94609457850888, Node type: :=, Node text: b':='
+    Node id : 94609457850896, Node type: expression_list, Node text: b'3'
+      Node id : 94609457867216, Node type: int_literal, Node text: b'3'
+  Node id : 94609458235928, Node type: 
 , Node text: b'\n'
-  Node id : 94260753474848, Node type: var_declaration, Node text: b'var x int'
-    Node id : 94260753601840, Node type: var, Node text: b'var'
-    Node id : 94260753601848, Node type: var_spec, Node text: b'x int'
-      Node id : 94260753474736, Node type: identifier, Node text: b'x'
-      Node id : 94260753474640, Node type: type_identifier, Node text: b'int'
-  Node id : 94260753601960, Node type: 
+  Node id : 94609458320672, Node type: var_declaration, Node text: b'var x int'
+    Node id : 94609458447664, Node type: var, Node text: b'var'
+    Node id : 94609458447672, Node type: var_spec, Node text: b'x int'
+      Node id : 94609458320560, Node type: identifier, Node text: b'x'
+      Node id : 94609458320464, Node type: type_identifier, Node text: b'int'
+  Node id : 94609458447784, Node type: 
 , Node text: b'\n\n'
-  Node id : 94260753444104, Node type: function_declaration, Node text: b'func f() {\n    return x\n}'
-    Node id : 94260753443968, Node type: func, Node text: b'func'
-    Node id : 94260753443976, Node type: identifier, Node text: b'f'
-    Node id : 94260753443984, Node type: parameter_list, Node text: b'()'
-      Node id : 94260752217440, Node type: (, Node text: b'('
-      Node id : 94260752217448, Node type: ), Node text: b')'
-    Node id : 94260753443992, Node type: block, Node text: b'{\n    return x\n}'
-      Node id : 94260753417776, Node type: {, Node text: b'{'
-      Node id : 94260753386448, Node type: return_statement, Node text: b'return x'
-        Node id : 94260753386336, Node type: return, Node text: b'return'
-        Node id : 94260753386344, Node type: expression_list, Node text: b'x'
-          Node id : 94260752886016, Node type: identifier, Node text: b'x'
-      Node id : 94260753417672, Node type: 
+  Node id : 94609458289928, Node type: function_declaration, Node text: b'func f() {\n    return x\n}'
+    Node id : 94609458289792, Node type: func, Node text: b'func'
+    Node id : 94609458289800, Node type: identifier, Node text: b'f'
+    Node id : 94609458289808, Node type: parameter_list, Node text: b'()'
+      Node id : 94609457063264, Node type: (, Node text: b'('
+      Node id : 94609457063272, Node type: ), Node text: b')'
+    Node id : 94609458289816, Node type: block, Node text: b'{\n    return x\n}'
+      Node id : 94609458263600, Node type: {, Node text: b'{'
+      Node id : 94609458232272, Node type: return_statement, Node text: b'return x'
+        Node id : 94609458232160, Node type: return, Node text: b'return'
+        Node id : 94609458232168, Node type: expression_list, Node text: b'x'
+          Node id : 94609457731840, Node type: identifier, Node text: b'x'
+      Node id : 94609458263496, Node type: 
 , Node text: b'\n'
-      Node id : 94260753417792, Node type: }, Node text: b'}'
+      Node id : 94609458263616, Node type: }, Node text: b'}'
 
 --------------------------------------------------
 Word depths:
-94260752971808 (b'var x...): 0
-   94260753522064 (b'var x...): 1
-      94260752330656 (b'var'): 2
-      94260752330664 (b'x = 2'): 2
-         94260752330544 (b'x'): 3
-         94260752330552 (b'='): 3
-         94260752330560 (b'2'): 3
-            94260753500336 (b'2'): 4
-   94260753522168 (b'\n'): 1
-   94260752754800 (b'var x...): 1
-      94260752730720 (b'var'): 2
-      94260752730728 (b'x int...): 2
-         94260752730592 (b'x'): 3
-         94260752662752 (b'int'): 3
-         94260752730608 (b'='): 3
-         94260752730616 (b'1'): 3
-            94260753414576 (b'1'): 4
-   94260752754904 (b'\n'): 1
-   94260753441024 (b'x := 3'): 1
-      94260753005056 (b'x'): 2
-         94260753018416 (b'x'): 3
-      94260753005064 (b':='): 2
-      94260753005072 (b'3'): 2
-         94260753021392 (b'3'): 3
-   94260753390104 (b'\n'): 1
-   94260753474848 (b'var x...): 1
-      94260753601840 (b'var'): 2
-      94260753601848 (b'x int'): 2
-         94260753474736 (b'x'): 3
-         94260753474640 (b'int'): 3
-   94260753601960 (b'\n\n'): 1
-   94260753444104 (b'func ...): 1
-      94260753443968 (b'func'): 2
-      94260753443976 (b'f'): 2
-      94260753443984 (b'()'): 2
-         94260752217440 (b'('): 3
-         94260752217448 (b')'): 3
-      94260753443992 (b'{\n  ...): 2
-         94260753417776 (b'{'): 3
-         94260753386448 (b'retur...): 3
-            94260753386336 (b'return'): 4
-            94260753386344 (b'x'): 4
-               94260752886016 (b'x'): 5
-         94260753417672 (b'\n'): 3
-         94260753417792 (b'}'): 3
+94609457817632 (b'var x...): 0
+   94609458367888 (b'var x...): 1
+      94609457176480 (b'var'): 2
+      94609457176488 (b'x = 2'): 2
+         94609457176368 (b'x'): 3
+         94609457176376 (b'='): 3
+         94609457176384 (b'2'): 3
+            94609458346160 (b'2'): 4
+   94609458367992 (b'\n'): 1
+   94609457600624 (b'var x...): 1
+      94609457576544 (b'var'): 2
+      94609457576552 (b'x int...): 2
+         94609457576416 (b'x'): 3
+         94609457508576 (b'int'): 3
+         94609457576432 (b'='): 3
+         94609457576440 (b'1'): 3
+            94609458260400 (b'1'): 4
+   94609457600728 (b'\n'): 1
+   94609458286848 (b'x := 3'): 1
+      94609457850880 (b'x'): 2
+         94609457864240 (b'x'): 3
+      94609457850888 (b':='): 2
+      94609457850896 (b'3'): 2
+         94609457867216 (b'3'): 3
+   94609458235928 (b'\n'): 1
+   94609458320672 (b'var x...): 1
+      94609458447664 (b'var'): 2
+      94609458447672 (b'x int'): 2
+         94609458320560 (b'x'): 3
+         94609458320464 (b'int'): 3
+   94609458447784 (b'\n\n'): 1
+   94609458289928 (b'func ...): 1
+      94609458289792 (b'func'): 2
+      94609458289800 (b'f'): 2
+      94609458289808 (b'()'): 2
+         94609457063264 (b'('): 3
+         94609457063272 (b')'): 3
+      94609458289816 (b'{\n  ...): 2
+         94609458263600 (b'{'): 3
+         94609458232272 (b'retur...): 3
+            94609458232160 (b'return'): 4
+            94609458232168 (b'x'): 4
+               94609457731840 (b'x'): 5
+         94609458263496 (b'\n'): 3
+         94609458263616 (b'}'): 3
 --------------------------------------------------
 Tree depth: 5
 --------------------------------------------------

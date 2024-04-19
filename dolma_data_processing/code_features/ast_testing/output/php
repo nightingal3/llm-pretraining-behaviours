@@ -1,130 +1,130 @@
-Node id : 94280452046000, Node type: program, Node text: b'<?php\n    function f($a) {\n        // do nothing\n    }\n    \n    $x = 5;\n    $x += 1;\n    f($x);\n    \n    function main() {\n        $y = 1;\n    }\n?>'
-  Node id : 94280452249920, Node type: php_tag, Node text: b'<?php'
-  Node id : 94280452696960, Node type: function_definition, Node text: b'function f($a) {\n        // do nothing\n    }'
-    Node id : 94280452671360, Node type: function, Node text: b'function'
-    Node id : 94280452671368, Node type: name, Node text: b'f'
-    Node id : 94280452671376, Node type: formal_parameters, Node text: b'($a)'
-      Node id : 94280451851760, Node type: (, Node text: b'('
-      Node id : 94280451851768, Node type: simple_parameter, Node text: b'$a'
-        Node id : 94280451851664, Node type: variable_name, Node text: b'$a'
-          Node id : 94280452292448, Node type: $, Node text: b'$'
-          Node id : 94280452292456, Node type: name, Node text: b'a'
-      Node id : 94280451851776, Node type: ), Node text: b')'
-    Node id : 94280452696856, Node type: compound_statement, Node text: b'{\n        // do nothing\n    }'
-      Node id : 94280452671472, Node type: {, Node text: b'{'
-      Node id : 94280452671480, Node type: comment, Node text: b'// do nothing'
-      Node id : 94280452671488, Node type: }, Node text: b'}'
-  Node id : 94280453385600, Node type: expression_statement, Node text: b'$x = 5;'
-    Node id : 94280452962912, Node type: assignment_expression, Node text: b'$x = 5'
-      Node id : 94280452946576, Node type: variable_name, Node text: b'$x'
-        Node id : 94280452959824, Node type: $, Node text: b'$'
-        Node id : 94280452959832, Node type: name, Node text: b'x'
-      Node id : 94280452946584, Node type: =, Node text: b'='
-      Node id : 94280452959936, Node type: integer, Node text: b'5'
-    Node id : 94280452946696, Node type: ;, Node text: b';'
-  Node id : 94280452301248, Node type: expression_statement, Node text: b'$x += 1;'
-    Node id : 94280452301040, Node type: augmented_assignment_expression, Node text: b'$x += 1'
-      Node id : 94280453332688, Node type: variable_name, Node text: b'$x'
-        Node id : 94280453422912, Node type: $, Node text: b'$'
-        Node id : 94280453422920, Node type: name, Node text: b'x'
-      Node id : 94280453332696, Node type: +=, Node text: b'+='
-      Node id : 94280453423024, Node type: integer, Node text: b'1'
-    Node id : 94280452301144, Node type: ;, Node text: b';'
-  Node id : 94280453345536, Node type: expression_statement, Node text: b'f($x);'
-    Node id : 94280453360064, Node type: function_call_expression, Node text: b'f($x)'
-      Node id : 94280452827744, Node type: name, Node text: b'f'
-      Node id : 94280452827752, Node type: arguments, Node text: b'($x)'
-        Node id : 94280452827632, Node type: (, Node text: b'('
-        Node id : 94280452827640, Node type: argument, Node text: b'$x'
-          Node id : 94280452158816, Node type: variable_name, Node text: b'$x'
-            Node id : 94280453536144, Node type: $, Node text: b'$'
-            Node id : 94280453536152, Node type: name, Node text: b'x'
-        Node id : 94280452827648, Node type: ), Node text: b')'
-    Node id : 94280453345432, Node type: ;, Node text: b';'
-  Node id : 94280453419008, Node type: function_definition, Node text: b'function main() {\n        $y = 1;\n    }'
-    Node id : 94280453356688, Node type: function, Node text: b'function'
-    Node id : 94280453356696, Node type: name, Node text: b'main'
-    Node id : 94280453356704, Node type: formal_parameters, Node text: b'()'
-      Node id : 94280453356576, Node type: (, Node text: b'('
-      Node id : 94280453356584, Node type: ), Node text: b')'
-    Node id : 94280453449688, Node type: compound_statement, Node text: b'{\n        $y = 1;\n    }'
-      Node id : 94280452643984, Node type: {, Node text: b'{'
-      Node id : 94280452420800, Node type: expression_statement, Node text: b'$y = 1;'
-        Node id : 94280452420592, Node type: assignment_expression, Node text: b'$y = 1'
-          Node id : 94280453513648, Node type: variable_name, Node text: b'$y'
-            Node id : 94280453356800, Node type: $, Node text: b'$'
-            Node id : 94280453356808, Node type: name, Node text: b'y'
-          Node id : 94280453513656, Node type: =, Node text: b'='
-          Node id : 94280452253776, Node type: integer, Node text: b'1'
-        Node id : 94280452420696, Node type: ;, Node text: b';'
-      Node id : 94280452644000, Node type: }, Node text: b'}'
-  Node id : 94280452249936, Node type: text_interpolation, Node text: b'?>'
-    Node id : 94280453449568, Node type: ?>, Node text: b'?>'
+Node id : 94891973434544, Node type: program, Node text: b'<?php\n    function f($a) {\n        // do nothing\n    }\n    \n    $x = 5;\n    $x += 1;\n    f($x);\n    \n    function main() {\n        $y = 1;\n    }\n?>'
+  Node id : 94891973638464, Node type: php_tag, Node text: b'<?php'
+  Node id : 94891974085504, Node type: function_definition, Node text: b'function f($a) {\n        // do nothing\n    }'
+    Node id : 94891974059904, Node type: function, Node text: b'function'
+    Node id : 94891974059912, Node type: name, Node text: b'f'
+    Node id : 94891974059920, Node type: formal_parameters, Node text: b'($a)'
+      Node id : 94891973240304, Node type: (, Node text: b'('
+      Node id : 94891973240312, Node type: simple_parameter, Node text: b'$a'
+        Node id : 94891973240208, Node type: variable_name, Node text: b'$a'
+          Node id : 94891973680992, Node type: $, Node text: b'$'
+          Node id : 94891973681000, Node type: name, Node text: b'a'
+      Node id : 94891973240320, Node type: ), Node text: b')'
+    Node id : 94891974085400, Node type: compound_statement, Node text: b'{\n        // do nothing\n    }'
+      Node id : 94891974060016, Node type: {, Node text: b'{'
+      Node id : 94891974060024, Node type: comment, Node text: b'// do nothing'
+      Node id : 94891974060032, Node type: }, Node text: b'}'
+  Node id : 94891974774144, Node type: expression_statement, Node text: b'$x = 5;'
+    Node id : 94891974351456, Node type: assignment_expression, Node text: b'$x = 5'
+      Node id : 94891974335120, Node type: variable_name, Node text: b'$x'
+        Node id : 94891974348368, Node type: $, Node text: b'$'
+        Node id : 94891974348376, Node type: name, Node text: b'x'
+      Node id : 94891974335128, Node type: =, Node text: b'='
+      Node id : 94891974348480, Node type: integer, Node text: b'5'
+    Node id : 94891974335240, Node type: ;, Node text: b';'
+  Node id : 94891973689792, Node type: expression_statement, Node text: b'$x += 1;'
+    Node id : 94891973689584, Node type: augmented_assignment_expression, Node text: b'$x += 1'
+      Node id : 94891974721232, Node type: variable_name, Node text: b'$x'
+        Node id : 94891974811456, Node type: $, Node text: b'$'
+        Node id : 94891974811464, Node type: name, Node text: b'x'
+      Node id : 94891974721240, Node type: +=, Node text: b'+='
+      Node id : 94891974811568, Node type: integer, Node text: b'1'
+    Node id : 94891973689688, Node type: ;, Node text: b';'
+  Node id : 94891974734080, Node type: expression_statement, Node text: b'f($x);'
+    Node id : 94891974748608, Node type: function_call_expression, Node text: b'f($x)'
+      Node id : 94891974216288, Node type: name, Node text: b'f'
+      Node id : 94891974216296, Node type: arguments, Node text: b'($x)'
+        Node id : 94891974216176, Node type: (, Node text: b'('
+        Node id : 94891974216184, Node type: argument, Node text: b'$x'
+          Node id : 94891973547360, Node type: variable_name, Node text: b'$x'
+            Node id : 94891974924688, Node type: $, Node text: b'$'
+            Node id : 94891974924696, Node type: name, Node text: b'x'
+        Node id : 94891974216192, Node type: ), Node text: b')'
+    Node id : 94891974733976, Node type: ;, Node text: b';'
+  Node id : 94891974807552, Node type: function_definition, Node text: b'function main() {\n        $y = 1;\n    }'
+    Node id : 94891974745232, Node type: function, Node text: b'function'
+    Node id : 94891974745240, Node type: name, Node text: b'main'
+    Node id : 94891974745248, Node type: formal_parameters, Node text: b'()'
+      Node id : 94891974745120, Node type: (, Node text: b'('
+      Node id : 94891974745128, Node type: ), Node text: b')'
+    Node id : 94891974838232, Node type: compound_statement, Node text: b'{\n        $y = 1;\n    }'
+      Node id : 94891974032528, Node type: {, Node text: b'{'
+      Node id : 94891973809344, Node type: expression_statement, Node text: b'$y = 1;'
+        Node id : 94891973809136, Node type: assignment_expression, Node text: b'$y = 1'
+          Node id : 94891974902192, Node type: variable_name, Node text: b'$y'
+            Node id : 94891974745344, Node type: $, Node text: b'$'
+            Node id : 94891974745352, Node type: name, Node text: b'y'
+          Node id : 94891974902200, Node type: =, Node text: b'='
+          Node id : 94891973642320, Node type: integer, Node text: b'1'
+        Node id : 94891973809240, Node type: ;, Node text: b';'
+      Node id : 94891974032544, Node type: }, Node text: b'}'
+  Node id : 94891973638480, Node type: text_interpolation, Node text: b'?>'
+    Node id : 94891974838112, Node type: ?>, Node text: b'?>'
 
 --------------------------------------------------
 Word depths:
-94280452046000 (b'<?php...): 0
-   94280452249920 (b'<?php'): 1
-   94280452696960 (b'funct...): 1
-      94280452671360 (b'funct...): 2
-      94280452671368 (b'f'): 2
-      94280452671376 (b'($a)'): 2
-         94280451851760 (b'('): 3
-         94280451851768 (b'$a'): 3
-            94280451851664 (b'$a'): 4
-               94280452292448 (b'$'): 5
-               94280452292456 (b'a'): 5
-         94280451851776 (b')'): 3
-      94280452696856 (b'{\n  ...): 2
-         94280452671472 (b'{'): 3
-         94280452671480 (b'// do...): 3
-         94280452671488 (b'}'): 3
-   94280453385600 (b'$x = ...): 1
-      94280452962912 (b'$x = 5'): 2
-         94280452946576 (b'$x'): 3
-            94280452959824 (b'$'): 4
-            94280452959832 (b'x'): 4
-         94280452946584 (b'='): 3
-         94280452959936 (b'5'): 3
-      94280452946696 (b';'): 2
-   94280452301248 (b'$x +=...): 1
-      94280452301040 (b'$x +=...): 2
-         94280453332688 (b'$x'): 3
-            94280453422912 (b'$'): 4
-            94280453422920 (b'x'): 4
-         94280453332696 (b'+='): 3
-         94280453423024 (b'1'): 3
-      94280452301144 (b';'): 2
-   94280453345536 (b'f($x);'): 1
-      94280453360064 (b'f($x)'): 2
-         94280452827744 (b'f'): 3
-         94280452827752 (b'($x)'): 3
-            94280452827632 (b'('): 4
-            94280452827640 (b'$x'): 4
-               94280452158816 (b'$x'): 5
-                  94280453536144 (b'$'): 6
-                  94280453536152 (b'x'): 6
-            94280452827648 (b')'): 4
-      94280453345432 (b';'): 2
-   94280453419008 (b'funct...): 1
-      94280453356688 (b'funct...): 2
-      94280453356696 (b'main'): 2
-      94280453356704 (b'()'): 2
-         94280453356576 (b'('): 3
-         94280453356584 (b')'): 3
-      94280453449688 (b'{\n  ...): 2
-         94280452643984 (b'{'): 3
-         94280452420800 (b'$y = ...): 3
-            94280452420592 (b'$y = 1'): 4
-               94280453513648 (b'$y'): 5
-                  94280453356800 (b'$'): 6
-                  94280453356808 (b'y'): 6
-               94280453513656 (b'='): 5
-               94280452253776 (b'1'): 5
-            94280452420696 (b';'): 4
-         94280452644000 (b'}'): 3
-   94280452249936 (b'?>'): 1
-      94280453449568 (b'?>'): 2
+94891973434544 (b'<?php...): 0
+   94891973638464 (b'<?php'): 1
+   94891974085504 (b'funct...): 1
+      94891974059904 (b'funct...): 2
+      94891974059912 (b'f'): 2
+      94891974059920 (b'($a)'): 2
+         94891973240304 (b'('): 3
+         94891973240312 (b'$a'): 3
+            94891973240208 (b'$a'): 4
+               94891973680992 (b'$'): 5
+               94891973681000 (b'a'): 5
+         94891973240320 (b')'): 3
+      94891974085400 (b'{\n  ...): 2
+         94891974060016 (b'{'): 3
+         94891974060024 (b'// do...): 3
+         94891974060032 (b'}'): 3
+   94891974774144 (b'$x = ...): 1
+      94891974351456 (b'$x = 5'): 2
+         94891974335120 (b'$x'): 3
+            94891974348368 (b'$'): 4
+            94891974348376 (b'x'): 4
+         94891974335128 (b'='): 3
+         94891974348480 (b'5'): 3
+      94891974335240 (b';'): 2
+   94891973689792 (b'$x +=...): 1
+      94891973689584 (b'$x +=...): 2
+         94891974721232 (b'$x'): 3
+            94891974811456 (b'$'): 4
+            94891974811464 (b'x'): 4
+         94891974721240 (b'+='): 3
+         94891974811568 (b'1'): 3
+      94891973689688 (b';'): 2
+   94891974734080 (b'f($x);'): 1
+      94891974748608 (b'f($x)'): 2
+         94891974216288 (b'f'): 3
+         94891974216296 (b'($x)'): 3
+            94891974216176 (b'('): 4
+            94891974216184 (b'$x'): 4
+               94891973547360 (b'$x'): 5
+                  94891974924688 (b'$'): 6
+                  94891974924696 (b'x'): 6
+            94891974216192 (b')'): 4
+      94891974733976 (b';'): 2
+   94891974807552 (b'funct...): 1
+      94891974745232 (b'funct...): 2
+      94891974745240 (b'main'): 2
+      94891974745248 (b'()'): 2
+         94891974745120 (b'('): 3
+         94891974745128 (b')'): 3
+      94891974838232 (b'{\n  ...): 2
+         94891974032528 (b'{'): 3
+         94891973809344 (b'$y = ...): 3
+            94891973809136 (b'$y = 1'): 4
+               94891974902192 (b'$y'): 5
+                  94891974745344 (b'$'): 6
+                  94891974745352 (b'y'): 6
+               94891974902200 (b'='): 5
+               94891973642320 (b'1'): 5
+            94891973809240 (b';'): 4
+         94891974032544 (b'}'): 3
+   94891973638480 (b'?>'): 1
+      94891974838112 (b'?>'): 2
 --------------------------------------------------
 Tree depth: 6
 --------------------------------------------------

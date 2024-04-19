@@ -1,140 +1,140 @@
-Node id : 93925546419808, Node type: compilation_unit, Node text: b'int y = 1;\nconst int x = 2;\n\npublic void f(int a)\n{\n    // do nothing\n}\n\nint x = 5;\nx += 1;\nf(x);\n'
-  Node id : 93925546163952, Node type: global_statement, Node text: b'int y = 1;'
-    Node id : 93925546163760, Node type: local_declaration_statement, Node text: b'int y = 1;'
-      Node id : 93925545318688, Node type: variable_declaration, Node text: b'int y = 1'
-        Node id : 93925545765952, Node type: predefined_type, Node text: b'int'
-        Node id : 93925545318584, Node type: variable_declarator, Node text: b'y = 1'
-          Node id : 93925545741888, Node type: identifier, Node text: b'y'
-          Node id : 93925545741896, Node type: equals_value_clause, Node text: b'= 1'
-            Node id : 93925545741776, Node type: =, Node text: b'='
-            Node id : 93925545759072, Node type: integer_literal, Node text: b'1'
-      Node id : 93925545318696, Node type: ;, Node text: b';'
-  Node id : 93925547011184, Node type: global_statement, Node text: b'const int x = 2;'
-    Node id : 93925545768064, Node type: local_declaration_statement, Node text: b'const int x = 2;'
-      Node id : 93925546426832, Node type: modifier, Node text: b'const'
-        Node id : 93925546426736, Node type: const, Node text: b'const'
-      Node id : 93925545767960, Node type: variable_declaration, Node text: b'int x = 2'
-        Node id : 93925546426928, Node type: predefined_type, Node text: b'int'
-        Node id : 93925546799528, Node type: variable_declarator, Node text: b'x = 2'
-          Node id : 93925546799408, Node type: identifier, Node text: b'x'
-          Node id : 93925546799416, Node type: equals_value_clause, Node text: b'= 2'
-            Node id : 93925546889920, Node type: =, Node text: b'='
-            Node id : 93925546429728, Node type: integer_literal, Node text: b'2'
-      Node id : 93925545767968, Node type: ;, Node text: b';'
-  Node id : 93925546979424, Node type: global_statement, Node text: b'public void f(int a)\n{\n    // do nothing\n}'
-    Node id : 93925545719584, Node type: local_function_statement, Node text: b'public void f(int a)\n{\n    // do nothing\n}'
-      Node id : 93925545625728, Node type: modifier, Node text: b'public'
-        Node id : 93925547011392, Node type: public, Node text: b'public'
-      Node id : 93925545625824, Node type: predefined_type, Node text: b'void'
-      Node id : 93925545719472, Node type: identifier, Node text: b'f'
-      Node id : 93925545719480, Node type: parameter_list, Node text: b'(int a)'
-        Node id : 93925546812448, Node type: (, Node text: b'('
-        Node id : 93925546827216, Node type: parameter, Node text: b'int a'
-          Node id : 93925546294448, Node type: predefined_type, Node text: b'int'
-          Node id : 93925546812344, Node type: identifier, Node text: b'a'
-        Node id : 93925546812464, Node type: ), Node text: b')'
-      Node id : 93925546823728, Node type: block, Node text: b'{\n    // do nothing\n}'
-        Node id : 93925546812560, Node type: {, Node text: b'{'
-        Node id : 93925546812568, Node type: comment, Node text: b'// do nothing'
-        Node id : 93925546812576, Node type: }, Node text: b'}'
-  Node id : 93925546110752, Node type: global_statement, Node text: b'int x = 5;'
-    Node id : 93925546916608, Node type: local_declaration_statement, Node text: b'int x = 5;'
-      Node id : 93925546916496, Node type: variable_declaration, Node text: b'int x = 5'
-        Node id : 93925546979632, Node type: predefined_type, Node text: b'int'
-        Node id : 93925546916392, Node type: variable_declarator, Node text: b'x = 5'
-          Node id : 93925545887712, Node type: identifier, Node text: b'x'
-          Node id : 93925545887720, Node type: equals_value_clause, Node text: b'= 5'
-            Node id : 93925545887600, Node type: =, Node text: b'='
-            Node id : 93925546138368, Node type: integer_literal, Node text: b'5'
-      Node id : 93925546916504, Node type: ;, Node text: b';'
-  Node id : 93925546210160, Node type: global_statement, Node text: b'x += 1;'
-    Node id : 93925546209968, Node type: expression_statement, Node text: b'x += 1;'
-      Node id : 93925545454160, Node type: assignment_expression, Node text: b'x += 1'
-        Node id : 93925546886016, Node type: identifier, Node text: b'x'
-        Node id : 93925545454056, Node type: assignment_operator, Node text: b'+='
-          Node id : 93925545715600, Node type: +=, Node text: b'+='
-        Node id : 93925545715696, Node type: integer_literal, Node text: b'1'
-      Node id : 93925546209864, Node type: ;, Node text: b';'
-  Node id : 93925546804848, Node type: global_statement, Node text: b'f(x);'
-    Node id : 93925546973808, Node type: expression_statement, Node text: b'f(x);'
-      Node id : 93925545483008, Node type: invocation_expression, Node text: b'f(x)'
-        Node id : 93925545743424, Node type: identifier, Node text: b'f'
-        Node id : 93925546415272, Node type: argument_list, Node text: b'(x)'
-          Node id : 93925545482896, Node type: (, Node text: b'('
-          Node id : 93925545482904, Node type: argument, Node text: b'x'
-            Node id : 93925546883728, Node type: identifier, Node text: b'x'
-          Node id : 93925545482912, Node type: ), Node text: b')'
-      Node id : 93925546804744, Node type: ;, Node text: b';'
+Node id : 94683221370464, Node type: compilation_unit, Node text: b'int y = 1;\nconst int x = 2;\n\npublic void f(int a)\n{\n    // do nothing\n}\n\nint x = 5;\nx += 1;\nf(x);\n'
+  Node id : 94683221114608, Node type: global_statement, Node text: b'int y = 1;'
+    Node id : 94683221114416, Node type: local_declaration_statement, Node text: b'int y = 1;'
+      Node id : 94683220269344, Node type: variable_declaration, Node text: b'int y = 1'
+        Node id : 94683220716608, Node type: predefined_type, Node text: b'int'
+        Node id : 94683220269240, Node type: variable_declarator, Node text: b'y = 1'
+          Node id : 94683220692544, Node type: identifier, Node text: b'y'
+          Node id : 94683220692552, Node type: equals_value_clause, Node text: b'= 1'
+            Node id : 94683220692432, Node type: =, Node text: b'='
+            Node id : 94683220709728, Node type: integer_literal, Node text: b'1'
+      Node id : 94683220269352, Node type: ;, Node text: b';'
+  Node id : 94683221961840, Node type: global_statement, Node text: b'const int x = 2;'
+    Node id : 94683220718720, Node type: local_declaration_statement, Node text: b'const int x = 2;'
+      Node id : 94683221377488, Node type: modifier, Node text: b'const'
+        Node id : 94683221377392, Node type: const, Node text: b'const'
+      Node id : 94683220718616, Node type: variable_declaration, Node text: b'int x = 2'
+        Node id : 94683221377584, Node type: predefined_type, Node text: b'int'
+        Node id : 94683221750184, Node type: variable_declarator, Node text: b'x = 2'
+          Node id : 94683221750064, Node type: identifier, Node text: b'x'
+          Node id : 94683221750072, Node type: equals_value_clause, Node text: b'= 2'
+            Node id : 94683221840576, Node type: =, Node text: b'='
+            Node id : 94683221380384, Node type: integer_literal, Node text: b'2'
+      Node id : 94683220718624, Node type: ;, Node text: b';'
+  Node id : 94683221930080, Node type: global_statement, Node text: b'public void f(int a)\n{\n    // do nothing\n}'
+    Node id : 94683220670240, Node type: local_function_statement, Node text: b'public void f(int a)\n{\n    // do nothing\n}'
+      Node id : 94683220576384, Node type: modifier, Node text: b'public'
+        Node id : 94683221962048, Node type: public, Node text: b'public'
+      Node id : 94683220576480, Node type: predefined_type, Node text: b'void'
+      Node id : 94683220670128, Node type: identifier, Node text: b'f'
+      Node id : 94683220670136, Node type: parameter_list, Node text: b'(int a)'
+        Node id : 94683221763104, Node type: (, Node text: b'('
+        Node id : 94683221777872, Node type: parameter, Node text: b'int a'
+          Node id : 94683221245104, Node type: predefined_type, Node text: b'int'
+          Node id : 94683221763000, Node type: identifier, Node text: b'a'
+        Node id : 94683221763120, Node type: ), Node text: b')'
+      Node id : 94683221774384, Node type: block, Node text: b'{\n    // do nothing\n}'
+        Node id : 94683221763216, Node type: {, Node text: b'{'
+        Node id : 94683221763224, Node type: comment, Node text: b'// do nothing'
+        Node id : 94683221763232, Node type: }, Node text: b'}'
+  Node id : 94683221061408, Node type: global_statement, Node text: b'int x = 5;'
+    Node id : 94683221867264, Node type: local_declaration_statement, Node text: b'int x = 5;'
+      Node id : 94683221867152, Node type: variable_declaration, Node text: b'int x = 5'
+        Node id : 94683221930288, Node type: predefined_type, Node text: b'int'
+        Node id : 94683221867048, Node type: variable_declarator, Node text: b'x = 5'
+          Node id : 94683220838368, Node type: identifier, Node text: b'x'
+          Node id : 94683220838376, Node type: equals_value_clause, Node text: b'= 5'
+            Node id : 94683220838256, Node type: =, Node text: b'='
+            Node id : 94683221089024, Node type: integer_literal, Node text: b'5'
+      Node id : 94683221867160, Node type: ;, Node text: b';'
+  Node id : 94683221160816, Node type: global_statement, Node text: b'x += 1;'
+    Node id : 94683221160624, Node type: expression_statement, Node text: b'x += 1;'
+      Node id : 94683220404816, Node type: assignment_expression, Node text: b'x += 1'
+        Node id : 94683221836672, Node type: identifier, Node text: b'x'
+        Node id : 94683220404712, Node type: assignment_operator, Node text: b'+='
+          Node id : 94683220666256, Node type: +=, Node text: b'+='
+        Node id : 94683220666352, Node type: integer_literal, Node text: b'1'
+      Node id : 94683221160520, Node type: ;, Node text: b';'
+  Node id : 94683221755504, Node type: global_statement, Node text: b'f(x);'
+    Node id : 94683221924464, Node type: expression_statement, Node text: b'f(x);'
+      Node id : 94683220433664, Node type: invocation_expression, Node text: b'f(x)'
+        Node id : 94683220694080, Node type: identifier, Node text: b'f'
+        Node id : 94683221365928, Node type: argument_list, Node text: b'(x)'
+          Node id : 94683220433552, Node type: (, Node text: b'('
+          Node id : 94683220433560, Node type: argument, Node text: b'x'
+            Node id : 94683221834384, Node type: identifier, Node text: b'x'
+          Node id : 94683220433568, Node type: ), Node text: b')'
+      Node id : 94683221755400, Node type: ;, Node text: b';'
 
 --------------------------------------------------
 Word depths:
-93925546419808 (b'int y...): 0
-   93925546163952 (b'int y...): 1
-      93925546163760 (b'int y...): 2
-         93925545318688 (b'int y...): 3
-            93925545765952 (b'int'): 4
-            93925545318584 (b'y = 1'): 4
-               93925545741888 (b'y'): 5
-               93925545741896 (b'= 1'): 5
-                  93925545741776 (b'='): 6
-                  93925545759072 (b'1'): 6
-         93925545318696 (b';'): 3
-   93925547011184 (b'const...): 1
-      93925545768064 (b'const...): 2
-         93925546426832 (b'const'): 3
-            93925546426736 (b'const'): 4
-         93925545767960 (b'int x...): 3
-            93925546426928 (b'int'): 4
-            93925546799528 (b'x = 2'): 4
-               93925546799408 (b'x'): 5
-               93925546799416 (b'= 2'): 5
-                  93925546889920 (b'='): 6
-                  93925546429728 (b'2'): 6
-         93925545767968 (b';'): 3
-   93925546979424 (b'publi...): 1
-      93925545719584 (b'publi...): 2
-         93925545625728 (b'public'): 3
-            93925547011392 (b'public'): 4
-         93925545625824 (b'void'): 3
-         93925545719472 (b'f'): 3
-         93925545719480 (b'(int ...): 3
-            93925546812448 (b'('): 4
-            93925546827216 (b'int a'): 4
-               93925546294448 (b'int'): 5
-               93925546812344 (b'a'): 5
-            93925546812464 (b')'): 4
-         93925546823728 (b'{\n  ...): 3
-            93925546812560 (b'{'): 4
-            93925546812568 (b'// do...): 4
-            93925546812576 (b'}'): 4
-   93925546110752 (b'int x...): 1
-      93925546916608 (b'int x...): 2
-         93925546916496 (b'int x...): 3
-            93925546979632 (b'int'): 4
-            93925546916392 (b'x = 5'): 4
-               93925545887712 (b'x'): 5
-               93925545887720 (b'= 5'): 5
-                  93925545887600 (b'='): 6
-                  93925546138368 (b'5'): 6
-         93925546916504 (b';'): 3
-   93925546210160 (b'x += ...): 1
-      93925546209968 (b'x += ...): 2
-         93925545454160 (b'x += 1'): 3
-            93925546886016 (b'x'): 4
-            93925545454056 (b'+='): 4
-               93925545715600 (b'+='): 5
-            93925545715696 (b'1'): 4
-         93925546209864 (b';'): 3
-   93925546804848 (b'f(x);'): 1
-      93925546973808 (b'f(x);'): 2
-         93925545483008 (b'f(x)'): 3
-            93925545743424 (b'f'): 4
-            93925546415272 (b'(x)'): 4
-               93925545482896 (b'('): 5
-               93925545482904 (b'x'): 5
-                  93925546883728 (b'x'): 6
-               93925545482912 (b')'): 5
-         93925546804744 (b';'): 3
+94683221370464 (b'int y...): 0
+   94683221114608 (b'int y...): 1
+      94683221114416 (b'int y...): 2
+         94683220269344 (b'int y...): 3
+            94683220716608 (b'int'): 4
+            94683220269240 (b'y = 1'): 4
+               94683220692544 (b'y'): 5
+               94683220692552 (b'= 1'): 5
+                  94683220692432 (b'='): 6
+                  94683220709728 (b'1'): 6
+         94683220269352 (b';'): 3
+   94683221961840 (b'const...): 1
+      94683220718720 (b'const...): 2
+         94683221377488 (b'const'): 3
+            94683221377392 (b'const'): 4
+         94683220718616 (b'int x...): 3
+            94683221377584 (b'int'): 4
+            94683221750184 (b'x = 2'): 4
+               94683221750064 (b'x'): 5
+               94683221750072 (b'= 2'): 5
+                  94683221840576 (b'='): 6
+                  94683221380384 (b'2'): 6
+         94683220718624 (b';'): 3
+   94683221930080 (b'publi...): 1
+      94683220670240 (b'publi...): 2
+         94683220576384 (b'public'): 3
+            94683221962048 (b'public'): 4
+         94683220576480 (b'void'): 3
+         94683220670128 (b'f'): 3
+         94683220670136 (b'(int ...): 3
+            94683221763104 (b'('): 4
+            94683221777872 (b'int a'): 4
+               94683221245104 (b'int'): 5
+               94683221763000 (b'a'): 5
+            94683221763120 (b')'): 4
+         94683221774384 (b'{\n  ...): 3
+            94683221763216 (b'{'): 4
+            94683221763224 (b'// do...): 4
+            94683221763232 (b'}'): 4
+   94683221061408 (b'int x...): 1
+      94683221867264 (b'int x...): 2
+         94683221867152 (b'int x...): 3
+            94683221930288 (b'int'): 4
+            94683221867048 (b'x = 5'): 4
+               94683220838368 (b'x'): 5
+               94683220838376 (b'= 5'): 5
+                  94683220838256 (b'='): 6
+                  94683221089024 (b'5'): 6
+         94683221867160 (b';'): 3
+   94683221160816 (b'x += ...): 1
+      94683221160624 (b'x += ...): 2
+         94683220404816 (b'x += 1'): 3
+            94683221836672 (b'x'): 4
+            94683220404712 (b'+='): 4
+               94683220666256 (b'+='): 5
+            94683220666352 (b'1'): 4
+         94683221160520 (b';'): 3
+   94683221755504 (b'f(x);'): 1
+      94683221924464 (b'f(x);'): 2
+         94683220433664 (b'f(x)'): 3
+            94683220694080 (b'f'): 4
+            94683221365928 (b'(x)'): 4
+               94683220433552 (b'('): 5
+               94683220433560 (b'x'): 5
+                  94683221834384 (b'x'): 6
+               94683220433568 (b')'): 5
+         94683221755400 (b';'): 3
 --------------------------------------------------
 Tree depth: 6
 --------------------------------------------------

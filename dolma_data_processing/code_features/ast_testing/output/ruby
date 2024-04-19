@@ -1,82 +1,82 @@
-Node id : 93936194428080, Node type: program, Node text: b'x = 1\n@x = 2\n@@x = 3\n$x = 4\n\ndef f\n    return @x\nend\n\ndef f()\n    return x\nend'
-  Node id : 93936195053440, Node type: assignment, Node text: b'x = 1'
-    Node id : 93936194674528, Node type: identifier, Node text: b'x'
-    Node id : 93936194233848, Node type: =, Node text: b'='
-    Node id : 93936195755024, Node type: integer, Node text: b'1'
-  Node id : 93936195805104, Node type: assignment, Node text: b'@x = 2'
-    Node id : 93936195341904, Node type: instance_variable, Node text: b'@x'
-    Node id : 93936195805000, Node type: =, Node text: b'='
-    Node id : 93936195344896, Node type: integer, Node text: b'2'
-  Node id : 93936195742256, Node type: assignment, Node text: b'@@x = 3'
-    Node id : 93936195918112, Node type: class_variable, Node text: b'@@x'
-    Node id : 93936195742152, Node type: =, Node text: b'='
-    Node id : 93936194540992, Node type: integer, Node text: b'3'
-  Node id : 93936194802880, Node type: assignment, Node text: b'$x = 4'
-    Node id : 93936195738768, Node type: global_variable, Node text: b'$x'
-    Node id : 93936194802776, Node type: =, Node text: b'='
-    Node id : 93936194636048, Node type: integer, Node text: b'4'
-  Node id : 93936195798912, Node type: method, Node text: b'def f\n    return @x\nend'
-    Node id : 93936195798800, Node type: def, Node text: b'def'
-    Node id : 93936195801088, Node type: identifier, Node text: b'f'
-    Node id : 93936195803040, Node type: body_statement, Node text: b'return @x'
-      Node id : 93936195125328, Node type: return, Node text: b'return @x'
-        Node id : 93936195125216, Node type: return, Node text: b'return'
-        Node id : 93936195125224, Node type: argument_list, Node text: b'@x'
-          Node id : 93936195801280, Node type: instance_variable, Node text: b'@x'
-    Node id : 93936195803048, Node type: end, Node text: b'end'
-  Node id : 93936194497296, Node type: method, Node text: b'def f()\n    return x\nend'
-    Node id : 93936194497184, Node type: def, Node text: b'def'
-    Node id : 93936194526000, Node type: identifier, Node text: b'f'
-    Node id : 93936194497064, Node type: method_parameters, Node text: b'()'
-      Node id : 93936194526192, Node type: (, Node text: b'('
-      Node id : 93936194526200, Node type: ), Node text: b')'
-    Node id : 93936194497080, Node type: body_statement, Node text: b'return x'
-      Node id : 93936195720112, Node type: return, Node text: b'return x'
-        Node id : 93936195720000, Node type: return, Node text: b'return'
-        Node id : 93936195720008, Node type: argument_list, Node text: b'x'
-          Node id : 93936194397920, Node type: identifier, Node text: b'x'
-    Node id : 93936194497088, Node type: end, Node text: b'end'
+Node id : 94871223950512, Node type: program, Node text: b'x = 1\n@x = 2\n@@x = 3\n$x = 4\n\ndef f\n    return @x\nend\n\ndef f()\n    return x\nend'
+  Node id : 94871224575872, Node type: assignment, Node text: b'x = 1'
+    Node id : 94871224196960, Node type: identifier, Node text: b'x'
+    Node id : 94871223756280, Node type: =, Node text: b'='
+    Node id : 94871225277456, Node type: integer, Node text: b'1'
+  Node id : 94871225327536, Node type: assignment, Node text: b'@x = 2'
+    Node id : 94871224864336, Node type: instance_variable, Node text: b'@x'
+    Node id : 94871225327432, Node type: =, Node text: b'='
+    Node id : 94871224867328, Node type: integer, Node text: b'2'
+  Node id : 94871225264688, Node type: assignment, Node text: b'@@x = 3'
+    Node id : 94871225440544, Node type: class_variable, Node text: b'@@x'
+    Node id : 94871225264584, Node type: =, Node text: b'='
+    Node id : 94871224063424, Node type: integer, Node text: b'3'
+  Node id : 94871224325312, Node type: assignment, Node text: b'$x = 4'
+    Node id : 94871225261200, Node type: global_variable, Node text: b'$x'
+    Node id : 94871224325208, Node type: =, Node text: b'='
+    Node id : 94871224158480, Node type: integer, Node text: b'4'
+  Node id : 94871225321344, Node type: method, Node text: b'def f\n    return @x\nend'
+    Node id : 94871225321232, Node type: def, Node text: b'def'
+    Node id : 94871225323520, Node type: identifier, Node text: b'f'
+    Node id : 94871225325472, Node type: body_statement, Node text: b'return @x'
+      Node id : 94871224647760, Node type: return, Node text: b'return @x'
+        Node id : 94871224647648, Node type: return, Node text: b'return'
+        Node id : 94871224647656, Node type: argument_list, Node text: b'@x'
+          Node id : 94871225323712, Node type: instance_variable, Node text: b'@x'
+    Node id : 94871225325480, Node type: end, Node text: b'end'
+  Node id : 94871224019728, Node type: method, Node text: b'def f()\n    return x\nend'
+    Node id : 94871224019616, Node type: def, Node text: b'def'
+    Node id : 94871224048432, Node type: identifier, Node text: b'f'
+    Node id : 94871224019496, Node type: method_parameters, Node text: b'()'
+      Node id : 94871224048624, Node type: (, Node text: b'('
+      Node id : 94871224048632, Node type: ), Node text: b')'
+    Node id : 94871224019512, Node type: body_statement, Node text: b'return x'
+      Node id : 94871225242544, Node type: return, Node text: b'return x'
+        Node id : 94871225242432, Node type: return, Node text: b'return'
+        Node id : 94871225242440, Node type: argument_list, Node text: b'x'
+          Node id : 94871223920352, Node type: identifier, Node text: b'x'
+    Node id : 94871224019520, Node type: end, Node text: b'end'
 
 --------------------------------------------------
 Word depths:
-93936194428080 (b'x = 1...): 0
-   93936195053440 (b'x = 1'): 1
-      93936194674528 (b'x'): 2
-      93936194233848 (b'='): 2
-      93936195755024 (b'1'): 2
-   93936195805104 (b'@x = 2'): 1
-      93936195341904 (b'@x'): 2
-      93936195805000 (b'='): 2
-      93936195344896 (b'2'): 2
-   93936195742256 (b'@@x =...): 1
-      93936195918112 (b'@@x'): 2
-      93936195742152 (b'='): 2
-      93936194540992 (b'3'): 2
-   93936194802880 (b'$x = 4'): 1
-      93936195738768 (b'$x'): 2
-      93936194802776 (b'='): 2
-      93936194636048 (b'4'): 2
-   93936195798912 (b'def f...): 1
-      93936195798800 (b'def'): 2
-      93936195801088 (b'f'): 2
-      93936195803040 (b'retur...): 2
-         93936195125328 (b'retur...): 3
-            93936195125216 (b'return'): 4
-            93936195125224 (b'@x'): 4
-               93936195801280 (b'@x'): 5
-      93936195803048 (b'end'): 2
-   93936194497296 (b'def f...): 1
-      93936194497184 (b'def'): 2
-      93936194526000 (b'f'): 2
-      93936194497064 (b'()'): 2
-         93936194526192 (b'('): 3
-         93936194526200 (b')'): 3
-      93936194497080 (b'retur...): 2
-         93936195720112 (b'retur...): 3
-            93936195720000 (b'return'): 4
-            93936195720008 (b'x'): 4
-               93936194397920 (b'x'): 5
-      93936194497088 (b'end'): 2
+94871223950512 (b'x = 1...): 0
+   94871224575872 (b'x = 1'): 1
+      94871224196960 (b'x'): 2
+      94871223756280 (b'='): 2
+      94871225277456 (b'1'): 2
+   94871225327536 (b'@x = 2'): 1
+      94871224864336 (b'@x'): 2
+      94871225327432 (b'='): 2
+      94871224867328 (b'2'): 2
+   94871225264688 (b'@@x =...): 1
+      94871225440544 (b'@@x'): 2
+      94871225264584 (b'='): 2
+      94871224063424 (b'3'): 2
+   94871224325312 (b'$x = 4'): 1
+      94871225261200 (b'$x'): 2
+      94871224325208 (b'='): 2
+      94871224158480 (b'4'): 2
+   94871225321344 (b'def f...): 1
+      94871225321232 (b'def'): 2
+      94871225323520 (b'f'): 2
+      94871225325472 (b'retur...): 2
+         94871224647760 (b'retur...): 3
+            94871224647648 (b'return'): 4
+            94871224647656 (b'@x'): 4
+               94871225323712 (b'@x'): 5
+      94871225325480 (b'end'): 2
+   94871224019728 (b'def f...): 1
+      94871224019616 (b'def'): 2
+      94871224048432 (b'f'): 2
+      94871224019496 (b'()'): 2
+         94871224048624 (b'('): 3
+         94871224048632 (b')'): 3
+      94871224019512 (b'retur...): 2
+         94871225242544 (b'retur...): 3
+            94871225242432 (b'return'): 4
+            94871225242440 (b'x'): 4
+               94871223920352 (b'x'): 5
+      94871224019520 (b'end'): 2
 --------------------------------------------------
 Tree depth: 5
 --------------------------------------------------

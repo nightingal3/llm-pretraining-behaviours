@@ -1,11 +1,177 @@
-int y = 1;
+// Fill out your copyright notice in the Description page of Project Settings.
 
-void f(int a) {
-    return;
+#include "PitchBase.h"
+#include "Components/StaticMeshComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Materials/Material.h"
+#include "../Pitcher.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Components/CapsuleComponent.h"
+#include "../Controllers/PrecisionController.h"
+#include "../CatcherWall.h"
+#include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Curves/CurveFloat.h"
+#include "Curves/RichCurve.h"
+
+// Sets default values
+APitchBase::APitchBase()
+{
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+	
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
+	StaticMeshComponent->SetMobility(EComponentMobility::Movable);
+	StaticMeshComponent->OnComponentHit.AddDynamic(this, &APitchBase::OnHit);
+	SetRootComponent(StaticMeshComponent);
+	
+	PMC = CreateDefaultSubobject<UProjectileMovementComponent>(FName("PMC"));
+
+	CollisionCapsule = CreateDefaultSubobject<UCapsuleComponent>(FName("CollisionCapsule"));
+	CollisionCapsule->SetCapsuleRadius(3.6);
+	CollisionCapsule->SetCapsuleHalfHeight(0.01);
+	
 }
 
-int main() {
-    int x = 5;
-    x ++;
-    f(x);
+void APitchBase::PhysicsTick()
+{	
+	// Apply sum of drag and Magnus forces
+	// For some reason PMC forces are scaled up by 100
+	const FVector Drag = -GetVelocity() * DragCoefficient * GetVelocity().Size() * 0.01;
+	const FVector Magnus = MagnusVector * MagnusCoefficient * GetVelocity().SizeSquared() * 0.01;
+	GEngine->AddOnScreenDebugMessage(-1, GetWorld()->GetDeltaSeconds(), FColor::Cyan, FString::SanitizeFloat(Magnus.Size()));
+	PMC->AddForce(Drag + Magnus);
+}
+
+// Called when the game starts or when spawned
+void APitchBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (!Pitcher)
+	{
+		TArray<AActor*> Pitchers;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APitcher::StaticClass(), Pitchers);
+		if (Pitchers.Num() == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("0 pitchers found in PitchBase"));
+		}
+		Pitcher = Cast<APitcher>(Pitchers.Top());
+	}
+	SpawnLocation = GetActorLocation();
+	SecondsActive = 0;
+	
+	// Instance the blur meshes
+	if (BallTranslucentMaterial && StrapTranslucentMaterial && OpacityFloatCurve && BlurStaticMesh)
+	{
+		for (int32 i = 0; i < NumBlurMeshes; i++)
+		{
+			UStaticMeshComponent* BlurMesh = NewObject<UStaticMeshComponent>(this);
+			BlurMesh->AttachToComponent(StaticMeshComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true));
+			BlurMesh->RegisterComponent();
+			BlurMesh->SetStaticMesh(BlurStaticMesh);
+			BlurMeshes.Add(BlurMesh);
+			BlurMesh->SetRelativeTransform(FTransform(FRotator(i * SpinRotator * -BlurMeshAngle), FVector(0, 0, 0), FVector(1, 1, 1)));
+			const float Opacity = BlurMeshMaxOpacity * OpacityFloatCurve->GetFloatValue(float(i) / float(NumBlurMeshes));
+			// GEngine->AddOnScreenDebugMessage(-1, 1, FColor::White, FString::SanitizeFloat(Opacity));
+			UMaterialInstanceDynamic* BallMaterial = BlurMesh->CreateDynamicMaterialInstance(0, BallTranslucentMaterial);
+			BallMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);
+			UMaterialInstanceDynamic* StrapMaterial = BlurMesh->CreateDynamicMaterialInstance(1, StrapTranslucentMaterial);
+			StrapMaterial->SetScalarParameterValue(FName("Opacity"), Opacity);
+		}
+	}
+	if (!BallTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BallTranslucentMaterial null"));
+	if (!StrapTranslucentMaterial) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("StrapTranslucentMaterial null"));
+	if (!OpacityFloatCurve) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("OpacityFloatCurve null"));
+	if (!BlurStaticMesh) GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("BlurStaticMesh null"));
+	
+}
+
+void APitchBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	AddActorLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6
+	// StaticMeshComponent->AddLocalRotation(SpinRotator * SpinRateRPM * 6 * DeltaTime); // conversion factor from rpm to d/sec = 6
+	if (CallPhysicsTick) {
+		PhysicsTick();
+	}
+	
+	// DrawDebugLine(GetWorld(), PrevLocation, GetActorLocation(), FColor::Red, false, 1.5);
+	// DrawDebugSphere(GetWorld(), GetActorLocation(), 0.5, 10, FColor::Red, false, 1.5);
+	const FVector DeltaLocation = GetActorLocation() - PrevLocation;
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(GetVelocity().Size()));
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Orange, FString::SanitizeFloat(PMC->GetGravityZ()));
+
+	// DrawDebugCapsule(GetWorld(), GetActorLocation(), 16, 3.9, DirectionQuat, FColor::Red, false, 1.5);
+	SecondsActive += DeltaTime;
+	if (Pitcher)
+	{
+		// Check if pitch is out of bounds
+		if (SecondsActive >= ActiveDuration && !bExitCalled)
+		{
+			Pitcher->DeactivatePitch();
+		}
+	}
+	if (SecondsActive >= CapsuleUpdateDelay)
+	{
+		CollisionCapsule->SetCapsuleHalfHeight(DeltaLocation.Size() * 0.5);
+		CollisionCapsule->SetWorldRotation(FQuat::FindBetweenVectors(FVector(0, 0, 1), DeltaLocation));
+		CollisionCapsule->SetWorldLocation(PrevLocation + 0.5 * DeltaLocation);
+	}
+	PrevLocation = GetActorLocation();
+	
+}
+
+void APitchBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	APrecisionController* PC = Cast<APrecisionController>(OtherActor);
+	if (PC)
+	{
+		USphereComponent* SC = Cast<USphereComponent>(OtherComponent);
+		if (SC && PC->IsSwinging()) // Ball was hit
+		{
+			PMC->Velocity *= 1.1;
+			// Tell catcher wall to ignore this ball after it's hit
+			TArray<AActor*> CatcherWalls;
+			UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACatcherWall::StaticClass(), CatcherWalls);
+			if (CatcherWalls.Num() == 0)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("No catcher walls!"));
+				return;
+			}
+			ACatcherWall* CW = Cast<ACatcherWall>(CatcherWalls.Top());
+			for (UBoxComponent* Box : { CW->Front, CW->Bottom, CW->Front, CW->Right, CW->Left })
+			{
+				Box->IgnoreActorWhenMoving(this, true);
+			}
+			StaticMeshComponent->IgnoreActorWhenMoving(CW, true);
+		}
+		else
+		{
+		}
+	}
+	else
+	{
+		NumBounces += 1;
+		if (NumBounces <= 4)
+		{
+			PMC->Bounciness -= 0.25;
+		}
+		else
+		{
+			StaticMeshComponent->OnComponentHit.Clear();
+		}
+	}
+	CallPhysicsTick = false;
+	PMC->ProjectileGravityScale = 0.6;
+}
+
+void APitchBase::DestroyBlurMeshes()
+{
+	for (UStaticMeshComponent* BlurMesh : BlurMeshes)
+	{
+		BlurMesh->DestroyComponent();
+	}
 }

@@ -17,24 +17,15 @@ def trunc_str(s: str, maxLen: int):
         return s[: maxLen - 3] + "..."
 
 
-def write_node_with_content(node: Node, output_file: str, level: int = 0):
-    """
-    Recursively write the node's type, its start and end positions, and its text content.
-
-    Args:
-        node (tree_sitter.Node): the node to print
-        source_code (str): the source code
-        level (int): the depth of the node (used for indentation)
-    """
+def _write_node_with_content(node: Node, output_file: str, level: int = 0):
     indent = "  " * level
     with open(output_file, "a") as f:
         f.write(
-            # f"{indent}Node id : {node.id}, Node grammar name: {node.grammar_name}, Node text: {node.text}\n"
             f"{indent}Node id : {node.id}, Node type: {node.type}, Node text: {node.text}\n"
         )
 
-    for child in node.children:
-        write_node_with_content(child, output_file, level + 1)
+    for child in node.named_children:
+        _write_node_with_content(child, output_file, level + 1)
 
 
 def _traverse_get_depth(
@@ -46,7 +37,7 @@ def _traverse_get_depth(
     indent = "   " * depth
     word_depths[node] = depth
     f.write(f"{indent}{node.id} ({trunc_str(str(node.text), 10)}): {depth}\n")
-    for child in node.children:
+    for child in node.named_children:
         _traverse_get_depth(child, word_depths, output_file, depth + 1)
 
 
@@ -79,7 +70,7 @@ if __name__ == "__main__":
     tree = parser.parse(bytes(code, "utf-8"))
     with open(args.output_file, "w") as f:
         f.write("")
-    write_node_with_content(tree.root_node, args.output_file)
+    _write_node_with_content(tree.root_node, args.output_file)
     with open(args.output_file, "a") as f:
         word_depths = {}
         f.write(f"\n" + "-" * 50 + "\nWord depths:\n")
@@ -88,4 +79,4 @@ if __name__ == "__main__":
         feature_dict["tree_depth"] = max(word_depths.values())
         f.write("-" * 50 + f"\nTree depth: {feature_dict['tree_depth']}\n")
         feature_dict["words"] = word_depths.keys()
-        f.write("-" * 50 + f"\nNum words: {len(feature_dict['words'])}")
+        f.write("-" * 50 + f"\nNum words: {len(feature_dict['words'])}\n")

@@ -1,134 +1,134 @@
-Node id : 94504622082336, Node type: program, Node text: b'function f(a) {\n    return;\n}\n\nx = 1;\nvar x = 2;\nlet x = 3;\nconst x = 4;\n\nfunction main() {\n    x += 1;\n    f(x);\n}\n'
-  Node id : 94504622793152, Node type: function_declaration, Node text: b'function f(a) {\n    return;\n}'
-    Node id : 94504621685120, Node type: function, Node text: b'function'
-    Node id : 94504621685128, Node type: identifier, Node text: b'f'
-    Node id : 94504621685136, Node type: formal_parameters, Node text: b'(a)'
-      Node id : 94504622132368, Node type: (, Node text: b'('
-      Node id : 94504622068352, Node type: identifier, Node text: b'a'
-      Node id : 94504622132384, Node type: ), Node text: b')'
-    Node id : 94504621685144, Node type: statement_block, Node text: b'{\n    return;\n}'
-      Node id : 94504621684992, Node type: {, Node text: b'{'
-      Node id : 94504621685000, Node type: return_statement, Node text: b'return;'
-        Node id : 94504622114848, Node type: return, Node text: b'return'
-        Node id : 94504622114856, Node type: ;, Node text: b';'
-      Node id : 94504621685008, Node type: }, Node text: b'}'
-  Node id : 94504622779976, Node type: expression_statement, Node text: b'x = 1;'
-    Node id : 94504622796160, Node type: assignment_expression, Node text: b'x = 1'
-      Node id : 94504622796048, Node type: identifier, Node text: b'x'
-      Node id : 94504622796056, Node type: =, Node text: b'='
-      Node id : 94504622793248, Node type: number, Node text: b'1'
-    Node id : 94504622779864, Node type: ;, Node text: b';'
-  Node id : 94504623219120, Node type: variable_declaration, Node text: b'var x = 2;'
-    Node id : 94504623165824, Node type: var, Node text: b'var'
-    Node id : 94504623165832, Node type: variable_declarator, Node text: b'x = 2'
-      Node id : 94504623256352, Node type: identifier, Node text: b'x'
-      Node id : 94504623256240, Node type: =, Node text: b'='
-      Node id : 94504623218928, Node type: number, Node text: b'2'
-    Node id : 94504623165840, Node type: ;, Node text: b';'
-  Node id : 94504621992144, Node type: lexical_declaration, Node text: b'let x = 3;'
-    Node id : 94504623377712, Node type: let, Node text: b'let'
-    Node id : 94504623377720, Node type: variable_declarator, Node text: b'x = 3'
-      Node id : 94504623377600, Node type: identifier, Node text: b'x'
-      Node id : 94504622134560, Node type: =, Node text: b'='
-      Node id : 94504622134368, Node type: number, Node text: b'3'
-    Node id : 94504623377728, Node type: ;, Node text: b';'
-  Node id : 94504622504800, Node type: lexical_declaration, Node text: b'const x = 4;'
-    Node id : 94504622504688, Node type: const, Node text: b'const'
-    Node id : 94504622504696, Node type: variable_declarator, Node text: b'x = 4'
-      Node id : 94504622661072, Node type: identifier, Node text: b'x'
-      Node id : 94504622660960, Node type: =, Node text: b'='
-      Node id : 94504621992352, Node type: number, Node text: b'4'
-    Node id : 94504622504704, Node type: ;, Node text: b';'
-  Node id : 94504623252592, Node type: function_declaration, Node text: b'function main() {\n    x += 1;\n    f(x);\n}'
-    Node id : 94504623252464, Node type: function, Node text: b'function'
-    Node id : 94504623252472, Node type: identifier, Node text: b'main'
-    Node id : 94504623252480, Node type: formal_parameters, Node text: b'()'
-      Node id : 94504623193392, Node type: (, Node text: b'('
-      Node id : 94504623193400, Node type: ), Node text: b')'
-    Node id : 94504623252488, Node type: statement_block, Node text: b'{\n    x += 1;\n    f(x);\n}'
-      Node id : 94504623252336, Node type: {, Node text: b'{'
-      Node id : 94504622477184, Node type: expression_statement, Node text: b'x += 1;'
-        Node id : 94504623190016, Node type: augmented_assignment_expression, Node text: b'x += 1'
-          Node id : 94504623193504, Node type: identifier, Node text: b'x'
-          Node id : 94504623189912, Node type: +=, Node text: b'+='
-          Node id : 94504623193600, Node type: number, Node text: b'1'
-        Node id : 94504623190120, Node type: ;, Node text: b';'
-      Node id : 94504622477192, Node type: expression_statement, Node text: b'f(x);'
-        Node id : 94504623282912, Node type: call_expression, Node text: b'f(x)'
-          Node id : 94504622085872, Node type: identifier, Node text: b'f'
-          Node id : 94504623282808, Node type: arguments, Node text: b'(x)'
-            Node id : 94504622253920, Node type: (, Node text: b'('
-            Node id : 94504622086064, Node type: identifier, Node text: b'x'
-            Node id : 94504622253936, Node type: ), Node text: b')'
-        Node id : 94504622477080, Node type: ;, Node text: b';'
-      Node id : 94504623252352, Node type: }, Node text: b'}'
+Node id : 94581923223840, Node type: program, Node text: b'function f(a) {\n    return;\n}\n\nx = 1;\nvar x = 2;\nlet x = 3;\nconst x = 4;\n\nfunction main() {\n    x += 1;\n    f(x);\n}\n'
+  Node id : 94581923934656, Node type: function_declaration, Node text: b'function f(a) {\n    return;\n}'
+    Node id : 94581922826624, Node type: function, Node text: b'function'
+    Node id : 94581922826632, Node type: identifier, Node text: b'f'
+    Node id : 94581922826640, Node type: formal_parameters, Node text: b'(a)'
+      Node id : 94581923273872, Node type: (, Node text: b'('
+      Node id : 94581923209856, Node type: identifier, Node text: b'a'
+      Node id : 94581923273888, Node type: ), Node text: b')'
+    Node id : 94581922826648, Node type: statement_block, Node text: b'{\n    return;\n}'
+      Node id : 94581922826496, Node type: {, Node text: b'{'
+      Node id : 94581922826504, Node type: return_statement, Node text: b'return;'
+        Node id : 94581923256352, Node type: return, Node text: b'return'
+        Node id : 94581923256360, Node type: ;, Node text: b';'
+      Node id : 94581922826512, Node type: }, Node text: b'}'
+  Node id : 94581923921480, Node type: expression_statement, Node text: b'x = 1;'
+    Node id : 94581923937664, Node type: assignment_expression, Node text: b'x = 1'
+      Node id : 94581923937552, Node type: identifier, Node text: b'x'
+      Node id : 94581923937560, Node type: =, Node text: b'='
+      Node id : 94581923934752, Node type: number, Node text: b'1'
+    Node id : 94581923921368, Node type: ;, Node text: b';'
+  Node id : 94581924360624, Node type: variable_declaration, Node text: b'var x = 2;'
+    Node id : 94581924307328, Node type: var, Node text: b'var'
+    Node id : 94581924307336, Node type: variable_declarator, Node text: b'x = 2'
+      Node id : 94581924397856, Node type: identifier, Node text: b'x'
+      Node id : 94581924397744, Node type: =, Node text: b'='
+      Node id : 94581924360432, Node type: number, Node text: b'2'
+    Node id : 94581924307344, Node type: ;, Node text: b';'
+  Node id : 94581923133648, Node type: lexical_declaration, Node text: b'let x = 3;'
+    Node id : 94581924519216, Node type: let, Node text: b'let'
+    Node id : 94581924519224, Node type: variable_declarator, Node text: b'x = 3'
+      Node id : 94581924519104, Node type: identifier, Node text: b'x'
+      Node id : 94581923276064, Node type: =, Node text: b'='
+      Node id : 94581923275872, Node type: number, Node text: b'3'
+    Node id : 94581924519232, Node type: ;, Node text: b';'
+  Node id : 94581923646304, Node type: lexical_declaration, Node text: b'const x = 4;'
+    Node id : 94581923646192, Node type: const, Node text: b'const'
+    Node id : 94581923646200, Node type: variable_declarator, Node text: b'x = 4'
+      Node id : 94581923802576, Node type: identifier, Node text: b'x'
+      Node id : 94581923802464, Node type: =, Node text: b'='
+      Node id : 94581923133856, Node type: number, Node text: b'4'
+    Node id : 94581923646208, Node type: ;, Node text: b';'
+  Node id : 94581924394096, Node type: function_declaration, Node text: b'function main() {\n    x += 1;\n    f(x);\n}'
+    Node id : 94581924393968, Node type: function, Node text: b'function'
+    Node id : 94581924393976, Node type: identifier, Node text: b'main'
+    Node id : 94581924393984, Node type: formal_parameters, Node text: b'()'
+      Node id : 94581924334896, Node type: (, Node text: b'('
+      Node id : 94581924334904, Node type: ), Node text: b')'
+    Node id : 94581924393992, Node type: statement_block, Node text: b'{\n    x += 1;\n    f(x);\n}'
+      Node id : 94581924393840, Node type: {, Node text: b'{'
+      Node id : 94581923618688, Node type: expression_statement, Node text: b'x += 1;'
+        Node id : 94581924331520, Node type: augmented_assignment_expression, Node text: b'x += 1'
+          Node id : 94581924335008, Node type: identifier, Node text: b'x'
+          Node id : 94581924331416, Node type: +=, Node text: b'+='
+          Node id : 94581924335104, Node type: number, Node text: b'1'
+        Node id : 94581924331624, Node type: ;, Node text: b';'
+      Node id : 94581923618696, Node type: expression_statement, Node text: b'f(x);'
+        Node id : 94581924424416, Node type: call_expression, Node text: b'f(x)'
+          Node id : 94581923227376, Node type: identifier, Node text: b'f'
+          Node id : 94581924424312, Node type: arguments, Node text: b'(x)'
+            Node id : 94581923395424, Node type: (, Node text: b'('
+            Node id : 94581923227568, Node type: identifier, Node text: b'x'
+            Node id : 94581923395440, Node type: ), Node text: b')'
+        Node id : 94581923618584, Node type: ;, Node text: b';'
+      Node id : 94581924393856, Node type: }, Node text: b'}'
 
 --------------------------------------------------
 Word depths:
-94504622082336 (b'funct...): 0
-   94504622793152 (b'funct...): 1
-      94504621685120 (b'funct...): 2
-      94504621685128 (b'f'): 2
-      94504621685136 (b'(a)'): 2
-         94504622132368 (b'('): 3
-         94504622068352 (b'a'): 3
-         94504622132384 (b')'): 3
-      94504621685144 (b'{\n  ...): 2
-         94504621684992 (b'{'): 3
-         94504621685000 (b'retur...): 3
-            94504622114848 (b'return'): 4
-            94504622114856 (b';'): 4
-         94504621685008 (b'}'): 3
-   94504622779976 (b'x = 1;'): 1
-      94504622796160 (b'x = 1'): 2
-         94504622796048 (b'x'): 3
-         94504622796056 (b'='): 3
-         94504622793248 (b'1'): 3
-      94504622779864 (b';'): 2
-   94504623219120 (b'var x...): 1
-      94504623165824 (b'var'): 2
-      94504623165832 (b'x = 2'): 2
-         94504623256352 (b'x'): 3
-         94504623256240 (b'='): 3
-         94504623218928 (b'2'): 3
-      94504623165840 (b';'): 2
-   94504621992144 (b'let x...): 1
-      94504623377712 (b'let'): 2
-      94504623377720 (b'x = 3'): 2
-         94504623377600 (b'x'): 3
-         94504622134560 (b'='): 3
-         94504622134368 (b'3'): 3
-      94504623377728 (b';'): 2
-   94504622504800 (b'const...): 1
-      94504622504688 (b'const'): 2
-      94504622504696 (b'x = 4'): 2
-         94504622661072 (b'x'): 3
-         94504622660960 (b'='): 3
-         94504621992352 (b'4'): 3
-      94504622504704 (b';'): 2
-   94504623252592 (b'funct...): 1
-      94504623252464 (b'funct...): 2
-      94504623252472 (b'main'): 2
-      94504623252480 (b'()'): 2
-         94504623193392 (b'('): 3
-         94504623193400 (b')'): 3
-      94504623252488 (b'{\n  ...): 2
-         94504623252336 (b'{'): 3
-         94504622477184 (b'x += ...): 3
-            94504623190016 (b'x += 1'): 4
-               94504623193504 (b'x'): 5
-               94504623189912 (b'+='): 5
-               94504623193600 (b'1'): 5
-            94504623190120 (b';'): 4
-         94504622477192 (b'f(x);'): 3
-            94504623282912 (b'f(x)'): 4
-               94504622085872 (b'f'): 5
-               94504623282808 (b'(x)'): 5
-                  94504622253920 (b'('): 6
-                  94504622086064 (b'x'): 6
-                  94504622253936 (b')'): 6
-            94504622477080 (b';'): 4
-         94504623252352 (b'}'): 3
+94581923223840 (b'funct...): 0
+   94581923934656 (b'funct...): 1
+      94581922826624 (b'funct...): 2
+      94581922826632 (b'f'): 2
+      94581922826640 (b'(a)'): 2
+         94581923273872 (b'('): 3
+         94581923209856 (b'a'): 3
+         94581923273888 (b')'): 3
+      94581922826648 (b'{\n  ...): 2
+         94581922826496 (b'{'): 3
+         94581922826504 (b'retur...): 3
+            94581923256352 (b'return'): 4
+            94581923256360 (b';'): 4
+         94581922826512 (b'}'): 3
+   94581923921480 (b'x = 1;'): 1
+      94581923937664 (b'x = 1'): 2
+         94581923937552 (b'x'): 3
+         94581923937560 (b'='): 3
+         94581923934752 (b'1'): 3
+      94581923921368 (b';'): 2
+   94581924360624 (b'var x...): 1
+      94581924307328 (b'var'): 2
+      94581924307336 (b'x = 2'): 2
+         94581924397856 (b'x'): 3
+         94581924397744 (b'='): 3
+         94581924360432 (b'2'): 3
+      94581924307344 (b';'): 2
+   94581923133648 (b'let x...): 1
+      94581924519216 (b'let'): 2
+      94581924519224 (b'x = 3'): 2
+         94581924519104 (b'x'): 3
+         94581923276064 (b'='): 3
+         94581923275872 (b'3'): 3
+      94581924519232 (b';'): 2
+   94581923646304 (b'const...): 1
+      94581923646192 (b'const'): 2
+      94581923646200 (b'x = 4'): 2
+         94581923802576 (b'x'): 3
+         94581923802464 (b'='): 3
+         94581923133856 (b'4'): 3
+      94581923646208 (b';'): 2
+   94581924394096 (b'funct...): 1
+      94581924393968 (b'funct...): 2
+      94581924393976 (b'main'): 2
+      94581924393984 (b'()'): 2
+         94581924334896 (b'('): 3
+         94581924334904 (b')'): 3
+      94581924393992 (b'{\n  ...): 2
+         94581924393840 (b'{'): 3
+         94581923618688 (b'x += ...): 3
+            94581924331520 (b'x += 1'): 4
+               94581924335008 (b'x'): 5
+               94581924331416 (b'+='): 5
+               94581924335104 (b'1'): 5
+            94581924331624 (b';'): 4
+         94581923618696 (b'f(x);'): 3
+            94581924424416 (b'f(x)'): 4
+               94581923227376 (b'f'): 5
+               94581924424312 (b'(x)'): 5
+                  94581923395424 (b'('): 6
+                  94581923227568 (b'x'): 6
+                  94581923395440 (b')'): 6
+            94581923618584 (b';'): 4
+         94581924393856 (b'}'): 3
 --------------------------------------------------
 Tree depth: 6
 --------------------------------------------------

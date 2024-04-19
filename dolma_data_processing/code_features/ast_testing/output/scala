@@ -1,102 +1,102 @@
-Node id : 93865376191488, Node type: compilation_unit, Node text: b'var x : Int = 1\nval x = 2\nval (x, y) = Pair(1, 2)\n\ndef f () = {\n    return x\n}\n\nf()'
-  Node id : 93865377331888, Node type: var_definition, Node text: b'var x : Int = 1'
-    Node id : 93865376668160, Node type: var, Node text: b'var'
-    Node id : 93865377315512, Node type: identifier, Node text: b'x'
-    Node id : 93865377315520, Node type: :, Node text: b':'
-    Node id : 93865377741920, Node type: type_identifier, Node text: b'Int'
-    Node id : 93865377315536, Node type: =, Node text: b'='
-    Node id : 93865377065920, Node type: integer_literal, Node text: b'1'
-  Node id : 93865377701600, Node type: val_definition, Node text: b'val x = 2'
-    Node id : 93865377315648, Node type: val, Node text: b'val'
-    Node id : 93865377701480, Node type: identifier, Node text: b'x'
-    Node id : 93865377701488, Node type: =, Node text: b'='
-    Node id : 93865377754768, Node type: integer_literal, Node text: b'2'
-  Node id : 93865377818576, Node type: val_definition, Node text: b'val (x, y) = Pair(1, 2)'
-    Node id : 93865376670128, Node type: val, Node text: b'val'
-    Node id : 93865377818456, Node type: tuple_pattern, Node text: b'(x, y)'
-      Node id : 93865377196624, Node type: (, Node text: b'('
-      Node id : 93865377196632, Node type: identifier, Node text: b'x'
-      Node id : 93865377196512, Node type: ,, Node text: b','
-      Node id : 93865377196520, Node type: identifier, Node text: b'y'
-      Node id : 93865377196648, Node type: ), Node text: b')'
-    Node id : 93865377818464, Node type: =, Node text: b'='
-    Node id : 93865376789568, Node type: call_expression, Node text: b'Pair(1, 2)'
-      Node id : 93865377729040, Node type: identifier, Node text: b'Pair'
-      Node id : 93865377040552, Node type: arguments, Node text: b'(1, 2)'
-        Node id : 93865377040432, Node type: (, Node text: b'('
-        Node id : 93865377729136, Node type: integer_literal, Node text: b'1'
-        Node id : 93865377881584, Node type: ,, Node text: b','
-        Node id : 93865377725792, Node type: integer_literal, Node text: b'2'
-        Node id : 93865377040448, Node type: ), Node text: b')'
-  Node id : 93865376645728, Node type: function_definition, Node text: b'def f () = {\n    return x\n}'
-    Node id : 93865377788192, Node type: def, Node text: b'def'
-    Node id : 93865377788080, Node type: identifier, Node text: b'f'
-    Node id : 93865377787984, Node type: parameters, Node text: b'()'
-      Node id : 93865377012928, Node type: (, Node text: b'('
-      Node id : 93865377012936, Node type: ), Node text: b')'
-    Node id : 93865376645624, Node type: =, Node text: b'='
-    Node id : 93865377112240, Node type: block, Node text: b'{\n    return x\n}'
-      Node id : 93865377112128, Node type: {, Node text: b'{'
-      Node id : 93865376356224, Node type: return_expression, Node text: b'return x'
-        Node id : 93865376356112, Node type: return, Node text: b'return'
-        Node id : 93865376618000, Node type: identifier, Node text: b'x'
-      Node id : 93865377112144, Node type: }, Node text: b'}'
-  Node id : 93865377785920, Node type: call_expression, Node text: b'f()'
-    Node id : 93865377789952, Node type: identifier, Node text: b'f'
-    Node id : 93865377785816, Node type: arguments, Node text: b'()'
-      Node id : 93865377785696, Node type: (, Node text: b'('
-      Node id : 93865377785704, Node type: ), Node text: b')'
+Node id : 94491452044288, Node type: compilation_unit, Node text: b'var x : Int = 1\nval x = 2\nval (x, y) = Pair(1, 2)\n\ndef f () = {\n    return x\n}\n\nf()'
+  Node id : 94491453184688, Node type: var_definition, Node text: b'var x : Int = 1'
+    Node id : 94491452520960, Node type: var, Node text: b'var'
+    Node id : 94491453168312, Node type: identifier, Node text: b'x'
+    Node id : 94491453168320, Node type: :, Node text: b':'
+    Node id : 94491453594720, Node type: type_identifier, Node text: b'Int'
+    Node id : 94491453168336, Node type: =, Node text: b'='
+    Node id : 94491452918720, Node type: integer_literal, Node text: b'1'
+  Node id : 94491453554400, Node type: val_definition, Node text: b'val x = 2'
+    Node id : 94491453168448, Node type: val, Node text: b'val'
+    Node id : 94491453554280, Node type: identifier, Node text: b'x'
+    Node id : 94491453554288, Node type: =, Node text: b'='
+    Node id : 94491453607568, Node type: integer_literal, Node text: b'2'
+  Node id : 94491453671376, Node type: val_definition, Node text: b'val (x, y) = Pair(1, 2)'
+    Node id : 94491452522928, Node type: val, Node text: b'val'
+    Node id : 94491453671256, Node type: tuple_pattern, Node text: b'(x, y)'
+      Node id : 94491453049424, Node type: (, Node text: b'('
+      Node id : 94491453049432, Node type: identifier, Node text: b'x'
+      Node id : 94491453049312, Node type: ,, Node text: b','
+      Node id : 94491453049320, Node type: identifier, Node text: b'y'
+      Node id : 94491453049448, Node type: ), Node text: b')'
+    Node id : 94491453671264, Node type: =, Node text: b'='
+    Node id : 94491452642368, Node type: call_expression, Node text: b'Pair(1, 2)'
+      Node id : 94491453581840, Node type: identifier, Node text: b'Pair'
+      Node id : 94491452893352, Node type: arguments, Node text: b'(1, 2)'
+        Node id : 94491452893232, Node type: (, Node text: b'('
+        Node id : 94491453581936, Node type: integer_literal, Node text: b'1'
+        Node id : 94491453734384, Node type: ,, Node text: b','
+        Node id : 94491453578592, Node type: integer_literal, Node text: b'2'
+        Node id : 94491452893248, Node type: ), Node text: b')'
+  Node id : 94491452498528, Node type: function_definition, Node text: b'def f () = {\n    return x\n}'
+    Node id : 94491453640992, Node type: def, Node text: b'def'
+    Node id : 94491453640880, Node type: identifier, Node text: b'f'
+    Node id : 94491453640784, Node type: parameters, Node text: b'()'
+      Node id : 94491452865728, Node type: (, Node text: b'('
+      Node id : 94491452865736, Node type: ), Node text: b')'
+    Node id : 94491452498424, Node type: =, Node text: b'='
+    Node id : 94491452965040, Node type: block, Node text: b'{\n    return x\n}'
+      Node id : 94491452964928, Node type: {, Node text: b'{'
+      Node id : 94491452209024, Node type: return_expression, Node text: b'return x'
+        Node id : 94491452208912, Node type: return, Node text: b'return'
+        Node id : 94491452470800, Node type: identifier, Node text: b'x'
+      Node id : 94491452964944, Node type: }, Node text: b'}'
+  Node id : 94491453638720, Node type: call_expression, Node text: b'f()'
+    Node id : 94491453642752, Node type: identifier, Node text: b'f'
+    Node id : 94491453638616, Node type: arguments, Node text: b'()'
+      Node id : 94491453638496, Node type: (, Node text: b'('
+      Node id : 94491453638504, Node type: ), Node text: b')'
 
 --------------------------------------------------
 Word depths:
-93865376191488 (b'var x...): 0
-   93865377331888 (b'var x...): 1
-      93865376668160 (b'var'): 2
-      93865377315512 (b'x'): 2
-      93865377315520 (b':'): 2
-      93865377741920 (b'Int'): 2
-      93865377315536 (b'='): 2
-      93865377065920 (b'1'): 2
-   93865377701600 (b'val x...): 1
-      93865377315648 (b'val'): 2
-      93865377701480 (b'x'): 2
-      93865377701488 (b'='): 2
-      93865377754768 (b'2'): 2
-   93865377818576 (b'val (...): 1
-      93865376670128 (b'val'): 2
-      93865377818456 (b'(x, y)'): 2
-         93865377196624 (b'('): 3
-         93865377196632 (b'x'): 3
-         93865377196512 (b','): 3
-         93865377196520 (b'y'): 3
-         93865377196648 (b')'): 3
-      93865377818464 (b'='): 2
-      93865376789568 (b'Pair(...): 2
-         93865377729040 (b'Pair'): 3
-         93865377040552 (b'(1, 2)'): 3
-            93865377040432 (b'('): 4
-            93865377729136 (b'1'): 4
-            93865377881584 (b','): 4
-            93865377725792 (b'2'): 4
-            93865377040448 (b')'): 4
-   93865376645728 (b'def f...): 1
-      93865377788192 (b'def'): 2
-      93865377788080 (b'f'): 2
-      93865377787984 (b'()'): 2
-         93865377012928 (b'('): 3
-         93865377012936 (b')'): 3
-      93865376645624 (b'='): 2
-      93865377112240 (b'{\n  ...): 2
-         93865377112128 (b'{'): 3
-         93865376356224 (b'retur...): 3
-            93865376356112 (b'return'): 4
-            93865376618000 (b'x'): 4
-         93865377112144 (b'}'): 3
-   93865377785920 (b'f()'): 1
-      93865377789952 (b'f'): 2
-      93865377785816 (b'()'): 2
-         93865377785696 (b'('): 3
-         93865377785704 (b')'): 3
+94491452044288 (b'var x...): 0
+   94491453184688 (b'var x...): 1
+      94491452520960 (b'var'): 2
+      94491453168312 (b'x'): 2
+      94491453168320 (b':'): 2
+      94491453594720 (b'Int'): 2
+      94491453168336 (b'='): 2
+      94491452918720 (b'1'): 2
+   94491453554400 (b'val x...): 1
+      94491453168448 (b'val'): 2
+      94491453554280 (b'x'): 2
+      94491453554288 (b'='): 2
+      94491453607568 (b'2'): 2
+   94491453671376 (b'val (...): 1
+      94491452522928 (b'val'): 2
+      94491453671256 (b'(x, y)'): 2
+         94491453049424 (b'('): 3
+         94491453049432 (b'x'): 3
+         94491453049312 (b','): 3
+         94491453049320 (b'y'): 3
+         94491453049448 (b')'): 3
+      94491453671264 (b'='): 2
+      94491452642368 (b'Pair(...): 2
+         94491453581840 (b'Pair'): 3
+         94491452893352 (b'(1, 2)'): 3
+            94491452893232 (b'('): 4
+            94491453581936 (b'1'): 4
+            94491453734384 (b','): 4
+            94491453578592 (b'2'): 4
+            94491452893248 (b')'): 4
+   94491452498528 (b'def f...): 1
+      94491453640992 (b'def'): 2
+      94491453640880 (b'f'): 2
+      94491453640784 (b'()'): 2
+         94491452865728 (b'('): 3
+         94491452865736 (b')'): 3
+      94491452498424 (b'='): 2
+      94491452965040 (b'{\n  ...): 2
+         94491452964928 (b'{'): 3
+         94491452209024 (b'retur...): 3
+            94491452208912 (b'return'): 4
+            94491452470800 (b'x'): 4
+         94491452964944 (b'}'): 3
+   94491453638720 (b'f()'): 1
+      94491453642752 (b'f'): 2
+      94491453638616 (b'()'): 2
+         94491453638496 (b'('): 3
+         94491453638504 (b')'): 3
 --------------------------------------------------
 Tree depth: 4
 --------------------------------------------------
