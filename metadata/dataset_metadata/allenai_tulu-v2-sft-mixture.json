@@ -1,0 +1,78 @@
+{
+    "domains": [
+        {
+            "name": "flan_v2",
+            "doc_type": "instruction",
+            "documents": 50000,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "open_assistant_1",
+            "doc_type": "instruction",
+            "documents": 7708,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "sharegpt",
+            "doc_type": "instruction",
+            "documents": 114046,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "gpt4_alpaca",
+            "doc_type": "instruction",
+            "documents": 20000,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "code_alpaca",
+            "doc_type": "instruction",
+            "documents": 20022,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "lima",
+            "doc_type": "instruction",
+            "documents": 1030,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "wizardlm_evol_instruct",
+            "doc_type": "instruction",
+            "documents": 30000,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "open_orca",
+            "doc_type": "instruction",
+            "documents": 30000,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "hardcoded",
+            "doc_type": "instruction",
+            "documents": 140,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        },
+        {
+            "name": "science",
+            "doc_type": "instruction",
+            "documents": 7544,
+            "data_size_gb": -1,
+            "tokens_billions": -1
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": -1,
+        "total_documents": 280490
+    }
+}
