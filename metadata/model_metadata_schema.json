@@ -383,7 +383,6 @@
         "pipeline_tag",
         "mask_token",
         "card_data",
-        "widget_data",
         "model_index"
     ],
     "additionalProperties": false
