@@ -66,10 +66,16 @@
             ]
         },
         "card_data": {
-            "type": ["object", "null"]
+            "type": [
+                "object",
+                "null"
+            ]
         },
         "widget_data": {
-            "type": ["array", "null"],
+            "type": [
+                "array",
+                "null"
+            ],
             "items": {
                 "type": "object",
                 "properties": {
@@ -149,7 +155,10 @@
             "additionalProperties": false
         },
         "safetensors": {
-            "type": ["object", "null"],
+            "type": [
+                "object",
+                "null"
+            ],
             "properties": {
                 "parameters": {
                     "type": "object",
@@ -252,95 +261,111 @@
             "type": "integer",
             "minimum": 1
         },
-        "batch_instances": {
-            "type": "integer",
-            "minimum": 1
-        },
-        "batch_tokens": {
-            "type": "integer",
-            "minimum": 1
-        },
-        "total_tokens_billions": {
-            "type": "number",
-            "minimum": 0
-        },
         "weight_tying": {
             "type": "boolean"
         },
-        "optimizer": {
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": [
-                        "adam"
-                    ]
-                },
-                "params": {
-                    "type": "object",
-                    "properties": {
-                        "lr": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "lr_min": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        },
-                        "lr_schedule": {
-                            "type": "string",
-                            "enum": ["linear", "cosine"]
-                        },
-                        "lr_warmup": {
-                            "type": "integer",
-                            "minimum": 0
-                        },
-                        "weight_decay": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "grad_clip": {
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "betas": {
-                            "type": "array",
-                            "items": [
-                                {
-                                    "type": "number",
-                                    "exclusiveMinimum": 0,
-                                    "exclusiveMaximum": 1
-                                },
-                                {
-                                    "type": "number",
-                                    "exclusiveMinimum": 0,
-                                    "exclusiveMaximum": 1
-                                }
-                            ],
-                            "minItems": 2,
-                            "maxItems": 2
-                        },
-                        "eps": {
-                            "type": "number",
-                            "exclusiveMinimum": 0
-                        }
+        "training_stages": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "string"
                     },
-                    "required": [
-                        "lr",
-                        "betas",
-                        "eps"
-                    ],
-                    "additionalProperties": false
-                }
+                    "batch_instances": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "batch_tokens": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "total_tokens_billions": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "optimizer": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "adam"
+                                ]
+                            },
+                            "params": {
+                                "type": "object",
+                                "properties": {
+                                    "lr": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "lr_min": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "lr_schedule": {
+                                        "type": "string",
+                                        "enum": [
+                                            "linear",
+                                            "cosine"
+                                        ]
+                                    },
+                                    "lr_warmup": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    },
+                                    "betas": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "minItems": 2,
+                                        "maxItems": 2
+                                    },
+                                    "eps": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "weight_decay": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "grad_clip": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    }
+                                },
+                                "required": [
+                                    "lr",
+                                    "lr_min",
+                                    "lr_schedule",
+                                    "lr_warmup",
+                                    "betas",
+                                    "eps"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "params"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "required": [
+                    "data",
+                    "batch_instances",
+                    "batch_tokens",
+                    "total_tokens_billions",
+                    "optimizer"
+                ],
+                "additionalProperties": false
             },
-            "required": [
-                "type",
-                "params"
-            ],
-            "additionalProperties": false
-        },
-        "pre_training_data": {
-            "type": "string"
+            "minItems": 1
         }
     },
     "required": [

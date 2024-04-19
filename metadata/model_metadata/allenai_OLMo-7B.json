@@ -90,25 +90,29 @@
     "block_type": "sequential",
     "activation": "swiglu",
     "sequence_length": 2048,
-    "batch_instances": 2160,
-    "batch_tokens": 4000000,
     "weight_tying": false,
-    "total_tokens_billions": 2460,
-    "optimizer": {
-        "type": "adam",
-        "params": {
-            "lr": 3.0e-4,
-            "lr_min": 3.0e-5,
-            "lr_schedule": "linear",
-            "lr_warmup": 5000,
-            "betas": [
-                0.9,
-                0.95
-            ],
-            "eps": 1.0e-5,
-            "weight_decay": 0.1,
-            "grad_clip": 1.0
+    "training_stages": [
+        {
+            "data": "dolma",
+            "batch_instances": 2160,
+            "batch_tokens": 4000000,
+            "total_tokens_billions": 2460,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 3.0e-4,
+                    "lr_min": 3.0e-5,
+                    "lr_schedule": "linear",
+                    "lr_warmup": 5000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-5,
+                    "weight_decay": 0.1,
+                    "grad_clip": 1.0
+                }
+            }
         }
-    },
-    "pre_training_data": "../dataset_metadata/dolma.json"
+    ]
 }
