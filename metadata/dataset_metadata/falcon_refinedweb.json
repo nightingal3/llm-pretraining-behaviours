@@ -1,0 +1,17 @@
+{
+    "domains": [
+        {
+            "name": "falcon_refinedweb",
+            "doc_type": "web",
+            "data_size_gb": -1,
+            "documents": -1,
+            "tokens_billions": 5000
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 5000,
+        "mix": {
+            "falcon_refinedweb": 1
+        }
+    }
+}
