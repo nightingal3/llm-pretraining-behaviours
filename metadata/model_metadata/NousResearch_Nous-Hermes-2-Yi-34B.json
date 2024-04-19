@@ -1,0 +1,91 @@
+{
+    "id": "NousResearch/Nous-Hermes-2-Yi-34B",
+    "author": "NousResearch",
+    "sha": "fcb0a8847e76aea14aba9aa44009d4418ad7c18f",
+    "created_at": "2023-12-23T19:47:48+00:00",
+    "last_modified": "2024-02-20T09:17:20+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 69617,
+    "likes": 225,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "yi",
+        "instruct",
+        "finetune",
+        "chatml",
+        "gpt4",
+        "synthetic data",
+        "distillation",
+        "conversational",
+        "en",
+        "dataset:teknium/OpenHermes-2.5",
+        "base_model:01-ai/Yi-34B",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "widget_data": [
+        {
+            "text": "Hey my name is Julien! How are you?"
+        },
+        {
+            "text": "Hey my name is Thomas! How are you?"
+        },
+        {
+            "text": "Hey my name is Mariama! How are you?"
+        },
+        {
+            "text": "Hey my name is Clara! How are you?"
+        },
+        {
+            "text": "Hey my name is Julien! How are you?"
+        },
+        {
+            "text": "Hi."
+        }
+    ],
+    "model_index": [
+        {
+            "name": "Nous-Hermes-2-Yi-34B",
+            "results": []
+        }
+    ],
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": "<|startoftext|>",
+            "eos_token": "<|im_end|>",
+            "pad_token": "<unk>",
+            "chat_template": "{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+            "unk_token": "<unk>",
+            "use_default_system_prompt": false
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 34388917248
+        },
+        "total": 34388917248
+    }
+}
