@@ -39,8 +39,6 @@ if __name__ == "__main__":
     print(args)
     # Each indexes[i] is an array of length 2049 of tokens, which were used for training
     # The token mappings come from https://github.com/EleutherAI/pythia/blob/main/utils/20B_tokenizer.json
-    indexes = np.load(
-        args.indexes_file
-    )
+    indexes = np.load(args.indexes_file)
     all_toks = get_all_tokens(args.checkpoint_id * 1024)
     np.save("tokens", all_toks)
