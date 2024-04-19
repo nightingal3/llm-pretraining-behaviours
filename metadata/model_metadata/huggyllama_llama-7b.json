@@ -114,7 +114,7 @@
     "weight_tying": false,
     "training_stages": [
         {
-            "data": "llama7b_data",
+            "data": "llama_data",
             "batch_instances": 1024,
             "batch_tokens": 4000000,
             "total_tokens_billions": 1000,

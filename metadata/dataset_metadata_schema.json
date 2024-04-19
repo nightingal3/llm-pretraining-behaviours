@@ -20,7 +20,7 @@
                   "reference", "reference/encyclopedic", "reference/dictionaries", 
                   "academic_papers", "academic_papers/sciences", "academic_papers/humanities",
                   "code", "code/source_code", "code/documentation", "code/forums",
-                  "media", "media/podcasts", "media/subtitles", "specific_datasets"
+                  "media", "media/podcasts", "media/subtitles", "specific_datasets", "unknown"
                 ]
               },
               "data_size_gb": {
