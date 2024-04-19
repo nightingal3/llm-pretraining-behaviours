@@ -98,6 +98,7 @@
     "weight_tying": false,
     "training_stages": [
         {
+            "name": "pretraining",
             "data": "falcon_refinedweb",
             "batch_instances": 2304,
             "batch_tokens": 4000000,

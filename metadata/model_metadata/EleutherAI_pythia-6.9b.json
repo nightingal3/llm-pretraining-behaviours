@@ -91,6 +91,7 @@
     "weight_tying": false,
     "training_stages": [
         {
+            "name": "pretraining",
             "data": "the_pile",
             "batch_instances": 1024,
             "batch_tokens": 2000000,

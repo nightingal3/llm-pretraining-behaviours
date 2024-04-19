@@ -107,6 +107,7 @@
     "weight_tying": false,
     "training_stages": [
         {
+            "name": "pretraining",
             "data": "redpajama",
             "batch_instances": 2048,
             "batch_tokens": 4000000,

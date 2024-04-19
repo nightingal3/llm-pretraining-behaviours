@@ -117,6 +117,7 @@
     "weight_tying": false,
     "training_stages": [
         {
+            "name": "pretraining",
             "data": "llama2_data",
             "batch_instances": 1024,
             "batch_tokens": 4000000,

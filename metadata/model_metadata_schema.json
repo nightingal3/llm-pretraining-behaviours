@@ -269,8 +269,12 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "data": {
+                    "name": {
                         "type": "string"
+                    },
+                    "data": {
+                        "type": "string",
+                        "comment": "The dataset, in the file `dataset_metadata/{data}.json`"
                     },
                     "batch_instances": {
                         "type": "integer",
@@ -357,6 +361,7 @@
                     }
                 },
                 "required": [
+                    "name",
                     "data",
                     "batch_instances",
                     "batch_tokens",

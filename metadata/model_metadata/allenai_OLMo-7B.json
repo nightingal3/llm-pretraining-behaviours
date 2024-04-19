@@ -93,6 +93,7 @@
     "weight_tying": false,
     "training_stages": [
         {
+            "name": "pretraining",
             "data": "dolma",
             "batch_instances": 2160,
             "batch_tokens": 4000000,
