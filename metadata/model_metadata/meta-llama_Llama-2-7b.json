@@ -69,7 +69,7 @@
             "data": "llama2_data",
             "batch_instances": 1024,
             "batch_tokens": 4000000,
-            "total_tokens_billions": 1000,
+            "total_tokens_billions": 2000,
             "optimizer": {
                 "type": "adam",
                 "params": {
