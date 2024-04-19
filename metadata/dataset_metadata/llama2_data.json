@@ -1,0 +1,15 @@
+{
+    "domains": [
+        {
+            "name": "llama2",
+            "doc_type": "unknown",
+            "tokens_billions": 2000
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 2000,
+        "mix": {
+            "llama2": 1
+        }
+    }
+}

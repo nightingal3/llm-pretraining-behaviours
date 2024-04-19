@@ -83,6 +83,7 @@
     "weight_tying": false,
     "training_stages": [
         {
+            "data": "qwen",
             "batch_instances": 2048,
             "batch_tokens": 4000000,
             "total_tokens_billions": 2460,

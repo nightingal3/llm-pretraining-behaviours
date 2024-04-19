@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "qwen",
-            "doc_type": "web",
+            "doc_type": "unknown",
             "tokens_billions": 3000
         }
     ],
