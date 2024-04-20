@@ -1,310 +1,286 @@
 {
-    "Javascript": [
-        {
-            "FuncIndicator": [
-                "function_declaration"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "variable_declarator"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "Java": [
-        {
-            "FuncIndicator": [
-                "method_declaration"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "method_invocation"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "variable_declarator"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "Python": [
-        {
-            "FuncIndicator": [
-                "function_definition"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "assignment"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "PHP": [
-        {
-            "FuncIndicator": [
-                "function_definition"
-            ],
-            "FuncNameIndicator": [
-                "name"
-            ],
-            "CallIndicator": [
-                "function_call_expression"
-            ],
-            "CallNameIndicator": [
-                "name"
-            ],
-            "VarDefIndicator": [
-                "assignment_expression"
-            ],
-            "VarDefNameIndicator": [
-                "variable_name"
-            ],
-            "VarUsgIndicator": [
-                "variable_name"
-            ]
-        }
-    ],
-    "C#": [
-        {
-            "FuncIndicator": [
-                "local_function_statement"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "invocation_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "variable_declarator"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "C": [
-        {
-            "FuncIndicator": [
-                "function_declarator"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "init_declarator"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "Typescript": [
-        {
-            "FuncIndicator": [
-                "function_declaration"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "variable_declarator"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "C++": [
-        {
-            "FuncIndicator": [
-                "function_declarator"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "init_declarator"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "Go": [
-        {
-            "FuncIndicator": [
-                "function_declaration"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "var_spec",
-                "short_var_declaration"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ],
-    "Ruby": [
-        {
-            "FuncIndicator": [
-                "method"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "assignment"
-            ],
-            "VarDefNameIndicator": [
-                "identifier",
-                "instance_variable",
-                "class_variable",
-                "global_variable"
-            ],
-            "VarUsgIndicator": [
-                "identifier",
-                "instance_variable",
-                "class_variable",
-                "global_variable"
-            ]
-        }
-    ],
-    "Kotlin": [
-        {
-            "FuncIndicator": [
-                "function_declaration"
-            ],
-            "FuncNameIndicator": [
-                "simple_identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "simple_identifier"
-            ],
-            "VarDefIndicator": [
-                "variable_declaration"
-            ],
-            "VarDefNameIndicator": [
-                "simple_identifier"
-            ],
-            "VarUsgIndicator": [
-                "simple_identifier"
-            ]
-        }
-    ],
-    "Scala": [
-        {
-            "FuncIndicator": [
-                "function_definition"
-            ],
-            "FuncNameIndicator": [
-                "identifier"
-            ],
-            "CallIndicator": [
-                "call_expression"
-            ],
-            "CallNameIndicator": [
-                "identifier"
-            ],
-            "VarDefIndicator": [
-                "var_definition",
-                "val_definition"
-            ],
-            "VarDefNameIndicator": [
-                "identifier"
-            ],
-            "VarUsgIndicator": [
-                "identifier"
-            ]
-        }
-    ]
+    "javascript": {
+        "FuncIndicators": [
+            "function_declaration"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "variable_declarator"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "java": {
+        "FuncIndicators": [
+            "method_declaration"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "method_invocation"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "variable_declarator"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "python": {
+        "FuncIndicators": [
+            "function_definition"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "assignment"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "php": {
+        "FuncIndicators": [
+            "function_definition"
+        ],
+        "FuncNameIndicators": [
+            "name"
+        ],
+        "CallIndicators": [
+            "function_call_expression"
+        ],
+        "CallNameIndicators": [
+            "name"
+        ],
+        "VarDefIndicators": [
+            "assignment_expression"
+        ],
+        "VarDefNameIndicators": [
+            "variable_name"
+        ],
+        "VarUsgIndicators": [
+            "variable_name"
+        ]
+    },
+    "c_sharp": {
+        "FuncIndicators": [
+            "local_function_statement"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "invocation_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "variable_declarator"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "c": {
+        "FuncIndicators": [
+            "function_declarator"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "init_declarator"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "typescript": {
+        "FuncIndicators": [
+            "function_declaration"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "variable_declarator"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "cpp": {
+        "FuncIndicators": [
+            "function_declarator"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "init_declarator"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "go": {
+        "FuncIndicators": [
+            "function_declaration"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "var_spec",
+            "short_var_declaration"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    },
+    "ruby": {
+        "FuncIndicators": [
+            "method"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "assignment"
+        ],
+        "VarDefNameIndicators": [
+            "identifier",
+            "instance_variable",
+            "class_variable",
+            "global_variable"
+        ],
+        "VarUsgIndicators": [
+            "identifier",
+            "instance_variable",
+            "class_variable",
+            "global_variable"
+        ]
+    },
+    "kotlin": {
+        "FuncIndicators": [
+            "function_declaration"
+        ],
+        "FuncNameIndicators": [
+            "simple_identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "simple_identifier"
+        ],
+        "VarDefIndicators": [
+            "variable_declaration"
+        ],
+        "VarDefNameIndicators": [
+            "simple_identifier"
+        ],
+        "VarUsgIndicators": [
+            "simple_identifier"
+        ]
+    },
+    "scala": {
+        "FuncIndicators": [
+            "function_definition"
+        ],
+        "FuncNameIndicators": [
+            "identifier"
+        ],
+        "CallIndicators": [
+            "call_expression"
+        ],
+        "CallNameIndicators": [
+            "identifier"
+        ],
+        "VarDefIndicators": [
+            "var_definition",
+            "val_definition"
+        ],
+        "VarDefNameIndicators": [
+            "identifier"
+        ],
+        "VarUsgIndicators": [
+            "identifier"
+        ]
+    }
 }
