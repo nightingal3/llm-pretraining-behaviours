@@ -11,3 +11,11 @@ int main() {
     f(x);
     return 0;
 }
+
+int dp(int x[], int y[], int len) {
+    int ans = 0;
+    for (int i = 0; i < len; i++) {
+        ans += x[i] * y[i];
+    }
+    return ans;
+}

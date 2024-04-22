@@ -58,57 +58,76 @@ def _traverse_get_depth(
 
 def _query_get_distances(
     root: Node, lang: Language, paths: dict
-) -> dict[str : tuple[Node, str]]:
+) -> dict[str : list[Node]]:
 
     if lang.name not in paths:
         raise ValueError(f"Language {lang.name} not found in the paths dictionary.")
 
     # Builds queries of structure (outer: (inner) @query-name)
-    def build_nested_queries(
+    def _build_nested_queries(
         outer_patterns: list[str], inner_patterns: list[str], capture_name: str
     ) -> list[Query]:
         queries = []
         for outer in outer_patterns:
             for inner in inner_patterns:
-                queries.append(lang.query(f"({outer} ({inner}) @{capture_name})"))
+                try:
+                    queries.append(lang.query(f"({outer} ({inner}) @{capture_name})"))
+                except Exception as e:
+                    print(e)
+                    continue
         return queries
 
-    captures = {"func_defs": [], "func_calls": [], "var_defs": [], "var_usgs": []}
+    # query.captures returns List[Tuple[Node, str]], but we only care about the nodes.
+    # This covnerts List[Tuple[Node, str]] to List[Node].
+    def _get_nodes(node_str_tuples: list[tuple[Node, str]]) -> list[Node]:
+        return list(map(lambda x: x[0], node_str_tuples))
+
+    captures: dict[str : list[Node]] = {
+        "func_defs": [],
+        "func_calls": [],
+        "var_defs": [],
+        "var_usgs": [],
+    }
 
     # Make a separate query for each way of defining a function
-    func_def_queries: list[Query] = build_nested_queries(
+    func_def_queries: list[Query] = _build_nested_queries(
         paths[lang.name]["FuncIndicators"],
         paths[lang.name]["FuncNameIndicators"],
         "func-name",
     )
     for query in func_def_queries:
-        captures["func_defs"] += query.captures(root)
+        captures["func_defs"] += _get_nodes(query.captures(root))
 
     # Make a separate query for each way of calling a function
-    func_call_queries: list[Query] = build_nested_queries(
+    func_call_queries: list[Query] = _build_nested_queries(
         paths[lang.name]["CallIndicators"],
         paths[lang.name]["CallNameIndicators"],
         "func-call",
     )
     for query in func_call_queries:
-        captures["func_calls"] += query.captures(root)
+        captures["func_calls"] += _get_nodes(query.captures(root))
 
     # Make a separate query for each way of defining a variable
-    var_def_queries: list[Query] = build_nested_queries(
+    var_def_queries: list[Query] = _build_nested_queries(
         paths[lang.name]["VarDefIndicators"],
         paths[lang.name]["VarDefNameIndicators"],
         "var-def",
     )
     for query in var_def_queries:
-        captures["var_defs"] += query.captures(root)
+        captures["var_defs"] += _get_nodes(query.captures(root))
 
     # Make a separate query for each way of referencing a variable
-    # TODO: Add code to exclude false positives
+    # First, gather all the variable names captured above
+    # extract the text of each var_def node, then remove duplicates via list(set(...))
+    var_names = list(set(list(map(lambda node: node.text.decode(), captures["var_defs"]))))
+    print(var_names)
+    # Assumption: All identifiers which are not function definitions/calls or variable definitions are variable usages
+    # TODO: Filter these to nodes whose text is in var_names
     var_usg_queries: list[Query] = []
     for var_usg_indidcator in paths[lang.name]["VarUsgIndicators"]:
         var_usg_queries.append(lang.query(f"({var_usg_indidcator}) @var-usg"))
     for query in var_usg_queries:
-        captures["var_usgs"] += query.captures(root)
+        captures["var_usgs"] += _get_nodes(query.captures(root))
 
     return captures
 
@@ -155,5 +174,9 @@ if __name__ == "__main__":
 
         with open("ast_feature_paths.json", "r") as paths_file:
             paths = json.load(paths_file)
-            captures = _query_get_distances(tree.root_node, lang, paths)
-            f.write("-" * 50 + f"\nDefs/Usgs: {str(captures)}\n")
+            captures: dict[str: list[Node]] = _query_get_distances(tree.root_node, lang, paths)
+            f.write("-" * 50 + "\nDefs/Usgs:")
+            for key in captures.keys():
+                f.write(f"   {key}:\n")
+                for node in captures[key]:
+                    f.write(f"      {_trunc_str(node.text.decode())} ({node.start_point}:{node.end_point})\n")

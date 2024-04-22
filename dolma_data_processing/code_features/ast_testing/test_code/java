@@ -11,3 +11,11 @@ public class Test {
         f(x);
     }
 }
+
+public static int dp(int[] x, int[] y) {
+    int ans = 0;
+    for (int i = 0; i < x.length; i++) {
+        ans += x[i] * y[i];
+    }
+    return ans;
+}

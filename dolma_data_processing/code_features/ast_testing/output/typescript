@@ -1,149 +1,217 @@
-Node id : 94428173857952, Node type: program, Node text: b'function g(a: number): void {\n    return;\n}\n\nlet y: number = 5;\ny += 1;\ng(y);\n\nfunction main(): void {\n    let x = 1;\n    return;\n}'
-  Node id : 94428174578048, Node type: function_declaration, Node text: b'function g(a: number): void {\n    return;\n}'
-    Node id : 94428174631280, Node type: function, Node text: b'function'
-    Node id : 94428174631288, Node type: identifier, Node text: b'g'
-    Node id : 94428174208384, Node type: formal_parameters, Node text: b'(a: number)'
-      Node id : 94428173942512, Node type: (, Node text: b'('
-      Node id : 94428173942520, Node type: required_parameter, Node text: b'a: number'
-        Node id : 94428173480576, Node type: identifier, Node text: b'a'
-        Node id : 94428173942408, Node type: type_annotation, Node text: b': number'
-          Node id : 94428173097312, Node type: :, Node text: b':'
-          Node id : 94428173537712, Node type: predefined_type, Node text: b'number'
-            Node id : 94428173527072, Node type: number, Node text: b'number'
-      Node id : 94428173942528, Node type: ), Node text: b')'
-    Node id : 94428174208392, Node type: type_annotation, Node text: b': void'
-      Node id : 94428174208272, Node type: :, Node text: b':'
-      Node id : 94428174205472, Node type: predefined_type, Node text: b'void'
-        Node id : 94428174205376, Node type: void, Node text: b'void'
-    Node id : 94428174631304, Node type: statement_block, Node text: b'{\n    return;\n}'
-      Node id : 94428174631152, Node type: {, Node text: b'{'
-      Node id : 94428174631160, Node type: return_statement, Node text: b'return;'
-        Node id : 94428174192080, Node type: return, Node text: b'return'
-        Node id : 94428174192088, Node type: ;, Node text: b';'
-      Node id : 94428174631168, Node type: }, Node text: b'}'
-  Node id : 94428174790032, Node type: lexical_declaration, Node text: b'let y: number = 5;'
-    Node id : 94428173404480, Node type: let, Node text: b'let'
-    Node id : 94428173404488, Node type: variable_declarator, Node text: b'y: number = 5'
-      Node id : 94428173404368, Node type: identifier, Node text: b'y'
-      Node id : 94428173404376, Node type: type_annotation, Node text: b': number'
-        Node id : 94428173546688, Node type: :, Node text: b':'
-        Node id : 94428174578240, Node type: predefined_type, Node text: b'number'
-          Node id : 94428174578144, Node type: number, Node text: b'number'
-      Node id : 94428174789920, Node type: =, Node text: b'='
-      Node id : 94428173546800, Node type: number, Node text: b'5'
-    Node id : 94428173404496, Node type: ;, Node text: b';'
-  Node id : 94428173498208, Node type: expression_statement, Node text: b'y += 1;'
-    Node id : 94428173917024, Node type: augmented_assignment_expression, Node text: b'y += 1'
-      Node id : 94428174073088, Node type: identifier, Node text: b'y'
-      Node id : 94428173916920, Node type: +=, Node text: b'+='
-      Node id : 94428174073184, Node type: number, Node text: b'1'
-    Node id : 94428173917128, Node type: ;, Node text: b';'
-  Node id : 94428173498216, Node type: expression_statement, Node text: b'g(y);'
-    Node id : 94428174602240, Node type: call_expression, Node text: b'g(y)'
-      Node id : 94428174605728, Node type: identifier, Node text: b'g'
-      Node id : 94428174602136, Node type: arguments, Node text: b'(y)'
-        Node id : 94428174591168, Node type: (, Node text: b'('
-        Node id : 94428174590976, Node type: identifier, Node text: b'y'
-        Node id : 94428174591184, Node type: ), Node text: b')'
-    Node id : 94428173498104, Node type: ;, Node text: b';'
-  Node id : 94428173232848, Node type: function_declaration, Node text: b'function main(): void {\n    let x = 1;\n    return;\n}'
-    Node id : 94428173232720, Node type: function, Node text: b'function'
-    Node id : 94428173232728, Node type: identifier, Node text: b'main'
-    Node id : 94428173666256, Node type: formal_parameters, Node text: b'()'
-      Node id : 94428173498320, Node type: (, Node text: b'('
-      Node id : 94428173498328, Node type: ), Node text: b')'
-    Node id : 94428173666264, Node type: type_annotation, Node text: b': void'
-      Node id : 94428173666144, Node type: :, Node text: b':'
-      Node id : 94428174758160, Node type: predefined_type, Node text: b'void'
-        Node id : 94428174758064, Node type: void, Node text: b'void'
-    Node id : 94428173232744, Node type: statement_block, Node text: b'{\n    let x = 1;\n    return;\n}'
-      Node id : 94428173232592, Node type: {, Node text: b'{'
-      Node id : 94428174664784, Node type: lexical_declaration, Node text: b'let x = 1;'
-        Node id : 94428174664672, Node type: let, Node text: b'let'
-        Node id : 94428174664680, Node type: variable_declarator, Node text: b'x = 1'
-          Node id : 94428174664560, Node type: identifier, Node text: b'x'
-          Node id : 94428173666368, Node type: =, Node text: b'='
-          Node id : 94428174695264, Node type: number, Node text: b'1'
-        Node id : 94428174664688, Node type: ;, Node text: b';'
-      Node id : 94428173494360, Node type: return_statement, Node text: b'return;'
-        Node id : 94428173494240, Node type: return, Node text: b'return'
-        Node id : 94428173494248, Node type: ;, Node text: b';'
-      Node id : 94428173232608, Node type: }, Node text: b'}'
+Node id : 94277252007152, Node type: program, Node sexp: (program (function_declaration name: (identifier) parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (predefined_type)))) return_type: (type_annotation (predefined_type)) body: (statement_block (return_statement))) (lexical_declaration (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number))) (expression_statement (augmented_assignment_expression left: (identifier) right: (number))) (expression_statement (call_expression function: (identifier) arguments: (arguments (identifier)))) (function_declaration name: (identifier) parameters: (formal_parameters) return_type: (type_annotation (predefined_type)) body: (statement_block (lexical_declaration (variable_declarator name: (identifier) value: (number))) (return_statement))) (function_declaration name: (identifier) parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type)))) (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type))))) return_type: (type_annotation (predefined_type)) body: (statement_block (lexical_declaration (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number))) (for_statement initializer: (lexical_declaration (variable_declarator name: (identifier) value: (number))) condition: (expression_statement (binary_expression left: (identifier) right: (member_expression object: (identifier) property: (property_identifier)))) increment: (update_expression argument: (identifier)) body: (statement_block (expression_statement (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier))))))) (return_statement (identifier))))), Node text: functio...
+  Node id : 94277252697728, Node type: function_declaration, Node sexp: (function_declaration name: (identifier) parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (predefined_type)))) return_type: (type_annotation (predefined_type)) body: (statement_block (return_statement))), Node text: functio...
+    Node id : 94277252697608, Node type: identifier, Node sexp: (identifier), Node text: g
+    Node id : 94277252559152, Node type: formal_parameters, Node sexp: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (predefined_type)))), Node text: (a: num...
+      Node id : 94277253366280, Node type: required_parameter, Node sexp: (required_parameter pattern: (identifier) type: (type_annotation (predefined_type))), Node text: a: number
+        Node id : 94277253400240, Node type: identifier, Node sexp: (identifier), Node text: a
+        Node id : 94277253872632, Node type: type_annotation, Node sexp: (type_annotation (predefined_type)), Node text: : number
+          Node id : 94277253374512, Node type: predefined_type, Node sexp: (predefined_type), Node text: number
+    Node id : 94277252559160, Node type: type_annotation, Node sexp: (type_annotation (predefined_type)), Node text: : void
+      Node id : 94277253872736, Node type: predefined_type, Node sexp: (predefined_type), Node text: void
+    Node id : 94277252697624, Node type: statement_block, Node sexp: (statement_block (return_statement)), Node text: {\n    ...
+      Node id : 94277252949784, Node type: return_statement, Node sexp: (return_statement), Node text: return;
+  Node id : 94277252586368, Node type: lexical_declaration, Node sexp: (lexical_declaration (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number))), Node text: let y: ...
+    Node id : 94277252416344, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number)), Node text: y: numb...
+      Node id : 94277252416224, Node type: identifier, Node sexp: (identifier), Node text: y
+      Node id : 94277252416232, Node type: type_annotation, Node sexp: (type_annotation (predefined_type)), Node text: : number
+        Node id : 94277252686240, Node type: predefined_type, Node sexp: (predefined_type), Node text: number
+      Node id : 94277252953264, Node type: number, Node sexp: (number), Node text: 5
+  Node id : 94277252233016, Node type: expression_statement, Node sexp: (expression_statement (augmented_assignment_expression left: (identifier) right: (number))), Node text: y += 1;
+    Node id : 94277253369888, Node type: augmented_assignment_expression, Node sexp: (augmented_assignment_expression left: (identifier) right: (number)), Node text: y += 1
+      Node id : 94277252586576, Node type: identifier, Node sexp: (identifier), Node text: y
+      Node id : 94277252373888, Node type: number, Node sexp: (number), Node text: 1
+  Node id : 94277253412944, Node type: expression_statement, Node sexp: (expression_statement (call_expression function: (identifier) arguments: (arguments (identifier)))), Node text: g(y);
+    Node id : 94277252371968, Node type: call_expression, Node sexp: (call_expression function: (identifier) arguments: (arguments (identifier))), Node text: g(y)
+      Node id : 94277253370096, Node type: identifier, Node sexp: (identifier), Node text: g
+      Node id : 94277253135272, Node type: arguments, Node sexp: (arguments (identifier)), Node text: (y)
+        Node id : 94277252233216, Node type: identifier, Node sexp: (identifier), Node text: y
+  Node id : 94277253412848, Node type: function_declaration, Node sexp: (function_declaration name: (identifier) parameters: (formal_parameters) return_type: (type_annotation (predefined_type)) body: (statement_block (lexical_declaration (variable_declarator name: (identifier) value: (number))) (return_statement))), Node text: functio...
+    Node id : 94277253412728, Node type: identifier, Node sexp: (identifier), Node text: main
+    Node id : 94277253416576, Node type: formal_parameters, Node sexp: (formal_parameters), Node text: ()
+    Node id : 94277253416584, Node type: type_annotation, Node sexp: (type_annotation (predefined_type)), Node text: : void
+      Node id : 94277252390752, Node type: predefined_type, Node sexp: (predefined_type), Node text: void
+    Node id : 94277253412744, Node type: statement_block, Node sexp: (statement_block (lexical_declaration (variable_declarator name: (identifier) value: (number))) (return_statement)), Node text: {\n    ...
+      Node id : 94277252681744, Node type: lexical_declaration, Node sexp: (lexical_declaration (variable_declarator name: (identifier) value: (number))), Node text: let x =...
+        Node id : 94277252681640, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (number)), Node text: x = 1
+          Node id : 94277253416800, Node type: identifier, Node sexp: (identifier), Node text: x
+          Node id : 94277253453952, Node type: number, Node sexp: (number), Node text: 1
+      Node id : 94277253233576, Node type: return_statement, Node sexp: (return_statement), Node text: return;
+  Node id : 94277253496128, Node type: function_declaration, Node sexp: (function_declaration name: (identifier) parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type)))) (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type))))) return_type: (type_annotation (predefined_type)) body: (statement_block (lexical_declaration (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number))) (for_statement initializer: (lexical_declaration (variable_declarator name: (identifier) value: (number))) condition: (expression_statement (binary_expression left: (identifier) right: (member_expression object: (identifier) property: (property_identifier)))) increment: (update_expression argument: (identifier)) body: (statement_block (expression_statement (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier))))))) (return_statement (identifier)))), Node text: functio...
+    Node id : 94277253496008, Node type: identifier, Node sexp: (identifier), Node text: dp
+    Node id : 94277253262800, Node type: formal_parameters, Node sexp: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type)))) (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type))))), Node text: (x: num...
+      Node id : 94277252218456, Node type: required_parameter, Node sexp: (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type)))), Node text: x: numb...
+        Node id : 94277251990480, Node type: identifier, Node sexp: (identifier), Node text: x
+        Node id : 94277253010984, Node type: type_annotation, Node sexp: (type_annotation (array_type (predefined_type))), Node text: : numbe...
+          Node id : 94277252611952, Node type: array_type, Node sexp: (array_type (predefined_type)), Node text: number[]
+            Node id : 94277251990768, Node type: predefined_type, Node sexp: (predefined_type), Node text: number
+      Node id : 94277252218344, Node type: required_parameter, Node sexp: (required_parameter pattern: (identifier) type: (type_annotation (array_type (predefined_type)))), Node text: y: numb...
+        Node id : 94277253011088, Node type: identifier, Node sexp: (identifier), Node text: y
+        Node id : 94277252218232, Node type: type_annotation, Node sexp: (type_annotation (array_type (predefined_type))), Node text: : numbe...
+          Node id : 94277253448144, Node type: array_type, Node sexp: (array_type (predefined_type)), Node text: number[]
+            Node id : 94277252430960, Node type: predefined_type, Node sexp: (predefined_type), Node text: number
+    Node id : 94277253262808, Node type: type_annotation, Node sexp: (type_annotation (predefined_type)), Node text: : number
+      Node id : 94277253083504, Node type: predefined_type, Node sexp: (predefined_type), Node text: number
+    Node id : 94277253496024, Node type: statement_block, Node sexp: (statement_block (lexical_declaration (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number))) (for_statement initializer: (lexical_declaration (variable_declarator name: (identifier) value: (number))) condition: (expression_statement (binary_expression left: (identifier) right: (member_expression object: (identifier) property: (property_identifier)))) increment: (update_expression argument: (identifier)) body: (statement_block (expression_statement (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier))))))) (return_statement (identifier))), Node text: {\n    ...
+      Node id : 94277252598672, Node type: lexical_declaration, Node sexp: (lexical_declaration (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number))), Node text: let ans...
+        Node id : 94277252598568, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) type: (type_annotation (predefined_type)) value: (number)), Node text: ans: nu...
+          Node id : 94277252598448, Node type: identifier, Node sexp: (identifier), Node text: ans
+          Node id : 94277252598456, Node type: type_annotation, Node sexp: (type_annotation (predefined_type)), Node text: : number
+            Node id : 94277253263008, Node type: predefined_type, Node sexp: (predefined_type), Node text: number
+          Node id : 94277252189184, Node type: number, Node sexp: (number), Node text: 0
+      Node id : 94277253495256, Node type: for_statement, Node sexp: (for_statement initializer: (lexical_declaration (variable_declarator name: (identifier) value: (number))) condition: (expression_statement (binary_expression left: (identifier) right: (member_expression object: (identifier) property: (property_identifier)))) increment: (update_expression argument: (identifier)) body: (statement_block (expression_statement (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier))))))), Node text: for (le...
+        Node id : 94277253495120, Node type: lexical_declaration, Node sexp: (lexical_declaration (variable_declarator name: (identifier) value: (number))), Node text: let i =...
+          Node id : 94277252033944, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (number)), Node text: i = 0
+            Node id : 94277252033824, Node type: identifier, Node sexp: (identifier), Node text: i
+            Node id : 94277252598768, Node type: number, Node sexp: (number), Node text: 0
+        Node id : 94277253495128, Node type: expression_statement, Node sexp: (expression_statement (binary_expression left: (identifier) right: (member_expression object: (identifier) property: (property_identifier)))), Node text: i < x.l...
+          Node id : 94277252360608, Node type: binary_expression, Node sexp: (binary_expression left: (identifier) right: (member_expression object: (identifier) property: (property_identifier))), Node text: i < x.l...
+            Node id : 94277252034048, Node type: identifier, Node sexp: (identifier), Node text: i
+            Node id : 94277253208208, Node type: member_expression, Node sexp: (member_expression object: (identifier) property: (property_identifier)), Node text: x.length
+              Node id : 94277252034240, Node type: identifier, Node sexp: (identifier), Node text: x
+              Node id : 94277253208320, Node type: property_identifier, Node sexp: (identifier), Node text: length
+        Node id : 94277253275968, Node type: update_expression, Node sexp: (update_expression argument: (identifier)), Node text: i++
+          Node id : 94277252360816, Node type: identifier, Node sexp: (identifier), Node text: i
+        Node id : 94277253495152, Node type: statement_block, Node sexp: (statement_block (expression_statement (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier)))))), Node text: {\n    ...
+          Node id : 94277253494984, Node type: expression_statement, Node sexp: (expression_statement (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier))))), Node text: ans += ...
+            Node id : 94277253494672, Node type: augmented_assignment_expression, Node sexp: (augmented_assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier)))), Node text: ans += ...
+              Node id : 94277253276064, Node type: identifier, Node sexp: (identifier), Node text: ans
+              Node id : 94277253490368, Node type: binary_expression, Node sexp: (binary_expression left: (subscript_expression object: (identifier) index: (identifier)) right: (subscript_expression object: (identifier) index: (identifier))), Node text: x[i] * ...
+                Node id : 94277253383040, Node type: subscript_expression, Node sexp: (subscript_expression object: (identifier) index: (identifier)), Node text: x[i]
+                  Node id : 94277253276160, Node type: identifier, Node sexp: (identifier), Node text: x
+                  Node id : 94277253382608, Node type: identifier, Node sexp: (identifier), Node text: i
+                Node id : 94277253490064, Node type: subscript_expression, Node sexp: (subscript_expression object: (identifier) index: (identifier)), Node text: y[i]
+                  Node id : 94277253465120, Node type: identifier, Node sexp: (identifier), Node text: y
+                  Node id : 94277253465216, Node type: identifier, Node sexp: (identifier), Node text: i
+      Node id : 94277253495672, Node type: return_statement, Node sexp: (return_statement (identifier)), Node text: return ...
+        Node id : 94277253495360, Node type: identifier, Node sexp: (identifier), Node text: ans
 
 --------------------------------------------------
 Word depths:
-94428173857952 (b'funct...): 0
-   94428174578048 (b'funct...): 1
-      94428174631280 (b'funct...): 2
-      94428174631288 (b'g'): 2
-      94428174208384 (b'(a: n...): 2
-         94428173942512 (b'('): 3
-         94428173942520 (b'a: nu...): 3
-            94428173480576 (b'a'): 4
-            94428173942408 (b': num...): 4
-               94428173097312 (b':'): 5
-               94428173537712 (b'number'): 5
-                  94428173527072 (b'number'): 6
-         94428173942528 (b')'): 3
-      94428174208392 (b': void'): 2
-         94428174208272 (b':'): 3
-         94428174205472 (b'void'): 3
-            94428174205376 (b'void'): 4
-      94428174631304 (b'{\n  ...): 2
-         94428174631152 (b'{'): 3
-         94428174631160 (b'retur...): 3
-            94428174192080 (b'return'): 4
-            94428174192088 (b';'): 4
-         94428174631168 (b'}'): 3
-   94428174790032 (b'let y...): 1
-      94428173404480 (b'let'): 2
-      94428173404488 (b'y: nu...): 2
-         94428173404368 (b'y'): 3
-         94428173404376 (b': num...): 3
-            94428173546688 (b':'): 4
-            94428174578240 (b'number'): 4
-               94428174578144 (b'number'): 5
-         94428174789920 (b'='): 3
-         94428173546800 (b'5'): 3
-      94428173404496 (b';'): 2
-   94428173498208 (b'y += ...): 1
-      94428173917024 (b'y += 1'): 2
-         94428174073088 (b'y'): 3
-         94428173916920 (b'+='): 3
-         94428174073184 (b'1'): 3
-      94428173917128 (b';'): 2
-   94428173498216 (b'g(y);'): 1
-      94428174602240 (b'g(y)'): 2
-         94428174605728 (b'g'): 3
-         94428174602136 (b'(y)'): 3
-            94428174591168 (b'('): 4
-            94428174590976 (b'y'): 4
-            94428174591184 (b')'): 4
-      94428173498104 (b';'): 2
-   94428173232848 (b'funct...): 1
-      94428173232720 (b'funct...): 2
-      94428173232728 (b'main'): 2
-      94428173666256 (b'()'): 2
-         94428173498320 (b'('): 3
-         94428173498328 (b')'): 3
-      94428173666264 (b': void'): 2
-         94428173666144 (b':'): 3
-         94428174758160 (b'void'): 3
-            94428174758064 (b'void'): 4
-      94428173232744 (b'{\n  ...): 2
-         94428173232592 (b'{'): 3
-         94428174664784 (b'let x...): 3
-            94428174664672 (b'let'): 4
-            94428174664680 (b'x = 1'): 4
-               94428174664560 (b'x'): 5
-               94428173666368 (b'='): 5
-               94428174695264 (b'1'): 5
-            94428174664688 (b';'): 4
-         94428173494360 (b'retur...): 3
-            94428173494240 (b'return'): 4
-            94428173494248 (b';'): 4
-         94428173232608 (b'}'): 3
+94277252007152 (b'funct...): 0
+   94277252697728 (b'funct...): 1
+      94277252697608 (b'g'): 2
+      94277252559152 (b'(a: n...): 2
+         94277253366280 (b'a: nu...): 3
+            94277253400240 (b'a'): 4
+            94277253872632 (b': num...): 4
+               94277253374512 (b'number'): 5
+      94277252559160 (b': void'): 2
+         94277253872736 (b'void'): 3
+      94277252697624 (b'{\n  ...): 2
+         94277252949784 (b'retur...): 3
+   94277252586368 (b'let y...): 1
+      94277252416344 (b'y: nu...): 2
+         94277252416224 (b'y'): 3
+         94277252416232 (b': num...): 3
+            94277252686240 (b'number'): 4
+         94277252953264 (b'5'): 3
+   94277252233016 (b'y += ...): 1
+      94277253369888 (b'y += 1'): 2
+         94277252586576 (b'y'): 3
+         94277252373888 (b'1'): 3
+   94277253412944 (b'g(y);'): 1
+      94277252371968 (b'g(y)'): 2
+         94277253370096 (b'g'): 3
+         94277253135272 (b'(y)'): 3
+            94277252233216 (b'y'): 4
+   94277253412848 (b'funct...): 1
+      94277253412728 (b'main'): 2
+      94277253416576 (b'()'): 2
+      94277253416584 (b': void'): 2
+         94277252390752 (b'void'): 3
+      94277253412744 (b'{\n  ...): 2
+         94277252681744 (b'let x...): 3
+            94277252681640 (b'x = 1'): 4
+               94277253416800 (b'x'): 5
+               94277253453952 (b'1'): 5
+         94277253233576 (b'retur...): 3
+   94277253496128 (b'funct...): 1
+      94277253496008 (b'dp'): 2
+      94277253262800 (b'(x: n...): 2
+         94277252218456 (b'x: nu...): 3
+            94277251990480 (b'x'): 4
+            94277253010984 (b': num...): 4
+               94277252611952 (b'numbe...): 5
+                  94277251990768 (b'number'): 6
+         94277252218344 (b'y: nu...): 3
+            94277253011088 (b'y'): 4
+            94277252218232 (b': num...): 4
+               94277253448144 (b'numbe...): 5
+                  94277252430960 (b'number'): 6
+      94277253262808 (b': num...): 2
+         94277253083504 (b'number'): 3
+      94277253496024 (b'{\n  ...): 2
+         94277252598672 (b'let a...): 3
+            94277252598568 (b'ans: ...): 4
+               94277252598448 (b'ans'): 5
+               94277252598456 (b': num...): 5
+                  94277253263008 (b'number'): 6
+               94277252189184 (b'0'): 5
+         94277253495256 (b'for (...): 3
+            94277253495120 (b'let i...): 4
+               94277252033944 (b'i = 0'): 5
+                  94277252033824 (b'i'): 6
+                  94277252598768 (b'0'): 6
+            94277253495128 (b'i < x...): 4
+               94277252360608 (b'i < x...): 5
+                  94277252034048 (b'i'): 6
+                  94277253208208 (b'x.len...): 6
+                     94277252034240 (b'x'): 7
+                     94277253208320 (b'length'): 7
+            94277253275968 (b'i++'): 4
+               94277252360816 (b'i'): 5
+            94277253495152 (b'{\n  ...): 4
+               94277253494984 (b'ans +...): 5
+                  94277253494672 (b'ans +...): 6
+                     94277253276064 (b'ans'): 7
+                     94277253490368 (b'x[i] ...): 7
+                        94277253383040 (b'x[i]'): 8
+                           94277253276160 (b'x'): 9
+                           94277253382608 (b'i'): 9
+                        94277253490064 (b'y[i]'): 8
+                           94277253465120 (b'y'): 9
+                           94277253465216 (b'i'): 9
+         94277253495672 (b'retur...): 3
+            94277253495360 (b'ans'): 4
 --------------------------------------------------
-Tree depth: 6
+Tree depth: 9
 --------------------------------------------------
-Num words: 71
+Num words: 86
+--------------------------------------------------
+Defs/Usgs:   func_defs:
+      g ((0, 9):(0, 10))
+      main ((8, 9):(8, 13))
+      dp ((13, 9):(13, 11))
+   func_calls:
+      g ((6, 0):(6, 1))
+   var_defs:
+      y ((4, 4):(4, 5))
+      x ((9, 8):(9, 9))
+      ans ((14, 8):(14, 11))
+      i ((15, 13):(15, 14))
+      a ((0, 11):(0, 12))
+      x ((13, 12):(13, 13))
+      y ((13, 25):(13, 26))
+   var_usgs:
+      g ((0, 9):(0, 10))
+      a ((0, 11):(0, 12))
+      y ((4, 4):(4, 5))
+      y ((5, 0):(5, 1))
+      g ((6, 0):(6, 1))
+      y ((6, 2):(6, 3))
+      main ((8, 9):(8, 13))
+      x ((9, 8):(9, 9))
+      dp ((13, 9):(13, 11))
+      x ((13, 12):(13, 13))
+      y ((13, 25):(13, 26))
+      ans ((14, 8):(14, 11))
+      i ((15, 13):(15, 14))
+      i ((15, 20):(15, 21))
+      x ((15, 24):(15, 25))
+      i ((15, 34):(15, 35))
+      ans ((16, 8):(16, 11))
+      x ((16, 15):(16, 16))
+      i ((16, 17):(16, 18))
+      y ((16, 22):(16, 23))
+      i ((16, 24):(16, 25))
+      ans ((18, 11):(18, 14))

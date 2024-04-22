@@ -6,3 +6,11 @@ fun f () {
 }
 
 fun f () = 2
+
+fun dp(x: IntArray, y: IntArray): Int {
+    var ans = 0
+    for (i in x.indices) {
+        ans += x[i] * y[i]
+    }
+    return ans
+}

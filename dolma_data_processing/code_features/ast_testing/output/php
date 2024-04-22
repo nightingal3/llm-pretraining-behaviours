@@ -1,131 +1,218 @@
-Node id : 94891973434544, Node type: program, Node text: b'<?php\n    function f($a) {\n        // do nothing\n    }\n    \n    $x = 5;\n    $x += 1;\n    f($x);\n    \n    function main() {\n        $y = 1;\n    }\n?>'
-  Node id : 94891973638464, Node type: php_tag, Node text: b'<?php'
-  Node id : 94891974085504, Node type: function_definition, Node text: b'function f($a) {\n        // do nothing\n    }'
-    Node id : 94891974059904, Node type: function, Node text: b'function'
-    Node id : 94891974059912, Node type: name, Node text: b'f'
-    Node id : 94891974059920, Node type: formal_parameters, Node text: b'($a)'
-      Node id : 94891973240304, Node type: (, Node text: b'('
-      Node id : 94891973240312, Node type: simple_parameter, Node text: b'$a'
-        Node id : 94891973240208, Node type: variable_name, Node text: b'$a'
-          Node id : 94891973680992, Node type: $, Node text: b'$'
-          Node id : 94891973681000, Node type: name, Node text: b'a'
-      Node id : 94891973240320, Node type: ), Node text: b')'
-    Node id : 94891974085400, Node type: compound_statement, Node text: b'{\n        // do nothing\n    }'
-      Node id : 94891974060016, Node type: {, Node text: b'{'
-      Node id : 94891974060024, Node type: comment, Node text: b'// do nothing'
-      Node id : 94891974060032, Node type: }, Node text: b'}'
-  Node id : 94891974774144, Node type: expression_statement, Node text: b'$x = 5;'
-    Node id : 94891974351456, Node type: assignment_expression, Node text: b'$x = 5'
-      Node id : 94891974335120, Node type: variable_name, Node text: b'$x'
-        Node id : 94891974348368, Node type: $, Node text: b'$'
-        Node id : 94891974348376, Node type: name, Node text: b'x'
-      Node id : 94891974335128, Node type: =, Node text: b'='
-      Node id : 94891974348480, Node type: integer, Node text: b'5'
-    Node id : 94891974335240, Node type: ;, Node text: b';'
-  Node id : 94891973689792, Node type: expression_statement, Node text: b'$x += 1;'
-    Node id : 94891973689584, Node type: augmented_assignment_expression, Node text: b'$x += 1'
-      Node id : 94891974721232, Node type: variable_name, Node text: b'$x'
-        Node id : 94891974811456, Node type: $, Node text: b'$'
-        Node id : 94891974811464, Node type: name, Node text: b'x'
-      Node id : 94891974721240, Node type: +=, Node text: b'+='
-      Node id : 94891974811568, Node type: integer, Node text: b'1'
-    Node id : 94891973689688, Node type: ;, Node text: b';'
-  Node id : 94891974734080, Node type: expression_statement, Node text: b'f($x);'
-    Node id : 94891974748608, Node type: function_call_expression, Node text: b'f($x)'
-      Node id : 94891974216288, Node type: name, Node text: b'f'
-      Node id : 94891974216296, Node type: arguments, Node text: b'($x)'
-        Node id : 94891974216176, Node type: (, Node text: b'('
-        Node id : 94891974216184, Node type: argument, Node text: b'$x'
-          Node id : 94891973547360, Node type: variable_name, Node text: b'$x'
-            Node id : 94891974924688, Node type: $, Node text: b'$'
-            Node id : 94891974924696, Node type: name, Node text: b'x'
-        Node id : 94891974216192, Node type: ), Node text: b')'
-    Node id : 94891974733976, Node type: ;, Node text: b';'
-  Node id : 94891974807552, Node type: function_definition, Node text: b'function main() {\n        $y = 1;\n    }'
-    Node id : 94891974745232, Node type: function, Node text: b'function'
-    Node id : 94891974745240, Node type: name, Node text: b'main'
-    Node id : 94891974745248, Node type: formal_parameters, Node text: b'()'
-      Node id : 94891974745120, Node type: (, Node text: b'('
-      Node id : 94891974745128, Node type: ), Node text: b')'
-    Node id : 94891974838232, Node type: compound_statement, Node text: b'{\n        $y = 1;\n    }'
-      Node id : 94891974032528, Node type: {, Node text: b'{'
-      Node id : 94891973809344, Node type: expression_statement, Node text: b'$y = 1;'
-        Node id : 94891973809136, Node type: assignment_expression, Node text: b'$y = 1'
-          Node id : 94891974902192, Node type: variable_name, Node text: b'$y'
-            Node id : 94891974745344, Node type: $, Node text: b'$'
-            Node id : 94891974745352, Node type: name, Node text: b'y'
-          Node id : 94891974902200, Node type: =, Node text: b'='
-          Node id : 94891973642320, Node type: integer, Node text: b'1'
-        Node id : 94891973809240, Node type: ;, Node text: b';'
-      Node id : 94891974032544, Node type: }, Node text: b'}'
-  Node id : 94891973638480, Node type: text_interpolation, Node text: b'?>'
-    Node id : 94891974838112, Node type: ?>, Node text: b'?>'
+Node id : 94772904436752, Node type: program, Node sexp: (program (php_tag) (function_definition name: (name) parameters: (formal_parameters (simple_parameter name: (variable_name (name)))) body: (compound_statement (comment))) (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))) (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (integer))) (expression_statement (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))) (function_definition name: (name) parameters: (formal_parameters) body: (compound_statement (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))))) (function_definition name: (name) parameters: (formal_parameters (simple_parameter name: (variable_name (name))) (simple_parameter name: (variable_name (name)))) body: (compound_statement (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))) (for_statement (assignment_expression left: (variable_name (name)) right: (integer)) (binary_expression left: (variable_name (name)) right: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))) (update_expression (variable_name (name))) (compound_statement (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name)))))))) (return_statement (variable_name (name))))) (text_interpolation)), Node text: <?php\n...
+  Node id : 94772905925760, Node type: php_tag, Node sexp: (php_tag), Node text: <?php
+  Node id : 94772905725360, Node type: function_definition, Node sexp: (function_definition name: (name) parameters: (formal_parameters (simple_parameter name: (variable_name (name)))) body: (compound_statement (comment))), Node text: functio...
+    Node id : 94772904769016, Node type: name, Node sexp: (name), Node text: f
+    Node id : 94772904769024, Node type: formal_parameters, Node sexp: (formal_parameters (simple_parameter name: (variable_name (name)))), Node text: ($a)
+      Node id : 94772905803576, Node type: simple_parameter, Node sexp: (simple_parameter name: (variable_name (name))), Node text: $a
+        Node id : 94772905829296, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $a
+          Node id : 94772905814712, Node type: name, Node sexp: (name), Node text: a
+    Node id : 94772905795448, Node type: compound_statement, Node sexp: (compound_statement (comment)), Node text: {\n    ...
+      Node id : 94772905795336, Node type: comment, Node sexp: (comment), Node text: // do n...
+  Node id : 94772905438816, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))), Node text: $x = 5;
+    Node id : 94772904988752, Node type: assignment_expression, Node sexp: (assignment_expression left: (variable_name (name)) right: (integer)), Node text: $x = 5
+      Node id : 94772904988640, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $x
+        Node id : 94772904924936, Node type: name, Node sexp: (name), Node text: x
+      Node id : 94772905803680, Node type: integer, Node sexp: (integer), Node text: 5
+  Node id : 94772905382864, Node type: expression_statement, Node sexp: (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (integer))), Node text: $x += 1;
+    Node id : 94772905115856, Node type: augmented_assignment_expression, Node sexp: (augmented_assignment_expression left: (variable_name (name)) right: (integer)), Node text: $x += 1
+      Node id : 94772905115744, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $x
+        Node id : 94772904355128, Node type: name, Node sexp: (name), Node text: x
+      Node id : 94772905127200, Node type: integer, Node sexp: (integer), Node text: 1
+  Node id : 94772905799056, Node type: expression_statement, Node sexp: (expression_statement (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))), Node text: f($x);
+    Node id : 94772905016176, Node type: function_call_expression, Node sexp: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name))))), Node text: f($x)
+      Node id : 94772904803488, Node type: name, Node sexp: (name), Node text: f
+      Node id : 94772904803496, Node type: arguments, Node sexp: (arguments (argument (variable_name (name)))), Node text: ($x)
+        Node id : 94772905016072, Node type: argument, Node sexp: (argument (variable_name (name))), Node text: $x
+          Node id : 94772904845824, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $x
+            Node id : 94772904875144, Node type: name, Node sexp: (name), Node text: x
+  Node id : 94772904829168, Node type: function_definition, Node sexp: (function_definition name: (name) parameters: (formal_parameters) body: (compound_statement (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))))), Node text: functio...
+    Node id : 94772904662616, Node type: name, Node sexp: (name), Node text: main
+    Node id : 94772904662624, Node type: formal_parameters, Node sexp: (formal_parameters), Node text: ()
+    Node id : 94772904829064, Node type: compound_statement, Node sexp: (compound_statement (expression_statement (assignment_expression left: (variable_name (name)) right: (integer)))), Node text: {\n    ...
+      Node id : 94772904801776, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))), Node text: $y = 1;
+        Node id : 94772904801568, Node type: assignment_expression, Node sexp: (assignment_expression left: (variable_name (name)) right: (integer)), Node text: $y = 1
+          Node id : 94772904662832, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $y
+            Node id : 94772904662728, Node type: name, Node sexp: (name), Node text: y
+          Node id : 94772905799152, Node type: integer, Node sexp: (integer), Node text: 1
+  Node id : 94772905925440, Node type: function_definition, Node sexp: (function_definition name: (name) parameters: (formal_parameters (simple_parameter name: (variable_name (name))) (simple_parameter name: (variable_name (name)))) body: (compound_statement (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))) (for_statement (assignment_expression left: (variable_name (name)) right: (integer)) (binary_expression left: (variable_name (name)) right: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))) (update_expression (variable_name (name))) (compound_statement (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name)))))))) (return_statement (variable_name (name))))), Node text: functio...
+    Node id : 94772905882888, Node type: name, Node sexp: (name), Node text: dp
+    Node id : 94772905882896, Node type: formal_parameters, Node sexp: (formal_parameters (simple_parameter name: (variable_name (name))) (simple_parameter name: (variable_name (name)))), Node text: ($x, $y)
+      Node id : 94772905379384, Node type: simple_parameter, Node sexp: (simple_parameter name: (variable_name (name))), Node text: $x
+        Node id : 94772904820576, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $x
+          Node id : 94772904820472, Node type: name, Node sexp: (name), Node text: x
+      Node id : 94772905313656, Node type: simple_parameter, Node sexp: (simple_parameter name: (variable_name (name))), Node text: $y
+        Node id : 94772905845872, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $y
+          Node id : 94772905882776, Node type: name, Node sexp: (name), Node text: y
+    Node id : 94772905925336, Node type: compound_statement, Node sexp: (compound_statement (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))) (for_statement (assignment_expression left: (variable_name (name)) right: (integer)) (binary_expression left: (variable_name (name)) right: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))) (update_expression (variable_name (name))) (compound_statement (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name)))))))) (return_statement (variable_name (name)))), Node text: {\n    ...
+      Node id : 94772905841776, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (variable_name (name)) right: (integer))), Node text: $ans = 0;
+        Node id : 94772905663280, Node type: assignment_expression, Node sexp: (assignment_expression left: (variable_name (name)) right: (integer)), Node text: $ans = 0
+          Node id : 94772905663168, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $ans
+            Node id : 94772905883000, Node type: name, Node sexp: (name), Node text: ans
+          Node id : 94772905111232, Node type: integer, Node sexp: (integer), Node text: 0
+      Node id : 94772905924080, Node type: for_statement, Node sexp: (for_statement (assignment_expression left: (variable_name (name)) right: (integer)) (binary_expression left: (variable_name (name)) right: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))) (update_expression (variable_name (name))) (compound_statement (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name)))))))), Node text: for ($i...
+        Node id : 94772905041648, Node type: assignment_expression, Node sexp: (assignment_expression left: (variable_name (name)) right: (integer)), Node text: $i = 0
+          Node id : 94772905041536, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $i
+            Node id : 94772905841880, Node type: name, Node sexp: (name), Node text: i
+          Node id : 94772905841984, Node type: integer, Node sexp: (integer), Node text: 0
+        Node id : 94772904618880, Node type: binary_expression, Node sexp: (binary_expression left: (variable_name (name)) right: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name)))))), Node text: $i < co...
+          Node id : 94772904860560, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $i
+            Node id : 94772905440584, Node type: name, Node sexp: (name), Node text: i
+          Node id : 94772905692624, Node type: function_call_expression, Node sexp: (function_call_expression function: (name) arguments: (arguments (argument (variable_name (name))))), Node text: count($x)
+            Node id : 94772905692512, Node type: name, Node sexp: (name), Node text: count
+            Node id : 94772905692520, Node type: arguments, Node sexp: (arguments (argument (variable_name (name)))), Node text: ($x)
+              Node id : 94772905692408, Node type: argument, Node sexp: (argument (variable_name (name))), Node text: $x
+                Node id : 94772905513248, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $x
+                  Node id : 94772904860856, Node type: name, Node sexp: (name), Node text: x
+        Node id : 94772904619072, Node type: update_expression, Node sexp: (update_expression (variable_name (name))), Node text: $i++
+          Node id : 94772905028160, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $i
+            Node id : 94772905028056, Node type: name, Node sexp: (name), Node text: i
+        Node id : 94772904296672, Node type: compound_statement, Node sexp: (compound_statement (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name))))))), Node text: {\n    ...
+          Node id : 94772905923872, Node type: expression_statement, Node sexp: (expression_statement (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name)))))), Node text: $ans +=...
+            Node id : 94772905894256, Node type: augmented_assignment_expression, Node sexp: (augmented_assignment_expression left: (variable_name (name)) right: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name))))), Node text: $ans +=...
+              Node id : 94772905894144, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $ans
+                Node id : 94772905838616, Node type: name, Node sexp: (name), Node text: ans
+              Node id : 94772905894048, Node type: binary_expression, Node sexp: (binary_expression left: (subscript_expression (variable_name (name)) (variable_name (name))) right: (subscript_expression (variable_name (name)) (variable_name (name)))), Node text: $x[$i] ...
+                Node id : 94772904587408, Node type: subscript_expression, Node sexp: (subscript_expression (variable_name (name)) (variable_name (name))), Node text: $x[$i]
+                  Node id : 94772904587312, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $x
+                    Node id : 94772904463672, Node type: name, Node sexp: (name), Node text: x
+                  Node id : 94772905638048, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $i
+                    Node id : 94772905615208, Node type: name, Node sexp: (name), Node text: i
+                Node id : 94772905705712, Node type: subscript_expression, Node sexp: (subscript_expression (variable_name (name)) (variable_name (name))), Node text: $y[$i]
+                  Node id : 94772904790304, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $y
+                    Node id : 94772904790200, Node type: name, Node sexp: (name), Node text: y
+                  Node id : 94772905811904, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $i
+                    Node id : 94772905705608, Node type: name, Node sexp: (name), Node text: i
+      Node id : 94772905924800, Node type: return_statement, Node sexp: (return_statement (variable_name (name))), Node text: return ...
+        Node id : 94772905924400, Node type: variable_name, Node sexp: (variable_name (name)), Node text: $ans
+          Node id : 94772905924296, Node type: name, Node sexp: (name), Node text: ans
+  Node id : 94772905925776, Node type: text_interpolation, Node sexp: (text_interpolation), Node text: ?>
 
 --------------------------------------------------
 Word depths:
-94891973434544 (b'<?php...): 0
-   94891973638464 (b'<?php'): 1
-   94891974085504 (b'funct...): 1
-      94891974059904 (b'funct...): 2
-      94891974059912 (b'f'): 2
-      94891974059920 (b'($a)'): 2
-         94891973240304 (b'('): 3
-         94891973240312 (b'$a'): 3
-            94891973240208 (b'$a'): 4
-               94891973680992 (b'$'): 5
-               94891973681000 (b'a'): 5
-         94891973240320 (b')'): 3
-      94891974085400 (b'{\n  ...): 2
-         94891974060016 (b'{'): 3
-         94891974060024 (b'// do...): 3
-         94891974060032 (b'}'): 3
-   94891974774144 (b'$x = ...): 1
-      94891974351456 (b'$x = 5'): 2
-         94891974335120 (b'$x'): 3
-            94891974348368 (b'$'): 4
-            94891974348376 (b'x'): 4
-         94891974335128 (b'='): 3
-         94891974348480 (b'5'): 3
-      94891974335240 (b';'): 2
-   94891973689792 (b'$x +=...): 1
-      94891973689584 (b'$x +=...): 2
-         94891974721232 (b'$x'): 3
-            94891974811456 (b'$'): 4
-            94891974811464 (b'x'): 4
-         94891974721240 (b'+='): 3
-         94891974811568 (b'1'): 3
-      94891973689688 (b';'): 2
-   94891974734080 (b'f($x);'): 1
-      94891974748608 (b'f($x)'): 2
-         94891974216288 (b'f'): 3
-         94891974216296 (b'($x)'): 3
-            94891974216176 (b'('): 4
-            94891974216184 (b'$x'): 4
-               94891973547360 (b'$x'): 5
-                  94891974924688 (b'$'): 6
-                  94891974924696 (b'x'): 6
-            94891974216192 (b')'): 4
-      94891974733976 (b';'): 2
-   94891974807552 (b'funct...): 1
-      94891974745232 (b'funct...): 2
-      94891974745240 (b'main'): 2
-      94891974745248 (b'()'): 2
-         94891974745120 (b'('): 3
-         94891974745128 (b')'): 3
-      94891974838232 (b'{\n  ...): 2
-         94891974032528 (b'{'): 3
-         94891973809344 (b'$y = ...): 3
-            94891973809136 (b'$y = 1'): 4
-               94891974902192 (b'$y'): 5
-                  94891974745344 (b'$'): 6
-                  94891974745352 (b'y'): 6
-               94891974902200 (b'='): 5
-               94891973642320 (b'1'): 5
-            94891973809240 (b';'): 4
-         94891974032544 (b'}'): 3
-   94891973638480 (b'?>'): 1
-      94891974838112 (b'?>'): 2
+94772904436752 (b'<?php...): 0
+   94772905925760 (b'<?php'): 1
+   94772905725360 (b'funct...): 1
+      94772904769016 (b'f'): 2
+      94772904769024 (b'($a)'): 2
+         94772905803576 (b'$a'): 3
+            94772905829296 (b'$a'): 4
+               94772905814712 (b'a'): 5
+      94772905795448 (b'{\n  ...): 2
+         94772905795336 (b'// do...): 3
+   94772905438816 (b'$x = ...): 1
+      94772904988752 (b'$x = 5'): 2
+         94772904988640 (b'$x'): 3
+            94772904924936 (b'x'): 4
+         94772905803680 (b'5'): 3
+   94772905382864 (b'$x +=...): 1
+      94772905115856 (b'$x +=...): 2
+         94772905115744 (b'$x'): 3
+            94772904355128 (b'x'): 4
+         94772905127200 (b'1'): 3
+   94772905799056 (b'f($x);'): 1
+      94772905016176 (b'f($x)'): 2
+         94772904803488 (b'f'): 3
+         94772904803496 (b'($x)'): 3
+            94772905016072 (b'$x'): 4
+               94772904845824 (b'$x'): 5
+                  94772904875144 (b'x'): 6
+   94772904829168 (b'funct...): 1
+      94772904662616 (b'main'): 2
+      94772904662624 (b'()'): 2
+      94772904829064 (b'{\n  ...): 2
+         94772904801776 (b'$y = ...): 3
+            94772904801568 (b'$y = 1'): 4
+               94772904662832 (b'$y'): 5
+                  94772904662728 (b'y'): 6
+               94772905799152 (b'1'): 5
+   94772905925440 (b'funct...): 1
+      94772905882888 (b'dp'): 2
+      94772905882896 (b'($x, ...): 2
+         94772905379384 (b'$x'): 3
+            94772904820576 (b'$x'): 4
+               94772904820472 (b'x'): 5
+         94772905313656 (b'$y'): 3
+            94772905845872 (b'$y'): 4
+               94772905882776 (b'y'): 5
+      94772905925336 (b'{\n  ...): 2
+         94772905841776 (b'$ans ...): 3
+            94772905663280 (b'$ans ...): 4
+               94772905663168 (b'$ans'): 5
+                  94772905883000 (b'ans'): 6
+               94772905111232 (b'0'): 5
+         94772905924080 (b'for (...): 3
+            94772905041648 (b'$i = 0'): 4
+               94772905041536 (b'$i'): 5
+                  94772905841880 (b'i'): 6
+               94772905841984 (b'0'): 5
+            94772904618880 (b'$i < ...): 4
+               94772904860560 (b'$i'): 5
+                  94772905440584 (b'i'): 6
+               94772905692624 (b'count...): 5
+                  94772905692512 (b'count'): 6
+                  94772905692520 (b'($x)'): 6
+                     94772905692408 (b'$x'): 7
+                        94772905513248 (b'$x'): 8
+                           94772904860856 (b'x'): 9
+            94772904619072 (b'$i++'): 4
+               94772905028160 (b'$i'): 5
+                  94772905028056 (b'i'): 6
+            94772904296672 (b'{\n  ...): 4
+               94772905923872 (b'$ans ...): 5
+                  94772905894256 (b'$ans ...): 6
+                     94772905894144 (b'$ans'): 7
+                        94772905838616 (b'ans'): 8
+                     94772905894048 (b'$x[$i...): 7
+                        94772904587408 (b'$x[$i]'): 8
+                           94772904587312 (b'$x'): 9
+                              94772904463672 (b'x'): 10
+                           94772905638048 (b'$i'): 9
+                              94772905615208 (b'i'): 10
+                        94772905705712 (b'$y[$i]'): 8
+                           94772904790304 (b'$y'): 9
+                              94772904790200 (b'y'): 10
+                           94772905811904 (b'$i'): 9
+                              94772905705608 (b'i'): 10
+         94772905924800 (b'retur...): 3
+            94772905924400 (b'$ans'): 4
+               94772905924296 (b'ans'): 5
+   94772905925776 (b'?>'): 1
 --------------------------------------------------
-Tree depth: 6
+Tree depth: 10
 --------------------------------------------------
-Num words: 62
+Num words: 88
+--------------------------------------------------
+Defs/Usgs:   func_defs:
+      f ((1, 13):(1, 14))
+      main ((9, 13):(9, 17))
+      dp ((13, 13):(13, 15))
+   func_calls:
+      f ((7, 4):(7, 5))
+      count ((15, 26):(15, 31))
+   var_defs:
+      $x ((5, 4):(5, 6))
+      $y ((10, 8):(10, 10))
+      $ans ((14, 8):(14, 12))
+      $i ((15, 13):(15, 15))
+      $a ((1, 15):(1, 17))
+      $x ((13, 16):(13, 18))
+      $y ((13, 20):(13, 22))
+   var_usgs:
+      $a ((1, 15):(1, 17))
+      $x ((5, 4):(5, 6))
+      $x ((6, 4):(6, 6))
+      $x ((7, 6):(7, 8))
+      $y ((10, 8):(10, 10))
+      $x ((13, 16):(13, 18))
+      $y ((13, 20):(13, 22))
+      $ans ((14, 8):(14, 12))
+      $i ((15, 13):(15, 15))
+      $i ((15, 21):(15, 23))
+      $x ((15, 32):(15, 34))
+      $i ((15, 37):(15, 39))
+      $ans ((16, 12):(16, 16))
+      $x ((16, 20):(16, 22))
+      $i ((16, 23):(16, 25))
+      $y ((16, 29):(16, 31))
+      $i ((16, 32):(16, 34))
+      $ans ((18, 15):(18, 19))

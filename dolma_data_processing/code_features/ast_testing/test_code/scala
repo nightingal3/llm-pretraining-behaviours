@@ -7,3 +7,11 @@ def f () = {
 }
 
 f()
+
+def dp(x: Array[Int], y: Array[Int]): Int = {
+    var ans = 0
+    for (i <- 0 until x.length) {
+        ans += x(i) * y(i)
+    }
+    ans
+}

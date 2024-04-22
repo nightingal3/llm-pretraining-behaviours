@@ -1,77 +1,165 @@
-Node id : 94499955344384, Node type: source_file, Node text: b'var x = 1\nval x = 2\n\nfun f () {\n    return x\n}\n\nfun f () = 2'
-  Node id : 94499955373536, Node type: property_declaration, Node text: b'var x = 1'
-    Node id : 94499955796976, Node type: var, Node text: b'var'
-    Node id : 94499955796984, Node type: variable_declaration, Node text: b'x'
-      Node id : 94499955814176, Node type: simple_identifier, Node text: b'x'
-    Node id : 94499955796992, Node type: =, Node text: b'='
-    Node id : 94499956093648, Node type: integer_literal, Node text: b'1'
-  Node id : 94499956468528, Node type: property_declaration, Node text: b'val x = 2'
-    Node id : 94499956468400, Node type: val, Node text: b'val'
-    Node id : 94499956468408, Node type: variable_declaration, Node text: b'x'
-      Node id : 94499956218816, Node type: simple_identifier, Node text: b'x'
-    Node id : 94499956468416, Node type: =, Node text: b'='
-    Node id : 94499956481696, Node type: integer_literal, Node text: b'2'
-  Node id : 94499956867296, Node type: function_declaration, Node text: b'fun f () {\n    return x\n}'
-    Node id : 94499956882144, Node type: fun, Node text: b'fun'
-    Node id : 94499956882152, Node type: simple_identifier, Node text: b'f'
-    Node id : 94499956882160, Node type: function_value_parameters, Node text: b'()'
-      Node id : 94499956944784, Node type: (, Node text: b'('
-      Node id : 94499956944792, Node type: ), Node text: b')'
-    Node id : 94499956882168, Node type: function_body, Node text: b'{\n    return x\n}'
-      Node id : 94499956881936, Node type: {, Node text: b'{'
-      Node id : 94499956881944, Node type: statements, Node text: b'return x'
-        Node id : 94499955680896, Node type: jump_expression, Node text: b'return x'
-          Node id : 94499955680784, Node type: return, Node text: b'return'
-          Node id : 94499955823104, Node type: simple_identifier, Node text: b'x'
-      Node id : 94499956881952, Node type: }, Node text: b'}'
-  Node id : 94499957034512, Node type: function_declaration, Node text: b'fun f () = 2'
-    Node id : 94499957034384, Node type: fun, Node text: b'fun'
-    Node id : 94499957034392, Node type: simple_identifier, Node text: b'f'
-    Node id : 94499957034400, Node type: function_value_parameters, Node text: b'()'
-      Node id : 94499956878544, Node type: (, Node text: b'('
-      Node id : 94499956878552, Node type: ), Node text: b')'
-    Node id : 94499957034408, Node type: function_body, Node text: b'= 2'
-      Node id : 94499955774752, Node type: =, Node text: b'='
-      Node id : 94499955774560, Node type: integer_literal, Node text: b'2'
+Node id : 94576110065744, Node type: source_file, Node sexp: (source_file (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)) (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)) (function_declaration name: (simple_identifier) parameters: (function_value_parameters) body: (function_body (statements (jump_expression (simple_identifier))))) (function_declaration name: (simple_identifier) parameters: (function_value_parameters) body: (function_body (integer_literal))) (function_declaration name: (simple_identifier) parameters: (function_value_parameters (parameter (simple_identifier) (user_type (type_identifier))) (parameter (simple_identifier) (user_type (type_identifier)))) return_type: (user_type (type_identifier)) body: (function_body (statements (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)) (for_statement variable: (variable_declaration (simple_identifier)) value: (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))) body: (control_structure_body (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))))))) (jump_expression (simple_identifier)))))), Node text: var x =...
+  Node id : 94576111180560, Node type: property_declaration, Node sexp: (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)), Node text: var x = 1
+    Node id : 94576110257720, Node type: variable_declaration, Node sexp: (variable_declaration (simple_identifier)), Node text: x
+      Node id : 94576110682448, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: x
+    Node id : 94576109647344, Node type: integer_literal, Node sexp: (integer_literal), Node text: 1
+  Node id : 94576110031584, Node type: property_declaration, Node sexp: (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)), Node text: val x = 2
+    Node id : 94576110580920, Node type: variable_declaration, Node sexp: (variable_declaration (simple_identifier)), Node text: x
+      Node id : 94576110674304, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: x
+    Node id : 94576109405664, Node type: integer_literal, Node sexp: (integer_literal), Node text: 2
+  Node id : 94576109894432, Node type: function_declaration, Node sexp: (function_declaration name: (simple_identifier) parameters: (function_value_parameters) body: (function_body (statements (jump_expression (simple_identifier))))), Node text: fun f (...
+    Node id : 94576109894312, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: f
+    Node id : 94576109894320, Node type: function_value_parameters, Node sexp: (function_value_parameters), Node text: ()
+    Node id : 94576109894328, Node type: function_body, Node sexp: (function_body (statements (jump_expression (simple_identifier)))), Node text: {\n    ...
+      Node id : 94576109724168, Node type: statements, Node sexp: (statements (jump_expression (simple_identifier))), Node text: return x
+        Node id : 94576109994272, Node type: jump_expression, Node sexp: (jump_expression (simple_identifier)), Node text: return x
+          Node id : 94576109994080, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: x
+  Node id : 94576110442992, Node type: function_declaration, Node sexp: (function_declaration name: (simple_identifier) parameters: (function_value_parameters) body: (function_body (integer_literal))), Node text: fun f (...
+    Node id : 94576109541160, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: f
+    Node id : 94576109541168, Node type: function_value_parameters, Node sexp: (function_value_parameters), Node text: ()
+    Node id : 94576109541176, Node type: function_body, Node sexp: (function_body (integer_literal)), Node text: = 2
+      Node id : 94576110678032, Node type: integer_literal, Node sexp: (integer_literal), Node text: 2
+  Node id : 94576110803680, Node type: function_declaration, Node sexp: (function_declaration name: (simple_identifier) parameters: (function_value_parameters (parameter (simple_identifier) (user_type (type_identifier))) (parameter (simple_identifier) (user_type (type_identifier)))) return_type: (user_type (type_identifier)) body: (function_body (statements (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)) (for_statement variable: (variable_declaration (simple_identifier)) value: (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))) body: (control_structure_body (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))))))) (jump_expression (simple_identifier))))), Node text: fun dp(...
+    Node id : 94576110803544, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: dp
+    Node id : 94576110803552, Node type: function_value_parameters, Node sexp: (function_value_parameters (parameter (simple_identifier) (user_type (type_identifier))) (parameter (simple_identifier) (user_type (type_identifier)))), Node text: (x: Int...
+      Node id : 94576110724624, Node type: parameter, Node sexp: (parameter (simple_identifier) (user_type (type_identifier))), Node text: x: IntA...
+        Node id : 94576110724512, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: x
+        Node id : 94576109698784, Node type: user_type, Node sexp: (user_type (type_identifier)), Node text: IntArray
+          Node id : 94576109707472, Node type: type_identifier, Node sexp: (simple_identifier), Node text: IntArray
+      Node id : 94576110541504, Node type: parameter, Node sexp: (parameter (simple_identifier) (user_type (type_identifier))), Node text: y: IntA...
+        Node id : 94576109989760, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: y
+        Node id : 94576109989568, Node type: user_type, Node sexp: (user_type (type_identifier)), Node text: IntArray
+          Node id : 94576110191840, Node type: type_identifier, Node sexp: (simple_identifier), Node text: IntArray
+    Node id : 94576109298512, Node type: user_type, Node sexp: (user_type (type_identifier)), Node text: Int
+      Node id : 94576110720848, Node type: type_identifier, Node sexp: (simple_identifier), Node text: Int
+    Node id : 94576110803576, Node type: function_body, Node sexp: (function_body (statements (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)) (for_statement variable: (variable_declaration (simple_identifier)) value: (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))) body: (control_structure_body (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))))))) (jump_expression (simple_identifier)))), Node text: {\n    ...
+      Node id : 94576110803336, Node type: statements, Node sexp: (statements (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)) (for_statement variable: (variable_declaration (simple_identifier)) value: (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))) body: (control_structure_body (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))))))) (jump_expression (simple_identifier))), Node text: var ans...
+        Node id : 94576110803120, Node type: property_declaration, Node sexp: (property_declaration variable: (variable_declaration (simple_identifier)) expression: (integer_literal)), Node text: var ans...
+          Node id : 94576109739000, Node type: variable_declaration, Node sexp: (variable_declaration (simple_identifier)), Node text: ans
+            Node id : 94576109919872, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: ans
+          Node id : 94576110319008, Node type: integer_literal, Node sexp: (integer_literal), Node text: 0
+        Node id : 94576110797864, Node type: for_statement, Node sexp: (for_statement variable: (variable_declaration (simple_identifier)) value: (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))) body: (control_structure_body (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))))))), Node text: for (i ...
+          Node id : 94576110797728, Node type: variable_declaration, Node sexp: (variable_declaration (simple_identifier)), Node text: i
+            Node id : 94576110756176, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: i
+          Node id : 94576110571072, Node type: navigation_expression, Node sexp: (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))), Node text: x.indices
+            Node id : 94576110391680, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: x
+            Node id : 94576109526392, Node type: navigation_suffix, Node sexp: (navigation_suffix (simple_identifier)), Node text: .indices
+              Node id : 94576109497352, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: indices
+          Node id : 94576110797760, Node type: control_structure_body, Node sexp: (control_structure_body (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))))))), Node text: {\n    ...
+            Node id : 94576110797512, Node type: statements, Node sexp: (statements (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))))), Node text: ans += ...
+              Node id : 94576110797392, Node type: assignment, Node sexp: (assignment (directly_assignable_expression (simple_identifier)) (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))))), Node text: ans += ...
+                Node id : 94576110690944, Node type: directly_assignable_expression, Node sexp: (directly_assignable_expression (simple_identifier)), Node text: ans
+                  Node id : 94576110717392, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: ans
+                Node id : 94576110773152, Node type: multiplicative_expression, Node sexp: (multiplicative_expression (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))) (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier)))), Node text: x[i] * ...
+                  Node id : 94576109668448, Node type: indexing_expression, Node sexp: (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))), Node text: x[i]
+                    Node id : 94576109342096, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: x
+                    Node id : 94576109668344, Node type: indexing_suffix, Node sexp: (indexing_suffix (simple_identifier)), Node text: [i]
+                      Node id : 94576110493632, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: i
+                  Node id : 94576110772944, Node type: indexing_expression, Node sexp: (indexing_expression (simple_identifier) (indexing_suffix (simple_identifier))), Node text: y[i]
+                    Node id : 94576109668736, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: y
+                    Node id : 94576110772840, Node type: indexing_suffix, Node sexp: (indexing_suffix (simple_identifier)), Node text: [i]
+                      Node id : 94576110690544, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: i
+        Node id : 94576110802704, Node type: jump_expression, Node sexp: (jump_expression (simple_identifier)), Node text: return ...
+          Node id : 94576110798256, Node type: simple_identifier, Node sexp: (simple_identifier), Node text: ans
 
 --------------------------------------------------
 Word depths:
-94499955344384 (b'var x...): 0
-   94499955373536 (b'var x...): 1
-      94499955796976 (b'var'): 2
-      94499955796984 (b'x'): 2
-         94499955814176 (b'x'): 3
-      94499955796992 (b'='): 2
-      94499956093648 (b'1'): 2
-   94499956468528 (b'val x...): 1
-      94499956468400 (b'val'): 2
-      94499956468408 (b'x'): 2
-         94499956218816 (b'x'): 3
-      94499956468416 (b'='): 2
-      94499956481696 (b'2'): 2
-   94499956867296 (b'fun f...): 1
-      94499956882144 (b'fun'): 2
-      94499956882152 (b'f'): 2
-      94499956882160 (b'()'): 2
-         94499956944784 (b'('): 3
-         94499956944792 (b')'): 3
-      94499956882168 (b'{\n  ...): 2
-         94499956881936 (b'{'): 3
-         94499956881944 (b'retur...): 3
-            94499955680896 (b'retur...): 4
-               94499955680784 (b'return'): 5
-               94499955823104 (b'x'): 5
-         94499956881952 (b'}'): 3
-   94499957034512 (b'fun f...): 1
-      94499957034384 (b'fun'): 2
-      94499957034392 (b'f'): 2
-      94499957034400 (b'()'): 2
-         94499956878544 (b'('): 3
-         94499956878552 (b')'): 3
-      94499957034408 (b'= 2'): 2
-         94499955774752 (b'='): 3
-         94499955774560 (b'2'): 3
+94576110065744 (b'var x...): 0
+   94576111180560 (b'var x...): 1
+      94576110257720 (b'x'): 2
+         94576110682448 (b'x'): 3
+      94576109647344 (b'1'): 2
+   94576110031584 (b'val x...): 1
+      94576110580920 (b'x'): 2
+         94576110674304 (b'x'): 3
+      94576109405664 (b'2'): 2
+   94576109894432 (b'fun f...): 1
+      94576109894312 (b'f'): 2
+      94576109894320 (b'()'): 2
+      94576109894328 (b'{\n  ...): 2
+         94576109724168 (b'retur...): 3
+            94576109994272 (b'retur...): 4
+               94576109994080 (b'x'): 5
+   94576110442992 (b'fun f...): 1
+      94576109541160 (b'f'): 2
+      94576109541168 (b'()'): 2
+      94576109541176 (b'= 2'): 2
+         94576110678032 (b'2'): 3
+   94576110803680 (b'fun d...): 1
+      94576110803544 (b'dp'): 2
+      94576110803552 (b'(x: I...): 2
+         94576110724624 (b'x: In...): 3
+            94576110724512 (b'x'): 4
+            94576109698784 (b'IntAr...): 4
+               94576109707472 (b'IntAr...): 5
+         94576110541504 (b'y: In...): 3
+            94576109989760 (b'y'): 4
+            94576109989568 (b'IntAr...): 4
+               94576110191840 (b'IntAr...): 5
+      94576109298512 (b'Int'): 2
+         94576110720848 (b'Int'): 3
+      94576110803576 (b'{\n  ...): 2
+         94576110803336 (b'var a...): 3
+            94576110803120 (b'var a...): 4
+               94576109739000 (b'ans'): 5
+                  94576109919872 (b'ans'): 6
+               94576110319008 (b'0'): 5
+            94576110797864 (b'for (...): 4
+               94576110797728 (b'i'): 5
+                  94576110756176 (b'i'): 6
+               94576110571072 (b'x.ind...): 5
+                  94576110391680 (b'x'): 6
+                  94576109526392 (b'.indi...): 6
+                     94576109497352 (b'indic...): 7
+               94576110797760 (b'{\n  ...): 5
+                  94576110797512 (b'ans +...): 6
+                     94576110797392 (b'ans +...): 7
+                        94576110690944 (b'ans'): 8
+                           94576110717392 (b'ans'): 9
+                        94576110773152 (b'x[i] ...): 8
+                           94576109668448 (b'x[i]'): 9
+                              94576109342096 (b'x'): 10
+                              94576109668344 (b'[i]'): 10
+                                 94576110493632 (b'i'): 11
+                           94576110772944 (b'y[i]'): 9
+                              94576109668736 (b'y'): 10
+                              94576110772840 (b'[i]'): 10
+                                 94576110690544 (b'i'): 11
+            94576110802704 (b'retur...): 4
+               94576110798256 (b'ans'): 5
 --------------------------------------------------
-Tree depth: 5
+Tree depth: 11
 --------------------------------------------------
-Num words: 35
+Num words: 63
+--------------------------------------------------
+Defs/Usgs:   func_defs:
+      f ((3, 4):(3, 5))
+      f ((7, 4):(7, 5))
+      dp ((9, 4):(9, 6))
+   func_calls:
+   var_defs:
+      x ((0, 4):(0, 5))
+      x ((1, 4):(1, 5))
+      ans ((10, 8):(10, 11))
+      i ((11, 9):(11, 10))
+      x ((9, 7):(9, 8))
+      y ((9, 20):(9, 21))
+   var_usgs:
+      x ((0, 4):(0, 5))
+      x ((1, 4):(1, 5))
+      f ((3, 4):(3, 5))
+      x ((4, 11):(4, 12))
+      f ((7, 4):(7, 5))
+      dp ((9, 4):(9, 6))
+      x ((9, 7):(9, 8))
+      y ((9, 20):(9, 21))
+      ans ((10, 8):(10, 11))
+      i ((11, 9):(11, 10))
+      x ((11, 14):(11, 15))
+      indices ((11, 16):(11, 23))
+      ans ((12, 8):(12, 11))
+      x ((12, 15):(12, 16))
+      i ((12, 17):(12, 18))
+      y ((12, 22):(12, 23))
+      i ((12, 24):(12, 25))
+      ans ((14, 11):(14, 14))

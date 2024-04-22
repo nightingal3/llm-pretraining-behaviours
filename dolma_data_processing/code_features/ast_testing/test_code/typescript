@@ -10,3 +10,11 @@ function main(): void {
     let x = 1;
     return;
 }
+
+function dp(x: number[], y: number[]): number {
+    let ans: number = 0;
+    for (let i = 0; i < x.length; i++) {
+        ans += x[i] * y[i];
+    }
+    return ans;
+}

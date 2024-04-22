@@ -13,7 +13,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "variable_declarator"
+            "variable_declarator",
+            "formal_parameters"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -36,7 +37,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "variable_declarator"
+            "variable_declarator",
+            "formal_parameter"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -59,7 +61,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "assignment"
+            "assignment",
+            "parameters"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -82,7 +85,8 @@
             "name"
         ],
         "VarDefIndicators": [
-            "assignment_expression"
+            "assignment_expression",
+            "simple_parameter"
         ],
         "VarDefNameIndicators": [
             "variable_name"
@@ -105,7 +109,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "variable_declarator"
+            "variable_declarator",
+            "parameter"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -128,7 +133,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "init_declarator"
+            "init_declarator",
+            "array_declarator"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -151,7 +157,9 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "variable_declarator"
+            "variable_declarator",
+            "required_parameter",
+            "optional_parameter"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -174,7 +182,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "init_declarator"
+            "init_declarator",
+            "array_declarator"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -198,7 +207,7 @@
         ],
         "VarDefIndicators": [
             "var_spec",
-            "short_var_declaration"
+            "parameter_declaration"
         ],
         "VarDefNameIndicators": [
             "identifier"
@@ -221,7 +230,8 @@
             "identifier"
         ],
         "VarDefIndicators": [
-            "assignment"
+            "assignment",
+            "method_parameters"
         ],
         "VarDefNameIndicators": [
             "identifier",
@@ -250,7 +260,8 @@
             "simple_identifier"
         ],
         "VarDefIndicators": [
-            "variable_declaration"
+            "variable_declaration",
+            "parameter"
         ],
         "VarDefNameIndicators": [
             "simple_identifier"
@@ -274,7 +285,8 @@
         ],
         "VarDefIndicators": [
             "var_definition",
-            "val_definition"
+            "val_definition",
+            "parameter"
         ],
         "VarDefNameIndicators": [
             "identifier"

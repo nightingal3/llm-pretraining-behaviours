@@ -1,1 +1,5 @@
-x = 1
+def dp(x, y):
+    ans = 0
+    for i in range(len(x)):
+        ans += x[i] * y[i]
+    return ans
