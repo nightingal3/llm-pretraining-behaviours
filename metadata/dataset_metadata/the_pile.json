@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "the_pile",
-            "doc_type": "web",
+            "doc_type": ["web"],
             "documents": 211043181,
             "data_size_gb": 825.18,
             "tokens_billions": 288

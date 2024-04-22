@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "llama2",
-            "doc_type": "unknown",
+            "doc_type": ["unknown"],
             "tokens_billions": 2000
         }
     ],
