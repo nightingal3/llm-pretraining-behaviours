@@ -151,7 +151,6 @@ def _query_get_funcs_and_vars(
 def _get_distances(
     captures: dict[str : set[Node]],
 ) -> tuple[dict[Node:int], dict[Node:int]]:
-
     # Maps each function/variable usage to its closest previous matching definition
     closest: dict[Node:Node] = {}
 
