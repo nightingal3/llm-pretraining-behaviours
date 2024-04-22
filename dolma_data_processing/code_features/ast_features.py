@@ -169,23 +169,21 @@ def _get_distances(
             var_defs[var_def.text.decode()] = [var_def]
 
     func_defs = {
-        name: sorted(func_defs[name], key=lambda node: node.start_point)
+        name: sorted(func_defs[name], key=lambda node: node.end_byte)
         for name in func_defs.keys()
     }
     var_defs = {
-        name: sorted(var_defs[name], key=lambda node: node.start_point)
+        name: sorted(var_defs[name], key=lambda node: node.end_byte)
         for name in var_defs.keys()
     }
 
     for func_call in captures["func_calls"]:
         if func_call.text.decode() in func_defs.keys():
             matching_defs = func_defs[func_call.text.decode()]
-            matching_defs_start_points = list(
-                map(lambda node: node.start_point, matching_defs)
+            matching_defs_end_bytes = list(
+                map(lambda node: node.end_byte, matching_defs)
             )
-            index = bisect.bisect_left(
-                matching_defs_start_points, func_call.start_point
-            )
+            index = bisect.bisect_left(matching_defs_end_bytes, func_call.start_byte)
             closest[func_call] = (
                 matching_defs[max(index - 1, 0)]
                 if index < len(matching_defs)
@@ -194,28 +192,22 @@ def _get_distances(
     for var_usg in captures["var_usgs"]:
         if var_usg.text.decode() in var_defs.keys():
             matching_defs = var_defs[var_usg.text.decode()]
-            matching_defs_start_points = list(
-                map(lambda node: node.start_point, matching_defs)
+            matching_defs_end_bytes = list(
+                map(lambda node: node.end_byte, matching_defs)
             )
-            index = bisect.bisect_left(matching_defs_start_points, var_usg.start_point)
+            index = bisect.bisect_left(matching_defs_end_bytes, var_usg.start_byte)
             closest[var_usg] = (
                 matching_defs[max(index - 1, 0)]
                 if index < len(matching_defs)
                 else matching_defs[-1]
             )
 
-    # Gets the taxicab distance between two points of form (line, offset)
-    def _point_dist(point1, point2):
-        (line1, offset1) = point1
-        (line2, offset2) = point2
-        return abs(offset2 - offset1) + abs(line2 - line1)
-
     func_distances: dict[Node:int] = {
-        node: _point_dist(closest[node].start_point, node.start_point)
+        node: node.start_byte - closest[node].end_byte
         for node in captures["func_calls"]
     }
     var_distances: dict[Node:int] = {
-        node: _point_dist(closest[node].start_point, node.start_point)
+        node: node.start_byte - closest[node].end_byte
         for node in captures["var_usgs"]
     }
     return (func_distances, var_distances)
@@ -277,9 +269,9 @@ if __name__ == "__main__":
             f.write("-" * 50 + "\nDistances for each usage:\n")
             for key in func_distances.keys():
                 f.write(
-                    f"   {_trunc_str(key.text.decode())} ({key.start_point}:{key.end_point}:{func_distances[key]} \n"
+                    f"   {_trunc_str(key.text.decode())} ({key.start_point}): {func_distances[key]} \n"
                 )
             for key in var_distances.keys():
                 f.write(
-                    f"   {_trunc_str(key.text.decode())} ({key.start_point}:{key.end_point}:{var_distances[key]} \n"
+                    f"   {_trunc_str(key.text.decode())} ({key.start_point}): {var_distances[key]} \n"
                 )
