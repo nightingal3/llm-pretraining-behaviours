@@ -60,7 +60,7 @@ def _traverse_get_depth(
 # Calls tree-sitter queries to find nodes of function/variable definitions/usages
 def _query_get_funcs_and_vars(
     root: Node, lang: Language, paths: dict
-) -> dict[str : set[Node]]:
+) -> dict[str, set[Node]]:
     if lang.name not in paths:
         raise ValueError(f"Language {lang.name} not found in the paths dictionary.")
 
@@ -83,7 +83,7 @@ def _query_get_funcs_and_vars(
     def _get_nodes(node_str_tuples: list[tuple[Node, str]]) -> set[Node]:
         return set(map(lambda x: x[0], node_str_tuples))
 
-    captures: dict[str : set[Node]] = {
+    captures: dict[str, set[Node]] = {
         "func_defs": set(),
         "func_calls": set(),
         "var_defs": set(),
@@ -149,14 +149,14 @@ def _query_get_funcs_and_vars(
 
 # Takes in the output of _query_get_funcs_and_vars and calculates distances from usages to definitions
 def _get_distances(
-    captures: dict[str : set[Node]],
-) -> tuple[dict[Node:int], dict[Node:int]]:
+    captures: dict[str, set[Node]],
+) -> tuple[dict[Node, int], dict[Node, int]]:
     # Maps each function/variable usage to its closest previous matching definition
-    closest: dict[Node:Node] = {}
+    closest: dict[Node, Node] = {}
 
     # Organize defs into dicts where key is node text
-    func_defs: dict[str : list[Node]] = {}
-    var_defs: dict[str : list[Node]] = {}
+    func_defs: dict[str, list[Node]] = {}
+    var_defs: dict[str, list[Node]] = {}
     for func_def in captures["func_defs"]:
         if func_def.text.decode() in func_defs:
             func_defs[func_def.text.decode()].append(func_def)
@@ -202,11 +202,11 @@ def _get_distances(
                 else matching_defs[-1]
             )
 
-    func_distances: dict[Node:int] = {
+    func_distances: dict[Node, int] = {
         node: node.start_byte - closest[node].end_byte
         for node in captures["func_calls"]
     }
-    var_distances: dict[Node:int] = {
+    var_distances: dict[Node, int] = {
         node: node.start_byte - closest[node].end_byte for node in captures["var_usgs"]
     }
     return (func_distances, var_distances)
@@ -255,7 +255,7 @@ if __name__ == "__main__":
 
         with open("ast_feature_paths.json", "r") as paths_file:
             paths = json.load(paths_file)
-            captures: dict[str : list[Node]] = _query_get_funcs_and_vars(
+            captures: dict[str, list[Node]] = _query_get_funcs_and_vars(
                 tree.root_node, lang, paths
             )
             f.write("-" * 50 + "\nDefs/Usgs:\n")
