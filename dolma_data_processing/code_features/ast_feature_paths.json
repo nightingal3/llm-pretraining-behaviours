@@ -14,7 +14,8 @@
         ],
         "VarDefIndicators": [
             "variable_declarator",
-            "formal_parameters"
+            "formal_parameters",
+            "assignment_expression"
         ],
         "VarDefNameIndicators": [
             "identifier"

@@ -1,188 +1,188 @@
-Node id : 94615425185584, Node type: program, Node sexp: (program (class_declaration (modifiers) name: (identifier) body: (class_body (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))))))) (method_declaration (modifiers) type: (integral_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)) (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))) (return_statement (identifier))))), Node text: public ...
-  Node id : 94615424834304, Node type: class_declaration, Node sexp: (class_declaration (modifiers) name: (identifier) body: (class_body (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))))))), Node text: public ...
-    Node id : 94615425003696, Node type: modifiers, Node sexp: (modifiers), Node text: public
-    Node id : 94615425003712, Node type: identifier, Node sexp: (identifier), Node text: Test
-    Node id : 94615425003720, Node type: class_body, Node sexp: (class_body (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier))))))), Node text: {\n    ...
-      Node id : 94615424343040, Node type: field_declaration, Node sexp: (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int y =...
-        Node id : 94615425217152, Node type: integral_type, Node sexp: (integral_type), Node text: int
-        Node id : 94615424693664, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: y = 1
-          Node id : 94615425365776, Node type: identifier, Node sexp: (identifier), Node text: y
-          Node id : 94615425365872, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 1
-      Node id : 94615424343048, Node type: method_declaration, Node sexp: (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))), Node text: public ...
-        Node id : 94615424342928, Node type: modifiers, Node sexp: (modifiers), Node text: public ...
-        Node id : 94615424392208, Node type: void_type, Node sexp: (void_type), Node text: void
-        Node id : 94615424202432, Node type: identifier, Node sexp: (identifier), Node text: f
-        Node id : 94615424202440, Node type: formal_parameters, Node sexp: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))), Node text: (int a)
-          Node id : 94615424202328, Node type: formal_parameter, Node sexp: (formal_parameter type: (integral_type) name: (identifier)), Node text: int a
-            Node id : 94615424344848, Node type: integral_type, Node sexp: (integral_type), Node text: int
-            Node id : 94615424344944, Node type: identifier, Node sexp: (identifier), Node text: a
-        Node id : 94615424342944, Node type: block, Node sexp: (block (return_statement)), Node text: {\n    ...
-          Node id : 94615425124528, Node type: return_statement, Node sexp: (return_statement), Node text: return;
-      Node id : 94615424897736, Node type: method_declaration, Node sexp: (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))))), Node text: public ...
-        Node id : 94615424897616, Node type: modifiers, Node sexp: (modifiers), Node text: public ...
-        Node id : 94615424364432, Node type: void_type, Node sexp: (void_type), Node text: void
-        Node id : 94615425442784, Node type: identifier, Node sexp: (identifier), Node text: main
-        Node id : 94615425442792, Node type: formal_parameters, Node sexp: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))), Node text: (String...
-          Node id : 94615425406536, Node type: formal_parameter, Node sexp: (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier)), Node text: String[...
-            Node id : 94615424833168, Node type: array_type, Node sexp: (array_type element: (type_identifier) dimensions: (dimensions)), Node text: String[]
-              Node id : 94615424364528, Node type: type_identifier, Node sexp: (identifier), Node text: String
-              Node id : 94615424833064, Node type: dimensions, Node sexp: (dimensions), Node text: []
-            Node id : 94615425406320, Node type: identifier, Node sexp: (identifier), Node text: args
-        Node id : 94615424897632, Node type: block, Node sexp: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier))))), Node text: {\n    ...
-          Node id : 94615425454320, Node type: local_variable_declaration, Node sexp: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int x =...
-            Node id : 94615424740816, Node type: integral_type, Node sexp: (integral_type), Node text: int
-            Node id : 94615425454112, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: x = 5
-              Node id : 94615424740912, Node type: identifier, Node sexp: (identifier), Node text: x
-              Node id : 94615424741008, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 5
-          Node id : 94615424650832, Node type: expression_statement, Node sexp: (expression_statement (update_expression (identifier))), Node text: x ++;
-            Node id : 94615424650624, Node type: update_expression, Node sexp: (update_expression (identifier)), Node text: x ++
-              Node id : 94615423959792, Node type: identifier, Node sexp: (identifier), Node text: x
-          Node id : 94615425861664, Node type: expression_statement, Node sexp: (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))), Node text: f(x);
-            Node id : 94615425861472, Node type: method_invocation, Node sexp: (method_invocation name: (identifier) arguments: (argument_list (identifier))), Node text: f(x)
-              Node id : 94615425861360, Node type: identifier, Node sexp: (identifier), Node text: f
-              Node id : 94615425861368, Node type: argument_list, Node sexp: (argument_list (identifier)), Node text: (x)
-                Node id : 94615425493680, Node type: identifier, Node sexp: (identifier), Node text: x
-  Node id : 94615425842120, Node type: method_declaration, Node sexp: (method_declaration (modifiers) type: (integral_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)) (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))) (return_statement (identifier)))), Node text: public ...
-    Node id : 94615425842000, Node type: modifiers, Node sexp: (modifiers), Node text: public ...
-    Node id : 94615425391136, Node type: integral_type, Node sexp: (integral_type), Node text: int
-    Node id : 94615425074160, Node type: identifier, Node sexp: (identifier), Node text: dp
-    Node id : 94615425074168, Node type: formal_parameters, Node sexp: (formal_parameters (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)) (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier))), Node text: (int[] ...
-      Node id : 94615425074040, Node type: formal_parameter, Node sexp: (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)), Node text: int[] x
-        Node id : 94615425437184, Node type: array_type, Node sexp: (array_type element: (integral_type) dimensions: (dimensions)), Node text: int[]
-          Node id : 94615425391328, Node type: integral_type, Node sexp: (integral_type), Node text: int
-          Node id : 94615425437080, Node type: dimensions, Node sexp: (dimensions), Node text: []
-        Node id : 94615425437280, Node type: identifier, Node sexp: (identifier), Node text: x
-      Node id : 94615425073928, Node type: formal_parameter, Node sexp: (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)), Node text: int[] y
-        Node id : 94615424903632, Node type: array_type, Node sexp: (array_type element: (integral_type) dimensions: (dimensions)), Node text: int[]
-          Node id : 94615424187632, Node type: integral_type, Node sexp: (integral_type), Node text: int
-          Node id : 94615424903528, Node type: dimensions, Node sexp: (dimensions), Node text: []
-        Node id : 94615424903728, Node type: identifier, Node sexp: (identifier), Node text: y
-    Node id : 94615425842016, Node type: block, Node sexp: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))) (return_statement (identifier))), Node text: {\n    ...
-      Node id : 94615424158592, Node type: local_variable_declaration, Node sexp: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int ans...
-        Node id : 94615425251680, Node type: integral_type, Node sexp: (integral_type), Node text: int
-        Node id : 94615424158384, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: ans = 0
-          Node id : 94615425251776, Node type: identifier, Node sexp: (identifier), Node text: ans
-          Node id : 94615425857200, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 0
-      Node id : 94615425841168, Node type: for_statement, Node sexp: (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))), Node text: for (in...
-        Node id : 94615424835456, Node type: local_variable_declaration, Node sexp: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int i =...
-          Node id : 94615424158784, Node type: integral_type, Node sexp: (integral_type), Node text: int
-          Node id : 94615424581088, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: i = 0
-            Node id : 94615424567760, Node type: identifier, Node sexp: (identifier), Node text: i
-            Node id : 94615424567856, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 0
-        Node id : 94615424409216, Node type: binary_expression, Node sexp: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))), Node text: i < x.l...
-          Node id : 94615424581296, Node type: identifier, Node sexp: (identifier), Node text: i
-          Node id : 94615424331584, Node type: field_access, Node sexp: (field_access object: (identifier) field: (identifier)), Node text: x.length
-            Node id : 94615424581488, Node type: identifier, Node sexp: (identifier), Node text: x
-            Node id : 94615424331696, Node type: identifier, Node sexp: (identifier), Node text: length
-        Node id : 94615424409312, Node type: update_expression, Node sexp: (update_expression (identifier)), Node text: i++
-          Node id : 94615425852624, Node type: identifier, Node sexp: (identifier), Node text: i
-        Node id : 94615425841072, Node type: block, Node sexp: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier)))))), Node text: {\n    ...
-          Node id : 94615425840864, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))), Node text: ans += ...
-            Node id : 94615425840656, Node type: assignment_expression, Node sexp: (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier)))), Node text: ans += ...
-              Node id : 94615425840544, Node type: identifier, Node sexp: (identifier), Node text: ans
-              Node id : 94615425840448, Node type: binary_expression, Node sexp: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))), Node text: x[i] * ...
-                Node id : 94615425267248, Node type: array_access, Node sexp: (array_access array: (identifier) index: (identifier)), Node text: x[i]
-                  Node id : 94615424409408, Node type: identifier, Node sexp: (identifier), Node text: x
-                  Node id : 94615424409504, Node type: identifier, Node sexp: (identifier), Node text: i
-                Node id : 94615425374304, Node type: array_access, Node sexp: (array_access array: (identifier) index: (identifier)), Node text: y[i]
-                  Node id : 94615425267440, Node type: identifier, Node sexp: (identifier), Node text: y
-                  Node id : 94615425373872, Node type: identifier, Node sexp: (identifier), Node text: i
-      Node id : 94615425841680, Node type: return_statement, Node sexp: (return_statement (identifier)), Node text: return ...
-        Node id : 94615425841376, Node type: identifier, Node sexp: (identifier), Node text: ans
+Node id : 94195656102096, Node type: program, Node sexp: (program (class_declaration (modifiers) name: (identifier) body: (class_body (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))))))) (method_declaration (modifiers) type: (integral_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)) (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))) (return_statement (identifier))))), Node text: public ...
+  Node id : 94195655273536, Node type: class_declaration, Node sexp: (class_declaration (modifiers) name: (identifier) body: (class_body (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))))))), Node text: public ...
+    Node id : 94195655843824, Node type: modifiers, Node sexp: (modifiers), Node text: public
+    Node id : 94195655843840, Node type: identifier, Node sexp: (identifier), Node text: Test
+    Node id : 94195655843848, Node type: class_body, Node sexp: (class_body (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))) (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier))))))), Node text: {\n    ...
+      Node id : 94195656135456, Node type: field_declaration, Node sexp: (field_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int y =...
+        Node id : 94195656183856, Node type: integral_type, Node sexp: (integral_type), Node text: int
+        Node id : 94195656247360, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: y = 1
+          Node id : 94195654771264, Node type: identifier, Node sexp: (identifier), Node text: y
+          Node id : 94195654771360, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 1
+      Node id : 94195656135464, Node type: method_declaration, Node sexp: (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))) body: (block (return_statement))), Node text: public ...
+        Node id : 94195656135344, Node type: modifiers, Node sexp: (modifiers), Node text: public ...
+        Node id : 94195655299136, Node type: void_type, Node sexp: (void_type), Node text: void
+        Node id : 94195655215680, Node type: identifier, Node sexp: (identifier), Node text: f
+        Node id : 94195655215688, Node type: formal_parameters, Node sexp: (formal_parameters (formal_parameter type: (integral_type) name: (identifier))), Node text: (int a)
+          Node id : 94195655215576, Node type: formal_parameter, Node sexp: (formal_parameter type: (integral_type) name: (identifier)), Node text: int a
+            Node id : 94195656618256, Node type: integral_type, Node sexp: (integral_type), Node text: int
+            Node id : 94195655437600, Node type: identifier, Node sexp: (identifier), Node text: a
+        Node id : 94195656135360, Node type: block, Node sexp: (block (return_statement)), Node text: {\n    ...
+          Node id : 94195656071968, Node type: return_statement, Node sexp: (return_statement), Node text: return;
+      Node id : 94195655188952, Node type: method_declaration, Node sexp: (method_declaration (modifiers) type: (void_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))))), Node text: public ...
+        Node id : 94195655188832, Node type: modifiers, Node sexp: (modifiers), Node text: public ...
+        Node id : 94195655071360, Node type: void_type, Node sexp: (void_type), Node text: void
+        Node id : 94195655187776, Node type: identifier, Node sexp: (identifier), Node text: main
+        Node id : 94195655187784, Node type: formal_parameters, Node sexp: (formal_parameters (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier))), Node text: (String...
+          Node id : 94195655187672, Node type: formal_parameter, Node sexp: (formal_parameter type: (array_type element: (type_identifier) dimensions: (dimensions)) name: (identifier)), Node text: String[...
+            Node id : 94195655058512, Node type: array_type, Node sexp: (array_type element: (type_identifier) dimensions: (dimensions)), Node text: String[]
+              Node id : 94195655071456, Node type: type_identifier, Node sexp: (identifier), Node text: String
+              Node id : 94195655488840, Node type: dimensions, Node sexp: (dimensions), Node text: []
+            Node id : 94195655058608, Node type: identifier, Node sexp: (identifier), Node text: args
+        Node id : 94195655188848, Node type: block, Node sexp: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (expression_statement (update_expression (identifier))) (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier))))), Node text: {\n    ...
+          Node id : 94195655514128, Node type: local_variable_declaration, Node sexp: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int x =...
+            Node id : 94195656629008, Node type: integral_type, Node sexp: (integral_type), Node text: int
+            Node id : 94195655261872, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: x = 5
+              Node id : 94195654973008, Node type: identifier, Node sexp: (identifier), Node text: x
+              Node id : 94195654973104, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 5
+          Node id : 94195656217280, Node type: expression_statement, Node sexp: (expression_statement (update_expression (identifier))), Node text: x ++;
+            Node id : 94195656014816, Node type: update_expression, Node sexp: (update_expression (identifier)), Node text: x ++
+              Node id : 94195655514224, Node type: identifier, Node sexp: (identifier), Node text: x
+          Node id : 94195656261840, Node type: expression_statement, Node sexp: (expression_statement (method_invocation name: (identifier) arguments: (argument_list (identifier)))), Node text: f(x);
+            Node id : 94195656693072, Node type: method_invocation, Node sexp: (method_invocation name: (identifier) arguments: (argument_list (identifier))), Node text: f(x)
+              Node id : 94195655724560, Node type: identifier, Node sexp: (identifier), Node text: f
+              Node id : 94195655724568, Node type: argument_list, Node sexp: (argument_list (identifier)), Node text: (x)
+                Node id : 94195656659424, Node type: identifier, Node sexp: (identifier), Node text: x
+  Node id : 94195656704360, Node type: method_declaration, Node sexp: (method_declaration (modifiers) type: (integral_type) name: (identifier) parameters: (formal_parameters (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)) (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier))) body: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))) (return_statement (identifier)))), Node text: public ...
+    Node id : 94195656704240, Node type: modifiers, Node sexp: (modifiers), Node text: public ...
+    Node id : 94195654730672, Node type: integral_type, Node sexp: (integral_type), Node text: int
+    Node id : 94195654958240, Node type: identifier, Node sexp: (identifier), Node text: dp
+    Node id : 94195654958248, Node type: formal_parameters, Node sexp: (formal_parameters (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)) (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier))), Node text: (int[] ...
+      Node id : 94195654958120, Node type: formal_parameter, Node sexp: (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)), Node text: int[] x
+        Node id : 94195655093584, Node type: array_type, Node sexp: (array_type element: (integral_type) dimensions: (dimensions)), Node text: int[]
+          Node id : 94195656654496, Node type: integral_type, Node sexp: (integral_type), Node text: int
+          Node id : 94195656654808, Node type: dimensions, Node sexp: (dimensions), Node text: []
+        Node id : 94195655093680, Node type: identifier, Node sexp: (identifier), Node text: x
+      Node id : 94195656716728, Node type: formal_parameter, Node sexp: (formal_parameter type: (array_type element: (integral_type) dimensions: (dimensions)) name: (identifier)), Node text: int[] y
+        Node id : 94195656716416, Node type: array_type, Node sexp: (array_type element: (integral_type) dimensions: (dimensions)), Node text: int[]
+          Node id : 94195656687024, Node type: integral_type, Node sexp: (integral_type), Node text: int
+          Node id : 94195656687336, Node type: dimensions, Node sexp: (dimensions), Node text: []
+        Node id : 94195656716512, Node type: identifier, Node sexp: (identifier), Node text: y
+    Node id : 94195656704256, Node type: block, Node sexp: (block (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))) (return_statement (identifier))), Node text: {\n    ...
+      Node id : 94195656137200, Node type: local_variable_declaration, Node sexp: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int ans...
+        Node id : 94195655961840, Node type: integral_type, Node sexp: (integral_type), Node text: int
+        Node id : 94195656136992, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: ans = 0
+          Node id : 94195655961936, Node type: identifier, Node sexp: (identifier), Node text: ans
+          Node id : 94195655962032, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 0
+      Node id : 94195656725888, Node type: for_statement, Node sexp: (for_statement init: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))) condition: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))) update: (update_expression (identifier)) body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))))), Node text: for (in...
+        Node id : 94195656629120, Node type: local_variable_declaration, Node sexp: (local_variable_declaration type: (integral_type) declarator: (variable_declarator name: (identifier) value: (decimal_integer_literal))), Node text: int i =...
+          Node id : 94195656252336, Node type: integral_type, Node sexp: (integral_type), Node text: int
+          Node id : 94195656614304, Node type: variable_declarator, Node sexp: (variable_declarator name: (identifier) value: (decimal_integer_literal)), Node text: i = 0
+            Node id : 94195656252432, Node type: identifier, Node sexp: (identifier), Node text: i
+            Node id : 94195656252528, Node type: decimal_integer_literal, Node sexp: (decimal_integer_literal), Node text: 0
+        Node id : 94195655876144, Node type: binary_expression, Node sexp: (binary_expression left: (identifier) right: (field_access object: (identifier) field: (identifier))), Node text: i < x.l...
+          Node id : 94195654929072, Node type: identifier, Node sexp: (identifier), Node text: i
+          Node id : 94195655875840, Node type: field_access, Node sexp: (field_access object: (identifier) field: (identifier)), Node text: x.length
+            Node id : 94195655297728, Node type: identifier, Node sexp: (identifier), Node text: x
+            Node id : 94195655875952, Node type: identifier, Node sexp: (identifier), Node text: length
+        Node id : 94195656146752, Node type: update_expression, Node sexp: (update_expression (identifier)), Node text: i++
+          Node id : 94195655298064, Node type: identifier, Node sexp: (identifier), Node text: i
+        Node id : 94195656725792, Node type: block, Node sexp: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier)))))), Node text: {\n    ...
+          Node id : 94195656725584, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))))), Node text: ans += ...
+            Node id : 94195656725376, Node type: assignment_expression, Node sexp: (assignment_expression left: (identifier) right: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier)))), Node text: ans += ...
+              Node id : 94195654897808, Node type: identifier, Node sexp: (identifier), Node text: ans
+              Node id : 94195656725280, Node type: binary_expression, Node sexp: (binary_expression left: (array_access array: (identifier) index: (identifier)) right: (array_access array: (identifier) index: (identifier))), Node text: x[i] * ...
+                Node id : 94195656204976, Node type: array_access, Node sexp: (array_access array: (identifier) index: (identifier)), Node text: x[i]
+                  Node id : 94195656146848, Node type: identifier, Node sexp: (identifier), Node text: x
+                  Node id : 94195656146944, Node type: identifier, Node sexp: (identifier), Node text: i
+                Node id : 94195656620800, Node type: array_access, Node sexp: (array_access array: (identifier) index: (identifier)), Node text: y[i]
+                  Node id : 94195656205168, Node type: identifier, Node sexp: (identifier), Node text: y
+                  Node id : 94195656620368, Node type: identifier, Node sexp: (identifier), Node text: i
+      Node id : 94195656703920, Node type: return_statement, Node sexp: (return_statement (identifier)), Node text: return ...
+        Node id : 94195656703616, Node type: identifier, Node sexp: (identifier), Node text: ans
 
 --------------------------------------------------
 Word depths:
-94615425185584 (b'publi...): 0
-   94615424834304 (b'publi...): 1
-      94615425003696 (b'public'): 2
-      94615425003712 (b'Test'): 2
-      94615425003720 (b'{\n  ...): 2
-         94615424343040 (b'int y...): 3
-            94615425217152 (b'int'): 4
-            94615424693664 (b'y = 1'): 4
-               94615425365776 (b'y'): 5
-               94615425365872 (b'1'): 5
-         94615424343048 (b'publi...): 3
-            94615424342928 (b'publi...): 4
-            94615424392208 (b'void'): 4
-            94615424202432 (b'f'): 4
-            94615424202440 (b'(int ...): 4
-               94615424202328 (b'int a'): 5
-                  94615424344848 (b'int'): 6
-                  94615424344944 (b'a'): 6
-            94615424342944 (b'{\n  ...): 4
-               94615425124528 (b'retur...): 5
-         94615424897736 (b'publi...): 3
-            94615424897616 (b'publi...): 4
-            94615424364432 (b'void'): 4
-            94615425442784 (b'main'): 4
-            94615425442792 (b'(Stri...): 4
-               94615425406536 (b'Strin...): 5
-                  94615424833168 (b'Strin...): 6
-                     94615424364528 (b'String'): 7
-                     94615424833064 (b'[]'): 7
-                  94615425406320 (b'args'): 6
-            94615424897632 (b'{\n  ...): 4
-               94615425454320 (b'int x...): 5
-                  94615424740816 (b'int'): 6
-                  94615425454112 (b'x = 5'): 6
-                     94615424740912 (b'x'): 7
-                     94615424741008 (b'5'): 7
-               94615424650832 (b'x ++;'): 5
-                  94615424650624 (b'x ++'): 6
-                     94615423959792 (b'x'): 7
-               94615425861664 (b'f(x);'): 5
-                  94615425861472 (b'f(x)'): 6
-                     94615425861360 (b'f'): 7
-                     94615425861368 (b'(x)'): 7
-                        94615425493680 (b'x'): 8
-   94615425842120 (b'publi...): 1
-      94615425842000 (b'publi...): 2
-      94615425391136 (b'int'): 2
-      94615425074160 (b'dp'): 2
-      94615425074168 (b'(int[...): 2
-         94615425074040 (b'int[]...): 3
-            94615425437184 (b'int[]'): 4
-               94615425391328 (b'int'): 5
-               94615425437080 (b'[]'): 5
-            94615425437280 (b'x'): 4
-         94615425073928 (b'int[]...): 3
-            94615424903632 (b'int[]'): 4
-               94615424187632 (b'int'): 5
-               94615424903528 (b'[]'): 5
-            94615424903728 (b'y'): 4
-      94615425842016 (b'{\n  ...): 2
-         94615424158592 (b'int a...): 3
-            94615425251680 (b'int'): 4
-            94615424158384 (b'ans =...): 4
-               94615425251776 (b'ans'): 5
-               94615425857200 (b'0'): 5
-         94615425841168 (b'for (...): 3
-            94615424835456 (b'int i...): 4
-               94615424158784 (b'int'): 5
-               94615424581088 (b'i = 0'): 5
-                  94615424567760 (b'i'): 6
-                  94615424567856 (b'0'): 6
-            94615424409216 (b'i < x...): 4
-               94615424581296 (b'i'): 5
-               94615424331584 (b'x.len...): 5
-                  94615424581488 (b'x'): 6
-                  94615424331696 (b'length'): 6
-            94615424409312 (b'i++'): 4
-               94615425852624 (b'i'): 5
-            94615425841072 (b'{\n  ...): 4
-               94615425840864 (b'ans +...): 5
-                  94615425840656 (b'ans +...): 6
-                     94615425840544 (b'ans'): 7
-                     94615425840448 (b'x[i] ...): 7
-                        94615425267248 (b'x[i]'): 8
-                           94615424409408 (b'x'): 9
-                           94615424409504 (b'i'): 9
-                        94615425374304 (b'y[i]'): 8
-                           94615425267440 (b'y'): 9
-                           94615425373872 (b'i'): 9
-         94615425841680 (b'retur...): 3
-            94615425841376 (b'ans'): 4
+94195656102096 (b'publi...): 0
+   94195655273536 (b'publi...): 1
+      94195655843824 (b'public'): 2
+      94195655843840 (b'Test'): 2
+      94195655843848 (b'{\n  ...): 2
+         94195656135456 (b'int y...): 3
+            94195656183856 (b'int'): 4
+            94195656247360 (b'y = 1'): 4
+               94195654771264 (b'y'): 5
+               94195654771360 (b'1'): 5
+         94195656135464 (b'publi...): 3
+            94195656135344 (b'publi...): 4
+            94195655299136 (b'void'): 4
+            94195655215680 (b'f'): 4
+            94195655215688 (b'(int ...): 4
+               94195655215576 (b'int a'): 5
+                  94195656618256 (b'int'): 6
+                  94195655437600 (b'a'): 6
+            94195656135360 (b'{\n  ...): 4
+               94195656071968 (b'retur...): 5
+         94195655188952 (b'publi...): 3
+            94195655188832 (b'publi...): 4
+            94195655071360 (b'void'): 4
+            94195655187776 (b'main'): 4
+            94195655187784 (b'(Stri...): 4
+               94195655187672 (b'Strin...): 5
+                  94195655058512 (b'Strin...): 6
+                     94195655071456 (b'String'): 7
+                     94195655488840 (b'[]'): 7
+                  94195655058608 (b'args'): 6
+            94195655188848 (b'{\n  ...): 4
+               94195655514128 (b'int x...): 5
+                  94195656629008 (b'int'): 6
+                  94195655261872 (b'x = 5'): 6
+                     94195654973008 (b'x'): 7
+                     94195654973104 (b'5'): 7
+               94195656217280 (b'x ++;'): 5
+                  94195656014816 (b'x ++'): 6
+                     94195655514224 (b'x'): 7
+               94195656261840 (b'f(x);'): 5
+                  94195656693072 (b'f(x)'): 6
+                     94195655724560 (b'f'): 7
+                     94195655724568 (b'(x)'): 7
+                        94195656659424 (b'x'): 8
+   94195656704360 (b'publi...): 1
+      94195656704240 (b'publi...): 2
+      94195654730672 (b'int'): 2
+      94195654958240 (b'dp'): 2
+      94195654958248 (b'(int[...): 2
+         94195654958120 (b'int[]...): 3
+            94195655093584 (b'int[]'): 4
+               94195656654496 (b'int'): 5
+               94195656654808 (b'[]'): 5
+            94195655093680 (b'x'): 4
+         94195656716728 (b'int[]...): 3
+            94195656716416 (b'int[]'): 4
+               94195656687024 (b'int'): 5
+               94195656687336 (b'[]'): 5
+            94195656716512 (b'y'): 4
+      94195656704256 (b'{\n  ...): 2
+         94195656137200 (b'int a...): 3
+            94195655961840 (b'int'): 4
+            94195656136992 (b'ans =...): 4
+               94195655961936 (b'ans'): 5
+               94195655962032 (b'0'): 5
+         94195656725888 (b'for (...): 3
+            94195656629120 (b'int i...): 4
+               94195656252336 (b'int'): 5
+               94195656614304 (b'i = 0'): 5
+                  94195656252432 (b'i'): 6
+                  94195656252528 (b'0'): 6
+            94195655876144 (b'i < x...): 4
+               94195654929072 (b'i'): 5
+               94195655875840 (b'x.len...): 5
+                  94195655297728 (b'x'): 6
+                  94195655875952 (b'length'): 6
+            94195656146752 (b'i++'): 4
+               94195655298064 (b'i'): 5
+            94195656725792 (b'{\n  ...): 4
+               94195656725584 (b'ans +...): 5
+                  94195656725376 (b'ans +...): 6
+                     94195654897808 (b'ans'): 7
+                     94195656725280 (b'x[i] ...): 7
+                        94195656204976 (b'x[i]'): 8
+                           94195656146848 (b'x'): 9
+                           94195656146944 (b'i'): 9
+                        94195656620800 (b'y[i]'): 8
+                           94195656205168 (b'y'): 9
+                           94195656620368 (b'i'): 9
+         94195656703920 (b'retur...): 3
+            94195656703616 (b'ans'): 4
 --------------------------------------------------
 Tree depth: 9
 --------------------------------------------------
@@ -190,31 +190,45 @@ Num words: 91
 --------------------------------------------------
 Defs/Usgs:
    func_defs:
-      dp ((14, 18):(14, 20))
-      f ((3, 23):(3, 24))
       main ((7, 23):(7, 27))
+      f ((3, 23):(3, 24))
+      dp ((14, 18):(14, 20))
    func_calls:
       f ((10, 8):(10, 9))
    var_defs:
       x ((8, 12):(8, 13))
       y ((1, 8):(1, 9))
-      i ((16, 13):(16, 14))
-      args ((7, 37):(7, 41))
       y ((14, 36):(14, 37))
       a ((3, 29):(3, 30))
       ans ((15, 8):(15, 11))
       x ((14, 27):(14, 28))
+      i ((16, 13):(16, 14))
+      args ((7, 37):(7, 41))
    var_usgs:
-      x ((16, 24):(16, 25))
-      x ((9, 8):(9, 9))
-      y ((17, 22):(17, 23))
-      x ((10, 10):(10, 11))
-      length ((16, 26):(16, 32))
-      i ((16, 20):(16, 21))
-      i ((17, 24):(17, 25))
-      ans ((19, 11):(19, 14))
-      ans ((17, 8):(17, 11))
-      i ((17, 17):(17, 18))
-      i ((16, 34):(16, 35))
       Test ((0, 13):(0, 17))
+      ans ((19, 11):(19, 14))
+      i ((17, 17):(17, 18))
+      x ((16, 24):(16, 25))
+      i ((16, 20):(16, 21))
+      length ((16, 26):(16, 32))
+      i ((17, 24):(17, 25))
+      i ((16, 34):(16, 35))
+      ans ((17, 8):(17, 11))
+      x ((9, 8):(9, 9))
       x ((17, 15):(17, 16))
+      x ((10, 10):(10, 11))
+      y ((17, 22):(17, 23))
+--------------------------------------------------
+Closest def for each usage:
+   f ((10, 8):(10, 9): f ((3, 23):(3, 24)
+   ans ((19, 11):(19, 14): ans ((15, 8):(15, 11)
+   i ((17, 17):(17, 18): i ((16, 13):(16, 14)
+   x ((16, 24):(16, 25): x ((8, 12):(8, 13)
+   i ((16, 20):(16, 21): i ((16, 13):(16, 14)
+   i ((17, 24):(17, 25): i ((16, 13):(16, 14)
+   i ((16, 34):(16, 35): i ((16, 13):(16, 14)
+   ans ((17, 8):(17, 11): ans ((15, 8):(15, 11)
+   x ((9, 8):(9, 9): x ((8, 12):(8, 13)
+   x ((17, 15):(17, 16): x ((8, 12):(8, 13)
+   x ((10, 10):(10, 11): x ((8, 12):(8, 13)
+   y ((17, 22):(17, 23): y ((1, 8):(1, 9)

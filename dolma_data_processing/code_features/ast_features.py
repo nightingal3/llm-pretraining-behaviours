@@ -5,6 +5,7 @@ from tree_sitter_languages import get_language, get_parser
 import os
 import sys
 import warnings
+import bisect
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from io import TextIOWrapper
@@ -56,7 +57,8 @@ def _traverse_get_depth(
         _traverse_get_depth(child, word_depths, output_file, depth + 1)
 
 
-def _query_get_distances(
+# Calls tree-sitter queries to find nodes of function/variable definitions/usages
+def _query_get_funcs_and_vars(
     root: Node, lang: Language, paths: dict
 ) -> dict[str : set[Node]]:
     if lang.name not in paths:
@@ -145,6 +147,81 @@ def _query_get_distances(
     return captures
 
 
+# Takes in the output of _query_get_funcs_and_vars and calculates distances from usages to definitions
+def _get_distances(
+    captures: dict[str : set[Node]],
+) -> tuple[dict[Node:int], dict[Node:int]]:
+
+    # Maps each function/variable usage to its closest previous matching definition
+    closest: dict[Node:Node] = {}
+
+    # Organize defs into dicts where key is node text
+    func_defs: dict[str : list[Node]] = {}
+    var_defs: dict[str : list[Node]] = {}
+    for func_def in captures["func_defs"]:
+        if func_def.text.decode() in func_defs:
+            func_defs[func_def.text.decode()].append(func_def)
+        else:
+            func_defs[func_def.text.decode()] = [func_def]
+    for var_def in captures["var_defs"]:
+        if var_def.text.decode() in var_defs:
+            var_defs[var_def.text.decode()].append(var_def)
+        else:
+            var_defs[var_def.text.decode()] = [var_def]
+
+    func_defs = {
+        name: sorted(func_defs[name], key=lambda node: node.start_point)
+        for name in func_defs.keys()
+    }
+    var_defs = {
+        name: sorted(var_defs[name], key=lambda node: node.start_point)
+        for name in var_defs.keys()
+    }
+
+    for func_call in captures["func_calls"]:
+        if func_call.text.decode() in func_defs.keys():
+            matching_defs = func_defs[func_call.text.decode()]
+            matching_defs_start_points = list(
+                map(lambda node: node.start_point, matching_defs)
+            )
+            index = bisect.bisect_left(
+                matching_defs_start_points, func_call.start_point
+            )
+            closest[func_call] = (
+                matching_defs[max(index - 1, 0)]
+                if index < len(matching_defs)
+                else matching_defs[-1]
+            )
+    for var_usg in captures["var_usgs"]:
+        if var_usg.text.decode() in var_defs.keys():
+            matching_defs = var_defs[var_usg.text.decode()]
+            matching_defs_start_points = list(
+                map(lambda node: node.start_point, matching_defs)
+            )
+            index = bisect.bisect_left(matching_defs_start_points, var_usg.start_point)
+            closest[var_usg] = (
+                matching_defs[max(index - 1, 0)]
+                if index < len(matching_defs)
+                else matching_defs[-1]
+            )
+
+    # Gets the taxicab distance between two points of form (line, offset)
+    def _point_dist(point1, point2):
+        (line1, offset1) = point1
+        (line2, offset2) = point2
+        return abs(offset2 - offset1) + abs(line2 - line1)
+
+    func_distances: dict[Node:int] = {
+        node: _point_dist(closest[node].start_point, node.start_point)
+        for node in captures["func_calls"]
+    }
+    var_distances: dict[Node:int] = {
+        node: _point_dist(closest[node].start_point, node.start_point)
+        for node in captures["var_usgs"]
+    }
+    return (func_distances, var_distances)
+
+
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser()
@@ -187,7 +264,7 @@ if __name__ == "__main__":
 
         with open("ast_feature_paths.json", "r") as paths_file:
             paths = json.load(paths_file)
-            captures: dict[str : list[Node]] = _query_get_distances(
+            captures: dict[str : list[Node]] = _query_get_funcs_and_vars(
                 tree.root_node, lang, paths
             )
             f.write("-" * 50 + "\nDefs/Usgs:\n")
@@ -197,3 +274,13 @@ if __name__ == "__main__":
                     f.write(
                         f"      {_trunc_str(node.text.decode())} ({node.start_point}:{node.end_point})\n"
                     )
+            (func_distances, var_distances) = _get_distances(captures)
+            f.write("-" * 50 + "\nDistances for each usage:\n")
+            for key in func_distances.keys():
+                f.write(
+                    f"   {_trunc_str(key.text.decode())} ({key.start_point}:{key.end_point}:{func_distances[key]} \n"
+                )
+            for key in var_distances.keys():
+                f.write(
+                    f"   {_trunc_str(key.text.decode())} ({key.start_point}:{key.end_point}:{var_distances[key]} \n"
+                )

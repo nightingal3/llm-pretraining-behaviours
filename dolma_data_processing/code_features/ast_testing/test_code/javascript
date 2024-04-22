@@ -12,6 +12,9 @@ function main() {
     f(x);
 }
 
+x = 3;
+x *= 2;
+
 function dp(c, d) {
     let ans = 0;
     for (let i = 0; i < c.length; i++) {

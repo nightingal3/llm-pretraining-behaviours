@@ -1,104 +1,104 @@
-Node id : 94773139166272, Node type: translation_unit, Node sexp: (translation_unit (function_definition type: (primitive_type) declarator: (function_declarator declarator: (identifier) parameters: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier)))) body: (compound_statement (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))) (return_statement (identifier))))), Node text: int dp(...
-  Node id : 94773139166160, Node type: function_definition, Node sexp: (function_definition type: (primitive_type) declarator: (function_declarator declarator: (identifier) parameters: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier)))) body: (compound_statement (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))) (return_statement (identifier)))), Node text: int dp(...
-    Node id : 94773139379600, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
-    Node id : 94773139216560, Node type: function_declarator, Node sexp: (function_declarator declarator: (identifier) parameters: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier)))), Node text: dp(int ...
-      Node id : 94773139309184, Node type: identifier, Node sexp: (identifier), Node text: dp
-      Node id : 94773138294592, Node type: parameter_list, Node sexp: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier))), Node text: (int x[...
-        Node id : 94773138294472, Node type: parameter_declaration, Node sexp: (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))), Node text: int x[]
-          Node id : 94773139457808, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
-          Node id : 94773138607376, Node type: array_declarator, Node sexp: (array_declarator declarator: (identifier)), Node text: x[]
-            Node id : 94773138401360, Node type: identifier, Node sexp: (identifier), Node text: x
-        Node id : 94773138747800, Node type: parameter_declaration, Node sexp: (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))), Node text: int y[]
-          Node id : 94773138785584, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
-          Node id : 94773138484256, Node type: array_declarator, Node sexp: (array_declarator declarator: (identifier)), Node text: y[]
-            Node id : 94773138785776, Node type: identifier, Node sexp: (identifier), Node text: y
-        Node id : 94773139453304, Node type: parameter_declaration, Node sexp: (parameter_declaration type: (primitive_type) declarator: (identifier)), Node text: int len
-          Node id : 94773138436880, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
-          Node id : 94773138437072, Node type: identifier, Node sexp: (identifier), Node text: len
-    Node id : 94773139165968, Node type: compound_statement, Node sexp: (compound_statement (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))) (return_statement (identifier))), Node text: {\n    ...
-      Node id : 94773138279808, Node type: declaration, Node sexp: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))), Node text: int ans...
-        Node id : 94773139216656, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
-        Node id : 94773138456576, Node type: init_declarator, Node sexp: (init_declarator declarator: (identifier) value: (number_literal)), Node text: ans = 0
-          Node id : 94773138435056, Node type: identifier, Node sexp: (identifier), Node text: ans
-          Node id : 94773138435152, Node type: number_literal, Node sexp: (number_literal), Node text: 0
-      Node id : 94773138279816, Node type: for_statement, Node sexp: (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))), Node text: for (in...
-        Node id : 94773139585600, Node type: declaration, Node sexp: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))), Node text: int i =...
-          Node id : 94773138925088, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
-          Node id : 94773139534816, Node type: init_declarator, Node sexp: (init_declarator declarator: (identifier) value: (number_literal)), Node text: i = 0
-            Node id : 94773139449456, Node type: identifier, Node sexp: (identifier), Node text: i
-            Node id : 94773139449552, Node type: number_literal, Node sexp: (number_literal), Node text: 0
-        Node id : 94773138051936, Node type: binary_expression, Node sexp: (binary_expression left: (identifier) right: (identifier)), Node text: i < len
-          Node id : 94773139535024, Node type: identifier, Node sexp: (identifier), Node text: i
-          Node id : 94773139494736, Node type: identifier, Node sexp: (identifier), Node text: len
-        Node id : 94773138742864, Node type: update_expression, Node sexp: (update_expression argument: (identifier)), Node text: i++
-          Node id : 94773138052032, Node type: identifier, Node sexp: (identifier), Node text: i
-        Node id : 94773138279712, Node type: compound_statement, Node sexp: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))))))), Node text: {\n    ...
-          Node id : 94773138279576, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))), Node text: ans += ...
-            Node id : 94773139529328, Node type: assignment_expression, Node sexp: (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))))), Node text: ans += ...
-              Node id : 94773139529216, Node type: identifier, Node sexp: (identifier), Node text: ans
-              Node id : 94773139529120, Node type: binary_expression, Node sexp: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))), Node text: x[i] * ...
-                Node id : 94773139953600, Node type: subscript_expression, Node sexp: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))), Node text: x[i]
-                  Node id : 94773139585728, Node type: identifier, Node sexp: (identifier), Node text: x
-                  Node id : 94773138926248, Node type: subscript_argument_list, Node sexp: (subscript_argument_list (identifier)), Node text: [i]
-                    Node id : 94773139473472, Node type: identifier, Node sexp: (identifier), Node text: i
-                Node id : 94773139096064, Node type: subscript_expression, Node sexp: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))), Node text: y[i]
-                  Node id : 94773138989648, Node type: identifier, Node sexp: (identifier), Node text: y
-                  Node id : 94773139483416, Node type: subscript_argument_list, Node sexp: (subscript_argument_list (identifier)), Node text: [i]
-                    Node id : 94773138989840, Node type: identifier, Node sexp: (identifier), Node text: i
-      Node id : 94773138995768, Node type: return_statement, Node sexp: (return_statement (identifier)), Node text: return ...
-        Node id : 94773138995456, Node type: identifier, Node sexp: (identifier), Node text: ans
+Node id : 94422417445072, Node type: translation_unit, Node sexp: (translation_unit (function_definition type: (primitive_type) declarator: (function_declarator declarator: (identifier) parameters: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier)))) body: (compound_statement (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))) (return_statement (identifier))))), Node text: int dp(...
+  Node id : 94422418059600, Node type: function_definition, Node sexp: (function_definition type: (primitive_type) declarator: (function_declarator declarator: (identifier) parameters: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier)))) body: (compound_statement (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))) (return_statement (identifier)))), Node text: int dp(...
+    Node id : 94422417974288, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
+    Node id : 94422417188048, Node type: function_declarator, Node sexp: (function_declarator declarator: (identifier) parameters: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier)))), Node text: dp(int ...
+      Node id : 94422417526832, Node type: identifier, Node sexp: (identifier), Node text: dp
+      Node id : 94422416780768, Node type: parameter_list, Node sexp: (parameter_list (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))) (parameter_declaration type: (primitive_type) declarator: (identifier))), Node text: (int x[...
+        Node id : 94422417186808, Node type: parameter_declaration, Node sexp: (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))), Node text: int x[]
+          Node id : 94422416201296, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
+          Node id : 94422416873216, Node type: array_declarator, Node sexp: (array_declarator declarator: (identifier)), Node text: x[]
+            Node id : 94422416114240, Node type: identifier, Node sexp: (identifier), Node text: x
+        Node id : 94422416008392, Node type: parameter_declaration, Node sexp: (parameter_declaration type: (primitive_type) declarator: (array_declarator declarator: (identifier))), Node text: int y[]
+          Node id : 94422417590224, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
+          Node id : 94422417961136, Node type: array_declarator, Node sexp: (array_declarator declarator: (identifier)), Node text: y[]
+            Node id : 94422416578304, Node type: identifier, Node sexp: (identifier), Node text: y
+        Node id : 94422417017256, Node type: parameter_declaration, Node sexp: (parameter_declaration type: (primitive_type) declarator: (identifier)), Node text: int len
+          Node id : 94422416008496, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
+          Node id : 94422416780672, Node type: identifier, Node sexp: (identifier), Node text: len
+    Node id : 94422418059408, Node type: compound_statement, Node sexp: (compound_statement (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))) (return_statement (identifier))), Node text: {\n    ...
+      Node id : 94422416436800, Node type: declaration, Node sexp: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))), Node text: int ans...
+        Node id : 94422417188144, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
+        Node id : 94422417478432, Node type: init_declarator, Node sexp: (init_declarator declarator: (identifier) value: (number_literal)), Node text: ans = 0
+          Node id : 94422417414944, Node type: identifier, Node sexp: (identifier), Node text: ans
+          Node id : 94422417415040, Node type: number_literal, Node sexp: (number_literal), Node text: 0
+      Node id : 94422416436808, Node type: for_statement, Node sexp: (for_statement initializer: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))) condition: (binary_expression left: (identifier) right: (identifier)) update: (update_expression argument: (identifier)) body: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))))), Node text: for (in...
+        Node id : 94422417357680, Node type: declaration, Node sexp: (declaration type: (primitive_type) declarator: (init_declarator declarator: (identifier) value: (number_literal))), Node text: int i =...
+          Node id : 94422417586640, Node type: primitive_type, Node sexp: (primitive_type), Node text: int
+          Node id : 94422417562272, Node type: init_declarator, Node sexp: (init_declarator declarator: (identifier) value: (number_literal)), Node text: i = 0
+            Node id : 94422416414432, Node type: identifier, Node sexp: (identifier), Node text: i
+            Node id : 94422416414528, Node type: number_literal, Node sexp: (number_literal), Node text: 0
+        Node id : 94422416604848, Node type: binary_expression, Node sexp: (binary_expression left: (identifier) right: (identifier)), Node text: i < len
+          Node id : 94422416401600, Node type: identifier, Node sexp: (identifier), Node text: i
+          Node id : 94422416315984, Node type: identifier, Node sexp: (identifier), Node text: len
+        Node id : 94422417357584, Node type: update_expression, Node sexp: (update_expression argument: (identifier)), Node text: i++
+          Node id : 94422416856992, Node type: identifier, Node sexp: (identifier), Node text: i
+        Node id : 94422416436704, Node type: compound_statement, Node sexp: (compound_statement (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))))))), Node text: {\n    ...
+          Node id : 94422416436568, Node type: expression_statement, Node sexp: (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))))), Node text: ans += ...
+            Node id : 94422417997680, Node type: assignment_expression, Node sexp: (assignment_expression left: (identifier) right: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))))), Node text: ans += ...
+              Node id : 94422417997568, Node type: identifier, Node sexp: (identifier), Node text: ans
+              Node id : 94422417997472, Node type: binary_expression, Node sexp: (binary_expression left: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))) right: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier)))), Node text: x[i] * ...
+                Node id : 94422418036048, Node type: subscript_expression, Node sexp: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))), Node text: x[i]
+                  Node id : 94422417357808, Node type: identifier, Node sexp: (identifier), Node text: x
+                  Node id : 94422417067544, Node type: subscript_argument_list, Node sexp: (subscript_argument_list (identifier)), Node text: [i]
+                    Node id : 94422417560240, Node type: identifier, Node sexp: (identifier), Node text: i
+                Node id : 94422416073456, Node type: subscript_expression, Node sexp: (subscript_expression argument: (identifier) indices: (subscript_argument_list (identifier))), Node text: y[i]
+                  Node id : 94422417067744, Node type: identifier, Node sexp: (identifier), Node text: y
+                  Node id : 94422416616760, Node type: subscript_argument_list, Node sexp: (subscript_argument_list (identifier)), Node text: [i]
+                    Node id : 94422417604912, Node type: identifier, Node sexp: (identifier), Node text: i
+      Node id : 94422418030216, Node type: return_statement, Node sexp: (return_statement (identifier)), Node text: return ...
+        Node id : 94422416436912, Node type: identifier, Node sexp: (identifier), Node text: ans
 
 --------------------------------------------------
 Word depths:
-94773139166272 (b'int d...): 0
-   94773139166160 (b'int d...): 1
-      94773139379600 (b'int'): 2
-      94773139216560 (b'dp(in...): 2
-         94773139309184 (b'dp'): 3
-         94773138294592 (b'(int ...): 3
-            94773138294472 (b'int x...): 4
-               94773139457808 (b'int'): 5
-               94773138607376 (b'x[]'): 5
-                  94773138401360 (b'x'): 6
-            94773138747800 (b'int y...): 4
-               94773138785584 (b'int'): 5
-               94773138484256 (b'y[]'): 5
-                  94773138785776 (b'y'): 6
-            94773139453304 (b'int l...): 4
-               94773138436880 (b'int'): 5
-               94773138437072 (b'len'): 5
-      94773139165968 (b'{\n  ...): 2
-         94773138279808 (b'int a...): 3
-            94773139216656 (b'int'): 4
-            94773138456576 (b'ans =...): 4
-               94773138435056 (b'ans'): 5
-               94773138435152 (b'0'): 5
-         94773138279816 (b'for (...): 3
-            94773139585600 (b'int i...): 4
-               94773138925088 (b'int'): 5
-               94773139534816 (b'i = 0'): 5
-                  94773139449456 (b'i'): 6
-                  94773139449552 (b'0'): 6
-            94773138051936 (b'i < l...): 4
-               94773139535024 (b'i'): 5
-               94773139494736 (b'len'): 5
-            94773138742864 (b'i++'): 4
-               94773138052032 (b'i'): 5
-            94773138279712 (b'{\n  ...): 4
-               94773138279576 (b'ans +...): 5
-                  94773139529328 (b'ans +...): 6
-                     94773139529216 (b'ans'): 7
-                     94773139529120 (b'x[i] ...): 7
-                        94773139953600 (b'x[i]'): 8
-                           94773139585728 (b'x'): 9
-                           94773138926248 (b'[i]'): 9
-                              94773139473472 (b'i'): 10
-                        94773139096064 (b'y[i]'): 8
-                           94773138989648 (b'y'): 9
-                           94773139483416 (b'[i]'): 9
-                              94773138989840 (b'i'): 10
-         94773138995768 (b'retur...): 3
-            94773138995456 (b'ans'): 4
+94422417445072 (b'int d...): 0
+   94422418059600 (b'int d...): 1
+      94422417974288 (b'int'): 2
+      94422417188048 (b'dp(in...): 2
+         94422417526832 (b'dp'): 3
+         94422416780768 (b'(int ...): 3
+            94422417186808 (b'int x...): 4
+               94422416201296 (b'int'): 5
+               94422416873216 (b'x[]'): 5
+                  94422416114240 (b'x'): 6
+            94422416008392 (b'int y...): 4
+               94422417590224 (b'int'): 5
+               94422417961136 (b'y[]'): 5
+                  94422416578304 (b'y'): 6
+            94422417017256 (b'int l...): 4
+               94422416008496 (b'int'): 5
+               94422416780672 (b'len'): 5
+      94422418059408 (b'{\n  ...): 2
+         94422416436800 (b'int a...): 3
+            94422417188144 (b'int'): 4
+            94422417478432 (b'ans =...): 4
+               94422417414944 (b'ans'): 5
+               94422417415040 (b'0'): 5
+         94422416436808 (b'for (...): 3
+            94422417357680 (b'int i...): 4
+               94422417586640 (b'int'): 5
+               94422417562272 (b'i = 0'): 5
+                  94422416414432 (b'i'): 6
+                  94422416414528 (b'0'): 6
+            94422416604848 (b'i < l...): 4
+               94422416401600 (b'i'): 5
+               94422416315984 (b'len'): 5
+            94422417357584 (b'i++'): 4
+               94422416856992 (b'i'): 5
+            94422416436704 (b'{\n  ...): 4
+               94422416436568 (b'ans +...): 5
+                  94422417997680 (b'ans +...): 6
+                     94422417997568 (b'ans'): 7
+                     94422417997472 (b'x[i] ...): 7
+                        94422418036048 (b'x[i]'): 8
+                           94422417357808 (b'x'): 9
+                           94422417067544 (b'[i]'): 9
+                              94422417560240 (b'i'): 10
+                        94422416073456 (b'y[i]'): 8
+                           94422417067744 (b'y'): 9
+                           94422416616760 (b'[i]'): 9
+                              94422417604912 (b'i'): 10
+         94422418030216 (b'retur...): 3
+            94422416436912 (b'ans'): 4
 --------------------------------------------------
 Tree depth: 10
 --------------------------------------------------
@@ -109,18 +109,28 @@ Defs/Usgs:
       dp ((0, 4):(0, 6))
    func_calls:
    var_defs:
-      y ((0, 20):(0, 21))
-      ans ((1, 8):(1, 11))
-      x ((0, 11):(0, 12))
       i ((2, 13):(2, 14))
+      y ((0, 20):(0, 21))
+      x ((0, 11):(0, 12))
+      ans ((1, 8):(1, 11))
    var_usgs:
-      ans ((5, 11):(5, 14))
-      x ((3, 15):(3, 16))
-      i ((2, 29):(2, 30))
-      i ((3, 17):(3, 18))
-      ans ((3, 8):(3, 11))
-      len ((0, 29):(0, 32))
-      len ((2, 24):(2, 27))
-      y ((3, 22):(3, 23))
-      i ((3, 24):(3, 25))
       i ((2, 20):(2, 21))
+      len ((0, 29):(0, 32))
+      ans ((3, 8):(3, 11))
+      i ((3, 17):(3, 18))
+      len ((2, 24):(2, 27))
+      i ((2, 29):(2, 30))
+      y ((3, 22):(3, 23))
+      ans ((5, 11):(5, 14))
+      i ((3, 24):(3, 25))
+      x ((3, 15):(3, 16))
+--------------------------------------------------
+Closest def for each usage:
+   i ((2, 20):(2, 21): i ((2, 13):(2, 14)
+   ans ((3, 8):(3, 11): ans ((1, 8):(1, 11)
+   i ((3, 17):(3, 18): i ((2, 13):(2, 14)
+   i ((2, 29):(2, 30): i ((2, 13):(2, 14)
+   y ((3, 22):(3, 23): y ((0, 20):(0, 21)
+   ans ((5, 11):(5, 14): ans ((1, 8):(1, 11)
+   i ((3, 24):(3, 25): i ((2, 13):(2, 14)
+   x ((3, 15):(3, 16): x ((0, 11):(0, 12)
