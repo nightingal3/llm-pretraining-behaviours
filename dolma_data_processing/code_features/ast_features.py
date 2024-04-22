@@ -59,7 +59,6 @@ def _traverse_get_depth(
 def _query_get_distances(
     root: Node, lang: Language, paths: dict
 ) -> dict[str : list[Node]]:
-
     if lang.name not in paths:
         raise ValueError(f"Language {lang.name} not found in the paths dictionary.")
 
@@ -119,7 +118,9 @@ def _query_get_distances(
     # Make a separate query for each way of referencing a variable
     # First, gather all the variable names captured above
     # extract the text of each var_def node, then remove duplicates via list(set(...))
-    var_names = list(set(list(map(lambda node: node.text.decode(), captures["var_defs"]))))
+    var_names = list(
+        set(list(map(lambda node: node.text.decode(), captures["var_defs"])))
+    )
     print(var_names)
     # Assumption: All identifiers which are not function definitions/calls or variable definitions are variable usages
     # TODO: Filter these to nodes whose text is in var_names
@@ -174,9 +175,13 @@ if __name__ == "__main__":
 
         with open("ast_feature_paths.json", "r") as paths_file:
             paths = json.load(paths_file)
-            captures: dict[str: list[Node]] = _query_get_distances(tree.root_node, lang, paths)
+            captures: dict[str : list[Node]] = _query_get_distances(
+                tree.root_node, lang, paths
+            )
             f.write("-" * 50 + "\nDefs/Usgs:")
             for key in captures.keys():
                 f.write(f"   {key}:\n")
                 for node in captures[key]:
-                    f.write(f"      {_trunc_str(node.text.decode())} ({node.start_point}:{node.end_point})\n")
+                    f.write(
+                        f"      {_trunc_str(node.text.decode())} ({node.start_point}:{node.end_point})\n"
+                    )
