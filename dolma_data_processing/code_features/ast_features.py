@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from io import TextIOWrapper
 
 
-def _trunc_str(s: str, maxLen: int = 10):
+def _trunc_str(s: str, maxLen: int = 20):
     s = s.replace("\n", "\\n")
     if len(s) < maxLen:
         return s
@@ -37,7 +37,7 @@ def _write_node_with_content(node: Node, output_file: str, level: int = 0):
     indent = "  " * level
     with open(output_file, "a") as f:
         f.write(
-            f"{indent}Node id : {node.id}, Node type: {node.type}, Node sexp: {node.sexp()}, Node text: {_trunc_str(node.text.decode())}\n"
+            f"{indent}Node id : {node.id}, Node type: {node.type}, Node text: {_trunc_str(node.text.decode())}\n"
         )
 
     for child in node.named_children:
@@ -207,8 +207,7 @@ def _get_distances(
         for node in captures["func_calls"]
     }
     var_distances: dict[Node:int] = {
-        node: node.start_byte - closest[node].end_byte
-        for node in captures["var_usgs"]
+        node: node.start_byte - closest[node].end_byte for node in captures["var_usgs"]
     }
     return (func_distances, var_distances)
 
@@ -224,7 +223,6 @@ if __name__ == "__main__":
     feature_dict = {
         "word_depths": {},
         "tree_depth": 0,
-        "words": [],
     }
 
     try:
@@ -250,8 +248,10 @@ if __name__ == "__main__":
         feature_dict["word_depths"] = word_depths
         feature_dict["tree_depth"] = max(word_depths.values())
         f.write("-" * 50 + f"\nTree depth: {feature_dict['tree_depth']}\n")
-        feature_dict["words"] = word_depths.keys()
-        f.write("-" * 50 + f"\nNum words: {len(feature_dict['words'])}\n")
+        f.write(
+            "-" * 50
+            + f"\nAvg. word depth: {sum(feature_dict['word_depths'].values())/len(feature_dict['word_depths'])}\n"
+        )
 
         with open("ast_feature_paths.json", "r") as paths_file:
             paths = json.load(paths_file)
