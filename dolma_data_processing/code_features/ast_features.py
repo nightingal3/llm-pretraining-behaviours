@@ -58,7 +58,7 @@ def _traverse_get_depth(
 
 def _query_get_distances(
     root: Node, lang: Language, paths: dict
-) -> dict[str : list[Node]]:
+) -> dict[str : set[Node]]:
     if lang.name not in paths:
         raise ValueError(f"Language {lang.name} not found in the paths dictionary.")
 
@@ -78,14 +78,14 @@ def _query_get_distances(
 
     # query.captures returns List[Tuple[Node, str]], but we only care about the nodes.
     # This covnerts List[Tuple[Node, str]] to List[Node].
-    def _get_nodes(node_str_tuples: list[tuple[Node, str]]) -> list[Node]:
-        return list(map(lambda x: x[0], node_str_tuples))
+    def _get_nodes(node_str_tuples: list[tuple[Node, str]]) -> set[Node]:
+        return set(map(lambda x: x[0], node_str_tuples))
 
-    captures: dict[str : list[Node]] = {
-        "func_defs": [],
-        "func_calls": [],
-        "var_defs": [],
-        "var_usgs": [],
+    captures: dict[str : set[Node]] = {
+        "func_defs": set(),
+        "func_calls": set(),
+        "var_defs": set(),
+        "var_usgs": set(),
     }
 
     # Make a separate query for each way of defining a function
@@ -95,7 +95,7 @@ def _query_get_distances(
         "func-name",
     )
     for query in func_def_queries:
-        captures["func_defs"] += _get_nodes(query.captures(root))
+        captures["func_defs"] = captures["func_defs"] | _get_nodes(query.captures(root))
 
     # Make a separate query for each way of calling a function
     func_call_queries: list[Query] = _build_nested_queries(
@@ -104,7 +104,9 @@ def _query_get_distances(
         "func-call",
     )
     for query in func_call_queries:
-        captures["func_calls"] += _get_nodes(query.captures(root))
+        captures["func_calls"] = captures["func_calls"] | _get_nodes(
+            query.captures(root)
+        )
 
     # Make a separate query for each way of defining a variable
     var_def_queries: list[Query] = _build_nested_queries(
@@ -113,7 +115,7 @@ def _query_get_distances(
         "var-def",
     )
     for query in var_def_queries:
-        captures["var_defs"] += _get_nodes(query.captures(root))
+        captures["var_defs"] = captures["var_defs"] | _get_nodes(query.captures(root))
 
     # Make a separate query for each way of referencing a variable
     # First, gather all the variable names captured above
@@ -121,14 +123,24 @@ def _query_get_distances(
     var_names = list(
         set(list(map(lambda node: node.text.decode(), captures["var_defs"])))
     )
-    print(var_names)
-    # Assumption: All identifiers which are not function definitions/calls or variable definitions are variable usages
-    # TODO: Filter these to nodes whose text is in var_names
+    # Query for all instances of var_usg_indicator matching a var_name in var_names
     var_usg_queries: list[Query] = []
-    for var_usg_indidcator in paths[lang.name]["VarUsgIndicators"]:
-        var_usg_queries.append(lang.query(f"({var_usg_indidcator}) @var-usg"))
+    for var_name in var_names:
+        for var_usg_indidcator in paths[lang.name]["VarUsgIndicators"]:
+            var_usg_queries.append(
+                lang.query(
+                    f"""({var_usg_indidcator}) @var-usg
+                                              (#eq? @var-usg "{var_name}")"""
+                )
+            )
+    # Assumption: All identifiers which are not function definitions/calls or variable definitions are variable usages
+    exclude: set[Node] = captures["func_defs"].union(
+        captures["func_calls"], captures["var_defs"]
+    )
     for query in var_usg_queries:
-        captures["var_usgs"] += _get_nodes(query.captures(root))
+        captures["var_usgs"] = captures["var_usgs"] | (
+            _get_nodes(query.captures(root)) - exclude
+        )
 
     return captures
 
@@ -178,7 +190,7 @@ if __name__ == "__main__":
             captures: dict[str : list[Node]] = _query_get_distances(
                 tree.root_node, lang, paths
             )
-            f.write("-" * 50 + "\nDefs/Usgs:")
+            f.write("-" * 50 + "\nDefs/Usgs:\n")
             for key in captures.keys():
                 f.write(f"   {key}:\n")
                 for node in captures[key]:
