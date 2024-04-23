@@ -19,9 +19,9 @@ def extract_features_from_json(json_data, features):
         feature_value = json_data
         for path in feature_path:
             if isinstance(feature_value, dict):
-                feature_value = feature_value.get(path, -1)
+                feature_value = feature_value.get(path, None)
             else:
-                feature_value = -1
+                feature_value = None
                 break  # Stop iteration if feature_value is not a dictionary
         extracted_features[feature] = feature_value
 

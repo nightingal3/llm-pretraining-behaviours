@@ -223,6 +223,7 @@ def main():
         while not validate_doc_type(doc_type):
             print("Invalid doc type. Please enter a valid doc type.")
             doc_type = input(doc_type_prompt)
+            doc_type = doc_type.split("/")
 
         if entry_option == "1":
             subdataset = input(
