@@ -221,12 +221,15 @@ def get_features(
     node_depth: the depth of the node in the AST
     tree_depth: the depth of the AST overall
     dist_to_def: the byte distance from this node to its function/variable definition, or None if not applicable
+    node_type: the node grammar type's numerical id
     num_nodes_input: the total number of nodes in the AST
     """
     feature_dict = {
         "node_depth": [],
         "tree_depth": [],
         "dist_to_def": [],
+        "node_type": [],
+        "num_nodes_input": []
     }
     tree = parser.parse(bytes(input_code, "utf-8"))
     # maps node -> (depth of node, depth of tree at that node)
@@ -250,6 +253,8 @@ def get_features(
             feature_dict["dist_to_def"].append(var_distances[node])
         else:
             feature_dict["dist_to_def"].append(None)
+        feature_dict["node_type"].append(node.grammar_id)
+    feature_dict["num_nodes_input"] = [len(node_depths)] * len(node_depths)
 
     return feature_dict
 
