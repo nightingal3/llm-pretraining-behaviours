@@ -229,7 +229,7 @@ def get_features(
         "tree_depth": [],
         "dist_to_def": [],
         "node_type": [],
-        "num_nodes_input": []
+        "num_nodes_input": [],
     }
     tree = parser.parse(bytes(input_code, "utf-8"))
     # maps node -> (depth of node, depth of tree at that node)
