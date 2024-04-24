@@ -47,12 +47,12 @@ def _write_node_with_content(node: Node, output_file: str, level: int = 0):
 
 def _traverse_get_depths(
     node: Node,
-    word_depths: dict[Node, int],
+    node_depths: dict[Node, int],
     node_depth: int,
 ) -> int:
-    word_depths[node] = node_depth
+    node_depths[node] = node_depth
     for child in node.named_children:
-        _traverse_get_depths(child, word_depths, node_depth + 1)
+        _traverse_get_depths(child, node_depths, node_depth + 1)
 
 
 # Calls tree-sitter queries to find nodes of function/variable definitions/usages
@@ -215,23 +215,23 @@ def get_features(
 ) -> dict[str, list[Union[str, int, float, None]]]:
     """
     Takes as input a chunk of code and tree-sitter lang/parser
-    Returns a feature dict, where values are lists features per word.
-    (We let tree-sitter decide what a "word" is for each language.)
+    Returns a feature dict, where values are lists features per AST node.
 
     features:
-    word_depth: the depth of the word in the AST
+    node_depth: the depth of the node in the AST
     tree_depth: the depth of the AST overall
-    dist_to_def: the byte distance from this word to its function/variable definition, or None if not applicable
+    dist_to_def: the byte distance from this node to its function/variable definition, or None if not applicable
+    num_nodes_input: the total number of nodes in the AST
     """
     feature_dict = {
-        "word_depth": [],
+        "node_depth": [],
         "tree_depth": [],
         "dist_to_def": [],
     }
     tree = parser.parse(bytes(input_code, "utf-8"))
-    # word depths maps node -> (depth of node, depth of tree at that node)
-    word_depths: dict[Node, int] = {}
-    _traverse_get_depths(tree.root_node, word_depths, 0)
+    # maps node -> (depth of node, depth of tree at that node)
+    node_depths: dict[Node, int] = {}
+    _traverse_get_depths(tree.root_node, node_depths, 0)
 
     with open("ast_feature_paths.json", "r") as paths_file:
         paths = json.load(paths_file)
@@ -240,14 +240,14 @@ def get_features(
 
     # tree_depth = "maximum depth of tree up to this point"
     tree_depth = 0
-    for word in word_depths:
-        feature_dict["word_depth"].append(word_depths[word])
-        tree_depth = max(tree_depth, feature_dict["word_depth"][-1])
+    for node in node_depths:
+        feature_dict["node_depth"].append(node_depths[node])
+        tree_depth = max(tree_depth, feature_dict["node_depth"][-1])
         feature_dict["tree_depth"].append(tree_depth)
-        if word in func_distances:
-            feature_dict["dist_to_def"].append(func_distances[word])
-        elif word in var_distances:
-            feature_dict["dist_to_def"].append(var_distances[word])
+        if node in func_distances:
+            feature_dict["dist_to_def"].append(func_distances[node])
+        elif node in var_distances:
+            feature_dict["dist_to_def"].append(var_distances[node])
         else:
             feature_dict["dist_to_def"].append(None)
 
@@ -261,11 +261,6 @@ if __name__ == "__main__":
     parser.add_argument("--input_file", type=str, help="The file to parse")
     parser.add_argument("--output_file", type=str, help="Output file")
     args = parser.parse_args()
-
-    feature_dict = {
-        "word_depths": {},
-        "tree_depth": 0,
-    }
 
     try:
         parser = get_parser(args.lang)
