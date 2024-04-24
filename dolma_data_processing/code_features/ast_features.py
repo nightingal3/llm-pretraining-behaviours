@@ -1,48 +1,9 @@
-import argparse
 import json
 from tree_sitter import Parser, Node, Language, Query
-from tree_sitter_languages import get_language, get_parser
 from typing import Union
 import os
 import sys
-import warnings
 import bisect
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from io import TextIOWrapper
-
-
-def _trunc_str(s: str, maxLen: int = 20):
-    s = s.replace("\n", "\\n")
-    if len(s) < maxLen:
-        return s
-    else:
-        return s[: maxLen - 3] + "..."
-
-
-# May be useful later if we want to query with more specificity - for now we'll just query by type
-def _field_name(node: Node):
-    parent = node.parent
-    if not parent:
-        return "None"
-    cursor = parent.walk()
-    child = cursor.goto_first_child()
-    while child != None and cursor.node != node:
-        cursor.goto_next_sibling()
-    if cursor.node == node and cursor.field_name != None:
-        return cursor.field_name
-    return "None"
-
-
-def _write_node_with_content(node: Node, output_file: str, level: int = 0):
-    indent = "  " * level
-    with open(output_file, "a") as f:
-        f.write(
-            f"{indent}Node id : {node.id}, Node type: {node.type}, Node text: {_trunc_str(node.text.decode())}\n"
-        )
-
-    for child in node.named_children:
-        _write_node_with_content(child, output_file, level + 1)
 
 
 def _traverse_get_depths(
@@ -257,34 +218,3 @@ def get_features(
     feature_dict["num_nodes_input"] = [len(node_depths)] * len(node_depths)
 
     return feature_dict
-
-
-if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--lang", type=str, help="The language to parse (if known)")
-    parser.add_argument("--input_file", type=str, help="The file to parse")
-    parser.add_argument("--output_file", type=str, help="Output file")
-    args = parser.parse_args()
-
-    try:
-        parser = get_parser(args.lang)
-    except Exception as e:
-        print(f"Error occurred while creating parser: {e}")
-
-    try:
-        lang = get_language(args.lang)
-    except Exception as e:
-        print(f"Error occurred while getting language: {e}")
-
-    with open(args.input_file, "r") as file:
-        code = file.read()
-    tree = parser.parse(bytes(code, "utf-8"))
-    with open(args.output_file, "w") as f:
-        f.write("")
-    _write_node_with_content(tree.root_node, args.output_file)
-    with open(args.output_file, "a") as f:
-        f.write("\n" + "-" * 50 + "\n")
-        feature_dict = get_features(code, lang, parser)
-        for key in feature_dict:
-            f.write("\n" + key + ": " + str(feature_dict[key]))
