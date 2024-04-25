@@ -4,7 +4,7 @@ import json
 import pandas as pd
 
 
-def extract_features_from_json(json_data, features):
+def extract_features_from_json(json_data: dict, features: list) -> dict:
     """
     Extract features from JSON. Features should be specified like this in the config:
     top_level:level1:level2:feature where : represents the hierarchy of the JSON.
@@ -26,6 +26,50 @@ def extract_features_from_json(json_data, features):
         extracted_features[feature] = feature_value
 
     return extracted_features
+
+
+def extract_features_from_json_dataset(json_model_data: dict, features: list) -> dict:
+    """
+    Extract features from JSON. Follows pointers from a model's training data to corresponding files in
+    metadata/dataset_metadata. (TODO: this may be kind of awkward, but we currently have the dataset information kind of stored in both places.)
+    However, the config should list features as they're formatted in the dataset configs.
+
+    Args:
+        json_data (dict): The JSON data to extract features from.
+        features (list): The list of features to extract.
+    """
+    if "training_stages" not in json_model_data:
+        # Dataset not documented
+        return {}
+
+    dataset_files = {
+        stage["name"]: stage["data"] for stage in json_model_data["training_stages"]
+    }
+    all_stages_info = {}
+
+    # other features not in config - may revisit
+    all_stages_info["is_instruction_tuned"] = "instruction" in dataset_files
+
+    for stage_name, dataset_file in dataset_files.items():
+        if not (os.path.exists(dataset_file) and os.path.isfile(dataset_file)):
+            # search for the dataset within the metadata/dataset_metadata directory
+            dataset_file = os.path.join(
+                "./metadata/dataset_metadata",
+                f"{dataset_file}.json",
+            )
+            if not os.path.exists(dataset_file):
+                # Dataset not found
+                return {}
+
+        with open(dataset_file, "r") as file:
+            dataset_json = json.load(file)
+
+        extracted_data_features = extract_features_from_json(dataset_json, features)
+        for feature, value in extracted_data_features.items():
+            modified_key = f"{stage_name}_{feature}"
+            all_stages_info[modified_key] = value
+
+    return all_stages_info
 
 
 def normalize_features(row: pd.Series):
@@ -91,10 +135,18 @@ def main(
                 if extracted_features:
                     extracted_features["model_name"] = json_data["model_name"]
                     extracted_features_all.append(extracted_features)
-        else:
+        elif type_selection == "model":
             extracted_features = extract_features_from_json(
                 json_data, features_to_extract
             )
+            extracted_features_all.append(extracted_features)
+        else:
+            extracted_features = extract_features_from_json_dataset(
+                json_data, features_to_extract
+            )
+            if len(extracted_features) > 0:
+                extracted_features
+
             extracted_features_all.append(extracted_features)
 
     df = pd.DataFrame(extracted_features_all)
@@ -156,6 +208,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input_dir",
         type=str,
+        help="input directory for the feature to be collected. For 'dataset' features, please also pass the same directory as for model features.",
     )
     parser.add_argument(
         "--output_dir",
@@ -170,7 +223,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--type",
         type=str,
-        choices=["score", "model"],
+        choices=["score", "model", "dataset"],
         default="score",
         help="collect model or score or dataset features",
     )
@@ -178,7 +231,7 @@ if __name__ == "__main__":
         "--dataset",
         type=str,
         default="all",
-        help="dataset to collect results for. Pass 'all' to collect all datasets",
+        help="dataset to collect results for. Pass 'all' to collect all datasets. Only relevant for the 'score' type.",
     )
     parser.add_argument(
         "--n_shots",
