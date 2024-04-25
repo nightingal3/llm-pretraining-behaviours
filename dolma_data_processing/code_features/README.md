@@ -30,5 +30,5 @@ Run the tests with `python3 test_ast_features.py`.
 ### Dependencies
 
 Pip install:
-- [py-tree-sitter](https://github.com/tree-sitter/py-tree-sitter)
-- [py-tree-sitter-languages](https://github.com/grantjenks/py-tree-sitter-languages)
+- [tree-sitter](https://github.com/tree-sitter/py-tree-sitter)
+- [tree-sitter-languages](https://github.com/grantjenks/py-tree-sitter-languages)
