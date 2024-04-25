@@ -29,7 +29,10 @@ def test_ast_features():
     """
     warnings.filterwarnings("ignore")
 
-    for lang_name in os.listdir("ast_testing/test_code"):
+    test_code_dir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "ast_testing/test_code"
+    )
+    for lang_name in os.listdir(test_code_dir):
         print(f"Testing ast_features on {lang_name}...")
 
         try:
