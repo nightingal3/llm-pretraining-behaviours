@@ -164,9 +164,12 @@ def _get_distances(
     func_distances: dict[Node, int] = {
         node: node.start_byte - closest[node].end_byte
         for node in captures["func_calls"]
+        if node in closest
     }
     var_distances: dict[Node, int] = {
-        node: node.start_byte - closest[node].end_byte for node in captures["var_usgs"]
+        node: node.start_byte - closest[node].end_byte
+        for node in captures["var_usgs"]
+        if node in closest
     }
     return (func_distances, var_distances)
 

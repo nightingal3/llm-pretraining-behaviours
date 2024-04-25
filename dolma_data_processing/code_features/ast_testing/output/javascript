@@ -1,88 +1,100 @@
-Node id : 94599380764384, Node type: program, Node text: function f(a) {\n...
-  Node id : 94599379633232, Node type: function_declaration, Node text: function f(a) {\n...
-    Node id : 94599379633112, Node type: identifier, Node text: f
-    Node id : 94599379633120, Node type: formal_parameters, Node text: (a)
-      Node id : 94599381069568, Node type: identifier, Node text: a
-    Node id : 94599379633128, Node type: statement_block, Node text: {\n    return;\n}
-      Node id : 94599379976328, Node type: return_statement, Node text: return;
-  Node id : 94599380161112, Node type: expression_statement, Node text: x = 1;
-    Node id : 94599379922400, Node type: assignment_expression, Node text: x = 1
-      Node id : 94599379922288, Node type: identifier, Node text: x
-      Node id : 94599380400432, Node type: number, Node text: 1
-  Node id : 94599380109664, Node type: variable_declaration, Node text: var x = 2;
-    Node id : 94599380109560, Node type: variable_declarator, Node text: x = 2
-      Node id : 94599381033744, Node type: identifier, Node text: x
-      Node id : 94599380969264, Node type: number, Node text: 2
-  Node id : 94599380961856, Node type: lexical_declaration, Node text: let x = 3;
-    Node id : 94599380871992, Node type: variable_declarator, Node text: x = 3
-      Node id : 94599380871872, Node type: identifier, Node text: x
-      Node id : 94599380510624, Node type: number, Node text: 3
-  Node id : 94599379959232, Node type: lexical_declaration, Node text: const x = 4;
-    Node id : 94599381027576, Node type: variable_declarator, Node text: x = 4
-      Node id : 94599380451344, Node type: identifier, Node text: x
-      Node id : 94599379959040, Node type: number, Node text: 4
-  Node id : 94599381581136, Node type: function_declaration, Node text: function main() {...
-    Node id : 94599381581016, Node type: identifier, Node text: main
-    Node id : 94599381581024, Node type: formal_parameters, Node text: ()
-    Node id : 94599381581032, Node type: statement_block, Node text: {\n    x += 1;\n ...
-      Node id : 94599381103776, Node type: expression_statement, Node text: x += 1;
-        Node id : 94599380003568, Node type: augmented_assignment_expression, Node text: x += 1
-          Node id : 94599381105600, Node type: identifier, Node text: x
-          Node id : 94599381105696, Node type: number, Node text: 1
-      Node id : 94599381103784, Node type: expression_statement, Node text: f(x);
-        Node id : 94599380447632, Node type: call_expression, Node text: f(x)
-          Node id : 94599379835072, Node type: identifier, Node text: f
-          Node id : 94599380902696, Node type: arguments, Node text: (x)
-            Node id : 94599381141632, Node type: identifier, Node text: x
-  Node id : 94599380779632, Node type: expression_statement, Node text: x = 3;
-    Node id : 94599380123600, Node type: assignment_expression, Node text: x = 3
-      Node id : 94599380123488, Node type: identifier, Node text: x
-      Node id : 94599381581232, Node type: number, Node text: 3
-  Node id : 94599380779640, Node type: expression_statement, Node text: x *= 2;
-    Node id : 94599380779424, Node type: augmented_assignment_expression, Node text: x *= 2
-      Node id : 94599380486016, Node type: identifier, Node text: x
-      Node id : 94599380640272, Node type: number, Node text: 2
-  Node id : 94599379759552, Node type: function_declaration, Node text: function dp(c, d)...
-    Node id : 94599379759432, Node type: identifier, Node text: dp
-    Node id : 94599379759440, Node type: formal_parameters, Node text: (c, d)
-      Node id : 94599380204000, Node type: identifier, Node text: c
-      Node id : 94599380204096, Node type: identifier, Node text: d
-    Node id : 94599379759448, Node type: statement_block, Node text: {\n    let ans = ...
-      Node id : 94599379663184, Node type: lexical_declaration, Node text: let ans = 0;
-        Node id : 94599381544920, Node type: variable_declarator, Node text: ans = 0
-          Node id : 94599381544800, Node type: identifier, Node text: ans
-          Node id : 94599381092384, Node type: number, Node text: 0
-      Node id : 94599381541576, Node type: for_statement, Node text: for (let i = 0; i...
-        Node id : 94599381541440, Node type: lexical_declaration, Node text: let i = 0;
-          Node id : 94599380781704, Node type: variable_declarator, Node text: i = 0
-            Node id : 94599380781584, Node type: identifier, Node text: i
-            Node id : 94599381126208, Node type: number, Node text: 0
-        Node id : 94599381541448, Node type: expression_statement, Node text: i < c.length;
-          Node id : 94599380513440, Node type: binary_expression, Node text: i < c.length
-            Node id : 94599379948288, Node type: identifier, Node text: i
-            Node id : 94599379527312, Node type: member_expression, Node text: c.length
-              Node id : 94599379948480, Node type: identifier, Node text: c
-              Node id : 94599381527904, Node type: property_identifier, Node text: length
-        Node id : 94599379981376, Node type: update_expression, Node text: i++
-          Node id : 94599380513648, Node type: identifier, Node text: i
-        Node id : 94599381541472, Node type: statement_block, Node text: {\n        ans +=...
-          Node id : 94599379791336, Node type: expression_statement, Node text: ans += c[i] * d[i];
-            Node id : 94599379791024, Node type: augmented_assignment_expression, Node text: ans += c[i] * d[i]
-              Node id : 94599379981472, Node type: identifier, Node text: ans
-              Node id : 94599380007920, Node type: binary_expression, Node text: c[i] * d[i]
-                Node id : 94599381023776, Node type: subscript_expression, Node text: c[i]
-                  Node id : 94599381575440, Node type: identifier, Node text: c
-                  Node id : 94599381575536, Node type: identifier, Node text: i
-                Node id : 94599379942064, Node type: subscript_expression, Node text: d[i]
-                  Node id : 94599379981568, Node type: identifier, Node text: d
-                  Node id : 94599381115184, Node type: identifier, Node text: i
-      Node id : 94599379635784, Node type: return_statement, Node text: return ans;
-        Node id : 94599381541680, Node type: identifier, Node text: ans
+Node type: program, Node.text: function f(a) {\n...
+  Node type: function_declaration, Node.text: function f(a) {\n...
+    Node type: identifier, Node.text: f
+    Node type: formal_parameters, Node.text: (a)
+      Node type: identifier, Node.text: a
+    Node type: statement_block, Node.text: {\n    return;\n}
+      Node type: return_statement, Node.text: return;
+  Node type: expression_statement, Node.text: x = 1;
+    Node type: assignment_expression, Node.text: x = 1
+      Node type: identifier, Node.text: x
+      Node type: number, Node.text: 1
+  Node type: variable_declaration, Node.text: var x = 2;
+    Node type: variable_declarator, Node.text: x = 2
+      Node type: identifier, Node.text: x
+      Node type: number, Node.text: 2
+  Node type: lexical_declaration, Node.text: let x = 3;
+    Node type: variable_declarator, Node.text: x = 3
+      Node type: identifier, Node.text: x
+      Node type: number, Node.text: 3
+  Node type: lexical_declaration, Node.text: const x = 4;
+    Node type: variable_declarator, Node.text: x = 4
+      Node type: identifier, Node.text: x
+      Node type: number, Node.text: 4
+  Node type: function_declaration, Node.text: function main() {...
+    Node type: identifier, Node.text: main
+    Node type: formal_parameters, Node.text: ()
+    Node type: statement_block, Node.text: {\n    x += 1;\n ...
+      Node type: expression_statement, Node.text: x += 1;
+        Node type: augmented_assignment_expression, Node.text: x += 1
+          Node type: identifier, Node.text: x
+          Node type: number, Node.text: 1
+      Node type: expression_statement, Node.text: f(x);
+        Node type: call_expression, Node.text: f(x)
+          Node type: identifier, Node.text: f
+          Node type: arguments, Node.text: (x)
+            Node type: identifier, Node.text: x
+  Node type: expression_statement, Node.text: x = 3;
+    Node type: assignment_expression, Node.text: x = 3
+      Node type: identifier, Node.text: x
+      Node type: number, Node.text: 3
+  Node type: expression_statement, Node.text: x *= 2;
+    Node type: augmented_assignment_expression, Node.text: x *= 2
+      Node type: identifier, Node.text: x
+      Node type: number, Node.text: 2
+  Node type: function_declaration, Node.text: function dp(c, d)...
+    Node type: identifier, Node.text: dp
+    Node type: formal_parameters, Node.text: (c, d)
+      Node type: identifier, Node.text: c
+      Node type: identifier, Node.text: d
+    Node type: statement_block, Node.text: {\n    let ans = ...
+      Node type: lexical_declaration, Node.text: let ans = 0;
+        Node type: variable_declarator, Node.text: ans = 0
+          Node type: identifier, Node.text: ans
+          Node type: number, Node.text: 0
+      Node type: for_statement, Node.text: for (let i = 0; i...
+        Node type: lexical_declaration, Node.text: let i = 0;
+          Node type: variable_declarator, Node.text: i = 0
+            Node type: identifier, Node.text: i
+            Node type: number, Node.text: 0
+        Node type: expression_statement, Node.text: i < c.length;
+          Node type: binary_expression, Node.text: i < c.length
+            Node type: identifier, Node.text: i
+            Node type: member_expression, Node.text: c.length
+              Node type: identifier, Node.text: c
+              Node type: property_identifier, Node.text: length
+        Node type: update_expression, Node.text: i++
+          Node type: identifier, Node.text: i
+        Node type: statement_block, Node.text: {\n        ans +=...
+          Node type: expression_statement, Node.text: ans += c[i] * d[i];
+            Node type: augmented_assignment_expression, Node.text: ans += c[i] * d[i]
+              Node type: identifier, Node.text: ans
+              Node type: binary_expression, Node.text: c[i] * d[i]
+                Node type: subscript_expression, Node.text: c[i]
+                  Node type: identifier, Node.text: c
+                  Node type: identifier, Node.text: i
+                Node type: subscript_expression, Node.text: d[i]
+                  Node type: identifier, Node.text: d
+                  Node type: identifier, Node.text: i
+      Node type: return_statement, Node.text: return ans;
+        Node type: identifier, Node.text: ans
 
 --------------------------------------------------
 
 node_depth: [0, 1, 2, 2, 3, 2, 3, 1, 2, 3, 3, 1, 2, 3, 3, 1, 2, 3, 3, 1, 2, 3, 3, 1, 2, 2, 2, 3, 4, 5, 5, 3, 4, 5, 5, 6, 1, 2, 3, 3, 1, 2, 3, 3, 1, 2, 2, 3, 3, 2, 3, 4, 5, 5, 3, 4, 5, 6, 6, 4, 5, 6, 6, 7, 7, 4, 5, 4, 5, 6, 7, 7, 8, 9, 9, 8, 9, 9, 3, 4]
+
+--------------------------------------------------
+
 tree_depth: [0, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 9, 9, 9, 9, 9, 9, 9]
+
+--------------------------------------------------
+
 dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 29, None, None, None, 98, None, 43, None, None, None, None, None, None, 6, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 6, None, 48, None, None, 20, None, None, None, 55, None, None, 80, 44, None, 84, 51, None, 92]
+
+--------------------------------------------------
+
 node_type: [132, 199, 1, 230, 1, 150, 164, 146, 208, 1, 115, 147, 149, 1, 115, 148, 149, 1, 115, 148, 149, 1, 115, 199, 1, 230, 150, 146, 210, 1, 115, 146, 203, 1, 224, 1, 146, 208, 1, 115, 146, 210, 1, 115, 199, 1, 230, 1, 1, 150, 148, 149, 1, 115, 154, 148, 149, 1, 115, 146, 215, 1, 206, 1, 1, 217, 1, 150, 146, 210, 1, 215, 207, 1, 1, 207, 1, 1, 164, 1]
+
+--------------------------------------------------
+
 num_nodes_input: [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80]

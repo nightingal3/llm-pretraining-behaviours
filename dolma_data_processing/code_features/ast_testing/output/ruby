@@ -1,154 +1,76 @@
-Node id : 93841949974736, Node type: program, Node sexp: (program (assignment left: (identifier) right: (integer)) (assignment left: (instance_variable) right: (integer)) (assignment left: (class_variable) right: (integer)) (assignment left: (global_variable) right: (integer)) (method name: (identifier) body: (body_statement (return (argument_list (instance_variable))))) (method name: (identifier) parameters: (method_parameters) body: (body_statement (return (argument_list (identifier))))) (method name: (identifier) parameters: (method_parameters (identifier) (identifier)) body: (body_statement (assignment left: (identifier) right: (integer)) (for pattern: (identifier) value: (in (range begin: (integer) end: (call receiver: (identifier) method: (identifier)))) body: (do (operator_assignment left: (identifier) right: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier)))))) (return (argument_list (identifier)))))), Node text: x = 1\n...
-  Node id : 93841948674112, Node type: assignment, Node sexp: (assignment left: (identifier) right: (integer)), Node text: x = 1
-    Node id : 93841950503952, Node type: identifier, Node sexp: (identifier), Node text: x
-    Node id : 93841948730960, Node type: integer, Node sexp: (integer), Node text: 1
-  Node id : 93841950490912, Node type: assignment, Node sexp: (assignment left: (instance_variable) right: (integer)), Node text: @x = 2
-    Node id : 93841949650880, Node type: instance_variable, Node sexp: (instance_variable), Node text: @x
-    Node id : 93841950119984, Node type: integer, Node sexp: (integer), Node text: 2
-  Node id : 93841949944720, Node type: assignment, Node sexp: (assignment left: (class_variable) right: (integer)), Node text: @@x = 3
-    Node id : 93841949546800, Node type: class_variable, Node sexp: (class_variable), Node text: @@x
-    Node id : 93841949088304, Node type: integer, Node sexp: (integer), Node text: 3
-  Node id : 93841948931264, Node type: assignment, Node sexp: (assignment left: (global_variable) right: (integer)), Node text: $x = 4
-    Node id : 93841948944000, Node type: global_variable, Node sexp: (global_variable), Node text: $x
-    Node id : 93841949361456, Node type: integer, Node sexp: (integer), Node text: 4
-  Node id : 93841950134480, Node type: method, Node sexp: (method name: (identifier) body: (body_statement (return (argument_list (instance_variable))))), Node text: def f\n...
-    Node id : 93841950501648, Node type: identifier, Node sexp: (identifier), Node text: f
-    Node id : 93841949716480, Node type: body_statement, Node sexp: (body_statement (return (argument_list (instance_variable)))), Node text: return @x
-      Node id : 93841950532064, Node type: return, Node sexp: (return (argument_list (instance_variable))), Node text: return @x
-        Node id : 93841950090008, Node type: argument_list, Node sexp: (argument_list (instance_variable)), Node text: @x
-          Node id : 93841949134400, Node type: instance_variable, Node sexp: (instance_variable), Node text: @x
-  Node id : 93841949834480, Node type: method, Node sexp: (method name: (identifier) parameters: (method_parameters) body: (body_statement (return (argument_list (identifier))))), Node text: def f()...
-    Node id : 93841949146288, Node type: identifier, Node sexp: (identifier), Node text: f
-    Node id : 93841948830952, Node type: method_parameters, Node sexp: (method_parameters), Node text: ()
-    Node id : 93841948830968, Node type: body_statement, Node sexp: (body_statement (return (argument_list (identifier)))), Node text: return x
-      Node id : 93841950559872, Node type: return, Node sexp: (return (argument_list (identifier))), Node text: return x
-        Node id : 93841950559768, Node type: argument_list, Node sexp: (argument_list (identifier)), Node text: x
-          Node id : 93841950527136, Node type: identifier, Node sexp: (identifier), Node text: x
-  Node id : 93841950709888, Node type: method, Node sexp: (method name: (identifier) parameters: (method_parameters (identifier) (identifier)) body: (body_statement (assignment left: (identifier) right: (integer)) (for pattern: (identifier) value: (in (range begin: (integer) end: (call receiver: (identifier) method: (identifier)))) body: (do (operator_assignment left: (identifier) right: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier)))))) (return (argument_list (identifier))))), Node text: def dp(...
-    Node id : 93841950009744, Node type: identifier, Node sexp: (identifier), Node text: dp
-    Node id : 93841950709656, Node type: method_parameters, Node sexp: (method_parameters (identifier) (identifier)), Node text: (x, y)
-      Node id : 93841950009840, Node type: identifier, Node sexp: (identifier), Node text: x
-      Node id : 93841950124976, Node type: identifier, Node sexp: (identifier), Node text: y
-    Node id : 93841950709672, Node type: body_statement, Node sexp: (body_statement (assignment left: (identifier) right: (integer)) (for pattern: (identifier) value: (in (range begin: (integer) end: (call receiver: (identifier) method: (identifier)))) body: (do (operator_assignment left: (identifier) right: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier)))))) (return (argument_list (identifier)))), Node text: ans = 0...
-      Node id : 93841950523520, Node type: assignment, Node sexp: (assignment left: (identifier) right: (integer)), Node text: ans = 0
-        Node id : 93841950487056, Node type: identifier, Node sexp: (identifier), Node text: ans
-        Node id : 93841948801904, Node type: integer, Node sexp: (integer), Node text: 0
-      Node id : 93841950707168, Node type: for, Node sexp: (for pattern: (identifier) value: (in (range begin: (integer) end: (call receiver: (identifier) method: (identifier)))) body: (do (operator_assignment left: (identifier) right: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier)))))), Node text: for i i...
-        Node id : 93841948646576, Node type: identifier, Node sexp: (identifier), Node text: i
-        Node id : 93841950707056, Node type: in, Node sexp: (in (range begin: (integer) end: (call receiver: (identifier) method: (identifier)))), Node text: in 0......
-          Node id : 93841950598000, Node type: range, Node sexp: (range begin: (integer) end: (call receiver: (identifier) method: (identifier))), Node text: 0...x.l...
-            Node id : 93841948770352, Node type: integer, Node sexp: (integer), Node text: 0
-            Node id : 93841950019616, Node type: call, Node sexp: ("_call") receiver: (identifier) method: (identifier), Node text: x.length
-              Node id : 93841950019520, Node type: identifier, Node sexp: (identifier), Node text: x
-              Node id : 93841948646880, Node type: identifier, Node sexp: (identifier), Node text: length
-        Node id : 93841950707064, Node type: do, Node sexp: (do (operator_assignment left: (identifier) right: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier))))), Node text: \n     ...
-          Node id : 93841950580368, Node type: operator_assignment, Node sexp: (operator_assignment left: (identifier) right: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier)))), Node text: ans += ...
-            Node id : 93841950598304, Node type: identifier, Node sexp: (identifier), Node text: ans
-            Node id : 93841950580160, Node type: binary, Node sexp: (binary left: (element_reference object: (identifier) (identifier)) right: (element_reference object: (identifier) (identifier))), Node text: x[i] * ...
-              Node id : 93841950577712, Node type: element_reference, Node sexp: (element_reference object: (identifier) (identifier)), Node text: x[i]
-                Node id : 93841950598592, Node type: identifier, Node sexp: (identifier), Node text: x
-                Node id : 93841950576336, Node type: identifier, Node sexp: (identifier), Node text: i
-              Node id : 93841950579760, Node type: element_reference, Node sexp: (element_reference object: (identifier) (identifier)), Node text: y[i]
-                Node id : 93841950578096, Node type: identifier, Node sexp: (identifier), Node text: y
-                Node id : 93841950578384, Node type: identifier, Node sexp: (identifier), Node text: i
-      Node id : 93841950708752, Node type: return, Node sexp: (return (argument_list (identifier))), Node text: return ...
-        Node id : 93841950708648, Node type: argument_list, Node sexp: (argument_list (identifier)), Node text: ans
-          Node id : 93841950707968, Node type: identifier, Node sexp: (identifier), Node text: ans
+Node type: program, Node.text: x = 1\n@x = 2\n@@...
+  Node type: assignment, Node.text: x = 1
+    Node type: identifier, Node.text: x
+    Node type: integer, Node.text: 1
+  Node type: assignment, Node.text: @x = 2
+    Node type: instance_variable, Node.text: @x
+    Node type: integer, Node.text: 2
+  Node type: assignment, Node.text: @@x = 3
+    Node type: class_variable, Node.text: @@x
+    Node type: integer, Node.text: 3
+  Node type: assignment, Node.text: $x = 4
+    Node type: global_variable, Node.text: $x
+    Node type: integer, Node.text: 4
+  Node type: method, Node.text: def f\n    return...
+    Node type: identifier, Node.text: f
+    Node type: body_statement, Node.text: return @x
+      Node type: return, Node.text: return @x
+        Node type: argument_list, Node.text: @x
+          Node type: instance_variable, Node.text: @x
+  Node type: method, Node.text: def f()\n    retu...
+    Node type: identifier, Node.text: f
+    Node type: method_parameters, Node.text: ()
+    Node type: body_statement, Node.text: return x
+      Node type: return, Node.text: return x
+        Node type: argument_list, Node.text: x
+          Node type: identifier, Node.text: x
+  Node type: method, Node.text: def dp(x, y)\n   ...
+    Node type: identifier, Node.text: dp
+    Node type: method_parameters, Node.text: (x, y)
+      Node type: identifier, Node.text: x
+      Node type: identifier, Node.text: y
+    Node type: body_statement, Node.text: ans = 0\n    for ...
+      Node type: assignment, Node.text: ans = 0
+        Node type: identifier, Node.text: ans
+        Node type: integer, Node.text: 0
+      Node type: for, Node.text: for i in 0...x.le...
+        Node type: identifier, Node.text: i
+        Node type: in, Node.text: in 0...x.length
+          Node type: range, Node.text: 0...x.length
+            Node type: integer, Node.text: 0
+            Node type: call, Node.text: x.length
+              Node type: identifier, Node.text: x
+              Node type: identifier, Node.text: length
+        Node type: do, Node.text: \n        ans += ...
+          Node type: operator_assignment, Node.text: ans += x[i] * y[i]
+            Node type: identifier, Node.text: ans
+            Node type: binary, Node.text: x[i] * y[i]
+              Node type: element_reference, Node.text: x[i]
+                Node type: identifier, Node.text: x
+                Node type: identifier, Node.text: i
+              Node type: element_reference, Node.text: y[i]
+                Node type: identifier, Node.text: y
+                Node type: identifier, Node.text: i
+      Node type: return, Node.text: return ans
+        Node type: argument_list, Node.text: ans
+          Node type: identifier, Node.text: ans
 
 --------------------------------------------------
-Word depths:
-93841949974736 (b'x = 1...): 0
-   93841948674112 (b'x = 1'): 1
-      93841950503952 (b'x'): 2
-      93841948730960 (b'1'): 2
-   93841950490912 (b'@x = 2'): 1
-      93841949650880 (b'@x'): 2
-      93841950119984 (b'2'): 2
-   93841949944720 (b'@@x =...): 1
-      93841949546800 (b'@@x'): 2
-      93841949088304 (b'3'): 2
-   93841948931264 (b'$x = 4'): 1
-      93841948944000 (b'$x'): 2
-      93841949361456 (b'4'): 2
-   93841950134480 (b'def f...): 1
-      93841950501648 (b'f'): 2
-      93841949716480 (b'retur...): 2
-         93841950532064 (b'retur...): 3
-            93841950090008 (b'@x'): 4
-               93841949134400 (b'@x'): 5
-   93841949834480 (b'def f...): 1
-      93841949146288 (b'f'): 2
-      93841948830952 (b'()'): 2
-      93841948830968 (b'retur...): 2
-         93841950559872 (b'retur...): 3
-            93841950559768 (b'x'): 4
-               93841950527136 (b'x'): 5
-   93841950709888 (b'def d...): 1
-      93841950009744 (b'dp'): 2
-      93841950709656 (b'(x, y)'): 2
-         93841950009840 (b'x'): 3
-         93841950124976 (b'y'): 3
-      93841950709672 (b'ans =...): 2
-         93841950523520 (b'ans =...): 3
-            93841950487056 (b'ans'): 4
-            93841948801904 (b'0'): 4
-         93841950707168 (b'for i...): 3
-            93841948646576 (b'i'): 4
-            93841950707056 (b'in 0....): 4
-               93841950598000 (b'0...x...): 5
-                  93841948770352 (b'0'): 6
-                  93841950019616 (b'x.len...): 6
-                     93841950019520 (b'x'): 7
-                     93841948646880 (b'length'): 7
-            93841950707064 (b'\n   ...): 4
-               93841950580368 (b'ans +...): 5
-                  93841950598304 (b'ans'): 6
-                  93841950580160 (b'x[i] ...): 6
-                     93841950577712 (b'x[i]'): 7
-                        93841950598592 (b'x'): 8
-                        93841950576336 (b'i'): 8
-                     93841950579760 (b'y[i]'): 7
-                        93841950578096 (b'y'): 8
-                        93841950578384 (b'i'): 8
-         93841950708752 (b'retur...): 3
-            93841950708648 (b'ans'): 4
-               93841950707968 (b'ans'): 5
+
+node_depth: [0, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 3, 4, 5, 1, 2, 2, 2, 3, 4, 5, 1, 2, 2, 3, 3, 2, 3, 4, 4, 3, 4, 4, 5, 6, 6, 7, 7, 4, 5, 6, 6, 7, 8, 8, 7, 8, 8, 3, 4, 5]
+
 --------------------------------------------------
-Tree depth: 8
+
+tree_depth: [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8]
+
 --------------------------------------------------
-Num words: 56
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 38, None, None, None, None, None, None, 72, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 39, None, None, 58, None, None, 62, None, None, None, 77]
+
 --------------------------------------------------
-Defs/Usgs:
-   func_defs:
-      f ((5, 4):(5, 5))
-      dp ((13, 4):(13, 6))
-      f ((9, 4):(9, 5))
-   func_calls:
-      length ((15, 19):(15, 25))
-      x ((15, 17):(15, 18))
-   var_defs:
-      x ((13, 7):(13, 8))
-      ans ((14, 4):(14, 7))
-      x ((0, 0):(0, 1))
-      $x ((3, 0):(3, 2))
-      @@x ((2, 0):(2, 3))
-      @x ((1, 0):(1, 2))
-      y ((13, 10):(13, 11))
-   var_usgs:
-      x ((16, 15):(16, 16))
-      ans ((16, 8):(16, 11))
-      y ((16, 22):(16, 23))
-      x ((10, 11):(10, 12))
-      ans ((18, 11):(18, 14))
-      @x ((6, 11):(6, 13))
-      i ((16, 17):(16, 18))
-      i ((16, 24):(16, 25))
-      i ((15, 8):(15, 9))
+
+node_type: [159, 278, 1, 110, 278, 122, 110, 278, 123, 110, 278, 124, 110, 165, 1, 251, 187, 268, 122, 165, 1, 171, 251, 187, 268, 1, 165, 1, 171, 1, 1, 251, 278, 1, 110, 204, 1, 205, 283, 110, 263, 1, 1, 206, 280, 1, 284, 261, 1, 1, 261, 1, 1, 187, 268, 1]
+
 --------------------------------------------------
-Closest def for each usage:
-   x ((16, 15):(16, 16): x ((0, 0):(0, 1)
-   ans ((16, 8):(16, 11): ans ((14, 4):(14, 7)
-   y ((16, 22):(16, 23): y ((13, 10):(13, 11)
-   x ((10, 11):(10, 12): x ((0, 0):(0, 1)
-   ans ((18, 11):(18, 14): ans ((14, 4):(14, 7)
-   @x ((6, 11):(6, 13): @x ((1, 0):(1, 2)
+
+num_nodes_input: [56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56]

@@ -1,100 +1,53 @@
-Node id : 94314230832064, Node type: module, Node sexp: (module (function_definition name: (identifier) parameters: (parameters (identifier) (identifier)) body: (block (expression_statement (assignment left: (identifier) right: (integer))) (for_statement left: (identifier) right: (call function: (identifier) arguments: (argument_list (call function: (identifier) arguments: (argument_list (identifier))))) body: (block (expression_statement (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier))))))) (return_statement (identifier))))), Node text: def dp(...
-  Node id : 94314231340336, Node type: function_definition, Node sexp: (function_definition name: (identifier) parameters: (parameters (identifier) (identifier)) body: (block (expression_statement (assignment left: (identifier) right: (integer))) (for_statement left: (identifier) right: (call function: (identifier) arguments: (argument_list (call function: (identifier) arguments: (argument_list (identifier))))) body: (block (expression_statement (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier))))))) (return_statement (identifier)))), Node text: def dp(...
-    Node id : 94314231340104, Node type: identifier, Node sexp: (identifier), Node text: dp
-    Node id : 94314231340112, Node type: parameters, Node sexp: (parameters (identifier) (identifier)), Node text: (x, y)
-      Node id : 94314231178032, Node type: identifier, Node sexp: (identifier), Node text: x
-      Node id : 94314232250320, Node type: identifier, Node sexp: (identifier), Node text: y
-    Node id : 94314231340136, Node type: block, Node sexp: (block (expression_statement (assignment left: (identifier) right: (integer))) (for_statement left: (identifier) right: (call function: (identifier) arguments: (argument_list (call function: (identifier) arguments: (argument_list (identifier))))) body: (block (expression_statement (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier))))))) (return_statement (identifier))), Node text: ans = 0...
-      Node id : 94314231365600, Node type: expression_statement, Node sexp: (expression_statement (assignment left: (identifier) right: (integer))), Node text: ans = 0
-        Node id : 94314231302000, Node type: assignment, Node sexp: (assignment left: (identifier) right: (integer)), Node text: ans = 0
-          Node id : 94314230868128, Node type: identifier, Node sexp: (identifier), Node text: ans
-          Node id : 94314231844784, Node type: integer, Node sexp: (integer), Node text: 0
-      Node id : 94314231791272, Node type: for_statement, Node sexp: (for_statement left: (identifier) right: (call function: (identifier) arguments: (argument_list (call function: (identifier) arguments: (argument_list (identifier))))) body: (block (expression_statement (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier))))))), Node text: for i i...
-        Node id : 94314231365712, Node type: identifier, Node sexp: (identifier), Node text: i
-        Node id : 94314231555392, Node type: call, Node sexp: (call function: (identifier) arguments: (argument_list (call function: (identifier) arguments: (argument_list (identifier))))), Node text: range(l...
-          Node id : 94314232684720, Node type: identifier, Node sexp: (identifier), Node text: range
-          Node id : 94314231555288, Node type: argument_list, Node sexp: (argument_list (call function: (identifier) arguments: (argument_list (identifier)))), Node text: (len(x))
-            Node id : 94314231911824, Node type: call, Node sexp: (call function: (identifier) arguments: (argument_list (identifier))), Node text: len(x)
-              Node id : 94314232684816, Node type: identifier, Node sexp: (identifier), Node text: len
-              Node id : 94314232202024, Node type: argument_list, Node sexp: (argument_list (identifier)), Node text: (x)
-                Node id : 94314231911632, Node type: identifier, Node sexp: (identifier), Node text: x
-        Node id : 94314231791168, Node type: block, Node sexp: (block (expression_statement (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier)))))), Node text: ans += ...
-          Node id : 94314230673392, Node type: expression_statement, Node sexp: (expression_statement (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier))))), Node text: ans += ...
-            Node id : 94314232757744, Node type: augmented_assignment, Node sexp: (augmented_assignment left: (identifier) right: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier)))), Node text: ans += ...
-              Node id : 94314232285744, Node type: identifier, Node sexp: (identifier), Node text: ans
-              Node id : 94314232724224, Node type: binary_operator, Node sexp: (binary_operator left: (subscript value: (identifier) subscript: (identifier)) right: (subscript value: (identifier) subscript: (identifier))), Node text: x[i] * ...
-                Node id : 94314231328464, Node type: subscript, Node sexp: (subscript value: (identifier) subscript: (identifier)), Node text: x[i]
-                  Node id : 94314232285840, Node type: identifier, Node sexp: (identifier), Node text: x
-                  Node id : 94314231254224, Node type: identifier, Node sexp: (identifier), Node text: i
-                Node id : 94314232283968, Node type: subscript, Node sexp: (subscript value: (identifier) subscript: (identifier)), Node text: y[i]
-                  Node id : 94314231254320, Node type: identifier, Node sexp: (identifier), Node text: y
-                  Node id : 94314231254416, Node type: identifier, Node sexp: (identifier), Node text: i
-      Node id : 94314231255392, Node type: return_statement, Node sexp: (return_statement (identifier)), Node text: return ...
-        Node id : 94314230673616, Node type: identifier, Node sexp: (identifier), Node text: ans
+Node type: module, Node.text: def dp(x, y):\n  ...
+  Node type: function_definition, Node.text: def dp(x, y):\n  ...
+    Node type: identifier, Node.text: dp
+    Node type: parameters, Node.text: (x, y)
+      Node type: identifier, Node.text: x
+      Node type: identifier, Node.text: y
+    Node type: block, Node.text: ans = 0\n    for ...
+      Node type: expression_statement, Node.text: ans = 0
+        Node type: assignment, Node.text: ans = 0
+          Node type: identifier, Node.text: ans
+          Node type: integer, Node.text: 0
+      Node type: for_statement, Node.text: for i in range(le...
+        Node type: identifier, Node.text: i
+        Node type: call, Node.text: range(len(x))
+          Node type: identifier, Node.text: range
+          Node type: argument_list, Node.text: (len(x))
+            Node type: call, Node.text: len(x)
+              Node type: identifier, Node.text: len
+              Node type: argument_list, Node.text: (x)
+                Node type: identifier, Node.text: x
+        Node type: block, Node.text: ans += x[i] * y[i]
+          Node type: expression_statement, Node.text: ans += x[i] * y[i]
+            Node type: augmented_assignment, Node.text: ans += x[i] * y[i]
+              Node type: identifier, Node.text: ans
+              Node type: binary_operator, Node.text: x[i] * y[i]
+                Node type: subscript, Node.text: x[i]
+                  Node type: identifier, Node.text: x
+                  Node type: identifier, Node.text: i
+                Node type: subscript, Node.text: y[i]
+                  Node type: identifier, Node.text: y
+                  Node type: identifier, Node.text: i
+      Node type: return_statement, Node.text: return ans
+        Node type: identifier, Node.text: ans
 
 --------------------------------------------------
-Word depths:
-94314230832064 (b'def d...): 0
-   94314231340336 (b'def d...): 1
-      94314231340104 (b'dp'): 2
-      94314231340112 (b'(x, y)'): 2
-         94314231178032 (b'x'): 3
-         94314232250320 (b'y'): 3
-      94314231340136 (b'ans =...): 2
-         94314231365600 (b'ans =...): 3
-            94314231302000 (b'ans =...): 4
-               94314230868128 (b'ans'): 5
-               94314231844784 (b'0'): 5
-         94314231791272 (b'for i...): 3
-            94314231365712 (b'i'): 4
-            94314231555392 (b'range...): 4
-               94314232684720 (b'range'): 5
-               94314231555288 (b'(len(...): 5
-                  94314231911824 (b'len(x)'): 6
-                     94314232684816 (b'len'): 7
-                     94314232202024 (b'(x)'): 7
-                        94314231911632 (b'x'): 8
-            94314231791168 (b'ans +...): 4
-               94314230673392 (b'ans +...): 5
-                  94314232757744 (b'ans +...): 6
-                     94314232285744 (b'ans'): 7
-                     94314232724224 (b'x[i] ...): 7
-                        94314231328464 (b'x[i]'): 8
-                           94314232285840 (b'x'): 9
-                           94314231254224 (b'i'): 9
-                        94314232283968 (b'y[i]'): 8
-                           94314231254320 (b'y'): 9
-                           94314231254416 (b'i'): 9
-         94314231255392 (b'retur...): 3
-            94314230673616 (b'ans'): 4
+
+node_depth: [0, 1, 2, 2, 3, 3, 2, 3, 4, 5, 5, 3, 4, 4, 5, 5, 6, 7, 7, 8, 4, 5, 6, 7, 7, 8, 9, 9, 8, 9, 9, 3, 4]
+
 --------------------------------------------------
-Tree depth: 9
+
+tree_depth: [0, 1, 2, 2, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6, 7, 7, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9]
+
 --------------------------------------------------
-Num words: 33
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 41, None, None, None, 41, None, None, 61, None, None, 65, None, None, 71]
+
 --------------------------------------------------
-Defs/Usgs:
-   func_defs:
-      dp ((0, 4):(0, 6))
-   func_calls:
-      len ((2, 19):(2, 22))
-      range ((2, 13):(2, 18))
-   var_defs:
-      y ((0, 10):(0, 11))
-      x ((0, 7):(0, 8))
-      ans ((1, 4):(1, 7))
-   var_usgs:
-      ans ((4, 11):(4, 14))
-      ans ((3, 8):(3, 11))
-      x ((2, 23):(2, 24))
-      i ((2, 8):(2, 9))
-      y ((3, 22):(3, 23))
-      x ((3, 15):(3, 16))
-      i ((3, 17):(3, 18))
-      i ((3, 24):(3, 25))
+
+node_type: [108, 146, 1, 147, 1, 1, 161, 122, 197, 1, 93, 137, 1, 205, 1, 158, 205, 1, 158, 1, 161, 122, 198, 1, 192, 203, 1, 1, 203, 1, 1, 125, 1]
+
 --------------------------------------------------
-Closest def for each usage:
-   ans ((4, 11):(4, 14): ans ((1, 4):(1, 7)
-   ans ((3, 8):(3, 11): ans ((1, 4):(1, 7)
-   x ((2, 23):(2, 24): x ((0, 7):(0, 8)
-   y ((3, 22):(3, 23): y ((0, 10):(0, 11)
-   x ((3, 15):(3, 16): x ((0, 7):(0, 8)
+
+num_nodes_input: [33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33]
