@@ -200,7 +200,8 @@ def get_features(
     node_depths: dict[Node, int] = {}
     _traverse_get_depths(tree.root_node, node_depths, 0)
 
-    with open("ast_feature_paths.json", "r") as paths_file:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(current_dir, "ast_feature_paths.json"), "r") as paths_file:
         paths = json.load(paths_file)
     funcs_and_vars_dict = _query_get_funcs_and_vars(tree.root_node, lang, paths)
     (func_distances, var_distances) = _get_distances(funcs_and_vars_dict)

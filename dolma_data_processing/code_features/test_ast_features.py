@@ -32,6 +32,9 @@ def test_ast_features():
     test_code_dir = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "ast_testing/test_code"
     )
+    output_dir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "ast_testing/output"
+    )
     for lang_name in os.listdir(test_code_dir):
         print(f"Testing ast_features on {lang_name}...")
 
@@ -45,7 +48,7 @@ def test_ast_features():
         except Exception as e:
             print(f"Error ocurred while getting language for {lang_name}: {e}")
 
-        with open(f"ast_testing/test_code/{lang_name}", "r") as input_file:
+        with open(f"{test_code_dir}/{lang_name}", "r") as input_file:
             code = input_file.read()
         tree = parser.parse(bytes(code, "utf-8"))
         feature_dict = get_features(code, lang, parser)
@@ -55,7 +58,7 @@ def test_ast_features():
             output_string += "\n" + "-" * 50 + "\n"
             output_string += f"\n{key}: {feature_dict[key]}\n"
 
-        with open(f"ast_testing/output/{lang_name}", "w") as output_file:
+        with open(f"{output_dir}/{lang_name}", "w") as output_file:
             output_file.write(output_string)
 
 
