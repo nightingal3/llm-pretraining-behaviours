@@ -26,3 +26,9 @@ The AST paths are included for the top ~80% of languages in the stack-code domai
 `test_ast_features.py` runs `ast_features.py`'s `get_features` function on the files in `ast_testing`/`test_code`. The output ASTs and features are in `ast_testing/output`.
 
 Run the tests with `python3 test_ast_features.py`.
+
+### Dependencies
+
+Pip install:
+- [py-tree-sitter](https://github.com/tree-sitter/py-tree-sitter)
+- [py-tree-sitter-languages](https://github.com/grantjenks/py-tree-sitter-languages)
