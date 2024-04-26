@@ -252,7 +252,7 @@ def process_dataset_scores(input_file: str, ds_value: dict, n_shots: int = -1):
             if n_shots == -1:
                 avail_shots = list(ds_value[dataset].keys())
                 for n_s in avail_shots:
-                    n_shots_tmp = int(n_s.split("-")[0])
+                    n_shots_tmp = n_s.split("-")[0]
                     new_key = f"{dataset}_{n_shots_tmp}-shot"
                     extracted_features[new_key] = ds_value[dataset][
                         f"{n_shots_tmp}-shot"
