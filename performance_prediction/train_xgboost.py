@@ -28,16 +28,20 @@ def train_regressor(
     lr=0.1,
     max_depth=10,
     n_estimators=100,
+    missing_val=-1,
     **kwargs,
 ):
     print(
         f"Training a {regressor} model with training data of shape {train_feats.shape}."
     )
+
     reg = xgb.XGBRegressor(
         objective="reg:squarederror",
         learning_rate=lr,
         max_depth=max_depth,
         n_estimators=n_estimators,
+        enable_categorical=True,
+        missing=missing_val,
     )
 
     fit_regressor(reg, train_feats, train_labels)
@@ -62,10 +66,14 @@ def preprocess_data(data):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--train_feats",
+        "--model_feats",
         type=str,
-        help="The path to the CSV file containing the training features",
-        required=True,
+        help="The path to the CSV file containing the training features related to models.",
+    )
+    parser.add_argument(
+        "--data_feats",
+        type=str,
+        help="The path to the CSV file containing the training features related to datasets.",
     )
     parser.add_argument(
         "--train_labels",
@@ -107,7 +115,7 @@ if __name__ == "__main__":
         "--missing_val",
         type=float,
         help="The value used for missing data in features",
-        default=None,
+        default=-1,
     )
     parser.add_argument(
         "--interpret_plot",
@@ -116,16 +124,13 @@ if __name__ == "__main__":
         default="shap",
         help="whether to plot feature importance using SHAP or other methods",
     )
-    parser.add_argument(
-        "--missing_val",
-        type=float,
-        help="The value used for missing data in features",
-        default=None,
-    )
+
     args = parser.parse_args()
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
     assert args.max_depth > 0, "Max depth must be greater than 0"
+    if not (args.model_feats or args.data_feats):
+        raise ValueError("Please provide either model_feats or data_feats")
 
     categorical_variables = [
         "activation",
@@ -134,17 +139,26 @@ if __name__ == "__main__":
         "biases",
         "block_type",
         "layer_norm_type",
+        "is_instruction_tuned",
     ]
 
     # Load the CSV files into pandas DataFrames
     training_scores = pd.read_csv(args.train_labels)
-    arch_metadata = pd.read_csv(args.train_feats)
+
+    if args.model_feats and args.data_feats:
+        arch_metadata = pd.read_csv(args.model_feats)
+        data_metadata = pd.read_csv(args.data_feats)
+        metadata_feats = pd.merge(arch_metadata, data_metadata, on="id")
+    elif args.model_feats:
+        metadata_feats = pd.read_csv(args.model_feats)
+    else:
+        metadata_feats = pd.read_csv(args.data_feats)
 
     cols_from_results = set(training_scores.columns) - {"model_name", "id"}
     # Merge the DataFrames based on 'model_name' and 'id', dropping entries without matches
     dataset = pd.merge(
         training_scores,
-        arch_metadata,
+        metadata_feats,
         how="inner",
         left_on="model_name",
         right_on="id",
@@ -155,14 +169,21 @@ if __name__ == "__main__":
 
     dataset = dataset.drop(columns=["assigned person", "notes"])
 
+    # ordinal encode
+    dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
+        {True: 1, False: 0, np.nan: -1}
+    )
+
+    for var in categorical_variables:
+        dataset[var] = dataset[var].astype("category")
+
+    enc = OrdinalEncoder()
+    dataset[categorical_variables] = enc.fit_transform(dataset[categorical_variables])
+
     trainset = preprocess_data(dataset)
 
     feats = trainset.drop(columns=cols_from_results, errors="ignore")
     labels = trainset[args.y_col]
-
-    # ordinal encode
-    enc = OrdinalEncoder()
-    dataset[categorical_variables] = enc.fit_transform(dataset[categorical_variables])
 
     train_feats, test_feats, train_labels, test_labels = train_test_split(
         feats, labels, test_size=0.2, random_state=42
@@ -173,13 +194,14 @@ if __name__ == "__main__":
             f"Number of trees ({args.n_estimators}) is greater than the number of training samples ({len(train_feats)}). You will likely overfit."
         )
 
+    breakpoint()
     model = train_regressor(
         train_feats,
         train_labels,
         lr=args.lr,
         max_depth=args.max_depth,
         n_estimators=args.n_estimators,
-        missing=args.missing_val,
+        missing_val=args.missing_val,
     )
 
     test_predictions = model.predict(test_feats, output_margin=True)

@@ -39,14 +39,33 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
         json_data (dict): The JSON data to extract features from.
         features (list): The list of features to extract.
     """
-    if "training_stages" not in json_model_data:
+    if "training_stages" not in json_model_data and "base_model" not in json_model_data:
         # Dataset not documented
         return {"id": json_model_data["id"]}
+
+    all_stages_info = None
+
+    if "base_model" in json_model_data:
+        # extract from the base model
+        base_model_file = json_model_data["base_model"]
+        if not (os.path.exists(base_model_file) and os.path.isfile(base_model_file)):
+            # search for the dataset within the metadata/dataset_metadata directory
+            base_model_file = os.path.join(
+                "./metadata/dataset_metadata",
+                f"{base_model_file}.json",
+            )
+            if not os.path.exists(base_model_file):
+                # Dataset not found
+                return {}
+        with open(base_model_file, "r") as file:
+            base_model_json = json.load(file)
+
+        all_stages_info = extract_features_from_json(base_model_json, features)
 
     dataset_files = {
         stage["name"]: stage["data"] for stage in json_model_data["training_stages"]
     }
-    all_stages_info = defaultdict(int)
+    all_stages_info = defaultdict(int) if all_stages_info is None else all_stages_info
 
     # other features not in config - may revisit
     all_stages_info["id"] = json_model_data["id"]
