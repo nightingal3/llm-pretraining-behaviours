@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "falcon_refinedweb",
-            "doc_type": "web",
+            "doc_type": ["web"],
             "data_size_gb": -1,
             "documents": -1,
             "tokens_billions": 5000

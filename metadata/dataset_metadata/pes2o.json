@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "pes2o",
-            "doc_type": "academic_papers/sciences",
+            "doc_type": ["academic_papers", "sciences"],
             "data_size_gb": 268,
             "documents": 38800000,
             "tokens_billions": 57
