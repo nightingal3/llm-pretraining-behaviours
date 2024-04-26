@@ -115,6 +115,7 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
     """
 
     all_stages_info = defaultdict(int)
+    all_stages_info["id"] = json_model_data["id"]
 
     # add data from a base model if specified
     if "base_model" in json_model_data:
@@ -181,8 +182,12 @@ def main(
         if not os.path.isfile(input_file_path):
             continue
 
-        with open(input_file_path, "r") as file:
-            json_data = json.load(file)
+        try:
+            with open(input_file_path, "r") as file:
+                json_data = json.load(file)
+        except:
+            print(f"Error reading {input_file_path}")
+            continue
 
         # the processing is pretty different between scores and model/dataset features, so separating them
         if type_selection == "score":

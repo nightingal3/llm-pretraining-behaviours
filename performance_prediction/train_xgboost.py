@@ -139,7 +139,6 @@ if __name__ == "__main__":
         "biases",
         "block_type",
         "layer_norm_type",
-        "is_instruction_tuned",
     ]
 
     # Load the CSV files into pandas DataFrames
@@ -170,9 +169,10 @@ if __name__ == "__main__":
     dataset = dataset.drop(columns=["assigned person", "notes"])
 
     # ordinal encode
-    dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
-        {True: 1, False: 0, np.nan: -1}
-    )
+    if "is_instruction_tuned" in dataset.columns:
+        dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
+            {True: 1, False: 0, np.nan: -1}
+        )
 
     for var in categorical_variables:
         dataset[var] = dataset[var].astype("category")
@@ -194,7 +194,6 @@ if __name__ == "__main__":
             f"Number of trees ({args.n_estimators}) is greater than the number of training samples ({len(train_feats)}). You will likely overfit."
         )
 
-    breakpoint()
     model = train_regressor(
         train_feats,
         train_labels,
