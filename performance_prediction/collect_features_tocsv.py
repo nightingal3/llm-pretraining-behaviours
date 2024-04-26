@@ -3,6 +3,66 @@ import os
 import json
 import pandas as pd
 from collections import defaultdict
+from typing import Any
+
+
+def search_for_file(filename: str, data_type: str = "model") -> str:
+    """
+    Search for a file in the metadata directory. Returns the proper path of the file if found.
+
+    Args:
+        filename (str): The name of the file to search for.
+        data_type (str): The type of data to search for. Either "model" or "dataset".
+    Returns:
+        str: The path of the file if found. Else ""
+    """
+    if data_type == "model":
+        data_dir = "./metadata/model_metadata"
+    elif data_type == "dataset":
+        data_dir = "./metadata/dataset_metadata"
+    else:
+        raise ValueError("data_type must be either 'model' or 'dataset'")
+
+    full_path = os.path.join(data_dir, filename)
+    if not full_path.endswith(".json"):
+        full_path += ".json"
+
+    if os.path.exists(full_path) and os.path.isfile(full_path):
+        return full_path
+
+    for file in os.listdir(data_dir):
+        curr_path = os.path.join(data_dir, file)
+        if f"{filename}.json" == file:
+            return curr_path
+    return ""
+
+
+def get_dataset_info(filename: str) -> dict:
+    """Returns json data from a dataset file."""
+    with open(filename, "r") as file:
+        return json.load(file)
+
+
+def combine_stage_info(
+    stage_info: list, property: str = "summary:total_size_tokens_billions"
+) -> Any:
+    """
+    Combine the properties (currently just total tokens) from each stage of the training process.
+    Returns stage_info with the additional properties total_<property> for each property.
+    Args:
+        stage_info (list): The list of stages to combine.
+        property (str): The property to combine.
+
+    Returns:
+        Any: The combined property.
+    """
+    total = 0
+    for key, value in stage_info.items():
+        if property in key:
+            total += value
+
+    stage_info[f"total_{property}"] = total
+    return stage_info
 
 
 def extract_features_from_json(json_data: dict, features: list) -> dict:
@@ -29,6 +89,20 @@ def extract_features_from_json(json_data: dict, features: list) -> dict:
     return extracted_features
 
 
+def extract_data_from_training_stages(model_data: dict, features: list):
+    extracted_data = defaultdict(int)
+
+    for stage in model_data.get("training_stages", []):
+        dataset_file = search_for_file(stage["data"], "dataset")
+        if dataset_file != "":
+            dataset_info = get_dataset_info(dataset_file)
+            extracted_features = extract_features_from_json(dataset_info, features)
+            for feature, value in extracted_features.items():
+                extracted_data[f"{stage['name']}_{feature}"] += value
+
+    return extracted_data
+
+
 def extract_features_from_json_dataset(json_model_data: dict, features: list) -> dict:
     """
     Extract features from JSON. Follows pointers from a model's training data to corresponding files in
@@ -39,61 +113,24 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
         json_data (dict): The JSON data to extract features from.
         features (list): The list of features to extract.
     """
-    if "training_stages" not in json_model_data and "base_model" not in json_model_data:
-        # Dataset not documented
-        return {"id": json_model_data["id"]}
 
-    all_stages_info = None
+    all_stages_info = defaultdict(int)
 
+    # add data from a base model if specified
     if "base_model" in json_model_data:
-        # extract from the base model
-        base_model_file = json_model_data["base_model"]
-        if not (os.path.exists(base_model_file) and os.path.isfile(base_model_file)):
-            # search for the dataset within the metadata/dataset_metadata directory
-            base_model_file = os.path.join(
-                "./metadata/dataset_metadata",
-                f"{base_model_file}.json",
-            )
-            if not os.path.exists(base_model_file):
-                # Dataset not found
-                return {}
-        with open(base_model_file, "r") as file:
-            base_model_json = json.load(file)
+        base_model_file = search_for_file(json_model_data["base_model"], "model")
+        if base_model_file != "":
+            base_model_data = get_dataset_info(base_model_file)
+            base_data = extract_data_from_training_stages(base_model_data, features)
+            all_stages_info.update(base_data)
 
-        all_stages_info = extract_features_from_json(base_model_json, features)
+    # add data from the current model
+    curr_data = extract_data_from_training_stages(json_model_data, features)
+    all_stages_info.update(curr_data)
 
-    dataset_files = {
-        stage["name"]: stage["data"] for stage in json_model_data["training_stages"]
-    }
-    all_stages_info = defaultdict(int) if all_stages_info is None else all_stages_info
-
-    # other features not in config - may revisit
-    all_stages_info["id"] = json_model_data["id"]
-    all_stages_info["is_instruction_tuned"] = "instruction" in dataset_files
-
-    for stage_name, dataset_file in dataset_files.items():
-        if not (os.path.exists(dataset_file) and os.path.isfile(dataset_file)):
-            # search for the dataset within the metadata/dataset_metadata directory
-            dataset_file = os.path.join(
-                "./metadata/dataset_metadata",
-                f"{dataset_file}.json",
-            )
-            if not os.path.exists(dataset_file):
-                # Dataset not found
-                return {}
-
-        with open(dataset_file, "r") as file:
-            dataset_json = json.load(file)
-
-        extracted_data_features = extract_features_from_json(dataset_json, features)
-
-        # TODO: we need some handling of the inherited/nested features. This format will only really work for total tokens/similar
-        for feature, value in extracted_data_features.items():
-            all_stages_info[f"total_{feature}"] += value
-
-        for feature, value in extracted_data_features.items():
-            modified_key = f"{stage_name}_{feature}"
-            all_stages_info[modified_key] = value
+    all_stages_info = combine_stage_info(
+        all_stages_info,
+    )
 
     return all_stages_info
 
