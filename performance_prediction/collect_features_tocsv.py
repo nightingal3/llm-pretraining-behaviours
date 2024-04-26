@@ -171,11 +171,15 @@ def main(
 ):
     with open(config_path, "r") as config_file:
         config = json.load(config_file)
-    features_to_extract = config[type_selection]
+
+    if type_selection != "score":
+        features_to_extract = config[type_selection]
 
     extracted_features_all = []
     for input_file in os.listdir(input_dir):
         input_file_path = os.path.join(input_dir, input_file)
+        if not os.path.isfile(input_file_path):
+            continue
 
         with open(input_file_path, "r") as file:
             json_data = json.load(file)
