@@ -40,7 +40,7 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
     """
     if "training_stages" not in json_model_data:
         # Dataset not documented
-        return {}
+        return {"id": json_model_data["id"]}
 
     dataset_files = {
         stage["name"]: stage["data"] for stage in json_model_data["training_stages"]
@@ -48,6 +48,7 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
     all_stages_info = {}
 
     # other features not in config - may revisit
+    all_stages_info["id"] = json_model_data["id"]
     all_stages_info["is_instruction_tuned"] = "instruction" in dataset_files
 
     for stage_name, dataset_file in dataset_files.items():
