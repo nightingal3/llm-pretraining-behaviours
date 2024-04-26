@@ -2,6 +2,7 @@ import argparse
 import os
 import json
 import pandas as pd
+from collections import defaultdict
 
 
 def extract_features_from_json(json_data: dict, features: list) -> dict:
@@ -45,7 +46,7 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
     dataset_files = {
         stage["name"]: stage["data"] for stage in json_model_data["training_stages"]
     }
-    all_stages_info = {}
+    all_stages_info = defaultdict(int)
 
     # other features not in config - may revisit
     all_stages_info["id"] = json_model_data["id"]
@@ -66,6 +67,11 @@ def extract_features_from_json_dataset(json_model_data: dict, features: list) ->
             dataset_json = json.load(file)
 
         extracted_data_features = extract_features_from_json(dataset_json, features)
+
+        # TODO: we need some handling of the inherited/nested features. This format will only really work for total tokens/similar
+        for feature, value in extracted_data_features.items():
+            all_stages_info[f"total_{feature}"] += value
+
         for feature, value in extracted_data_features.items():
             modified_key = f"{stage_name}_{feature}"
             all_stages_info[modified_key] = value
