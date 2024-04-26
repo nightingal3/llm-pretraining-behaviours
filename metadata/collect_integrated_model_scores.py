@@ -6,8 +6,28 @@ import torch
 from datetime import datetime
 import json
 import os
+import torch
+from collections import defaultdict
+import os
 
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
+
+task_metric = defaultdict(lambda: "acc")
+task_metric.update(
+    {
+        "minerva_math": "exact_match",
+        "minerva_math_algebra": "exact_match",
+        "minerva_math_counting_and_prob": "exact_match",
+        "minerva_math_geometry": "exact_match",
+        "minerva_math_intermediate_algebra": "exact_match",
+        "minerva_math_num_theory": "exact_match",
+        "minerva_math_prealgebra": "exact_match",
+        "minerva_math_precalc": "exact_match",
+        "gsm8k": "exact_match",
+        "gsm8k_cot": "exact_match",
+        "fld": "exact_match",
+    }
+)
 
 
 def evaluate_with_harness(
@@ -17,26 +37,32 @@ def evaluate_with_harness(
     Evaluate a model on a set of tasks using the eval harness.
     """
 
-    command = """lm_eval --model hf --model_args pretrained={model_name},dtype=float --tasks {task} --device {device} --batch_size 16"""
+    command = """lm_eval --model hf --model_args pretrained={model_name},dtype=float --tasks {task} --device {device} --batch_size auto:4 --log_samples --output {output_dir}"""
     new_results = {}
     # note on command: the 'auto' setting for batch size mysteriously causes some tasks to fail
     # setting it to a conservative value that should work in most cases
     for task in tasks:
-        print(task)
+        output_dir = os.path.join(
+            output_filepath, "logits", model_name.replace("/", "_"), task
+        )
+        print(f"Evaluating {task}")
+
         try:
             command_task = command.format(
-                model_name=model_name, task=task, device=DEVICE
+                model_name=model_name, task=task, device=DEVICE, output_dir=output_dir
             )
+
             result = subprocess.run(
                 command_task.split(" "),
                 check=True,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
                 text=True,
             )
-            parsed_results = parse_harness_results(result.stdout, task, "acc")
+            metric = task_metric[task]
+            parsed_results = parse_harness_results(result.stdout, task, metric)
             if parsed_results != {}:  # TODO: how to get num examples
                 new_results[task] = {"x-shot": parsed_results}
+
         except:
             print(f"Failed to evaluate {task}")
 
@@ -58,12 +84,12 @@ def parse_harness_results(
     if summary_line:
         try:
             parts = [part.strip() for part in summary_line.split("|")]
-            accuracy = parts[parts.index(metric) + 1]
+            parsed_metric = parts[parts.index(metric) + 1]
             stderr = parts[parts.index("±") + 1]
-            print(f"Final Accuracy: {accuracy}, Stderr: {stderr}")
+            print(f"Final Metric: {parsed_metric}, Stderr: {stderr}")
             return {
-                "acc": accuracy,
-                "acc_stderr": stderr,
+                metric: float(parsed_metric),
+                "acc_stderr": float(stderr),
                 "timestamp": str(datetime.now()),
             }
         except:

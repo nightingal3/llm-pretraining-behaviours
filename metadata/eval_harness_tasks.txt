@@ -2,7 +2,6 @@ arithmetic
 asdiv
 gsm8k
 gsm8k_cot
-gsm8k_cot_zeroshot
 mathqa
 minerva_math
 minerva_math_algebra
