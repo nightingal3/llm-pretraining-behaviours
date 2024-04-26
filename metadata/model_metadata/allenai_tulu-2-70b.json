@@ -1,0 +1,101 @@
+{
+    "id": "allenai/tulu-2-70b",
+    "author": "allenai",
+    "sha": "be647298930cfc399d984fb36b84261de8bd9ce6",
+    "created_at": "2023-11-13T02:39:38+00:00",
+    "last_modified": "2024-04-19T17:35:09+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 1248,
+    "likes": 8,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "llama",
+        "text-generation",
+        "en",
+        "dataset:allenai/tulu-v2-sft-mixture",
+        "arxiv:2311.10702",
+        "base_model:meta-llama/Llama-2-70b-hf",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": [
+        {
+            "name": "tulu-2-70b",
+            "results": []
+        }
+    ],
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "pad_token": null,
+            "bos_token": {
+                "__type": "AddedToken",
+                "content": "<s>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "eos_token": {
+                "__type": "AddedToken",
+                "content": "</s>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "unk_token": {
+                "__type": "AddedToken",
+                "content": "<unk>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "base_model": "meta-llama/Llama-2-70b-hf",
+    "training_stages": [
+        {
+            "name": "sft",
+            "data": "allenai_tulu-v2-sft-mixture",
+            "batch_instances": 128,
+            "batch_tokens": 140416,
+            "total_tokens_billions": 0.615,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 1.0e-5,
+                    "lr_min": 1.0e-5,
+                    "lr_schedule": "none",
+                    "lr_warmup": 16829,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-5,
+                    "weight_decay": 0.0
+                }
+            }
+        }
+    ]
+}

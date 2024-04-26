@@ -22,7 +22,7 @@
                     "reference", "encyclopedic", "dictionaries", 
                     "academic_papers", "sciences", "humanities",
                     "code", "source_code", "documentation",
-                    "media", "podcasts", "subtitles", "specific_datasets", "unknown"
+                    "media", "podcasts", "subtitles", "specific_datasets", "instruction", "unknown"
                   ]
                 },
                 "uniqueItems": true
