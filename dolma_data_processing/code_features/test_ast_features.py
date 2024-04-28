@@ -1,66 +1,115 @@
+import pytest
 import os
-import warnings
-from ast_features import *
 from tree_sitter_languages import get_language, get_parser
+from ast_features import *
 
 
-def _trunc_str(s: str, maxLen: int = 20):
-    s = s.replace("\n", "\\n")
-    if len(s) < maxLen:
-        return s
-    else:
-        return s[: maxLen - 3] + "..."
-
-
-def _tree_to_string(node: Node, level: int = 0) -> str:
-    indent = "  " * level
-    string = (
-        f"{indent}Node type: {node.type}, Node.text: {_trunc_str(node.text.decode())}\n"
-    )
-    for child in node.named_children:
-        string += _tree_to_string(child, level + 1)
-    return string
-
-
-def test_ast_features():
+def test_get_features_working_code():
     """
-    Runs get_features in ast_features on the test code files in ast_testing/test_code
-    Output tree/features for each file sent to ast_testing/output
+    Tests the features returned by get_features
     """
-    warnings.filterwarnings("ignore")
+
+    input_code = """
+def test_func(x):
+    return x
+a = 1
+a += test_func(a)
+    """
+    node_depths = [0, 1, 2, 2, 3, 2, 3, 4, 1, 2, 3, 3, 1, 2, 3, 3, 4, 4, 5]
+    tree_depths = [0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5]
+    dists_to_defs = [
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        14,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        5,
+        None,
+        29,
+        None,
+        20,
+    ]
+    node_types = [
+        108,
+        146,
+        1,
+        147,
+        1,
+        161,
+        125,
+        1,
+        122,
+        197,
+        1,
+        93,
+        122,
+        198,
+        1,
+        205,
+        1,
+        158,
+        1,
+    ]
+    num_nodes_input = [19] * 19
+
+    features = get_features(input_code, get_language("python"), get_parser("python"))
+
+    assert node_depths == features["node_depth"], "node depths do not match"
+    assert tree_depths == features["tree_depth"], "tree depths do not match"
+    print(features["dist_to_def"])
+    assert (
+        dists_to_defs == features["dist_to_def"]
+    ), "distances between definitions and usages do not match"
+    assert node_types == features["node_type"], "node types do not match"
+    assert (
+        num_nodes_input == features["num_nodes_input"]
+    ), "total number of nodes do not mach"
+
+
+def test_get_features_broken_code():
+    input_code = """
+# this is a comment
+This code is broken!
+    """
+    node_depths = [0, 1, 1, 2, 2, 3, 3, 2]
+    tree_depths = [0, 1, 1, 2, 2, 3, 3, 3]
+    dists_to_defs = [None, None, None, None, None, None, None, None]
+    node_types = [108, 99, 65535, 1, 194, 1, 1, 65535]
+    num_nodes_input = [8] * 8
+
+    features = get_features(input_code, get_language("python"), get_parser("python"))
+
+    assert node_depths == features["node_depth"], "node depths do not match"
+    assert tree_depths == features["tree_depth"], "tree depths do not match"
+    print(features["dist_to_def"])
+    assert (
+        dists_to_defs == features["dist_to_def"]
+    ), "distances between definitions and usages do not match"
+    assert node_types == features["node_type"], "node types do not match"
+    assert (
+        num_nodes_input == features["num_nodes_input"]
+    ), "total number of nodes do not mach"
+
+
+def test_get_languages():
+    """
+    Tests that tree-sitter-languages can load all the languages we're covering 
+    """
 
     test_code_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "ast_testing/test_code"
+        os.path.dirname(os.path.abspath(__file__)),
+        "ast_testing/test_code"
     )
-    output_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "ast_testing/output"
-    )
+
     for lang_name in os.listdir(test_code_dir):
-        print(f"Testing ast_features on {lang_name}...")
-
-        try:
-            parser = get_parser(lang_name)
-        except Exception as e:
-            print(f"Error ocurred while getting parser for {lang_name}: {e}")
-
-        try:
-            lang = get_language(lang_name)
-        except Exception as e:
-            print(f"Error ocurred while getting language for {lang_name}: {e}")
-
-        with open(f"{test_code_dir}/{lang_name}", "r") as input_file:
-            code = input_file.read()
-        tree = parser.parse(bytes(code, "utf-8"))
-        feature_dict = get_features(code, lang, parser)
-
-        output_string = _tree_to_string(tree.root_node, 0)
-        for key in feature_dict:
-            output_string += "\n" + "-" * 50 + "\n"
-            output_string += f"\n{key}: {feature_dict[key]}\n"
-
-        with open(f"{output_dir}/{lang_name}", "w") as output_file:
-            output_file.write(output_string)
-
-
-if __name__ == "__main__":
-    test_ast_features()
+        language = get_language(lang_name)
+        parser = get_parser(lang_name)

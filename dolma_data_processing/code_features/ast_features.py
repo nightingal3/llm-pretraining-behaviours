@@ -3,7 +3,10 @@ from tree_sitter import Parser, Node, Language, Query
 from typing import Union
 import os
 import sys
+from tree_sitter_languages import get_language, get_parser
 import bisect
+import argparse
+import warnings
 
 
 def _traverse_get_depths(
@@ -38,7 +41,7 @@ def _query_get_funcs_and_vars(
         return queries
 
     # query.captures returns List[Tuple[Node, str]], but we only care about the nodes.
-    # This covnerts List[Tuple[Node, str]] to List[Node].
+    # This converts List[Tuple[Node, str]] to List[Node].
     def _get_nodes(node_str_tuples: list[tuple[Node, str]]) -> set[Node]:
         return set(map(lambda x: x[0], node_str_tuples))
 
@@ -81,9 +84,7 @@ def _query_get_funcs_and_vars(
     # Make a separate query for each way of referencing a variable
     # First, gather all the variable names captured above
     # extract the text of each var_def node, then remove duplicates via list(set(...))
-    var_names = list(
-        set(list(map(lambda node: node.text.decode(), captures["var_defs"])))
-    )
+    var_names = set(map(lambda node: node.text.decode(), captures["var_defs"]))
     # Query for all instances of var_usg_indicator matching a var_name in var_names
     var_usg_queries: list[Query] = []
     for var_name in var_names:
@@ -195,7 +196,10 @@ def get_features(
         "node_type": [],
         "num_nodes_input": [],
     }
-    tree = parser.parse(bytes(input_code, "utf-8"))
+    try:
+        tree = parser.parse(bytes(input_code, "utf-8"))
+    except Exception as e:
+        return {}
     # maps node -> (depth of node, depth of tree at that node)
     node_depths: dict[Node, int] = {}
     _traverse_get_depths(tree.root_node, node_depths, 0)
@@ -222,3 +226,64 @@ def get_features(
     feature_dict["num_nodes_input"] = [len(node_depths)] * len(node_depths)
 
     return feature_dict
+
+
+def trunc_str(s: str, maxLen: int = 20):
+    s = s.replace("\n", "\\n")
+    if len(s) < maxLen:
+        return s
+    else:
+        return s[: maxLen - 3] + "..."
+
+
+def tree_to_string(node: Node, level: int = 0) -> str:
+    indent = "  " * level
+    string = (
+        f"{indent}Node type: {node.type}, Node.text: {trunc_str(node.text.decode())}\n"
+    )
+    for child in node.named_children:
+        string += tree_to_string(child, level + 1)
+    return string
+
+
+if __name__ == "__main__":
+    warnings.filterwarnings("ignore")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--lang", type=str, help="The language to parse", required=True
+    )
+    parser.add_argument(
+        "--input_file", type=str, help="The file to parse", required=True
+    )
+    parser.add_argument("--output_file", type=str, help="Output file", required=True)
+    args = parser.parse_args()
+
+    try:
+        parser = get_parser(args.lang)
+    except Exception as e:
+        print(f"Error occurred while creating parser: {e}")
+        sys.exit()
+
+    try:
+        lang = get_language(args.lang)
+    except Exception as e:
+        print(f"Error occurred while getting language: {e}")
+        sys.exit()
+
+    with open(args.input_file, "r") as file:
+        input_code = file.read()
+
+    try:
+        tree = parser.parse(bytes(input_code, "utf-8"))
+    except Exception as e:
+        print(f"Error occurred while parsing input code: {e}")
+        sys.exit()
+    output_string = tree_to_string(tree.root_node, 0)
+
+    feature_dict = get_features(input_code, lang, parser)
+    for key in feature_dict:
+        output_string += "\n" + "-" * 50 + "\n"
+        output_string += f"\n{key}: {feature_dict[key]}\n"
+    
+    with open(args.output_file, "w")as file:
+        file.write(output_string)

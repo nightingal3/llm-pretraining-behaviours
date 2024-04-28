@@ -1,5 +1,2 @@
-def dp(x, y):
-    ans = 0
-    for i in range(len(x)):
-        ans += x[i] * y[i]
-    return ans
+# this is a comment
+This code is broken!
