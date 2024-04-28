@@ -102,12 +102,11 @@ This code is broken!
 
 def test_get_languages():
     """
-    Tests that tree-sitter-languages can load all the languages we're covering 
+    Tests that tree-sitter-languages can load all the languages we're covering
     """
 
     test_code_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "ast_testing/test_code"
+        os.path.dirname(os.path.abspath(__file__)), "ast_testing/test_code"
     )
 
     for lang_name in os.listdir(test_code_dir):

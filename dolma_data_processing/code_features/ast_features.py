@@ -249,9 +249,7 @@ def tree_to_string(node: Node, level: int = 0) -> str:
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--lang", type=str, help="The language to parse", required=True
-    )
+    parser.add_argument("--lang", type=str, help="The language to parse", required=True)
     parser.add_argument(
         "--input_file", type=str, help="The file to parse", required=True
     )
@@ -284,6 +282,6 @@ if __name__ == "__main__":
     for key in feature_dict:
         output_string += "\n" + "-" * 50 + "\n"
         output_string += f"\n{key}: {feature_dict[key]}\n"
-    
-    with open(args.output_file, "w")as file:
+
+    with open(args.output_file, "w") as file:
         file.write(output_string)
