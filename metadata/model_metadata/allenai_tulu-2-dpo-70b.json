@@ -84,5 +84,6 @@
             "BF16": 68976648192
         },
         "total": 68976648192
-    }
+    },
+    "base_model": "meta-llama/Llama-2-70b-hf"
 }

@@ -1,0 +1,56 @@
+{
+    "domains": [
+        {
+            "name": "slimpyjama-cc",
+            "doc_type": ["web"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 327
+        },
+        {
+            "name": "slimpyjama-c4",
+            "doc_type": ["web"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 167
+        },
+        {
+            "name": "slimpyjama-books",
+            "doc_type": ["books"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 26
+        },
+        {
+            "name": "slimpyjama-arxiv",
+            "doc_type": ["academic_papers", "sciences"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 28
+        },
+        {
+            "name": "slimpyjama-wiki",
+            "doc_type": ["encyclopedic"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 23
+        },
+        {
+            "name": "slimpyjama-stackexchange",
+            "doc_type": ["code", "forums"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 20
+        },
+        {
+            "name": "slimpyjama-github",
+            "doc_type": ["code", "source_code"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 32
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 627
+    }
+}

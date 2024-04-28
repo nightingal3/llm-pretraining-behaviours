@@ -1,0 +1,102 @@
+{
+    "id": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "author": "TinyLlama",
+    "sha": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+    "created_at": "2023-12-30T06:27:30+00:00",
+    "last_modified": "2024-03-17T05:07:08+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 600246,
+    "likes": 921,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "conversational",
+        "en",
+        "dataset:cerebras/SlimPajama-627B",
+        "dataset:bigcode/starcoderdata",
+        "dataset:HuggingFaceH4/ultrachat_200k",
+        "dataset:HuggingFaceH4/ultrafeedback_binarized",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": "<s>",
+            "chat_template": "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'system' %}\n{{ '<|system|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}",
+            "eos_token": "</s>",
+            "pad_token": "</s>",
+            "unk_token": "<unk>",
+            "use_default_system_prompt": false
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 1100048384
+        },
+        "total": 1100048384
+    },
+    "dimension": 2048,
+    "num_heads": 32,
+    "num_layers": 22,
+    "mlp_ratio": 2.75,
+    "intermediate_size": 5632,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "gqa",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 2048, 
+    "batch_instances": 1024,
+    "batch_tokens": 2000000,
+    "weight_tying": false,
+    "total_params": 1100048384,
+    "vocab_size": 32000,
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "tinyllama",
+            "reference": "https://github.com/jzhang38/TinyLlama?tab=readme-ov-file",
+            "batch_instances": 2048,
+            "batch_tokens": 2000000,
+            "total_tokens_billions": 3000,
+            "optimizer": {
+                "type": "adamw",
+                "params": {
+                    "lr": 4e-4,
+                    "lr_schedule": "cosine",
+                    "lr_min": 4e-5,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 0,
+                    "weight_decay": 0.1
+                }
+            }
+        }
+    ]
+}
