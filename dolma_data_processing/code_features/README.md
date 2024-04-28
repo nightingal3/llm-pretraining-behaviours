@@ -23,9 +23,9 @@ The AST paths are included for the top ~80% of languages in the stack-code domai
 
 ## Testing
 
-`test_ast_features.py` runs `ast_features.py`'s `get_features` function on the files in `ast_testing`/`test_code`. The output ASTs and features are in `ast_testing/output`.
+`test_ast_features.py` has unit tests for `ast_features.py` - run with `pytest`.
 
-Run the tests with `python3 test_ast_features.py`.
+`run_ast_features.py` runs `ast_features.py`'s `get_features` function on the files in `ast_testing`/`test_code`. The output ASTs and features are in `ast_testing/output`.
 
 ### Dependencies
 
