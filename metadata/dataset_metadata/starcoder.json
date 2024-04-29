@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "starcoder",
-            "doc_type": "code/source_code",
+            "doc_type": ["code", "source_code"],
             "documents": -1,
             "data_size_gb": 882.0,
             "tokens_billions": 250

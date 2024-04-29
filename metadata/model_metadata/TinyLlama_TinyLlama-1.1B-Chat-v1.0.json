@@ -70,25 +70,23 @@
     "block_type": "sequential",
     "activation": "swiglu",
     "sequence_length": 2048, 
-    "batch_instances": 1024,
-    "batch_tokens": 2000000,
     "weight_tying": false,
-    "total_params": 1100048384,
     "vocab_size": 32000,
     "training_stages": [
         {
             "name": "pretraining",
             "data": "tinyllama",
-            "reference": "https://github.com/jzhang38/TinyLlama?tab=readme-ov-file",
             "batch_instances": 2048,
             "batch_tokens": 2000000,
             "total_tokens_billions": 3000,
+            "reference": "https://github.com/jzhang38/TinyLlama?tab=readme-ov-file",
             "optimizer": {
                 "type": "adamw",
                 "params": {
                     "lr": 4e-4,
                     "lr_schedule": "cosine",
                     "lr_min": 4e-5,
+                    "lr_warmup": 2000,
                     "betas": [
                         0.9,
                         0.95

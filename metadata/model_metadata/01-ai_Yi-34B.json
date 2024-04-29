@@ -59,7 +59,8 @@
             "name": "pretraining",
             "data": "yi_34b_data",
             "total_tokens_billions": 3100,
-            "reference_url": "https://arxiv.org/pdf/2403.04652"
+            "batch_tokens": 4000000,
+            "reference": "https://arxiv.org/pdf/2403.04652"
         }
     ]
 }

@@ -14,7 +14,7 @@
         },
         {
             "name": "yi_papers",
-            "doc_type": ["academic"],
+            "doc_type": ["academic_papers"],
             "data_size_gb": -1,
             "tokens_billions": 152
         },

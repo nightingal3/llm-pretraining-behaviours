@@ -7,7 +7,7 @@
             "file_pointer": "./starcoder.json"
         }
     ],
-    "mix": {
+    "summary": {
         "total_size_tokens_billions": 950,
         "mix": {
             "slimpyjama-627b-no-github": 0.7,

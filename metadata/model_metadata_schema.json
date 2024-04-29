@@ -186,6 +186,10 @@
             "type": "integer",
             "minimum": 1
         },
+        "intermediate_size": {
+            "type": "integer",
+            "minimum": 1
+        },
         "num_heads": {
             "type": "integer",
             "minimum": 1
@@ -264,6 +268,10 @@
         "weight_tying": {
             "type": "boolean"
         },
+        "vocab_size": {
+            "type": "integer",
+            "minimum": 1
+        },
         "training_stages": {
             "type": "array",
             "items": {
@@ -288,13 +296,17 @@
                         "type": "number",
                         "minimum": 0
                     },
+                    "reference": {
+                        "type": "string",
+                        "comment": "Reference to where the information about the model training/dataset was found"
+                    },
                     "optimizer": {
                         "type": "object",
                         "properties": {
                             "type": {
                                 "type": "string",
                                 "enum": [
-                                    "adam"
+                                    "adam", "adamw"
                                 ]
                             },
                             "params": {
@@ -364,10 +376,8 @@
                 "required": [
                     "name",
                     "data",
-                    "batch_instances",
                     "batch_tokens",
-                    "total_tokens_billions",
-                    "optimizer"
+                    "total_tokens_billions"
                 ],
                 "additionalProperties": false
             },
