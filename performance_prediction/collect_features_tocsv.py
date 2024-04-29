@@ -23,6 +23,7 @@ def search_for_file(filename: str, data_type: str = "model") -> str:
     else:
         raise ValueError("data_type must be either 'model' or 'dataset'")
 
+    filename = filename.replace("/", "_")
     full_path = os.path.join(data_dir, filename)
     if not full_path.endswith(".json"):
         full_path += ".json"
