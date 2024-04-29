@@ -246,6 +246,40 @@ def tree_to_string(node: Node, level: int = 0) -> str:
     return string
 
 
+def make_tree_get_features(lang_name, input_file, output_file):
+    try:
+        parser = get_parser(lang_name)
+    except Exception as e:
+        print(f"Error occurred while creating parser: {e}")
+        sys.exit()
+
+    try:
+        lang = get_language(lang_name)
+    except Exception as e:
+        print(f"Error occurred while getting language: {e}")
+        sys.exit()
+
+    with open(input_file, "r") as file:
+        input_code = file.read()
+
+    try:
+        tree = parser.parse(bytes(input_code, "utf-8"))
+    except Exception as e:
+        print(f"Error occurred while parsing input code: {e}")
+        with open(output_file, "w") as file:
+            file.write("{}")
+            return None
+
+    output_string = tree_to_string(tree.root_node, 0)
+
+    feature_dict = get_features(input_code, lang, parser)
+    for key in feature_dict:
+        output_string += "\n" + "-" * 50 + "\n"
+        output_string += f"\n{key}: {feature_dict[key]}\n"
+
+    with open(output_file, "w") as file:
+        file.write(output_string)
+
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser()
@@ -256,32 +290,4 @@ if __name__ == "__main__":
     parser.add_argument("--output_file", type=str, help="Output file", required=True)
     args = parser.parse_args()
 
-    try:
-        parser = get_parser(args.lang)
-    except Exception as e:
-        print(f"Error occurred while creating parser: {e}")
-        sys.exit()
-
-    try:
-        lang = get_language(args.lang)
-    except Exception as e:
-        print(f"Error occurred while getting language: {e}")
-        sys.exit()
-
-    with open(args.input_file, "r") as file:
-        input_code = file.read()
-
-    try:
-        tree = parser.parse(bytes(input_code, "utf-8"))
-    except Exception as e:
-        print(f"Error occurred while parsing input code: {e}")
-        sys.exit()
-    output_string = tree_to_string(tree.root_node, 0)
-
-    feature_dict = get_features(input_code, lang, parser)
-    for key in feature_dict:
-        output_string += "\n" + "-" * 50 + "\n"
-        output_string += f"\n{key}: {feature_dict[key]}\n"
-
-    with open(args.output_file, "w") as file:
-        file.write(output_string)
+    make_tree_get_features(args.lang, args.input_file, args.output_file)
