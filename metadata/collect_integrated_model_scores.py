@@ -37,7 +37,7 @@ def evaluate_with_harness(
     Evaluate a model on a set of tasks using the eval harness.
     """
 
-    command = """lm_eval --model hf --model_args pretrained={model_name},dtype=float --tasks {task} --device {device} --batch_size auto:4 --log_samples --output {output_dir}"""
+    command = """lm_eval --model hf --model_args pretrained={model_name},dtype=float16,trust_remote_code=True --tasks {task} --device {device} --batch_size auto:4 --log_samples --output {output_dir}"""
     new_results = {}
     # note on command: the 'auto' setting for batch size mysteriously causes some tasks to fail
     # setting it to a conservative value that should work in most cases
