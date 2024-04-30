@@ -1,0 +1,17 @@
+{
+    "domains": [
+        {
+            "file_pointer": "./slimpyjama-627b-no-github.json"
+        },
+        {
+            "file_pointer": "./starcoder.json"
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 950,
+        "mix": {
+            "slimpyjama-627b-no-github": 0.7,
+            "starcoder": 0.3
+        }
+    }
+}

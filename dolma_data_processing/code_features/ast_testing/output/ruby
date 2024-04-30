@@ -1,0 +1,76 @@
+Node type: program, Node.text: x = 1\n@x = 2\n@@...
+  Node type: assignment, Node.text: x = 1
+    Node type: identifier, Node.text: x
+    Node type: integer, Node.text: 1
+  Node type: assignment, Node.text: @x = 2
+    Node type: instance_variable, Node.text: @x
+    Node type: integer, Node.text: 2
+  Node type: assignment, Node.text: @@x = 3
+    Node type: class_variable, Node.text: @@x
+    Node type: integer, Node.text: 3
+  Node type: assignment, Node.text: $x = 4
+    Node type: global_variable, Node.text: $x
+    Node type: integer, Node.text: 4
+  Node type: method, Node.text: def f\n    return...
+    Node type: identifier, Node.text: f
+    Node type: body_statement, Node.text: return @x
+      Node type: return, Node.text: return @x
+        Node type: argument_list, Node.text: @x
+          Node type: instance_variable, Node.text: @x
+  Node type: method, Node.text: def f()\n    retu...
+    Node type: identifier, Node.text: f
+    Node type: method_parameters, Node.text: ()
+    Node type: body_statement, Node.text: return x
+      Node type: return, Node.text: return x
+        Node type: argument_list, Node.text: x
+          Node type: identifier, Node.text: x
+  Node type: method, Node.text: def dp(x, y)\n   ...
+    Node type: identifier, Node.text: dp
+    Node type: method_parameters, Node.text: (x, y)
+      Node type: identifier, Node.text: x
+      Node type: identifier, Node.text: y
+    Node type: body_statement, Node.text: ans = 0\n    for ...
+      Node type: assignment, Node.text: ans = 0
+        Node type: identifier, Node.text: ans
+        Node type: integer, Node.text: 0
+      Node type: for, Node.text: for i in 0...x.le...
+        Node type: identifier, Node.text: i
+        Node type: in, Node.text: in 0...x.length
+          Node type: range, Node.text: 0...x.length
+            Node type: integer, Node.text: 0
+            Node type: call, Node.text: x.length
+              Node type: identifier, Node.text: x
+              Node type: identifier, Node.text: length
+        Node type: do, Node.text: \n        ans += ...
+          Node type: operator_assignment, Node.text: ans += x[i] * y[i]
+            Node type: identifier, Node.text: ans
+            Node type: binary, Node.text: x[i] * y[i]
+              Node type: element_reference, Node.text: x[i]
+                Node type: identifier, Node.text: x
+                Node type: identifier, Node.text: i
+              Node type: element_reference, Node.text: y[i]
+                Node type: identifier, Node.text: y
+                Node type: identifier, Node.text: i
+      Node type: return, Node.text: return ans
+        Node type: argument_list, Node.text: ans
+          Node type: identifier, Node.text: ans
+
+--------------------------------------------------
+
+node_depth: [0, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 3, 4, 5, 1, 2, 2, 2, 3, 4, 5, 1, 2, 2, 3, 3, 2, 3, 4, 4, 3, 4, 4, 5, 6, 6, 7, 7, 4, 5, 6, 6, 7, 8, 8, 7, 8, 8, 3, 4, 5]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 38, None, None, None, None, None, None, 72, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 39, None, None, 58, None, None, 62, None, None, None, 77]
+
+--------------------------------------------------
+
+node_type: [159, 278, 1, 110, 278, 122, 110, 278, 123, 110, 278, 124, 110, 165, 1, 251, 187, 268, 122, 165, 1, 171, 251, 187, 268, 1, 165, 1, 171, 1, 1, 251, 278, 1, 110, 204, 1, 205, 283, 110, 263, 1, 1, 206, 280, 1, 284, 261, 1, 1, 261, 1, 1, 187, 268, 1]
+
+--------------------------------------------------
+
+num_nodes_input: [56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56]

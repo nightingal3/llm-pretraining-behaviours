@@ -53,5 +53,14 @@
             "BF16": 34388917248
         },
         "total": 34388917248
-    }
+    },
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "yi_34b_data",
+            "total_tokens_billions": 3100,
+            "batch_tokens": 4000000,
+            "reference": "https://arxiv.org/pdf/2403.04652"
+        }
+    ]
 }

@@ -1,0 +1,91 @@
+Node type: compilation_unit, Node.text: var x : Int = 1\n...
+  Node type: var_definition, Node.text: var x : Int = 1
+    Node type: identifier, Node.text: x
+    Node type: type_identifier, Node.text: Int
+    Node type: integer_literal, Node.text: 1
+  Node type: val_definition, Node.text: val x = 2
+    Node type: identifier, Node.text: x
+    Node type: integer_literal, Node.text: 2
+  Node type: val_definition, Node.text: val (x, y) = Pair...
+    Node type: tuple_pattern, Node.text: (x, y)
+      Node type: identifier, Node.text: x
+      Node type: identifier, Node.text: y
+    Node type: call_expression, Node.text: Pair(1, 2)
+      Node type: identifier, Node.text: Pair
+      Node type: arguments, Node.text: (1, 2)
+        Node type: integer_literal, Node.text: 1
+        Node type: integer_literal, Node.text: 2
+  Node type: function_definition, Node.text: def f () = {\n   ...
+    Node type: identifier, Node.text: f
+    Node type: parameters, Node.text: ()
+    Node type: block, Node.text: {\n    return x\n}
+      Node type: return_expression, Node.text: return x
+        Node type: identifier, Node.text: x
+  Node type: call_expression, Node.text: f()
+    Node type: identifier, Node.text: f
+    Node type: arguments, Node.text: ()
+  Node type: function_definition, Node.text: def dp(x: Array[I...
+    Node type: identifier, Node.text: dp
+    Node type: parameters, Node.text: (x: Array[Int], y...
+      Node type: parameter, Node.text: x: Array[Int]
+        Node type: identifier, Node.text: x
+        Node type: generic_type, Node.text: Array[Int]
+          Node type: type_identifier, Node.text: Array
+          Node type: type_arguments, Node.text: [Int]
+            Node type: type_identifier, Node.text: Int
+      Node type: parameter, Node.text: y: Array[Int]
+        Node type: identifier, Node.text: y
+        Node type: generic_type, Node.text: Array[Int]
+          Node type: type_identifier, Node.text: Array
+          Node type: type_arguments, Node.text: [Int]
+            Node type: type_identifier, Node.text: Int
+    Node type: type_identifier, Node.text: Int
+    Node type: block, Node.text: {\n    var ans = ...
+      Node type: var_definition, Node.text: var ans = 0
+        Node type: identifier, Node.text: ans
+        Node type: integer_literal, Node.text: 0
+      Node type: for_expression, Node.text: for (i <- 0 until...
+        Node type: enumerators, Node.text: i <- 0 until x.le...
+          Node type: enumerator, Node.text: i <- 0 until x.le...
+            Node type: identifier, Node.text: i
+            Node type: infix_expression, Node.text: 0 until x.length
+              Node type: integer_literal, Node.text: 0
+              Node type: identifier, Node.text: until
+              Node type: field_expression, Node.text: x.length
+                Node type: identifier, Node.text: x
+                Node type: identifier, Node.text: length
+        Node type: block, Node.text: {\n        ans +=...
+          Node type: infix_expression, Node.text: ans += x(i) * y(i)
+            Node type: infix_expression, Node.text: ans += x(i)
+              Node type: identifier, Node.text: ans
+              Node type: operator_identifier, Node.text: +=
+              Node type: call_expression, Node.text: x(i)
+                Node type: identifier, Node.text: x
+                Node type: arguments, Node.text: (i)
+                  Node type: identifier, Node.text: i
+            Node type: operator_identifier, Node.text: *
+            Node type: call_expression, Node.text: y(i)
+              Node type: identifier, Node.text: y
+              Node type: arguments, Node.text: (i)
+                Node type: identifier, Node.text: i
+      Node type: identifier, Node.text: ans
+
+--------------------------------------------------
+
+node_depth: [0, 1, 2, 2, 2, 1, 2, 2, 1, 2, 3, 3, 2, 3, 3, 4, 4, 1, 2, 2, 2, 3, 4, 1, 2, 2, 1, 2, 2, 3, 4, 4, 5, 5, 6, 3, 4, 4, 5, 5, 6, 2, 2, 3, 4, 4, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 4, 5, 6, 7, 7, 7, 8, 8, 9, 6, 6, 7, 7, 8, 3]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, 10, -74, None, None, None, None, None, None, None, None, None, None, 54, None, 24, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 76, None, None, None, None, 47, None, None, None, None, None, None, None, None, None, None, 76]
+
+--------------------------------------------------
+
+node_type: [110, 161, 263, 263, 79, 157, 263, 79, 157, 227, 263, 263, 246, 263, 259, 79, 79, 165, 263, 186, 192, 278, 263, 246, 263, 259, 165, 263, 186, 189, 263, 209, 263, 258, 263, 189, 263, 209, 263, 258, 263, 263, 192, 161, 263, 79, 282, 283, 284, 263, 251, 79, 263, 248, 263, 263, 192, 251, 251, 263, 78, 246, 263, 259, 263, 78, 246, 263, 259, 263, 263]
+
+--------------------------------------------------
+
+num_nodes_input: [71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71]

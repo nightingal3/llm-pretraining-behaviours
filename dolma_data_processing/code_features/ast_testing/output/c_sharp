@@ -1,0 +1,125 @@
+Node type: compilation_unit, Node.text: int y = 1;\nconst...
+  Node type: global_statement, Node.text: int y = 1;
+    Node type: local_declaration_statement, Node.text: int y = 1;
+      Node type: variable_declaration, Node.text: int y = 1
+        Node type: predefined_type, Node.text: int
+        Node type: variable_declarator, Node.text: y = 1
+          Node type: identifier, Node.text: y
+          Node type: equals_value_clause, Node.text: = 1
+            Node type: integer_literal, Node.text: 1
+  Node type: global_statement, Node.text: const int x = 2;
+    Node type: local_declaration_statement, Node.text: const int x = 2;
+      Node type: modifier, Node.text: const
+      Node type: variable_declaration, Node.text: int x = 2
+        Node type: predefined_type, Node.text: int
+        Node type: variable_declarator, Node.text: x = 2
+          Node type: identifier, Node.text: x
+          Node type: equals_value_clause, Node.text: = 2
+            Node type: integer_literal, Node.text: 2
+  Node type: global_statement, Node.text: public void f(int...
+    Node type: local_function_statement, Node.text: public void f(int...
+      Node type: modifier, Node.text: public
+      Node type: predefined_type, Node.text: void
+      Node type: identifier, Node.text: f
+      Node type: parameter_list, Node.text: (int a)
+        Node type: parameter, Node.text: int a
+          Node type: predefined_type, Node.text: int
+          Node type: identifier, Node.text: a
+      Node type: block, Node.text: {\n    // do noth...
+        Node type: comment, Node.text: // do nothing
+  Node type: global_statement, Node.text: int x = 5;
+    Node type: local_declaration_statement, Node.text: int x = 5;
+      Node type: variable_declaration, Node.text: int x = 5
+        Node type: predefined_type, Node.text: int
+        Node type: variable_declarator, Node.text: x = 5
+          Node type: identifier, Node.text: x
+          Node type: equals_value_clause, Node.text: = 5
+            Node type: integer_literal, Node.text: 5
+  Node type: global_statement, Node.text: x += 1;
+    Node type: expression_statement, Node.text: x += 1;
+      Node type: assignment_expression, Node.text: x += 1
+        Node type: identifier, Node.text: x
+        Node type: assignment_operator, Node.text: +=
+        Node type: integer_literal, Node.text: 1
+  Node type: global_statement, Node.text: f(x);
+    Node type: expression_statement, Node.text: f(x);
+      Node type: invocation_expression, Node.text: f(x)
+        Node type: identifier, Node.text: f
+        Node type: argument_list, Node.text: (x)
+          Node type: argument, Node.text: x
+            Node type: identifier, Node.text: x
+  Node type: global_statement, Node.text: int dp(int[] x, i...
+    Node type: local_function_statement, Node.text: int dp(int[] x, i...
+      Node type: predefined_type, Node.text: int
+      Node type: identifier, Node.text: dp
+      Node type: parameter_list, Node.text: (int[] x, int[] y)
+        Node type: parameter, Node.text: int[] x
+          Node type: array_type, Node.text: int[]
+            Node type: predefined_type, Node.text: int
+            Node type: array_rank_specifier, Node.text: []
+          Node type: identifier, Node.text: x
+        Node type: parameter, Node.text: int[] y
+          Node type: array_type, Node.text: int[]
+            Node type: predefined_type, Node.text: int
+            Node type: array_rank_specifier, Node.text: []
+          Node type: identifier, Node.text: y
+      Node type: block, Node.text: {\n    int ans = ...
+        Node type: local_declaration_statement, Node.text: int ans = 0;
+          Node type: variable_declaration, Node.text: int ans = 0
+            Node type: predefined_type, Node.text: int
+            Node type: variable_declarator, Node.text: ans = 0
+              Node type: identifier, Node.text: ans
+              Node type: equals_value_clause, Node.text: = 0
+                Node type: integer_literal, Node.text: 0
+        Node type: for_statement, Node.text: for (int i = 0; i...
+          Node type: variable_declaration, Node.text: int i = 0
+            Node type: predefined_type, Node.text: int
+            Node type: variable_declarator, Node.text: i = 0
+              Node type: identifier, Node.text: i
+              Node type: equals_value_clause, Node.text: = 0
+                Node type: integer_literal, Node.text: 0
+          Node type: binary_expression, Node.text: i < x.Length
+            Node type: identifier, Node.text: i
+            Node type: member_access_expression, Node.text: x.Length
+              Node type: identifier, Node.text: x
+              Node type: identifier, Node.text: Length
+          Node type: postfix_unary_expression, Node.text: i++
+            Node type: identifier, Node.text: i
+          Node type: block, Node.text: {\n        ans +=...
+            Node type: expression_statement, Node.text: ans += x[i] * y[i];
+              Node type: assignment_expression, Node.text: ans += x[i] * y[i]
+                Node type: identifier, Node.text: ans
+                Node type: assignment_operator, Node.text: +=
+                Node type: binary_expression, Node.text: x[i] * y[i]
+                  Node type: element_access_expression, Node.text: x[i]
+                    Node type: identifier, Node.text: x
+                    Node type: bracketed_argument_list, Node.text: [i]
+                      Node type: argument, Node.text: i
+                        Node type: identifier, Node.text: i
+                  Node type: element_access_expression, Node.text: y[i]
+                    Node type: identifier, Node.text: y
+                    Node type: bracketed_argument_list, Node.text: [i]
+                      Node type: argument, Node.text: i
+                        Node type: identifier, Node.text: i
+        Node type: return_statement, Node.text: return ans;
+          Node type: identifier, Node.text: ans
+
+--------------------------------------------------
+
+node_depth: [0, 1, 2, 3, 4, 4, 5, 5, 6, 1, 2, 3, 3, 4, 4, 5, 5, 6, 1, 2, 3, 3, 3, 3, 4, 5, 5, 3, 4, 1, 2, 3, 4, 4, 5, 5, 6, 1, 2, 3, 4, 4, 4, 1, 2, 3, 4, 4, 5, 6, 1, 2, 3, 3, 3, 4, 5, 6, 6, 5, 4, 5, 6, 6, 5, 3, 4, 5, 6, 6, 7, 7, 8, 4, 5, 6, 6, 7, 7, 8, 5, 6, 6, 7, 7, 5, 6, 5, 6, 7, 8, 8, 8, 9, 10, 10, 11, 12, 9, 10, 10, 11, 12, 4, 5]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 2, 3, 4, 4, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 10, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 6, None, None, None, None, None, 50, None, None, 16, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 6, None, 54, None, None, 20, None, None, None, 59, None, None, None, 90, None, None, 48, None, 88, None, None, 55, None, 96]
+
+--------------------------------------------------
+
+node_type: [216, 217, 328, 239, 103, 240, 447, 244, 181, 217, 328, 238, 239, 103, 240, 447, 244, 181, 217, 329, 238, 103, 447, 247, 252, 103, 447, 256, 188, 217, 328, 239, 103, 240, 447, 244, 181, 217, 321, 375, 447, 376, 181, 217, 321, 400, 447, 255, 243, 447, 217, 329, 103, 447, 247, 252, 296, 103, 298, 447, 252, 296, 103, 298, 447, 256, 328, 239, 103, 240, 447, 244, 181, 323, 239, 103, 240, 447, 244, 181, 444, 447, 403, 447, 447, 409, 447, 256, 321, 375, 447, 376, 444, 384, 447, 241, 243, 447, 384, 447, 241, 243, 447, 331, 447]
+
+--------------------------------------------------
+
+num_nodes_input: [105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105]

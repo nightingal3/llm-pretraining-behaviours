@@ -4,6 +4,9 @@
       "positional_embeddings", "attention_variant", "biases", 
       "block_type", "activation", "sequence_length", "batch_instances", 
       "batch_tokens", "weight_tying", "deep_key", "safetensors:total"
+    ],
+    "dataset": [
+      "summary:total_size_tokens_billions"
     ]
 }
   

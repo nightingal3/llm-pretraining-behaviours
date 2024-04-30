@@ -1,29 +1,36 @@
 {
-    "id": "jb723/LLaMA2-en-ko-7B-model",
-    "author": "jb723",
-    "sha": "24e455bbf4039f360a37833583c335582d2c6030",
-    "created_at": "2023-09-07T11:37:45+00:00",
-    "last_modified": "2023-10-08T10:14:07+00:00",
+    "id": "meta-llama/Llama-2-13b-hf",
+    "author": "meta-llama",
+    "sha": "5c31dfb671ce7cfe2d7bb7c04375e44c55e815b1",
+    "created_at": "2023-07-13T15:49:56+00:00",
+    "last_modified": "2024-04-17T08:40:32+00:00",
     "private": false,
-    "gated": false,
+    "gated": "manual",
     "disabled": false,
-    "downloads": 4128,
-    "likes": 0,
+    "downloads": 348204,
+    "likes": 536,
     "library_name": "transformers",
     "tags": [
         "transformers",
         "pytorch",
+        "safetensors",
         "llama",
         "text-generation",
+        "facebook",
+        "meta",
+        "llama-2",
+        "en",
+        "arxiv:2307.09288",
+        "license:llama2",
         "autotrain_compatible",
         "endpoints_compatible",
+        "has_space",
         "text-generation-inference",
         "region:us"
     ],
     "pipeline_tag": "text-generation",
     "mask_token": null,
-    "card_data": null,
-    "widget_data": null,
+    "card_data": {},
     "model_index": null,
     "config": {
         "architectures": [
@@ -60,9 +67,15 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "safetensors": null,
-    "base_model": "meta-llama/Llama-2-7b"
+    "safetensors": {
+        "parameters": {
+            "F32": 2560,
+            "F16": 13015864320
+        },
+        "total": 13015866880
+    }
 }

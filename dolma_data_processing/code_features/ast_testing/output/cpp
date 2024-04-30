@@ -1,0 +1,69 @@
+Node type: translation_unit, Node.text: int dp(int x[], i...
+  Node type: function_definition, Node.text: int dp(int x[], i...
+    Node type: primitive_type, Node.text: int
+    Node type: function_declarator, Node.text: dp(int x[], int y...
+      Node type: identifier, Node.text: dp
+      Node type: parameter_list, Node.text: (int x[], int y[]...
+        Node type: parameter_declaration, Node.text: int x[]
+          Node type: primitive_type, Node.text: int
+          Node type: array_declarator, Node.text: x[]
+            Node type: identifier, Node.text: x
+        Node type: parameter_declaration, Node.text: int y[]
+          Node type: primitive_type, Node.text: int
+          Node type: array_declarator, Node.text: y[]
+            Node type: identifier, Node.text: y
+        Node type: parameter_declaration, Node.text: int len
+          Node type: primitive_type, Node.text: int
+          Node type: identifier, Node.text: len
+    Node type: compound_statement, Node.text: {\n    int ans = ...
+      Node type: declaration, Node.text: int ans = 0;
+        Node type: primitive_type, Node.text: int
+        Node type: init_declarator, Node.text: ans = 0
+          Node type: identifier, Node.text: ans
+          Node type: number_literal, Node.text: 0
+      Node type: for_statement, Node.text: for (int i = 0; i...
+        Node type: declaration, Node.text: int i = 0;
+          Node type: primitive_type, Node.text: int
+          Node type: init_declarator, Node.text: i = 0
+            Node type: identifier, Node.text: i
+            Node type: number_literal, Node.text: 0
+        Node type: binary_expression, Node.text: i < len
+          Node type: identifier, Node.text: i
+          Node type: identifier, Node.text: len
+        Node type: update_expression, Node.text: i++
+          Node type: identifier, Node.text: i
+        Node type: compound_statement, Node.text: {\n        ans +=...
+          Node type: expression_statement, Node.text: ans += x[i] * y[i];
+            Node type: assignment_expression, Node.text: ans += x[i] * y[i]
+              Node type: identifier, Node.text: ans
+              Node type: binary_expression, Node.text: x[i] * y[i]
+                Node type: subscript_expression, Node.text: x[i]
+                  Node type: identifier, Node.text: x
+                  Node type: subscript_argument_list, Node.text: [i]
+                    Node type: identifier, Node.text: i
+                Node type: subscript_expression, Node.text: y[i]
+                  Node type: identifier, Node.text: y
+                  Node type: subscript_argument_list, Node.text: [i]
+                    Node type: identifier, Node.text: i
+      Node type: return_statement, Node.text: return ans;
+        Node type: identifier, Node.text: ans
+
+--------------------------------------------------
+
+node_depth: [0, 1, 2, 2, 3, 3, 4, 5, 5, 6, 4, 5, 5, 6, 4, 5, 5, 2, 3, 4, 4, 5, 5, 3, 4, 5, 5, 6, 6, 4, 5, 5, 4, 5, 4, 5, 6, 7, 7, 8, 9, 9, 10, 8, 9, 9, 10, 3, 4]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 8, 9, 9, 10, 10, 10, 10, 10, 10, 10]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 6, None, None, 15, None, None, None, 50, None, None, 92, None, 39, None, 90, None, 46, None, 87]
+
+--------------------------------------------------
+
+node_type: [209, 231, 91, 264, 1, 287, 288, 91, 268, 1, 288, 91, 268, 1, 288, 91, 1, 273, 232, 91, 272, 1, 147, 299, 232, 91, 272, 1, 147, 312, 1, 1, 313, 1, 273, 292, 309, 1, 312, 320, 1, 418, 1, 320, 1, 418, 1, 301, 1]
+
+--------------------------------------------------
+
+num_nodes_input: [49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49]

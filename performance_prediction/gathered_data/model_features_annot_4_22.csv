@@ -1,0 +1,45 @@
+id,dimension,num_heads,mlp_ratio,layer_norm_type,positional_embeddings,attention_variant,biases,block_type,activation,sequence_length,batch_instances,batch_tokens,weight_tying,deep_key,total_params,assigned person,notes
+Monero/WizardLM-13b-OpenAssistant-Uncensored,5120,40,2.7,rmsnorm,rope,full,attn_only,sequential,silu,4096,-1,-1,FALSE,-1,3369209856,DONE,based in kkana13b
+jb723/LLaMA2-en-ko-7B-model,4096,32,2.6875,rmsnorm,-1,-1,-1,-1,silu,4096,-1,-1,FALSE,-1,-1,Emmy,
+Devio/test-22B,6656,52,2.692307692,rmsnorm,-1,-1,-1,-1,silu,2048,-1,-1,FALSE,-1,21827961856,Emmy,
+AbacusResearch/jaLLAbi,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,14355337216,Emmy,
+Devio/test-3b,4096,32,2.6875,rmsnorm,rope,gqa,-1,sequential,-1,-1,-1,-1,FALSE,-1,3500282880,Emmy,based on llama7b
+AbacusResearch/haLLAwa2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,7241732096,Emmy,
+playdev7/theseed-v0.3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,24367733477,Emmy,
+jisukim8873/falcon-7B-case-5,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,6921720704,Emmy,
+froggeric/WestLake-10.7B-v2,4096,32,3.5,rms_norm,rope,-1,-1,-1,silu,4096,32,131072,FALSE,-1,10731524096,Lindia,based on Mistral
+frank098/Wizard-Vicuna-13B-juniper,4096,32,-1,rms_norm,rope,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,Lindia,based on Llama
+jisukim8873/falcon-7B-case-1,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,Lindia,
+frank098/orca_mini_3b_juniper,3200,32,-1,-1,-1,-1,-1,-1,silu,2048,-1,-1,FALSE,-1,-1,Lindia,based on Llama
+jisukim8873/falcon-7B-case-4,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
+mistralai/Mixtral-8x7B-v0.1,4096,32,3.5,rmsnorm,rope,gqa,none,sequential,swiglu,4096,-1,-1,FALSE,-1,46702792704,DONE,
+huggyllama/llama-7b,4096,32,2.666667,rmsnorm,rope,full,none,sequential,swiglu,2048,1024,4000000,FALSE,-1,6738417664,DONE,
+jisukim8873/falcon-7B-case-0,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
+mistralai/Mistral-7B-v0.1,4096,32,3.5,rmsnorm,rope,gqa,none,sequential,swiglu,4096,-1,-1,FALSE,-1,7241732096,DONE,
+allenai/tulu-2-dpo-70b,8192,64,2.666667,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1024,4000000,FALSE,-1,68976653312,DONE,trained from llama2-70b
+openlm-research/open_llama_7b,4096,32,2.666667,parametric,rope,full,ln_only,sequential,swiglu,2048,2048,4000000,FALSE,-1,6738417664,DONE,
+AbacusResearch/RasGulla1-7b,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,7241732096,,
+frank098/WizardLM_13B_juniper,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,,
+Monero/Manticore-13b-Chat-Pyg-Guanaco,5120,40,2.7,rmsnorm,-1,-1,-1,-1,silu,2048,-1,-1,FALSE,-1,-1,Shreya,
+openai-community/gpt2,768,12,-1,-1,-1,-1,-1,-1,gelu,1024,-1,-1,-1,-1,137022720,Shreya,
+jisukim8873/falcon-7B-case-c,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
+AbacusResearch/haLLAwa3,-1,32,3.5,rmsnorm,rope,-1,-1,-1,silu,-1,-1,-1,-1,-1,7241732096,Lara,
+jisukim8873/falcon-7B-case-8,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
+meta-llama/Llama-2-7b,4096,32,2.666667,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1024,4000000,FALSE,-1,-1,,
+Monero/WizardLM-Uncensored-SuperCOT-StoryTelling-30b,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,,
+jisukim8873/falcon-7B-case-6,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
+tiiuae/falcon-7b,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,-1,,
+jisukim8873/falcon-7B-case-2,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
+AbacusResearch/Jallabi-34B,7168,56,2.857142857,rmsnorm,rope,-1,-1,-1,silu,-1,-1,-1,-1,-1,34388917248,Lara,based on Llama
+allenai/OLMo-7B,4096,32,2.666667,non-paramteric,rope,full,none,sequential,swiglu,2048,2160,4000000,FALSE,-1,6888095744,DONE,
+meta-llama/Llama-2-70b-hf,8192,64,2.666667,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1024,4000000,FALSE,-1,68976653312,DONE,
+meta-llama/Llama-2-70b-chat-hf,8192,64,2.666667,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1024,4000000,FALSE,-1,68976653312,DONE,
+AbacusResearch/jaLLAbi2-7b,4096,32,3.5,rmsnorm,rope,-1,-1,-1,silu,4096,-1,-1,-1,-1,7241732096,Lara,
+kevin009/babyllama-v0.6,2048,32,2.75,rmsnorm,rope,gqa,none,sequential,silu,2048,1024,4000000,FALSE,-1,1100048384,Shreya,based on tinyllama -> which adopts llama2 architecture
+AbacusResearch/haLLawa4-7b,4096,32,3.5,rmsnorm,rope,-1,-1,-1,silu,4096,-1,-1,-1,-1,7241732096,Lara,
+EleutherAI/pythia-6.9b,4096,32,2.666667,-1,rotary,-1,-1,-1,gelu,2048,-1,-1,-1,-1,-1,Lara,
+jb723/cross_lingual_epoch2,4096,32,2.6875,rmsnorm,rope,full,attn_only,sequential,swiglu,4096,1024,4000000,FALSE,-1,7721324544,Lara,
+Qwen/Qwen-7B,4096,32,5.375,-1,rotary,-1,none,-1,-1,8192,-1,-1,FALSE,-1,-1,Shreya,
+Monero/WizardLM-30B-Uncensored-Guanaco-SuperCOT-30b,6656,52,2.692307692,rmsnorm,-1,-1,-1,-1,silu,2048,-1,-1,-1,-1,461685760,Lara,
+kevin009/flyingllama-v2,1024,16,4,rmsnorm,rope,gqa,-1,sequential,silu,1024,1024,4000000,FALSE,-1,6921720704,Shreya,based on Llama
+jisukim8873/falcon-7B-case-3,4544,71,4,parametric,rope,mqa,ln_only,parallel,gelu,2048,2304,4000000,FALSE,-1,6921720704,DONE,
