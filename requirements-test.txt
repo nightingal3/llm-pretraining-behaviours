@@ -1,3 +1,5 @@
 jsonschema
 pytest
 stanza
+tree-sitter
+tree-sitter-languages

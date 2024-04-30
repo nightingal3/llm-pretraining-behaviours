@@ -1,0 +1,17 @@
+var x : Int = 1
+val x = 2
+val (x, y) = Pair(1, 2)
+
+def f () = {
+    return x
+}
+
+f()
+
+def dp(x: Array[Int], y: Array[Int]): Int = {
+    var ans = 0
+    for (i <- 0 until x.length) {
+        ans += x(i) * y(i)
+    }
+    ans
+}

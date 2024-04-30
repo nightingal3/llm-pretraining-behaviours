@@ -1,0 +1,16 @@
+var x = 2
+var x int = 1
+x, y := 3, 4
+var x int
+
+func f() {
+    return x
+}
+
+func dp(x []int, y []int) int {
+    ans := 0
+    for i := 0; i < len(x); i++ {
+        ans += x[i] * y[i]
+    }
+    return ans
+}

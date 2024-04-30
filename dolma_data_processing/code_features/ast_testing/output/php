@@ -1,0 +1,108 @@
+Node type: program, Node.text: <?php\n    functi...
+  Node type: php_tag, Node.text: <?php
+  Node type: function_definition, Node.text: function f($a) {\...
+    Node type: name, Node.text: f
+    Node type: formal_parameters, Node.text: ($a)
+      Node type: simple_parameter, Node.text: $a
+        Node type: variable_name, Node.text: $a
+          Node type: name, Node.text: a
+    Node type: compound_statement, Node.text: {\n        // do ...
+      Node type: comment, Node.text: // do nothing
+  Node type: expression_statement, Node.text: $x = 5;
+    Node type: assignment_expression, Node.text: $x = 5
+      Node type: variable_name, Node.text: $x
+        Node type: name, Node.text: x
+      Node type: integer, Node.text: 5
+  Node type: expression_statement, Node.text: $x += 1;
+    Node type: augmented_assignment_expression, Node.text: $x += 1
+      Node type: variable_name, Node.text: $x
+        Node type: name, Node.text: x
+      Node type: integer, Node.text: 1
+  Node type: expression_statement, Node.text: f($x);
+    Node type: function_call_expression, Node.text: f($x)
+      Node type: name, Node.text: f
+      Node type: arguments, Node.text: ($x)
+        Node type: argument, Node.text: $x
+          Node type: variable_name, Node.text: $x
+            Node type: name, Node.text: x
+  Node type: function_definition, Node.text: function main() {...
+    Node type: name, Node.text: main
+    Node type: formal_parameters, Node.text: ()
+    Node type: compound_statement, Node.text: {\n        $y = 1...
+      Node type: expression_statement, Node.text: $y = 1;
+        Node type: assignment_expression, Node.text: $y = 1
+          Node type: variable_name, Node.text: $y
+            Node type: name, Node.text: y
+          Node type: integer, Node.text: 1
+  Node type: function_definition, Node.text: function dp($x, $...
+    Node type: name, Node.text: dp
+    Node type: formal_parameters, Node.text: ($x, $y)
+      Node type: simple_parameter, Node.text: $x
+        Node type: variable_name, Node.text: $x
+          Node type: name, Node.text: x
+      Node type: simple_parameter, Node.text: $y
+        Node type: variable_name, Node.text: $y
+          Node type: name, Node.text: y
+    Node type: compound_statement, Node.text: {\n        $ans =...
+      Node type: expression_statement, Node.text: $ans = 0;
+        Node type: assignment_expression, Node.text: $ans = 0
+          Node type: variable_name, Node.text: $ans
+            Node type: name, Node.text: ans
+          Node type: integer, Node.text: 0
+      Node type: for_statement, Node.text: for ($i = 0; $i <...
+        Node type: assignment_expression, Node.text: $i = 0
+          Node type: variable_name, Node.text: $i
+            Node type: name, Node.text: i
+          Node type: integer, Node.text: 0
+        Node type: binary_expression, Node.text: $i < count($x)
+          Node type: variable_name, Node.text: $i
+            Node type: name, Node.text: i
+          Node type: function_call_expression, Node.text: count($x)
+            Node type: name, Node.text: count
+            Node type: arguments, Node.text: ($x)
+              Node type: argument, Node.text: $x
+                Node type: variable_name, Node.text: $x
+                  Node type: name, Node.text: x
+        Node type: update_expression, Node.text: $i++
+          Node type: variable_name, Node.text: $i
+            Node type: name, Node.text: i
+        Node type: compound_statement, Node.text: {\n            $a...
+          Node type: expression_statement, Node.text: $ans += $x[$i] * ...
+            Node type: augmented_assignment_expression, Node.text: $ans += $x[$i] * ...
+              Node type: variable_name, Node.text: $ans
+                Node type: name, Node.text: ans
+              Node type: binary_expression, Node.text: $x[$i] * $y[$i]
+                Node type: subscript_expression, Node.text: $x[$i]
+                  Node type: variable_name, Node.text: $x
+                    Node type: name, Node.text: x
+                  Node type: variable_name, Node.text: $i
+                    Node type: name, Node.text: i
+                Node type: subscript_expression, Node.text: $y[$i]
+                  Node type: variable_name, Node.text: $y
+                    Node type: name, Node.text: y
+                  Node type: variable_name, Node.text: $i
+                    Node type: name, Node.text: i
+      Node type: return_statement, Node.text: return $ans;
+        Node type: variable_name, Node.text: $ans
+          Node type: name, Node.text: ans
+  Node type: text_interpolation, Node.text: ?>
+
+--------------------------------------------------
+
+node_depth: [0, 1, 1, 2, 2, 3, 4, 5, 2, 3, 1, 2, 3, 4, 3, 1, 2, 3, 4, 3, 1, 2, 3, 3, 4, 5, 6, 1, 2, 2, 2, 3, 4, 5, 6, 5, 1, 2, 2, 3, 4, 5, 3, 4, 5, 2, 3, 4, 5, 6, 5, 3, 4, 5, 6, 5, 4, 5, 6, 5, 6, 6, 7, 8, 9, 4, 5, 6, 4, 5, 6, 7, 8, 7, 8, 9, 10, 9, 10, 8, 9, 10, 9, 10, 3, 4, 5, 1]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 1, 2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 10, None, None, None, None, 69, None, None, 25, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 6, None, None, None, None, None, 58, None, None, 22, None, None, None, None, 63, None, None, None, 91, None, 53, None, None, 96, None, 62, None, None, 113, None, None]
+
+--------------------------------------------------
+
+node_type: [196, 2, 241, 1, 245, 247, 358, 1, 294, 183, 296, 312, 358, 1, 83, 296, 315, 358, 1, 83, 296, 323, 1, 328, 329, 358, 1, 241, 1, 245, 294, 296, 312, 358, 1, 83, 241, 1, 245, 247, 358, 1, 247, 358, 1, 294, 296, 312, 358, 1, 83, 274, 312, 358, 1, 83, 363, 358, 1, 323, 1, 328, 329, 358, 1, 309, 358, 1, 294, 296, 315, 358, 1, 363, 333, 358, 1, 358, 1, 333, 358, 1, 358, 1, 270, 358, 1, 197]
+
+--------------------------------------------------
+
+num_nodes_input: [88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88]

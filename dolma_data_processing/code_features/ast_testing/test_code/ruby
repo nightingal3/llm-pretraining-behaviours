@@ -1,0 +1,21 @@
+x = 1
+@x = 2
+@@x = 3
+$x = 4
+
+def f
+    return @x
+end
+
+def f()
+    return x
+end
+
+def dp(x, y)
+    ans = 0
+    for i in 0...x.length
+        ans += x[i] * y[i]
+    end
+    return ans
+end
+

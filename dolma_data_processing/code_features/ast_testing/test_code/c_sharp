@@ -1,0 +1,21 @@
+int y = 1;
+const int x = 2;
+
+public void f(int a)
+{
+    // do nothing
+}
+
+int x = 5;
+x += 1;
+f(x);
+
+int dp(int[] x, int[] y)
+{
+    int ans = 0;
+    for (int i = 0; i < x.Length; i++)
+    {
+        ans += x[i] * y[i];
+    }
+    return ans;
+}

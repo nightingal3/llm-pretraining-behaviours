@@ -1,0 +1,21 @@
+public class Test {
+    int y = 1;
+
+    public static void f(int a) {
+        return;
+    }
+
+    public static void main(String[] args) {
+        int x = 5;
+        x ++;
+        f(x);
+    }
+}
+
+public static int dp(int[] x, int[] y) {
+    int ans = 0;
+    for (int i = 0; i < x.length; i++) {
+        ans += x[i] * y[i];
+    }
+    return ans;
+}

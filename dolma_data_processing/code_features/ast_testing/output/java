@@ -1,0 +1,111 @@
+Node type: program, Node.text: public class Test...
+  Node type: class_declaration, Node.text: public class Test...
+    Node type: modifiers, Node.text: public
+    Node type: identifier, Node.text: Test
+    Node type: class_body, Node.text: {\n    int y = 1;...
+      Node type: field_declaration, Node.text: int y = 1;
+        Node type: integral_type, Node.text: int
+        Node type: variable_declarator, Node.text: y = 1
+          Node type: identifier, Node.text: y
+          Node type: decimal_integer_literal, Node.text: 1
+      Node type: method_declaration, Node.text: public static voi...
+        Node type: modifiers, Node.text: public static
+        Node type: void_type, Node.text: void
+        Node type: identifier, Node.text: f
+        Node type: formal_parameters, Node.text: (int a)
+          Node type: formal_parameter, Node.text: int a
+            Node type: integral_type, Node.text: int
+            Node type: identifier, Node.text: a
+        Node type: block, Node.text: {\n        return...
+          Node type: return_statement, Node.text: return;
+      Node type: method_declaration, Node.text: public static voi...
+        Node type: modifiers, Node.text: public static
+        Node type: void_type, Node.text: void
+        Node type: identifier, Node.text: main
+        Node type: formal_parameters, Node.text: (String[] args)
+          Node type: formal_parameter, Node.text: String[] args
+            Node type: array_type, Node.text: String[]
+              Node type: type_identifier, Node.text: String
+              Node type: dimensions, Node.text: []
+            Node type: identifier, Node.text: args
+        Node type: block, Node.text: {\n        int x ...
+          Node type: local_variable_declaration, Node.text: int x = 5;
+            Node type: integral_type, Node.text: int
+            Node type: variable_declarator, Node.text: x = 5
+              Node type: identifier, Node.text: x
+              Node type: decimal_integer_literal, Node.text: 5
+          Node type: expression_statement, Node.text: x ++;
+            Node type: update_expression, Node.text: x ++
+              Node type: identifier, Node.text: x
+          Node type: expression_statement, Node.text: f(x);
+            Node type: method_invocation, Node.text: f(x)
+              Node type: identifier, Node.text: f
+              Node type: argument_list, Node.text: (x)
+                Node type: identifier, Node.text: x
+  Node type: method_declaration, Node.text: public static int...
+    Node type: modifiers, Node.text: public static
+    Node type: integral_type, Node.text: int
+    Node type: identifier, Node.text: dp
+    Node type: formal_parameters, Node.text: (int[] x, int[] y)
+      Node type: formal_parameter, Node.text: int[] x
+        Node type: array_type, Node.text: int[]
+          Node type: integral_type, Node.text: int
+          Node type: dimensions, Node.text: []
+        Node type: identifier, Node.text: x
+      Node type: formal_parameter, Node.text: int[] y
+        Node type: array_type, Node.text: int[]
+          Node type: integral_type, Node.text: int
+          Node type: dimensions, Node.text: []
+        Node type: identifier, Node.text: y
+    Node type: block, Node.text: {\n    int ans = ...
+      Node type: local_variable_declaration, Node.text: int ans = 0;
+        Node type: integral_type, Node.text: int
+        Node type: variable_declarator, Node.text: ans = 0
+          Node type: identifier, Node.text: ans
+          Node type: decimal_integer_literal, Node.text: 0
+      Node type: for_statement, Node.text: for (int i = 0; i...
+        Node type: local_variable_declaration, Node.text: int i = 0;
+          Node type: integral_type, Node.text: int
+          Node type: variable_declarator, Node.text: i = 0
+            Node type: identifier, Node.text: i
+            Node type: decimal_integer_literal, Node.text: 0
+        Node type: binary_expression, Node.text: i < x.length
+          Node type: identifier, Node.text: i
+          Node type: field_access, Node.text: x.length
+            Node type: identifier, Node.text: x
+            Node type: identifier, Node.text: length
+        Node type: update_expression, Node.text: i++
+          Node type: identifier, Node.text: i
+        Node type: block, Node.text: {\n        ans +=...
+          Node type: expression_statement, Node.text: ans += x[i] * y[i];
+            Node type: assignment_expression, Node.text: ans += x[i] * y[i]
+              Node type: identifier, Node.text: ans
+              Node type: binary_expression, Node.text: x[i] * y[i]
+                Node type: array_access, Node.text: x[i]
+                  Node type: identifier, Node.text: x
+                  Node type: identifier, Node.text: i
+                Node type: array_access, Node.text: y[i]
+                  Node type: identifier, Node.text: y
+                  Node type: identifier, Node.text: i
+      Node type: return_statement, Node.text: return ans;
+        Node type: identifier, Node.text: ans
+
+--------------------------------------------------
+
+node_depth: [0, 1, 2, 2, 2, 3, 4, 4, 5, 5, 3, 4, 4, 4, 4, 5, 6, 6, 4, 5, 3, 4, 4, 4, 4, 5, 6, 7, 7, 6, 4, 5, 6, 6, 7, 7, 5, 6, 7, 5, 6, 7, 7, 8, 1, 2, 2, 2, 2, 3, 4, 5, 5, 4, 3, 4, 5, 5, 4, 2, 3, 4, 4, 5, 5, 3, 4, 5, 5, 6, 6, 4, 5, 5, 6, 6, 4, 5, 4, 5, 6, 7, 7, 8, 9, 9, 8, 9, 9, 3, 4]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 2, 2, 2, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 14, None, None, 119, None, 30, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 6, None, 54, None, None, 20, None, None, None, 55, None, None, 86, 44, None, 84, 51, None, 92]
+
+--------------------------------------------------
+
+node_type: [138, 234, 235, 1, 243, 250, 270, 261, 1, 2, 280, 235, 131, 1, 274, 275, 270, 1, 187, 194, 280, 235, 131, 1, 274, 275, 269, 1, 174, 1, 187, 279, 270, 261, 1, 2, 188, 156, 1, 188, 168, 1, 169, 1, 280, 235, 270, 1, 274, 275, 269, 270, 174, 1, 275, 269, 270, 174, 1, 187, 279, 270, 261, 1, 2, 208, 279, 270, 261, 1, 2, 150, 1, 165, 1, 1, 156, 1, 187, 188, 149, 1, 150, 167, 1, 1, 167, 1, 1, 194, 1]
+
+--------------------------------------------------
+
+num_nodes_input: [91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91]

@@ -1,0 +1,21 @@
+<?php
+    function f($a) {
+        // do nothing
+    }
+    
+    $x = 5;
+    $x += 1;
+    f($x);
+    
+    function main() {
+        $y = 1;
+    }
+
+    function dp($x, $y) {
+        $ans = 0;
+        for ($i = 0; $i < count($x); $i++) {
+            $ans += $x[$i] * $y[$i];
+        }
+        return $ans;
+    }
+?>

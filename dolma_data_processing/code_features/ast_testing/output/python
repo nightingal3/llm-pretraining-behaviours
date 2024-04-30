@@ -1,0 +1,28 @@
+Node type: module, Node.text: # this is a comme...
+  Node type: comment, Node.text: # this is a comment
+  Node type: ERROR, Node.text: This code is brok...
+    Node type: identifier, Node.text: This
+    Node type: comparison_operator, Node.text: code is broken
+      Node type: identifier, Node.text: code
+      Node type: identifier, Node.text: broken
+    Node type: ERROR, Node.text: !
+
+--------------------------------------------------
+
+node_depth: [0, 1, 1, 2, 2, 3, 3, 2]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 1, 2, 2, 3, 3, 3]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None]
+
+--------------------------------------------------
+
+node_type: [108, 99, 65535, 1, 194, 1, 1, 65535]
+
+--------------------------------------------------
+
+num_nodes_input: [8, 8, 8, 8, 8, 8, 8, 8]

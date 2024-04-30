@@ -1,0 +1,98 @@
+Node type: source_file, Node.text: var x = 2\nvar x ...
+  Node type: var_declaration, Node.text: var x = 2
+    Node type: var_spec, Node.text: x = 2
+      Node type: identifier, Node.text: x
+      Node type: expression_list, Node.text: 2
+        Node type: int_literal, Node.text: 2
+  Node type: var_declaration, Node.text: var x int = 1
+    Node type: var_spec, Node.text: x int = 1
+      Node type: identifier, Node.text: x
+      Node type: type_identifier, Node.text: int
+      Node type: expression_list, Node.text: 1
+        Node type: int_literal, Node.text: 1
+  Node type: short_var_declaration, Node.text: x, y := 3, 4
+    Node type: expression_list, Node.text: x, y
+      Node type: identifier, Node.text: x
+      Node type: identifier, Node.text: y
+    Node type: expression_list, Node.text: 3, 4
+      Node type: int_literal, Node.text: 3
+      Node type: int_literal, Node.text: 4
+  Node type: var_declaration, Node.text: var x int
+    Node type: var_spec, Node.text: x int
+      Node type: identifier, Node.text: x
+      Node type: type_identifier, Node.text: int
+  Node type: function_declaration, Node.text: func f() {\n    r...
+    Node type: identifier, Node.text: f
+    Node type: parameter_list, Node.text: ()
+    Node type: block, Node.text: {\n    return x\n}
+      Node type: return_statement, Node.text: return x
+        Node type: expression_list, Node.text: x
+          Node type: identifier, Node.text: x
+  Node type: function_declaration, Node.text: func dp(x []int, ...
+    Node type: identifier, Node.text: dp
+    Node type: parameter_list, Node.text: (x []int, y []int)
+      Node type: parameter_declaration, Node.text: x []int
+        Node type: identifier, Node.text: x
+        Node type: slice_type, Node.text: []int
+          Node type: type_identifier, Node.text: int
+      Node type: parameter_declaration, Node.text: y []int
+        Node type: identifier, Node.text: y
+        Node type: slice_type, Node.text: []int
+          Node type: type_identifier, Node.text: int
+    Node type: type_identifier, Node.text: int
+    Node type: block, Node.text: {\n    ans := 0\n...
+      Node type: short_var_declaration, Node.text: ans := 0
+        Node type: expression_list, Node.text: ans
+          Node type: identifier, Node.text: ans
+        Node type: expression_list, Node.text: 0
+          Node type: int_literal, Node.text: 0
+      Node type: for_statement, Node.text: for i := 0; i < l...
+        Node type: for_clause, Node.text: i := 0; i < len(x...
+          Node type: short_var_declaration, Node.text: i := 0
+            Node type: expression_list, Node.text: i
+              Node type: identifier, Node.text: i
+            Node type: expression_list, Node.text: 0
+              Node type: int_literal, Node.text: 0
+          Node type: binary_expression, Node.text: i < len(x)
+            Node type: identifier, Node.text: i
+            Node type: call_expression, Node.text: len(x)
+              Node type: identifier, Node.text: len
+              Node type: argument_list, Node.text: (x)
+                Node type: identifier, Node.text: x
+          Node type: inc_statement, Node.text: i++
+            Node type: identifier, Node.text: i
+        Node type: block, Node.text: {\n        ans +=...
+          Node type: assignment_statement, Node.text: ans += x[i] * y[i]
+            Node type: expression_list, Node.text: ans
+              Node type: identifier, Node.text: ans
+            Node type: expression_list, Node.text: x[i] * y[i]
+              Node type: binary_expression, Node.text: x[i] * y[i]
+                Node type: index_expression, Node.text: x[i]
+                  Node type: identifier, Node.text: x
+                  Node type: identifier, Node.text: i
+                Node type: index_expression, Node.text: y[i]
+                  Node type: identifier, Node.text: y
+                  Node type: identifier, Node.text: i
+      Node type: return_statement, Node.text: return ans
+        Node type: expression_list, Node.text: ans
+          Node type: identifier, Node.text: ans
+
+--------------------------------------------------
+
+node_depth: [0, 1, 2, 3, 3, 4, 1, 2, 3, 3, 3, 4, 1, 2, 3, 3, 2, 3, 3, 1, 2, 3, 3, 1, 2, 2, 2, 3, 4, 5, 1, 2, 2, 3, 4, 4, 5, 3, 4, 4, 5, 2, 2, 3, 4, 5, 4, 5, 3, 4, 5, 6, 7, 6, 7, 5, 6, 6, 7, 7, 8, 5, 6, 4, 5, 6, 7, 6, 7, 8, 9, 9, 8, 9, 9, 3, 4, 5]
+
+--------------------------------------------------
+
+tree_depth: [0, 1, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9]
+
+--------------------------------------------------
+
+dist_to_def: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, 9, -66, None, None, None, None, None, None, None, None, None, None, None, None, None, 28, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 60, None, None, None, None, None, None, None, None, None, 85, None, None, 83, None, None, None, None]
+
+--------------------------------------------------
+
+node_type: [94, 103, 104, 1, 114, 85, 103, 104, 1, 1, 114, 85, 147, 114, 1, 1, 114, 85, 85, 103, 104, 1, 1, 105, 1, 108, 136, 154, 114, 1, 105, 1, 108, 109, 1, 122, 1, 109, 1, 122, 1, 1, 136, 147, 114, 1, 114, 85, 158, 159, 147, 114, 1, 114, 85, 186, 1, 171, 1, 174, 1, 144, 1, 136, 146, 114, 1, 114, 186, 176, 1, 1, 176, 1, 1, 154, 114, 1]
+
+--------------------------------------------------
+
+num_nodes_input: [78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78]
