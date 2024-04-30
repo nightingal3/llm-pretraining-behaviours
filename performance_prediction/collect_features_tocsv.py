@@ -217,8 +217,6 @@ def main(
             extracted_features = extract_features_from_json_dataset(
                 json_data, features_to_extract
             )
-            if len(extracted_features) > 0:
-                extracted_features
 
             extracted_features_all.append(extracted_features)
 
