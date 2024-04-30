@@ -66,5 +66,6 @@
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "safetensors": null
+    "safetensors": null,
+    "base_model": "meta-llama/Llama-2-13B-hf"
 }

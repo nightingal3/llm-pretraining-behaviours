@@ -56,5 +56,6 @@
             "BF16": 6921720704
         },
         "total": 6921720704
-    }
+    },
+    "base_model": "tiiuae/falcon-7b"
 }
