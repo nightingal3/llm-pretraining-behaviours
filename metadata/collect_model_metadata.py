@@ -40,7 +40,7 @@ def get_model_metadata(repo_id: str, token: str = None) -> dict[str, Any]:
     data_dict = robust_asdict(info)
 
     # Exclude a few noisy fields related to Hugging Face in particular
-    exclude_fields = {"siblings", "spaces"}
+    exclude_fields = {"siblings", "spaces", "widget_data"}
     data_dict = {k: v for k, v in data_dict.items() if k not in exclude_fields}
 
     return data_dict

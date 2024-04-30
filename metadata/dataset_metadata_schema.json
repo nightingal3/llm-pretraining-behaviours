@@ -13,15 +13,19 @@
                 "type": "string"
               },
               "doc_type": {
-                "type": "string",
-                "enum": [
-                  "web", "web/social_media", "web/forums", "web/news",
-                  "books", "books/literary", "books/literary/fiction", "books/literary/nonfiction", "books/textbooks",
-                  "reference", "reference/encyclopedic", "reference/dictionaries", 
-                  "academic_papers", "academic_papers/sciences", "academic_papers/humanities",
-                  "code", "code/source_code", "code/documentation", "code/forums",
-                  "media", "media/podcasts", "media/subtitles", "specific_datasets"
-                ]
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "web", "social_media", "forums", "news",
+                    "books", "literary", "fiction", "nonfiction", "textbooks",
+                    "reference", "encyclopedic", "dictionaries", 
+                    "academic_papers", "sciences", "humanities",
+                    "code", "source_code", "documentation",
+                    "media", "podcasts", "subtitles", "specific_datasets", "instruction", "unknown"
+                  ]
+                },
+                "uniqueItems": true
               },
               "data_size_gb": {
                 "type": "number"

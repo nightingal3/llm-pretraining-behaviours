@@ -1,0 +1,15 @@
+{
+    "domains": [
+        {
+            "name": "qwen",
+            "doc_type": ["unknown"],
+            "tokens_billions": 3000
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 3000,
+        "mix": {
+            "qwen": 1
+        }
+    }
+}

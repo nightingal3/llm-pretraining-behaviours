@@ -2,7 +2,7 @@
     "domains": [
         {
             "name": "gutenberg",
-            "doc_type": "books/literary",
+            "doc_type": ["books", "literary"],
             "data_size_gb": 20.4,
             "documents": 56000,
             "tokens_billions": 5.2

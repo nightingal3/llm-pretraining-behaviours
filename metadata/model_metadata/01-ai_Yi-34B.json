@@ -1,0 +1,66 @@
+{
+    "id": "01-ai/Yi-34B",
+    "author": "01-ai",
+    "sha": "f9cec17e8fcc054d6c8d98fd5a41ed14895caa8b",
+    "created_at": "2023-11-01T07:03:50+00:00",
+    "last_modified": "2024-04-18T07:02:34+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 19182,
+    "likes": 1237,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "arxiv:2403.04652",
+        "arxiv:2311.16502",
+        "arxiv:2401.11944",
+        "license:other",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "unk_token": "<unk>",
+            "bos_token": "<|startoftext|>",
+            "eos_token": "<|endoftext|>",
+            "pad_token": "<unk>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 34388917248
+        },
+        "total": 34388917248
+    },
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "yi_34b_data",
+            "total_tokens_billions": 3100,
+            "batch_tokens": 4000000,
+            "reference": "https://arxiv.org/pdf/2403.04652"
+        }
+    ]
+}

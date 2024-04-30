@@ -59,3 +59,17 @@ def test_validate_json_against_schema(json_file):
         validate(instance=json_data, schema=get_schema(json_file))
     except ValidationError as e:
         pytest.fail(f"Validation failed for '{json_file}': {e.message}")
+
+
+@pytest.mark.parametrize("json_file", get_json_files(MODELS_METADATA_DIR))
+def test_data_exists_for_model(json_file):
+    """Test that data exists for each model."""
+    with open(json_file, "r") as file:
+        json_data = json.load(file)
+
+    if "training_stages" in json_data:
+        for stage in json_data["training_stages"]:
+            data_file = f"{BASE_DIR}/dataset_metadata/{stage['data']}.json"
+            assert os.path.exists(
+                data_file
+            ), f"Data file '{data_file}' does not exist for model {json_file}."

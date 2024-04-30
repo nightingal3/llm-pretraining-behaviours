@@ -88,23 +88,28 @@
     "block_type": "sequential",
     "activation": "swiglu",
     "sequence_length": 2048,
-    "batch_instances": 1024,
-    "batch_tokens": 2000000,
     "weight_tying": false,
-    "total_tokens_billions": 300,
-    "optimizer": {
-        "type": "adam",
-        "params": {
-            "lr": 0.00012,
-            "lr_min": 0.000012,
-            "lr_schedule": "linear",
-            "lr_warmup": 5000,
-            "betas": [
-                0.9,
-                0.95
-            ],
-            "eps": 1.0e-8
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "the_pile",
+            "batch_instances": 1024,
+            "batch_tokens": 2000000,
+            "total_tokens_billions": 300,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 0.00012,
+                    "lr_min": 0.000012,
+                    "lr_schedule": "linear",
+                    "lr_warmup": 5000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-8
+                }
+            }
         }
-    },
-    "pre_training_data": "./dataset_metadata/the_pile.json"
+    ]
 }
