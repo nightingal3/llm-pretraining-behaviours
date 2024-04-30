@@ -100,6 +100,35 @@ This code is broken!
     ), "total number of nodes do not mach"
 
 
+test_code_dir = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "ast_testing/test_code"
+)
+output_dir = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "ast_testing/output"
+)
+
+
+@pytest.mark.parametrize("lang_name", os.listdir(test_code_dir))
+def test_other_langs(lang_name):
+    # get features for the other languages
+    # this only checks that they run without errors
+    # see ast_testing/outputs for the parsing results
+    parser = get_parser(lang_name)
+    lang = get_language(lang_name)
+    with open(f"{test_code_dir}/{lang_name}", "r") as input_file:
+        code = input_file.read()
+    tree = parser.parse(bytes(code, "utf-8"))
+    feature_dict = get_features(code, lang, parser)
+
+    output_string = tree_to_string(tree.root_node, 0)
+    for key in feature_dict:
+        output_string += "\n" + "-" * 50 + "\n"
+        output_string += f"\n{key}: {feature_dict[key]}\n"
+
+    with open(f"{output_dir}/{lang_name}", "w") as output_file:
+        output_file.write(output_string)
+
+
 def test_get_languages():
     """
     Tests that tree-sitter-languages can load all the languages we're covering

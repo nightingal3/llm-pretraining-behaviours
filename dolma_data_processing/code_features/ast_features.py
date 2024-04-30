@@ -280,6 +280,7 @@ def make_tree_get_features(lang_name, input_file, output_file):
     with open(output_file, "w") as file:
         file.write(output_string)
 
+
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser()
