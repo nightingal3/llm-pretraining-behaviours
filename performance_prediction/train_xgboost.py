@@ -1,12 +1,12 @@
 import xgboost as xgb
 import numpy as np
 import pandas as pd
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn import gaussian_process
 from sklearn.preprocessing import OrdinalEncoder
 import argparse
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
-from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.model_selection import cross_val_score, train_test_split, KFold
 import warnings
 import os
 
@@ -54,7 +54,9 @@ def preprocess_data(data):
         "positional_embeddings",
         "weight_tying",
     ]
-    data = pd.get_dummies(data, columns=columns_to_convert)
+    columns_to_convert_in_data = [c for c in columns_to_convert if c in data.columns]
+
+    data = pd.get_dummies(data, columns=columns_to_convert_in_data)
     data = data.drop(["model_name", "id"], axis=1)
     return data
 
@@ -78,6 +80,7 @@ if __name__ == "__main__":
         type=str,
         help="The name of the column containing the target variable in the train_labels file",
         required=True,
+        nargs="+",
     )
     parser.add_argument(
         "--lr",
@@ -117,11 +120,9 @@ if __name__ == "__main__":
         help="whether to plot feature importance using SHAP or other methods",
     )
     parser.add_argument(
-        "--missing_val",
-        type=float,
-        help="The value used for missing data in features",
-        default=None,
+        "--predictor_type", type=str, choices=["scaling_laws", "all"], default="all"
     )
+
     args = parser.parse_args()
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
@@ -150,70 +151,124 @@ if __name__ == "__main__":
         right_on="id",
     )
 
-    # drop rows with missing values
-    dataset = dataset.dropna(subset=args.y_col)
-
     dataset = dataset.drop(columns=["assigned person", "notes"])
 
-    trainset = preprocess_data(dataset)
+    if args.predictor_type == "scaling_laws":
+        # drop all but total params and num tokens
+        dataset = dataset[
+            [
+                "total_params",
+                "total_summary:total_size_tokens_billions",
+                "model_name",
+                "id",
+            ]
+            + list(cols_from_results)
+        ]
+        categorical_variables = []
 
-    feats = trainset.drop(columns=cols_from_results, errors="ignore")
-    labels = trainset[args.y_col]
+    if args.y_col == ["all"]:
+        y_cols = [t for t in list(cols_from_results) if t.endswith("_acc")]
+    else:
+        y_cols = args.y_col
 
-    # ordinal encode
-    enc = OrdinalEncoder()
-    dataset[categorical_variables] = enc.fit_transform(dataset[categorical_variables])
+    mae_per_task = []
+    successful_tasks = []
 
-    train_feats, test_feats, train_labels, test_labels = train_test_split(
-        feats, labels, test_size=0.2, random_state=42
-    )
+    for y_col in y_cols:
+        # drop rows with missing values
+        dataset = dataset.dropna(subset=y_col)
+        if len(dataset) <= args.n_estimators:
+            warnings.warn(
+                f"Skipping {y_col} as there are not enough samples for training"
+            )
+            continue
 
-    if args.n_estimators > len(train_feats):
-        warnings.warn(
-            f"Number of trees ({args.n_estimators}) is greater than the number of training samples ({len(train_feats)}). You will likely overfit."
-        )
+        # ordinal encode
+        if args.predictor_type == "all":
+            if "is_instruction_tuned" in dataset.columns:
+                dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
+                    {True: 1, False: 0, np.nan: -1}
+                )
 
-    model = train_regressor(
-        train_feats,
-        train_labels,
-        lr=args.lr,
-        max_depth=args.max_depth,
-        n_estimators=args.n_estimators,
-        missing=args.missing_val,
-    )
+            for var in categorical_variables:
+                dataset[var] = dataset[var].astype("category")
 
-    test_predictions = model.predict(test_feats, output_margin=True)
+            enc = OrdinalEncoder()
+            dataset[categorical_variables] = enc.fit_transform(
+                dataset[categorical_variables]
+            )
 
-    print(
-        f"Model Hyperparameters:\n Learning Rate: {args.lr}\n Max Depth: {args.max_depth}\n Number of Estimators: {args.n_estimators}"
-    )
-    print(f"Mean Squared Error: {mean_squared_error(test_labels, test_predictions)}")
-    feature_importances = model.feature_importances_
-    feature_names = train_feats.columns
+        trainset = preprocess_data(dataset)
 
-    # Create a pandas series to associate feature names with their importance scores
-    importances = pd.Series(feature_importances, index=feature_names)
-    print("Feature Importances: ")
-    print(importances)
+        feats = trainset.drop(columns=cols_from_results, errors="ignore")
+        labels = trainset[y_col]
 
-    # view feature importance/directionality
-    if args.interpret_plot == "shap":
-        explainer = shap.TreeExplainer(model)
-        explanation = explainer(test_feats)
-        shap_values = explanation.values
-        np.abs(
-            shap_values.sum(axis=1) + explanation.base_values - test_predictions
-        ).max()
-        shap.plots.beeswarm(explanation)
-        plt.tight_layout()
+        # cross val
+        k_folds = KFold(n_splits=5, random_state=42, shuffle=True)
+        test_features_list = []
+        all_shap_values = []
+        all_mae = []
+        feat_importances = []
+
+        for train_index, test_index in k_folds.split(feats):
+            train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
+            train_labels, test_labels = (
+                labels.iloc[train_index],
+                labels.iloc[test_index],
+            )
+            model = train_regressor(
+                train_feats,
+                train_labels,
+                lr=args.lr,
+                max_depth=args.max_depth,
+                n_estimators=args.n_estimators,
+                missing_val=args.missing_val,
+            )
+            predictions = model.predict(test_feats)
+            mae = mean_absolute_error(test_labels, predictions)
+            all_mae.append(mae)
+
+            importances = model.feature_importances_
+            feat_importances.append(importances)
+
+            explainer = shap.Explainer(model)
+            shap_values = explainer(test_feats)
+            all_shap_values.append(shap_values.values)
+            test_features_list.append(test_feats)
+
+        mean_importances = np.mean(feat_importances, axis=0)
+        importances_series = pd.Series(mean_importances, index=feats.columns)
+        print("Feature Importances: ")
+        print(importances_series)
+
+        os.makedirs("./logs", exist_ok=True)
+        with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
+            f.write(
+                f"=== Average Mean Absolute Error across folds: {np.mean(all_mae)} ===\n"
+            )
+            f.write("=== Feature Importances: ===\n")
+            f.write(importances_series.sort_values(ascending=False).to_string())
+            f.write("\n")
+
+        mae_per_task.append(np.mean(all_mae))
+        successful_tasks.append(y_col)
+        # Aggregating SHAP values
+        aggregated_shap_values = np.concatenate(all_shap_values, axis=0)
+        aggregated_test_features = pd.concat(test_features_list, ignore_index=True)
+
+        print(f"Average Mean Squared Error across folds: {np.mean(all_mae)}")
+        plt.figure(figsize=(10, 8))
+        shap.summary_plot(aggregated_shap_values, aggregated_test_features, show=False)
 
         os.makedirs("./figures", exist_ok=True)
-        plt.savefig(f"./figures/shap_{args.y_col}.png")
-    else:
-        raise NotImplementedError
+        plt.savefig(f"./figures/aggregate_shap_{y_col}_{args.predictor_type}.png")
+        plt.gcf().clear()
 
-    os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
-
-    test_predictions = pd.DataFrame(test_predictions, columns=["predicted_score"])
-    test_predictions.to_csv(args.output_file, index=False)
-    print(f"Test predictions saved to {args.output_file}")
+    df_results = pd.DataFrame(
+        {
+            "task": successful_tasks,
+            "mae": mae_per_task,
+        }
+    )
+    y_cols_joined = ",".join(args.y_col)
+    df_results.to_csv(f"summary_{y_cols_joined}_{args.predictor_type}.csv", index=False)
