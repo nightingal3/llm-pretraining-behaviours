@@ -193,7 +193,7 @@ if __name__ == "__main__":
     successful_tasks = []
 
     for y_col in y_cols:
-        # drop rows with missing values
+        # drop rows with missing score values
         dataset = dataset.dropna(subset=y_col)
         if len(dataset) <= args.n_estimators:
             warnings.warn(
