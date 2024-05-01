@@ -369,8 +369,6 @@
         "private",
         "gated",
         "disabled",
-        "downloads",
-        "likes",
         "tags",
         "pipeline_tag",
         "mask_token",
