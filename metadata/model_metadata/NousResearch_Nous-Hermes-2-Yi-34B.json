@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 69617,
-    "likes": 225,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -36,26 +34,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": [
-        {
-            "text": "Hey my name is Julien! How are you?"
-        },
-        {
-            "text": "Hey my name is Thomas! How are you?"
-        },
-        {
-            "text": "Hey my name is Mariama! How are you?"
-        },
-        {
-            "text": "Hey my name is Clara! How are you?"
-        },
-        {
-            "text": "Hey my name is Julien! How are you?"
-        },
-        {
-            "text": "Hi."
-        }
-    ],
     "model_index": [
         {
             "name": "Nous-Hermes-2-Yi-34B",

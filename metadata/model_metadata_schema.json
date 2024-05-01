@@ -41,12 +41,6 @@
         "disabled": {
             "type": "boolean"
         },
-        "downloads": {
-            "type": "integer"
-        },
-        "likes": {
-            "type": "integer"
-        },
         "library_name": {
             "type": "string"
         },
@@ -70,24 +64,6 @@
                 "object",
                 "null"
             ]
-        },
-        "widget_data": {
-            "type": [
-                "array",
-                "null"
-            ],
-            "items": {
-                "type": "object",
-                "properties": {
-                    "text": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "text"
-                ],
-                "additionalProperties": false
-            }
         },
         "model_index": {
             "type": [
@@ -393,8 +369,6 @@
         "private",
         "gated",
         "disabled",
-        "downloads",
-        "likes",
         "tags",
         "pipeline_tag",
         "mask_token",

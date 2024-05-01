@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 52285,
-    "likes": 335,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -27,23 +25,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": [
-        {
-            "text": "\u6211\u53eb\u6731\u5229\u5b89\uff0c\u6211\u559c\u6b22"
-        },
-        {
-            "text": "\u6211\u53eb\u6258\u9a6c\u65af\uff0c\u6211\u7684\u4e3b\u8981"
-        },
-        {
-            "text": "\u6211\u53eb\u739b\u4e3d\u4e9a\uff0c\u6211\u6700\u559c\u6b22\u7684"
-        },
-        {
-            "text": "\u6211\u53eb\u514b\u62c9\u62c9\uff0c\u6211\u662f"
-        },
-        {
-            "text": "\u4ece\u524d\uff0c"
-        }
-    ],
     "model_index": null,
     "config": {
         "architectures": [

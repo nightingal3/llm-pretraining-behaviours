@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 5361,
-    "likes": 141,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -33,7 +31,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": null,
     "model_index": [
         {
             "name": "tulu-2-dpo-70b",
