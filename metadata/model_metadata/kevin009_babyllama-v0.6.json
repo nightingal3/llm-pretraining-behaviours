@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 2555,
-    "likes": 2,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -28,7 +26,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": null,
     "model_index": [
         {
             "name": "babyllama-v0.6",

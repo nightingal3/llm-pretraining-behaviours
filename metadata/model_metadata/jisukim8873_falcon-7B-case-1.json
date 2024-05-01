@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 3615,
-    "likes": 0,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -27,7 +25,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": null,
     "model_index": null,
     "config": {
         "architectures": [
@@ -57,5 +54,6 @@
             "BF16": 6921720704
         },
         "total": 6921720704
-    }
+    },
+    "base_model": "tiiuae/falcon-7b"
 }
