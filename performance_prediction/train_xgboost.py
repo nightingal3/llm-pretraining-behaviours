@@ -188,6 +188,20 @@ if __name__ == "__main__":
         y_cols = [t for t in list(cols_from_results) if t.endswith("_acc")]
     else:
         y_cols = args.y_col
+    # ordinal encode
+    if args.predictor_type == "all":
+        if "is_instruction_tuned" in dataset.columns:
+            dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
+                {True: 1, False: 0, np.nan: -1}
+            )
+
+        for var in categorical_variables:
+            dataset[var] = dataset[var].astype("category")
+
+        enc = OrdinalEncoder()
+        dataset[categorical_variables] = enc.fit_transform(
+            dataset[categorical_variables]
+        )
 
     mae_per_task = []
     successful_tasks = []
@@ -195,26 +209,12 @@ if __name__ == "__main__":
     for y_col in y_cols:
         # drop rows with missing score values
         dataset = dataset.dropna(subset=y_col)
+        breakpoint()
         if len(dataset) <= args.n_estimators:
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
             )
             continue
-
-        # ordinal encode
-        if args.predictor_type == "all":
-            if "is_instruction_tuned" in dataset.columns:
-                dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
-                    {True: 1, False: 0, np.nan: -1}
-                )
-
-            for var in categorical_variables:
-                dataset[var] = dataset[var].astype("category")
-
-            enc = OrdinalEncoder()
-            dataset[categorical_variables] = enc.fit_transform(
-                dataset[categorical_variables]
-            )
 
         trainset = preprocess_data(dataset)
 
