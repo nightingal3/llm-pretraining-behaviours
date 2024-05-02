@@ -12,22 +12,19 @@ import os
 
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 
-task_metric = defaultdict(lambda: "acc")
-task_metric.update(
-    {
-        "minerva_math": "exact_match",
-        "minerva_math_algebra": "exact_match",
-        "minerva_math_counting_and_prob": "exact_match",
-        "minerva_math_geometry": "exact_match",
-        "minerva_math_intermediate_algebra": "exact_match",
-        "minerva_math_num_theory": "exact_match",
-        "minerva_math_prealgebra": "exact_match",
-        "minerva_math_precalc": "exact_match",
-        "gsm8k": "exact_match",
-        "gsm8k_cot": "exact_match",
-        "fld": "exact_match",
-    }
-)
+collected_metrics = ["acc", "brier_score", "exact_match"]
+
+
+def get_task_list_from_yaml(path_to_yamls: str, task_name: str) -> list[str]:
+    """Search through the yaml files in the given directory for the task list."""
+    for root, _, files in os.walk(path_to_yamls):
+        for file in files:
+            if file.endswith(".yaml"):
+                with open(os.path.join(root, file), "r") as f:
+                    yaml_data = yaml.safe_load(f)
+                    if yaml_data["group"] == task_name:
+                        return yaml_data["task"]
+    return []
 
 
 def evaluate_with_harness(
@@ -66,7 +63,35 @@ def evaluate_with_harness(
         except:
             print(f"Failed to evaluate {task}")
 
-    return new_results
+    for task in tasks:
+        # Find lines related to the task including its subtasks
+        task_lines = [
+            line for line in lines if f"| - {task}" in line or f"|  - {task}" in line
+        ]
+        # If there are no lines for this task, continue to the next
+        if not task_lines:
+            continue
+
+        # Extract data for each subtask
+        for line in task_lines:
+            parts = [part.strip() for part in line.split("|")]
+            for metric in collected_metrics:
+                if metric in parts:
+                    # Extracting metric value and stderr
+                    metric_index = parts.index(metric)
+                    metric_value = parts[metric_index + 1]
+                    stderr_index = parts.index("±")
+                    stderr_value = parts[stderr_index + 1]
+
+                    task_data[task].update(
+                        {
+                            metric: float(metric_value),
+                            f"{metric}_stderr": float(stderr_value),
+                            "timestamp": str(datetime.now()),
+                        }
+                    )
+
+    return task_data
 
 
 def parse_harness_results(
@@ -103,6 +128,7 @@ def integrated_eval(
     tasks: list[str],
     output_filename: str,
     overwrite: bool = False,
+    update: bool = False,
     eval_harness_only: bool = False,
 ) -> None:
     """
@@ -114,8 +140,6 @@ def integrated_eval(
         model_scores, json_path = collect_model_scores_hf(
             model_name, output_filename, overwrite
         )
-        evaled_datasets = set(model_scores["results"]["harness"].keys())
-        remaining_tasks = set(tasks) - set(evaled_datasets)
     else:
         model_scores = {"model_name": model_name, "results": {"harness": {}}}
         remaining_tasks = set(tasks)
@@ -129,9 +153,19 @@ def integrated_eval(
     # Update the model scores with the new results
     model_scores["results"]["harness"].update(new_results)
 
-    # overwrite the json file
-    with open(json_path, "w") as f:
-        json.dump(model_scores, f, indent=4)
+    if overwrite:
+        # overwrite the json file
+        with open(json_path, "w") as f:
+            json.dump(model_scores, f, indent=4)
+    elif update:
+        # update the json file
+        with open(json_path, "r") as f:
+            old_model_scores = json.load(f)
+
+        old_model_scores["results"]["harness"].update(new_results)
+
+        with open(json_path, "w") as f:
+            json.dump(old_model_scores, f, indent=4)
 
     print(f"Scores for '{model_name}' saved to {json_path}")
 
@@ -156,7 +190,10 @@ if __name__ == "__main__":
         help="Whether to overwrite the metadata file if it already exists.",
     )
     parser.add_argument(
-        "--tasks_file",
+        "--update", action="store_true", help="Update the metadata file with new tasks."
+    )
+    parser.add_argument(
+        "--task_name",
         type=str,
         help="The file containing the tasks, one per line",
         default="metadata/eval_harness_tasks.txt",
@@ -168,10 +205,14 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    with open(args.tasks_file, "r") as f:
-        # tasks can also be commented out with #
-        tasks = [l.strip() for l in f.readlines() if l[0] != "#"]
+    assert not args.overwrite or not args.update, "Cannot use both overwrite and update"
 
     integrated_eval(
-        args.model_name, tasks, args.output_dir, args.overwrite, args.eval_harness_only
+        args.model_name,
+        args.task_name,
+        args.output_dir,
+        args.overwrite,
+        args.update,
+        args.eval_harness_only,
+        args.include_path,
     )
