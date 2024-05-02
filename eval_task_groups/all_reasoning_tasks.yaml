@@ -1,0 +1,18 @@
+group: reasoning
+task:
+  - gsm8k
+  - gsm8k_cot
+  - mathqa
+  - minerva_math
+  - logiqa2
+  - fld
+  - scrolls
+  - lambada
+  - anli
+  - xnli
+  - arithmetic
+metric_list:
+  - metric: brier_score
+  - metric: acc
+  - metric: exact_match
+  - metric: word_perplexity
