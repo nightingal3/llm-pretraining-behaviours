@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 2471,
-    "likes": 0,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -26,7 +24,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": null,
     "model_index": null,
     "config": {
         "architectures": [
