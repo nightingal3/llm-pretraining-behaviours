@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 184122,
-    "likes": 1403,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -31,17 +29,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": [
-        {
-            "text": "Mon nom est Julien et j'aime"
-        },
-        {
-            "text": "Mon nom est Thomas et mon principal"
-        },
-        {
-            "text": "Il \u00e9tait une fois"
-        }
-    ],
     "model_index": null,
     "config": {
         "architectures": [

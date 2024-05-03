@@ -7,8 +7,6 @@
     "private": false,
     "gated": false,
     "disabled": false,
-    "downloads": 218237,
-    "likes": 1008,
     "library_name": "transformers",
     "tags": [
         "transformers",
@@ -33,32 +31,6 @@
     "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
-    "widget_data": [
-        {
-            "text": "My name is Julien and I like to"
-        },
-        {
-            "text": "My name is Thomas and my main"
-        },
-        {
-            "text": "My name is Mariama, my favorite"
-        },
-        {
-            "text": "My name is Clara and I am"
-        },
-        {
-            "text": "My name is Lewis and I like to"
-        },
-        {
-            "text": "My name is Merve and my favorite"
-        },
-        {
-            "text": "My name is Teven and I am"
-        },
-        {
-            "text": "Once upon a time,"
-        }
-    ],
     "model_index": null,
     "config": {
         "architectures": [
