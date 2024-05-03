@@ -17,7 +17,7 @@ collected_metrics = ["acc", "brier_score", "exact_match"]
 
 
 def get_task_list_from_yaml(path_to_yamls: str, task_name: str) -> list[str]:
-    """Search through the yaml files in the given directory for the task list."""
+    """Search through the yaml files in the given directory for the task list. (by top-level name)"""
     for root, _, files in os.walk(path_to_yamls):
         for file in files:
             if file.endswith(".yaml"):
@@ -97,7 +97,6 @@ def parse_harness_group_results(results: str, tasks: list[str]) -> dict[str, Any
         task_lines = [
             line for line in lines if f"| - {task}" in line or f"|  - {task}" in line
         ]
-        breakpoint()
         # If there are no lines for this task, continue to the next
         if not task_lines:
             continue
