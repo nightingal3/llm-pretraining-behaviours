@@ -1,0 +1,1 @@
+sbatch /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/preprocess_data.sh {arrow_file} {output_bin_path} {output_json_path} /data/datasets/models/huggingface/meta-llama/Llama-2-70b-hf/ ./pretrain_llama/experiment_files/preprocessing.csv

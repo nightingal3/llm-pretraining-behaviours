@@ -1,0 +1,3 @@
+TaskID,path_for_ckpt,model_config,training_data_bin,tokenizer,total_train_toks,command
+1,/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/dolma/llama2_220M_code_only,/data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/Llama2_220M.yaml,todo,meta-llama/Llama-2-7b-hf,100000000000,./data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/train_model_arr.sh
+2,/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/dolma/llama2_460M_code_only,/data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/Llama2_460M.yaml,todo,meta-llama/Llama-2-7b-hf,100000000000,./data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/train_model_arr.sh
