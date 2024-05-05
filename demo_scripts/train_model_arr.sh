@@ -23,7 +23,7 @@ set -euo pipefail
 
 EXP_CONFIG=$1
 
-IFS=',' read -r CHECKPOINT_PATH model_config dataset_bin external_tokenizer TOTAL_TRAIN_TOKENS <<< $(sed "${SLURM_ARRAY_TASK_ID}q;d" $CSV_FILE_PATH)
+IFS=',' read -r task_id CHECKPOINT_PATH model_config dataset_bin external_tokenizer TOTAL_TRAIN_TOKENS <<< $(sed "${SLURM_ARRAY_TASK_ID}q;d" $CSV_FILE_PATH)
 
 repo=${BASE_REPO}
 data_path=${dataset_bin}

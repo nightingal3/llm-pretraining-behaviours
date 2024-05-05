@@ -17,7 +17,7 @@ fi
 
 EXP_CONFIG=$1
 
-IFS=',' read -r arrow_file dataset_bin dataset_json external_tokenizer <<< $(sed "${SLURM_ARRAY_TASK_ID}q;d" $CSV_FILE_PATH)
+IFS=',' read -r task_id arrow_file dataset_bin dataset_json external_tokenizer <<< $(sed "${SLURM_ARRAY_TASK_ID}q;d" $CSV_FILE_PATH)
 
 if [[ ! -f $dataset_json ]]; then
     # convert pyarrow to jsonl
