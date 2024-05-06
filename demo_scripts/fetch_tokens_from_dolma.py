@@ -28,7 +28,11 @@ MAX_DUMP_SIZE = 500_000_000
 
 
 def parse_num(val: str) -> int:
-    if val.lower().endswith("b"):
+    if val.lower() == "all":
+        return float("inf")
+    elif val.lower().endwith("t"):
+        return int(val[:-1]) * 1_000_000_000_000
+    elif val.lower().endswith("b"):
         return int(val[:-1]) * 1_000_000_000
     elif val.lower().endswith("m"):
         return int(val[:-1]) * 1_000_000
@@ -163,12 +167,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--num_tokens",
-        help="Number of tokens to fetch. You can also write xB/xM to fetch x billions/millions",
+        help="Number of tokens to fetch. You can also write xT/xB/xM to fetch x billions/millions. Write 'all' to fetch all tokens (may take a lot of space)",
         type=str,
     )
     parser.add_argument(
         "--num_total_tokens",
-        help="Total number of tokens to fetch. You can also write xB/xM to fetch x billions/millions",
+        help="Total number of tokens to fetch. You can also write xT/xB/xM to fetch x billions/millions.",
         type=str,
     )
     parser.add_argument("--output", help="Output dir", type=str)
