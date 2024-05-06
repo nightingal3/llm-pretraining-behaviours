@@ -35,10 +35,10 @@ do
         if [ ! -d $file_pointer ]; then
             echo "$file_pointer does not exist"
         else
-            num_files=$(find $file_pointer -type f -name '*jsonl' | wc -l)
+            num_files=$(find $file_pointer -type f -name '*.jsonl' | wc -l)
             for $input_file in $file_pointer/*.jsonl
                 do
-                    output_file=${output_feature_dir}/${dataset}/${domain_name}/${feature}/${(basename $input_file)}
+                    output_file=${output_feature_dir}/${dataset}/${domain_name}/${feature}/(basename ${input_file} .jsonl).parquet
                     # TODO: write script to get features with jsonl files as input
                     python get_dataset_features.py \
                         --feature $feature \
