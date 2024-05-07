@@ -25,10 +25,17 @@ def multi_arrows_to_jsonl(arrow_files: list, jsonl_out: str) -> None:
     dfs = []
     for arrow_file in arrow_files:
         with open(arrow_file, "rb") as f:
-            reader = pyarrow.ipc.RecordBatchStreamReader(f)
-            table = reader.read_all()
+            try:
+                reader = pyarrow.ipc.RecordBatchStreamReader(f)
+                table = reader.read_all()
+                df = table.to_pandas()
+            except:
+                try:
+                    df = pandas.read_parquet(arrow_file)
+                except:
+                    print(f"Error reading {arrow_file}")
+                    continue
 
-            df = table.to_pandas()
             df["text"] = df["content"]
             dfs.append(df)
     df = pandas.concat(dfs)
