@@ -35,12 +35,12 @@ Composition features:
 
 Tagged features:
 - mean dependency length
-- stdev depdendency length
+- stdev dependency length
 - mean unique tokens per document
 - stdev unique tokens per document
 - mean tree depth 
 - stdev tree depth
 - mean entropy over next token
 - stdev entropy over next token
-# TODO: should complete the rest of the global info taggers and list them here
+\# TODO: should complete the rest of the global info taggers and list them here
 
