@@ -35,8 +35,8 @@ def multi_arrows_to_jsonl(arrow_files: list, jsonl_out: str) -> None:
                 except:
                     print(f"Error reading {arrow_file}")
                     continue
-
-            df["text"] = df["content"]
+            if "text" not in df.columns:
+                df["text"] = df["content"]
             dfs.append(df)
     df = pandas.concat(dfs)
     df.to_json(jsonl_out, orient="records", lines=True)

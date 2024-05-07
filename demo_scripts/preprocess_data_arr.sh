@@ -2,7 +2,7 @@
 #SBATCH --job-name=preprocess_data_%A_%a
 #SBATCH --output=preprocess_data_%A_%a.out
 #SBATCH --cpus-per-task=30
-#SBATCH --mem=30G
+#SBATCH --mem=100G
 #SBATCH --time=7-00:00:00
 #SBATCH --partition=long
 #SBATCH --mail-user=emmy@cmu.edu
