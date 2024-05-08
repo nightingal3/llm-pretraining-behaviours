@@ -4,7 +4,7 @@
 #SBATCH --mem=30G
 #SBATCH --gres=gpu:A6000:4
 #SBATCH --time=1-00:00:00
-#SBATCH --partition=babel-shared-long
+#SBATCH --partition=long
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
@@ -27,13 +27,37 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
 fi
 
 CHECKPOINT_PATH=${1:-./llama_mini_try}
-model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
-dataset_bin=${3:-/data/tir/projects/tir7/user_data/lmarinov/dolma_full-bin/data_text_document}
+model_config=${2:-./demo_scripts/configs/model_config/Llama2_220M.yaml}
+data_mix_file=${3:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/data_config/100B/try_mix.txt}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 TOTAL_TRAIN_TOKENS=${5:-98000000000}
 
 repo=${BASE_REPO}
-data_path=${dataset_bin}
+
+
+# Check if the file is not empty
+if [ -s "$data_mix_file" ]; then
+    mapfile -t lines < "$data_mix_file"
+
+    line_count="${#lines[@]}"
+
+    if [ "$line_count" -eq 1 ]; then
+        data_path="${lines[0]}"
+    elif [ "$line_count" -ge 2 ]; then
+        # if more than one line, concatenate with a space
+        data_path=""
+        for line in "${lines[@]}"; do
+            data_path="${data_path} ${line}"
+        done
+        # Trim leading space
+        data_path=$(echo "$data_path" | sed 's/^\s*//')
+    fi
+   
+   echo "Data path: $data_path"
+else
+    echo "The file is empty or does not exist."
+fi
+
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
