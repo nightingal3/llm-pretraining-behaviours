@@ -34,6 +34,7 @@ Composition features:
 - percentage contaminated data
 - percentage instruction data
 - is_instruction_tuned: whether or not the model was instruction tuned
+- is_preference_tuned: whether or not the model is RLHF'ed/DPOed/etc with preference data
 
 Tagged features:
 - mean dependency length
