@@ -1,0 +1,58 @@
+{
+    "id": "EleutherAI/pythia-1b",
+    "author": "EleutherAI",
+    "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+    "created_at": "2023-03-10T21:42:46+00:00",
+    "last_modified": "2023-07-09T16:05:58+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "gpt_neox",
+        "text-generation",
+        "causal-lm",
+        "pythia",
+        "en",
+        "dataset:the_pile",
+        "arxiv:2304.01373",
+        "arxiv:2101.00027",
+        "arxiv:2201.07311",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPTNeoXForCausalLM"
+        ],
+        "model_type": "gpt_neox",
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F16": 1011782144,
+            "U8": 67108864
+        },
+        "total": 1078891008
+    }
+}

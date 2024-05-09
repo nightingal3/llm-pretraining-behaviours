@@ -1,0 +1,79 @@
+{
+    "id": "EleutherAI/pythia-14m",
+    "author": "EleutherAI",
+    "sha": "f33025648652797a390d8c54835273845b437161",
+    "created_at": "2023-07-19T13:57:54+00:00",
+    "last_modified": "2023-07-26T17:38:10+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "downloads": 290783,
+    "likes": 11,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "gpt_neox",
+        "text-generation",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": null,
+    "widget_data": [
+        {
+            "text": "My name is Julien and I like to"
+        },
+        {
+            "text": "My name is Thomas and my main"
+        },
+        {
+            "text": "My name is Mariama, my favorite"
+        },
+        {
+            "text": "My name is Clara and I am"
+        },
+        {
+            "text": "My name is Lewis and I like to"
+        },
+        {
+            "text": "My name is Merve and my favorite"
+        },
+        {
+            "text": "My name is Teven and I am"
+        },
+        {
+            "text": "Once upon a time,"
+        }
+    ],
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPTNeoXForCausalLM"
+        ],
+        "model_type": "gpt_neox",
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F16": 14067736,
+            "BOOL": 25165824
+        },
+        "total": 39233560
+    }
+}
