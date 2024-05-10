@@ -1,0 +1,18 @@
+model name,dimension,num_heads,num_layers,mlp_ratio,intermediate_size,layer_norm_type,positional_embeddings,attention_variant,biases,block_type,activation,sequence_length,batch_instances,batch_tokens,weight_tying,deep_key,total_params,vocab_size
+llama2-7b,4096,32,32,2.6875,11008.0,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,1024.0,4000000.0,FALSE,-1.0,-1,32000.0
+llama2-13b,5120,40,40,2.666667,13653.33504,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,1024.0,4000000.0,FALSE,-1.0,,32000.0
+llama2-70b,8192,64,80,3.5,28672.0,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,1024.0,4000000.0,FALSE,-1.0,68976653312,32000.0
+falcon-7b,4544,71,32,4.0,18176.0,parametric,rope,mqa,ln_only,parallel,gelu,2048.0,2304.0,4000000.0,FALSE,-1.0,6921720704,65024.0
+qwen-7b,4096,32,32,5.375,22016.0,-1,rotary,-1,none,-1,-1,8192.0,-1.0,-1.0,FALSE,-1.0,-1,151851.0
+pythia-6.9b,4096,32,32,2.666667,10922.66803,-1,rotary,-1,-1,-1,gelu,2048.0,1024.0,2000000.0,FALSE,-1.0,"6,857,302,106",
+mistral-7b-1,4096,32,32,3.5,14336.0,rmsnorm,rope,gqa,none,sequential,silu,4096.0,-1.0,-1.0,FALSE,-1.0,7241732096,
+llama1-7b,4096,32,32,2.666667,10922.66803,rmsnorm,rope,full,none,sequential,swiglu,2048.0,1024.0,4000000.0,FALSE,-1.0,6738417664,
+llama1-13b,5120,40,40,,0.0,rmsnorm,rope,full,none,sequential,swiglu,2048.0,-1.0,4000000.0,FALSE,,,
+olmo-7b,4096,32,32,5.375,22016.0,non-parametric,rope,full,none,sequential,swiglu,2048.0,2160.0,4000000.0,FALSE,,,
+openlm-7b,4096,32,32,2.666667,10922.66803,parametric,rope,full,ln_only,sequential,swiglu,2048.0,2048.0,4000000.0,FALSE,,,
+flyingllama-v2,1024,16,24,,,,,,,,,,,,,,,
+gpt2,768,12,12,-1.0,,-1,-1,-1,-1,-1,gelu,1024.0,-1.0,-1.0,-1,-1.0,137022720,
+orca-mini3b,3200,32,26,-1.0,,rmsnorm,rope,full,none,sequential,silu,2048.0,-1.0,-1.0,FALSE,-1.0,-1,
+yi-34b,7168,56,60,2.857142857,20480.0,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,-1.0,-1.0,FALSE,-1.0,34388917248,64000.0
+mixtral-8x7B-v0.1 ,4096,32,32,,14336.0,rmsnorm,rope,gqa,,,swiglu,32768.0,-1.0,,FALSE,,,32000.0
+tinyllama-1.1b,2048,32,22,2.75,5632.0,rmsnorm,rope,gqa,none,sequential,swiglu,2048.0,1024.0,2000000.0,FALSE,-1.0,1261529088,32000.0
