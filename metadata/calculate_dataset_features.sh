@@ -1,6 +1,7 @@
 #!/bin/bash
 #SBATCH --time=7-00:00:00
 #SBATCH --partition=babel-shared-long
+#SBATCH --ntasks=8
 #SBATCH --cpus-per-task=30
 #SBATCH --mem=50G
 #SBATCH --job-name=get_dataset_features
@@ -39,8 +40,7 @@ do
             for $input_file in $file_pointer/*.jsonl
                 do
                     output_file=${output_feature_dir}/${dataset}/${domain_name}/${feature}/(basename ${input_file} .jsonl).parquet
-                    # TODO: write script to get features with jsonl files as input
-                    python get_dataset_features.py \
+                    srun python get_dataset_features.py \
                         --feature $feature \
                         --input $input_file \
                         --output $output_file
@@ -49,6 +49,8 @@ do
             # and update the current metadata json (update_metadata_features.py)
             feature_dir=${output_feature_dir}/${dataset}/${domain_name}/${feature}
             python update_metadata_features.py \
+                --feature $feature \
+                --domain $domain_name \
                 --feature_dir $feature_dir \
                 --metadata_file $metadata_file
             echo "${metadata_file} updated to include aggregate ${feature} statistics"
