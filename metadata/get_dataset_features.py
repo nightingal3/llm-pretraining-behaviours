@@ -19,7 +19,7 @@ from transformers import AutoTokenizer
 import time
 from collections import defaultdict
 
-sys.path.append("dolma_data_processing/")
+sys.path.append("../dolma_data_processing/")
 from calc_feature_utils import *
 import calc_parse_feature_utils
 
