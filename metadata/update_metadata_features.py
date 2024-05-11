@@ -16,15 +16,22 @@ def main(feature: str, domain: str, feature_dir: str, metadata_file: str):
         else:
             continue
     updated_metadata = json.dumps(metadata, indent=4)
-    with open(metadata_file, 'w') as file:
+    with open(metadata_file, "w") as file:
         file.write(updated_metadata)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--feature", help="Name of feature", type=str, required=True)
-    parser.add_argument("--domain", help="Name of dataset domain", type=str, required=True)
-    parser.add_argument("--feature_dir", help="Directory where dataset domain features are saved", type=str, required=True)
+    parser.add_argument(
+        "--domain", help="Name of dataset domain", type=str, required=True
+    )
+    parser.add_argument(
+        "--feature_dir",
+        help="Directory where dataset domain features are saved",
+        type=str,
+        required=True,
+    )
     parser.add_argument("--metadata_file", help="Dataset metadata file", type=str)
 
     args = parser.parse_args()
