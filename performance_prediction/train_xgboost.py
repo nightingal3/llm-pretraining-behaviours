@@ -169,7 +169,10 @@ if __name__ == "__main__":
         right_on="id",
     )
 
-    dataset = dataset.drop(columns=["assigned person", "notes"])
+    if "assigned person" in dataset.columns:
+        dataset = dataset.drop(columns=["assigned person"])
+    if "notes" in dataset.columns:
+        dataset = dataset.drop(columns=["notes"])
 
     if args.predictor_type == "scaling_laws":
         # drop all but total params and num tokens
@@ -208,15 +211,15 @@ if __name__ == "__main__":
 
     for y_col in y_cols:
         # drop rows with missing score values
-        dataset = dataset.dropna(subset=y_col)
-        breakpoint()
-        if len(dataset) <= args.n_estimators:
+        dataset_copy = dataset.copy()
+        dataset_copy = dataset_copy.dropna(subset=y_col)
+        if len(dataset_copy) <= max(5, args.n_estimators):
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
             )
             continue
 
-        trainset = preprocess_data(dataset)
+        trainset = preprocess_data(dataset_copy)
 
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
