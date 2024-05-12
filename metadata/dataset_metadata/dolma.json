@@ -23,6 +23,12 @@
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 2673.9
+        "total_size_tokens_billions": 2673.9,
+        "percentage_web": 0.82,
+        "percentage_code": 0.1343,
+        "percentage_books": 0.002,
+        "percentage_encyclopedic": 0.0014,
+        "percentage_academic_papers": 0.0229,
+        "percentage_english": 1.0
     }
 }
