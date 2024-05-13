@@ -1,0 +1,7 @@
+TaskID,domain,num_tokens,output,command
+1,c4,1T,/data/tir/projects/tir3/users/mengyan3/dolma_raw/c4,python demo_scripts/fetch_tokens_from_dolma.py --num_tokens 1T --output /data/tir/projects/tir3/users/mengyan3/dolma_raw/c4 --domain c4
+2,common-crawl,1T,/data/tir/projects/tir3/users/mengyan3/dolma_raw/common-crawl,python demo_scripts/fetch_tokens_from_dolma.py --num_tokens 1T --output /data/tir/projects/tir3/users/mengyan3/dolma_raw/common-crawl --domain common-crawl
+3,peS2o,all,/data/tir/projects/tir3/users/mengyan3/dolma_raw/peS2o,python demo_scripts/fetch_tokens_from_dolma.py --num_tokens all --output /data/tir/projects/tir3/users/mengyan3/dolma_raw/peS2o --domain peS2o
+4,stack-code,1T,/data/tir/projects/tir3/users/mengyan3/dolma_raw/stack-code,python demo_scripts/fetch_tokens_from_dolma.py --num_tokens 1T --output /data/tir/projects/tir3/users/mengyan3/dolma_raw/stack-code --domain stack-code
+5,gutenberg-books,all,/data/tir/projects/tir3/users/mengyan3/dolma_raw/gutenberg-books,python demo_scripts/fetch_tokens_from_dolma.py --num_tokens all --output /data/tir/projects/tir3/users/mengyan3/dolma_raw/gutenberg-books --domain gutenberg-books
+6,wiki-en-simple,all,/data/tir/projects/tir3/users/mengyan3/dolma_raw/wiki-en-simple,python demo_scripts/fetch_tokens_from_dolma.py --num_tokens all --output /data/tir/projects/tir3/users/mengyan3/dolma_raw/wiki-en-simple --domain wiki-en-simple

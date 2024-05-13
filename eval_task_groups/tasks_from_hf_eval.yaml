@@ -1,0 +1,11 @@
+group: lm-leaderboard-evals
+# Tasks from the huggingface LM leaderboard that aren't included in the reasoning group
+task:
+  - arc
+  - hellaswag
+  - mmlu
+  - truthfulqa
+  - drop
+  - winogrande
+  - minerva_math
+  

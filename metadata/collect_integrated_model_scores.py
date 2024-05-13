@@ -6,17 +6,18 @@ import torch
 from datetime import datetime
 import json
 import os
-import torch
 from collections import defaultdict
 import os
+import yaml
 
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
+
 
 collected_metrics = ["acc", "brier_score", "exact_match"]
 
 
 def get_task_list_from_yaml(path_to_yamls: str, task_name: str) -> list[str]:
-    """Search through the yaml files in the given directory for the task list."""
+    """Search through the yaml files in the given directory for the task list. (by top-level name)"""
     for root, _, files in os.walk(path_to_yamls):
         for file in files:
             if file.endswith(".yaml"):
@@ -28,41 +29,69 @@ def get_task_list_from_yaml(path_to_yamls: str, task_name: str) -> list[str]:
 
 
 def evaluate_with_harness(
-    model_name: str, tasks: set[str], output_filepath: str, **kwargs
+    model_name: str, task_name: str, output_filepath: str, include_path: str, **kwargs
 ) -> dict[str, Any]:
     """
     Evaluate a model on a set of tasks using the eval harness.
     """
+    task_list = get_task_list_from_yaml(include_path, task_name)
 
-    command = """lm_eval --model hf --model_args pretrained={model_name},dtype=float16,trust_remote_code=True --tasks {task} --device {device} --batch_size auto:4 --log_samples --output {output_dir}"""
+    output_dir = os.path.join(
+        output_filepath, "logits", model_name.replace("/", "_"), task_name
+    )
+    command = f"""lm_eval --model hf --model_args pretrained={model_name},dtype=float16,trust_remote_code=True --include_path {include_path} --tasks {task_name} --device {DEVICE} --batch_size auto:4 --log_samples --output {output_dir}"""
     new_results = {}
-    # note on command: the 'auto' setting for batch size mysteriously causes some tasks to fail
-    # setting it to a conservative value that should work in most cases
-    for task in tasks:
-        output_dir = os.path.join(
-            output_filepath, "logits", model_name.replace("/", "_"), task
+
+    try:
+        print(f"Evaluating {task_name} task(s)")
+        result = subprocess.run(
+            command.split(" "),
+            check=True,
+            stdout=subprocess.PIPE,
+            text=True,
         )
-        print(f"Evaluating {task}")
 
-        try:
-            command_task = command.format(
-                model_name=model_name, task=task, device=DEVICE, output_dir=output_dir
-            )
+        new_results = parse_harness_group_results(result.stdout, task_list)
+    except:
+        print(f"Failed to evaluate {task_name} task(s)")
 
-            result = subprocess.run(
-                command_task.split(" "),
-                check=True,
-                stdout=subprocess.PIPE,
-                text=True,
-            )
-            metric = task_metric[task]
-            parsed_results = parse_harness_results(result.stdout, task, metric)
-            if parsed_results != {}:  # TODO: how to get num examples
-                new_results[task] = {"x-shot": parsed_results}
+    for task in tasks:
+        # Find lines related to the task including its subtasks
+        task_lines = [
+            line for line in lines if f"| - {task}" in line or f"|  - {task}" in line
+        ]
+        # If there are no lines for this task, continue to the next
+        if not task_lines:
+            continue
 
-        except:
-            print(f"Failed to evaluate {task}")
+        # Extract data for each subtask
+        for line in task_lines:
+            parts = [part.strip() for part in line.split("|")]
+            for metric in collected_metrics:
+                if metric in parts:
+                    # Extracting metric value and stderr
+                    metric_index = parts.index(metric)
+                    metric_value = parts[metric_index + 1]
+                    stderr_index = parts.index("±")
+                    stderr_value = parts[stderr_index + 1]
 
+                    task_data[task].update(
+                        {
+                            metric: float(metric_value),
+                            f"{metric}_stderr": float(stderr_value),
+                            "timestamp": str(datetime.now()),
+                        }
+                    )
+
+    return task_data
+
+
+def parse_harness_group_results(results: str, tasks: list[str]) -> dict[str, Any]:
+
+    lines = results.split("\n")
+    task_data = defaultdict(dict)
+
+    # Iterate over each task
     for task in tasks:
         # Find lines related to the task including its subtasks
         task_lines = [
@@ -125,14 +154,15 @@ def parse_harness_results(
 
 def integrated_eval(
     model_name: str,
-    tasks: list[str],
+    task_name: str,
     output_filename: str,
     overwrite: bool = False,
     update: bool = False,
     eval_harness_only: bool = False,
+    include_path: str = "./eval_task_groups",
 ) -> None:
     """
-    Evaluate a model on a set of tasks + any additional tasks found in the open llm leaderboard on huggingface.
+    Evaluate a model on a set of tasks in eval harness + any additional tasks found in the open llm leaderboard on huggingface.
     """
 
     if not eval_harness_only:
@@ -140,15 +170,17 @@ def integrated_eval(
         model_scores, json_path = collect_model_scores_hf(
             model_name, output_filename, overwrite
         )
+
     else:
         model_scores = {"model_name": model_name, "results": {"harness": {}}}
-        remaining_tasks = set(tasks)
         json_path = os.path.join(
             output_filename, f"results_{model_name.replace('/', '_')}.json"
         )
 
     # Evaluate the model on the tasks
-    new_results = evaluate_with_harness(model_name, remaining_tasks, output_filename)
+    new_results = evaluate_with_harness(
+        model_name, task_name, output_filename, include_path
+    )
 
     # Update the model scores with the new results
     model_scores["results"]["harness"].update(new_results)
@@ -195,17 +227,24 @@ if __name__ == "__main__":
     parser.add_argument(
         "--task_name",
         type=str,
-        help="The file containing the tasks, one per line",
-        default="metadata/eval_harness_tasks.txt",
+        help="The name of the tasks/task group.",
+        default="reasoning",
     )
     parser.add_argument(
         "--eval_harness_only",
         action="store_true",
         help="Whether to only evaluate the model on the tasks in the eval harness",
     )
+    parser.add_argument(
+        "--include_path",
+        type=str,
+        help="Include the task yamls in this directory as well when looking for tasks",
+        default="./eval_task_groups",
+    )
 
     args = parser.parse_args()
-    assert not args.overwrite or not args.update, "Cannot use both overwrite and update"
+
+    assert not (args.overwrite and args.update), "Cannot use both overwrite and update"
 
     integrated_eval(
         args.model_name,

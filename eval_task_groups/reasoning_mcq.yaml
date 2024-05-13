@@ -1,0 +1,8 @@
+group: reasoning-mcq
+task:
+  - anli
+  - xnli
+  - mathqa
+  - logiqa2
+metric_list: 
+  - metric: brier_score

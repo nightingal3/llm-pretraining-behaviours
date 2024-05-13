@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=train_model_try
 #SBATCH --output=train_model_try.out
-#SBATCH --mem=30G
-#SBATCH --gres=gpu:A6000:4
+#SBATCH --mem=50G
+#SBATCH --gres=gpu:4
 #SBATCH --time=1-00:00:00
-#SBATCH --partition=long
+#SBATCH --partition=gpuA100x4
+#SBATCH --account=bchd-delta-gpu
 #SBATCH --mail-user=emmy@cmu.edu
-#SBATCH --mail-type=END
+#SBATCH --mail-type=ALL
 
 set -a 
 source ./demo_scripts/configs/.env
@@ -27,60 +28,59 @@ if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
 fi
 
 CHECKPOINT_PATH=${1:-./llama_mini_try}
-model_config=${2:-./demo_scripts/configs/model_config/Llama2_220M.yaml}
-data_mix_file=${3:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/data_config/100B/try_mix.txt}
+model_config=${2:-./demo_scripts/configs/Llama2_220M.yaml}
+dataset_bin=${3:-./wiki-en-simple_200000000-bin/data_text_document}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 TOTAL_TRAIN_TOKENS=${5:-98000000000}
 
 repo=${BASE_REPO}
+data_path=${dataset_bin}
+
+echo "Modules:"
+module list
+echo "End modules"
+# num_layers=$(yq '.training.num_layers' $model_config)
+# num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
+# seq_length=$(yq '.training.seq_length' $model_config)
+# num_kv_heads=$(yq '.training.num_kv_heads' $model_config)
+# hidden_size=$(yq '.training.hidden_size' $model_config)
+# ffn_hidden_size=$(yq '.training.ffn_hidden_size' $model_config)
 
 
-# Check if the file is not empty
-if [ -s "$data_mix_file" ]; then
-    mapfile -t lines < "$data_mix_file"
-
-    line_count="${#lines[@]}"
-
-    if [ "$line_count" -eq 1 ]; then
-        data_path="${lines[0]}"
-    elif [ "$line_count" -ge 2 ]; then
-        # if more than one line, concatenate with a space
-        data_path=""
-        for line in "${lines[@]}"; do
-            data_path="${data_path} ${line}"
-        done
-        # Trim leading space
-        data_path=$(echo "$data_path" | sed 's/^\s*//')
-    fi
-   
-   echo "Data path: $data_path"
-else
-    echo "The file is empty or does not exist."
-fi
+# tune_steps=$(yq '.training.tune_steps' $model_config)
+# lr=$(yq '.training.lr' $model_config)
+# min_lr=$(yq '.training.min_lr' $model_config)
+# weight_decay=$(yq '.training.weight_decay' $model_config)
+# grad_clip=$(yq '.training.grad_clip' $model_config)
+# lr_warmup_steps=$(yq '.training.lr_warmup_steps' $model_config)
+# save_interval=$(yq '.training.save_interval' $model_config)
+# eval_interval=$(yq '.training.eval_interval' $model_config)
+# train_steps=$(yq '.training.train_steps' $model_config)
+# train_epochs=$(yq '.training.train_epochs' $model_config)
 
 
-num_layers=$(yq '.training.num_layers' $model_config)
-num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
-seq_length=$(yq '.training.seq_length' $model_config)
-num_kv_heads=$(yq '.training.num_kv_heads' $model_config)
-hidden_size=$(yq '.training.hidden_size' $model_config)
-ffn_hidden_size=$(yq '.training.ffn_hidden_size' $model_config)
-
-
-tune_steps=$(yq '.training.tune_steps' $model_config)
-lr=$(yq '.training.lr' $model_config)
-min_lr=$(yq '.training.min_lr' $model_config)
-weight_decay=$(yq '.training.weight_decay' $model_config)
-grad_clip=$(yq '.training.grad_clip' $model_config)
-lr_warmup_steps=$(yq '.training.lr_warmup_steps' $model_config)
-save_interval=$(yq '.training.save_interval' $model_config)
-eval_interval=$(yq '.training.eval_interval' $model_config)
-train_steps=$(yq '.training.train_steps' $model_config)
-train_epochs=$(yq '.training.train_epochs' $model_config)
+num_layers=12
+num_attention_heads=8
+seq_length=2048
+num_kv_heads=8
+hidden_size=1024
+ffn_hidden_size=4096
+tune_steps=1000
+lr=0.00015
+min_lr=1.0e-5
+weight_decay=1e-2
+grad_clip=1.0
+lr_warmup_steps=100
+save_interval=10000
+eval_interval=10000
+train_epochs=1
+tp=1
+micro_batch_size=1
+seed=42
 
 tp=1 # don't use this
-micro_batch_size=$(yq '.training.micro_batch_size' $model_config)
-seed=$(yq '.training.seed' $model_config)
+#micro_batch_size=$(yq '.training.micro_batch_size' $model_config)
+#seed=$(yq '.training.seed' $model_config)
 
 NUM_GPUS=$(nvidia-smi -L | wc -l)
 
