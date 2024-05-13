@@ -8,7 +8,7 @@
     "dataset": [
       "summary:total_size_tokens_billions", "summary:percentage_web", "summary:percentage_code",
       "summary:percentage_books",
-      "summary:percentage_encyclopedic",
+      "summary:percentage_reference",
       "summary:percentage_academic",
       "summary:percentage_english"
     ]
