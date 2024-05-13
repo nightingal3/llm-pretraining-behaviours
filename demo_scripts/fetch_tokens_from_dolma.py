@@ -12,8 +12,9 @@ import logging
 from tqdm import tqdm
 import sys
 import gc
+import multiprocessing
 
-LLAMA_DIR = "/data/datasets/models/huggingface/meta-llama/Llama-2-70b-hf/"
+LLAMA_DIR = "/data/models/huggingface/meta-llama/Llama-2-70b-hf/"
 
 TOKENS_TO_FETCH_10B = {
     "common-crawl": 5_186_000_000,
@@ -28,7 +29,11 @@ MAX_DUMP_SIZE = 500_000_000
 
 
 def parse_num(val: str) -> int:
-    if val.lower().endswith("b"):
+    if val.lower() == "all":
+        return float("inf")
+    elif val.lower().endswith("t"):
+        return int(val[:-1]) * 1_000_000_000_000
+    elif val.lower().endswith("b"):
         return int(val[:-1]) * 1_000_000_000
     elif val.lower().endswith("m"):
         return int(val[:-1]) * 1_000_000
@@ -41,21 +46,52 @@ def parse_num(val: str) -> int:
             )
 
 
+def tokenize_texts(texts: list, tokenizer: AutoTokenizer) -> list:
+    return tokenizer(texts, return_tensors="pt")
+
+
+def save_state(file_index: int, curr_tokens: int, output_dir: str) -> None:
+    state = {
+        "last_processed_file_ind": file_index,
+        "num_current_tokens": curr_tokens,
+    }
+
+    with open(f"{output_dir}/state.json", "w") as f:
+        json.dump(state, f)
+
+
+def load_state(output_dir: str) -> dict:
+    try:
+        with open(f"{output_dir}/state.json", "r") as f:
+            return json.load(f)
+    except:
+        return {"last_processed_file_ind": 0, "num_current_tokens": 0}
+
+
+def process_files(files: list, tokenizer: AutoTokenizer) -> list:
+    try:
+        texts = [json.loads(l)["text"] for l in files]
+        return tokenize_texts(texts, tokenizer)
+    except Exception as e:
+        print(f"Error occured while reading gzip: {e}")
+        return []
+
+
 def process_zipped_file(content: bytes, file_ind: int) -> list:
     if file_ind % 50 == 0:
         print(f"Processing file {file_ind}")
-    with gzip.open(BytesIO(content), "rt", errors="ignore") as f:
-        try:
-            lines = f.readlines()
-            lines = [line.strip() for line in lines]
-            return lines
-        except Exception as e:
-            print(f"Error occured while reading gzip: {e}")
-            print(f"Skipping file {file_ind}")
-            return []
+    try:
+        with gzip.open(BytesIO(content), "rt", errors="ignore") as f:
+            for line in f:
+                processed_line = line.strip()
+                yield processed_line
+    except Exception as e:
+        print(f"Error occured while reading gzip: {e}")
+        print(f"Skipping file {file_ind}")
+        return []
 
 
-def fetch_tokens(
+def _fetch_tokens(
     num_tokens: int,
     domain: str,
     output_dir: str or None,
@@ -127,6 +163,9 @@ def fetch_tokens(
                     df = pd.DataFrame(texts_to_dump, columns=fields_to_keep)
                     df.to_parquet(output_file)
 
+                    # save state in case we crash due to OOM in the next iteration
+                    save_state(file_ind, current_tokens, f"{output_dir}/state.json")
+
                     # if the output file is too large, recursively split it in half
                     # can't accurately predict parquet compression rate so this is necessary
                     def split_file(output_file, df):
@@ -159,16 +198,104 @@ def fetch_tokens(
     logging.info(f"Saved all output ({current_tokens} tokens)")
 
 
+def fetch_and_process(file_info, progress_queue):
+    file_url, file_index = file_info
+    tokenizer = AutoTokenizer.from_pretrained(LLAMA_DIR)
+    tokenizer.pad_token = tokenizer.eos_token
+    response = requests.get(file_url)
+    if response.status_code == 200:
+        docs = [
+            json.loads(line)
+            for line in process_zipped_file(response.content, file_index)
+        ]
+
+        tokenized_data = []
+        num_tokens = 0
+        for doc in docs:
+            encoded_inputs = tokenizer(doc["text"], return_tensors="pt")
+            tokens_count = (encoded_inputs["attention_mask"] == 1).sum().item()
+            num_tokens += tokens_count
+            tokenized_data.append((doc, tokens_count))
+        progress_queue.put(num_tokens)
+        return tokenized_data
+    else:
+        logging.error(f"Failed to fetch data from {file_url}")
+        return []
+
+
+def fetch_tokens(num_tokens, domain, output_dir, all_files_lst, seed=42):
+    current_tokens = 0
+    output_dir = output_dir if output_dir else f"./dolma/{domain}_{num_tokens}"
+    logging.info(f"Fetching {num_tokens} tokens from {domain}")
+
+    # Shuffle the file list
+    random.seed(seed)
+    random.shuffle(all_files_lst)
+
+    # Setup Manager and queue for tracking progress
+    manager = multiprocessing.Manager()
+    progress_queue = manager.Queue()
+
+    # Prepare the list of URLs and indices
+    file_info_list = [
+        (f"http://128.2.209.71:5000/{file}", i)
+        for i, file in enumerate(all_files_lst)
+        if file.endswith(".gz")
+    ]
+
+    # Create a pool of workers to process files
+    with multiprocessing.Pool(
+        processes=(
+            multiprocessing.cpu_count() - 1 if multiprocessing.cpu_count() > 1 else 1
+        )
+    ) as pool:  # Adjust based on your CPU
+        result_objects = [
+            pool.apply_async(fetch_and_process, args=(info, progress_queue))
+            for info in file_info_list
+        ]
+        pool.close()
+
+        # Setup tqdm progress bar
+        pbar = tqdm(total=num_tokens)
+        while any(res.ready() == False for res in result_objects):
+            while not progress_queue.empty():
+                tokens_processed = progress_queue.get()
+                pbar.update(tokens_processed)
+
+        pool.join()
+        pbar.close()
+
+    # Aggregate results
+    results = [res.get() for res in result_objects]
+    texts_to_dump = []
+    for result in results:
+        for doc, _ in result:
+            texts_to_dump.append(doc)
+
+    # Saving the processed data
+    save_to_disk(texts_to_dump, output_dir)
+
+
+def save_to_disk(data, output_dir):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    output_file = os.path.join(output_dir, "processed_data.parquet")
+    df = pd.DataFrame(data)
+    df.to_parquet(output_file)
+
+    logging.info(f"Saved all output to {output_file}")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--num_tokens",
-        help="Number of tokens to fetch. You can also write xB/xM to fetch x billions/millions",
+        help="Number of tokens to fetch. You can also write xT/xB/xM to fetch x billions/millions. Write 'all' to fetch all tokens (may take a lot of space)",
         type=str,
     )
     parser.add_argument(
         "--num_total_tokens",
-        help="Total number of tokens to fetch. You can also write xB/xM to fetch x billions/millions",
+        help="Total number of tokens to fetch. You can also write xT/xB/xM to fetch x billions/millions.",
         type=str,
     )
     parser.add_argument("--output", help="Output dir", type=str)
@@ -217,7 +344,7 @@ if __name__ == "__main__":
     # the flask server has to be up on clio
     all_files_lst = requests.get("http://128.2.209.71:5000/list-all").json()
     if args.domain:
-        fetch_tokens(
+        _fetch_tokens(
             num_tokens=num_tokens,
             domain=args.domain,
             output_dir=args.output,
