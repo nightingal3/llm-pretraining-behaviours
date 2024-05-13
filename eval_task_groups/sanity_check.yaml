@@ -1,0 +1,7 @@
+group: sanity-check-reasoning
+# a short sanity check for evals
+task:
+  - mathqa
+  - arithmetic
+metric_list:
+  - metric: word_perplexity
