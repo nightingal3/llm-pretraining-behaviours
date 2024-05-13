@@ -1,16 +1,16 @@
-model name,pretraining data,total tokens trained on (in billions),percentage web data,percentage book data,percentage reference data,percentage academic paper data,percentage code data,percentage english data
-llama2-7b,Llama2 mix,"2,000",not known,not known,not known,not known,8.38,89.7
-llama2-13b,Llama2 mix,"2,000",not known,not known,not known,not known,8.38,89.7
-llama2-70b,Llama2 mix,"2,000",not known,not known,not known,not known,8.38,89.7
+id,pretraining data,total tokens trained on (in billions),percentage web data,percentage book data,percentage reference data,percentage academic paper data,percentage code data,percentage english data
+meta-llama/Llama-2-7b-chat-hf,Llama2 mix,"2,000",not known,not known,not known,not known,8.38,89.7
+meta-llama/Llama-2-13b-chat-hf,Llama2 mix,"2,000",not known,not known,not known,not known,8.38,89.7
+meta-llama/Llama-2-70b-chat-hf,Llama2 mix,"2,000",not known,not known,not known,not known,8.38,89.7
 falcon-7b,Falcon-refinedweb,1500,82,7,not known,2,3,97
-qwen-7b,unknown?,3000,unknown?,unknown?,unknown?,unknown?,unknown?,unknown?
+Qwen/Qwen-7B,unknown?,3000,unknown?,unknown?,unknown?,unknown?,unknown?,unknown?
 pythia-6.9b,already documented,,,,,,,
 mistral-7b-1,unknown,,,,,,,
 llama1-7b,Llama1 mix,1000,82,4.5,4.5,2.5,6.5,high
 llama1-13b,Llama1 mix,1000,82,4.5,4.5,2.5,6.5,high
 olmo-7b,Dolma,2000,83.95,0.2,0.14,2.29,13.43,100
 openlm-7b,RedPyjama,1000,,,,,,
-flyingllama-v2,unknown,,,,,,,
+kevin009/flyingllama-v2,unknown,,,,,,,
 gpt2,WebText,,,,,,,
 orca-mini3b,unknown,,,,,,,
 yi-34b,already documented,,,,,,,

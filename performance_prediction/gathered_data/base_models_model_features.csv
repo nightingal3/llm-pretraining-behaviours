@@ -1,4 +1,4 @@
-model name,dimension,num_heads,num_layers,mlp_ratio,intermediate_size,layer_norm_type,positional_embeddings,attention_variant,biases,block_type,activation,sequence_length,batch_instances,batch_tokens,weight_tying,deep_key,total_params,vocab_size
+id,dimension,num_heads,num_layers,mlp_ratio,intermediate_size,layer_norm_type,positional_embeddings,attention_variant,biases,block_type,activation,sequence_length,batch_instances,batch_tokens,weight_tying,deep_key,total_params,vocab_size
 llama2-7b,4096,32,32,2.6875,11008.0,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,1024.0,4000000.0,FALSE,-1.0,-1,32000.0
 llama2-13b,5120,40,40,2.666667,13653.33504,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,1024.0,4000000.0,FALSE,-1.0,,32000.0
 llama2-70b,8192,64,80,3.5,28672.0,rmsnorm,rope,gqa,none,sequential,swiglu,4096.0,1024.0,4000000.0,FALSE,-1.0,68976653312,32000.0
