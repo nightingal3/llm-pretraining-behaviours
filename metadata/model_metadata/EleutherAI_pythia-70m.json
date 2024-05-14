@@ -23,7 +23,7 @@
         "license:apache-2.0",
         "region:us"
     ],
-    "pipeline_tag": null,
+    "pipeline_tag": "text-generation",
     "mask_token": null,
     "card_data": {},
     "model_index": null,
