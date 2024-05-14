@@ -2,7 +2,7 @@ training:
   num_layers: 14
   num_attention_heads: 12
   seq_length: 2048
-  num_kv_heads: 14
+  num_kv_heads: 12
   hidden_size: 1536
   ffn_hidden_size: 4128
   tune_steps: 1000
