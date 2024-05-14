@@ -54,5 +54,11 @@
             "U8": 100663296
         },
         "total": 505997504
-    }
+    },
+    "training_stages": [{
+	"name": "pretraining",
+	"data": "the_pile",
+	"batch_tokens": 2097152,
+	"total_tokens_billions": 299892736000
+    }]
 }
