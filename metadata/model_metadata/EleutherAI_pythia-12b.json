@@ -47,5 +47,11 @@
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "safetensors": null
+    "safetensors": null,
+    "training_stages": [{
+	"name": "14m",
+	"data": "the_pile",
+	"batch_tokens": 2097152,
+	"total_tokens_billions": 299892736000
+    }]
 }
