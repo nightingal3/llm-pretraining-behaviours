@@ -48,10 +48,10 @@
         },
         "total": 39233560
     },
-    "training_stages": [
-	"14m",
-	"the_pile",
-	2,
-	299.9
-    ]
+    "training_stages": [{
+	"name": "14m",
+	"data": "the_pile",
+	"batch_instances": 2,
+	"batch_tokens": 299.9
+    }]
 }
