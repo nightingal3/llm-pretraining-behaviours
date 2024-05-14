@@ -38,7 +38,7 @@
             "unk_token": "<|endoftext|>"
         }
     },
-    "transformers_info": null,
+    "transformers_info": {},
     "safetensors": {
         "parameters": {
             "F16": 70426672,
