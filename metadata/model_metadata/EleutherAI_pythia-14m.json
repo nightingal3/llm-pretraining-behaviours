@@ -47,5 +47,11 @@
             "BOOL": 25165824
         },
         "total": 39233560
-    }
+    },
+    "training_stages": {
+    	"name": "14m",
+	"data": "the_pile",
+	"batch_tokens": 2,
+	"total_tokens_billions": 299.9
+    }	
 }
