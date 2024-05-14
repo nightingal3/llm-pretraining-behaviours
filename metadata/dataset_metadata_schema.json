@@ -64,11 +64,23 @@
         "total_size_tokens_billions": {
           "type": "number"
         },
-        "mix": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "number"
-          }
+        "percentage_web": {
+          "type": "number"
+        },
+        "percentage_code": {
+          "type": "number"
+        },
+        "percentage_books": {
+          "type": "number"
+        },
+        "percentage_reference": {
+          "type": "number"
+        },
+        "percentage_academic_papers": {
+          "type": "number"
+        },
+        "percentage_english": {
+          "type": "number"
         }
       },
       "required": ["total_size_tokens_billions"]

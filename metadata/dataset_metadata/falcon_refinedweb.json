@@ -9,9 +9,6 @@
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 5000,
-        "mix": {
-            "falcon_refinedweb": 1
-        }
+        "total_size_tokens_billions": 5000
     }
 }

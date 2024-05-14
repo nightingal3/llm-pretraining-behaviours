@@ -8,8 +8,7 @@
     ],
     "summary": {
         "total_size_tokens_billions": 2000,
-        "mix": {
-            "llama2": 1
-        }
+        "percentage_english": 0.897,
+        "percentage_code": 0.0838
     }
 }

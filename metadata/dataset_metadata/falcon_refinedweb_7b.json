@@ -1,0 +1,19 @@
+{
+    "domains": [
+        {
+            "name": "falcon_refinedweb",
+            "doc_type": ["web"],
+            "data_size_gb": -1,
+            "documents": -1,
+            "tokens_billions": 1500
+        }
+    ],
+    "summary": {
+        "total_size_tokens_billions": 1500,
+        "percentage_web": 0.82,
+        "percentage_books": 0.07,
+        "percentage_academic_papers": 0.02,
+        "percentage_code": 0.03,
+        "percentage_english": 0.97
+    }
+}
