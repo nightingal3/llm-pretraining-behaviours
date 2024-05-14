@@ -38,7 +38,12 @@
             "unk_token": "<|endoftext|>"
         }
     },
-    "transformers_info": {},
+    "transformers_info": {
+	"auto_model": null,
+	"custom_class": null,
+	"pipeline_tag": null,
+	"processor": null
+    },
     "safetensors": {
         "parameters": {
             "F16": 70426672,
