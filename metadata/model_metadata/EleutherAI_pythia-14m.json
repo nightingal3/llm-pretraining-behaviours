@@ -49,7 +49,7 @@
         "total": 39233560
     },
     "training_stages": [{
-	"name": "14m",
+	"name": "pretraining",
 	"data": "the_pile",
 	"batch_tokens": 2097152,
 	"total_tokens_billions": 299892736000
