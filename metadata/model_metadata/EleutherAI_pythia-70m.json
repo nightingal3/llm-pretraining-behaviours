@@ -39,10 +39,10 @@
         }
     },
     "transformers_info": {
-	"auto_model": null,
+	"auto_model": "AutoModelForCausalLM",
 	"custom_class": null,
-	"pipeline_tag": null,
-	"processor": null
+	"pipeline_tag": "text-generation",
+	"processor": "AutoTokenizer"
     },
     "safetensors": {
         "parameters": {
