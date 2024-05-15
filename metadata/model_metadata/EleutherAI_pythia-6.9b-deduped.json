@@ -52,6 +52,6 @@
 	"name": "pretraining",
 	"data": "the_pile",
 	"batch_tokens": 2097152,
-	"total_tokens_billions": 299892736000
+	"total_tokens_billions": 299.89
     }]
 }

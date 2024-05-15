@@ -67,7 +67,7 @@
             "data": "the_pile",
             "batch_instances": 1024,
             "batch_tokens": 2097152,
-            "total_tokens_billions": 299892736000,
+            "total_tokens_billions": 299.89,
             "optimizer": {
                 "type": "adam",
                 "params": {
