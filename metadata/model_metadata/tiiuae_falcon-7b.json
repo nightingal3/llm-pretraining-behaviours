@@ -71,7 +71,7 @@
     "training_stages": [
         {
             "name": "pretraining",
-            "data": "falcon_refinedweb",
+            "data": "falcon_refinedweb_7b",
             "batch_instances": 2304,
             "batch_tokens": 4000000,
             "total_tokens_billions": 1500,

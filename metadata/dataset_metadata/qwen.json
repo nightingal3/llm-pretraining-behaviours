@@ -7,9 +7,6 @@
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 3000,
-        "mix": {
-            "qwen": 1
-        }
+        "total_size_tokens_billions": 3000
     }
 }

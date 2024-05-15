@@ -6,7 +6,11 @@
       "batch_tokens", "weight_tying", "deep_key", "safetensors:total"
     ],
     "dataset": [
-      "summary:total_size_tokens_billions"
+      "summary:total_size_tokens_billions", "summary:percentage_web", "summary:percentage_code",
+      "summary:percentage_books",
+      "summary:percentage_reference",
+      "summary:percentage_academic",
+      "summary:percentage_english"
     ]
 }
   

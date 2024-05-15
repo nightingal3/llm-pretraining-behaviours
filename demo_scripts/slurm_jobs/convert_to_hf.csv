@@ -1,0 +1,4 @@
+TaskID  input_file  output_file model_config
+1   /data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_220M_nl_code_shuf  /data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_220M_nl_code_shuf-hf   /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/Llama2_220M.yaml
+2   /data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_220M_nl_only_shuf  /data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_220M_nl_only_shuf-hf   /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/Llama2_220M.yaml
+3   /data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_460M_nl_code_shuf  /data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_460M_nl_code_shuf-hf   /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/Llama2_460M.yaml
