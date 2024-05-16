@@ -1,2 +1,2 @@
-80 /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_orig_nl-bin/data_text_document
-20 /projects/bchd/mliu7/dolma_data_processed/dolma_1T/stack-code-deduped/data-text-document
+80 {DOLMA_DATA_PATH}/dolma_100B_orig_nl-bin/data_text_document
+20 {DOLMA_DATA_PATH}/dolma_1T/stack-code-deduped-bin/data_text_document
