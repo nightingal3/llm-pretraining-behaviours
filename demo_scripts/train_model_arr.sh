@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --job-name=train_model_try
-#SBATCH --output=train_model_try.out
+#SBATCH --job-name=train_model_%A_%a
+#SBATCH --output=train_model_%A_%a.out
 #SBATCH --mem=30G
 #SBATCH --gres=gpu:A6000:4
 #SBATCH --time=1-00:00:00
-#SBATCH --partition=long
+#SBATCH --partition=babel-shared-long
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
 
@@ -21,43 +21,12 @@ export CUDA_DEVICE_MAX_CONNECTIONS=1
 # to use the wandb logger: --wandb_logger --wandb_entity <your username> --wandb_id <some id> --wandb_api_key <your api key>
 set -euo pipefail
 
-if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
-   echo "Usage: sbatch demo_scripts/train_model.sh [checkpoint_path] [dataset_bin] [external_tokenizer]"
-   exit 0
-fi
+EXP_CONFIG=$1
 
-CHECKPOINT_PATH=${1:-./llama_mini_try}
-model_config=${2:-./demo_scripts/configs/model_config/Llama2_220M.yaml}
-data_mix_file=${3:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/data_config/100B/try_mix.txt}
-external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
-TOTAL_TRAIN_TOKENS=${5:-98000000000}
+IFS=',' read -r task_id CHECKPOINT_PATH model_config dataset_bin external_tokenizer TOTAL_TRAIN_TOKENS <<< $(sed "${SLURM_ARRAY_TASK_ID}q;d" $CSV_FILE_PATH)
 
 repo=${BASE_REPO}
-
-
-# Check if the file is not empty
-if [ -s "$data_mix_file" ]; then
-    mapfile -t lines < "$data_mix_file"
-
-    line_count="${#lines[@]}"
-
-    if [ "$line_count" -eq 1 ]; then
-        data_path="${lines[0]}"
-    elif [ "$line_count" -ge 2 ]; then
-        # if more than one line, concatenate with a space
-        data_path=""
-        for line in "${lines[@]}"; do
-            data_path="${data_path} ${line}"
-        done
-        # Trim leading space
-        data_path=$(echo "$data_path" | sed 's/^\s*//')
-    fi
-   
-   echo "Data path: $data_path"
-else
-    echo "The file is empty or does not exist."
-fi
-
+data_path=${dataset_bin}
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
@@ -159,9 +128,4 @@ deepspeed $distributed_args \
        --wandb_entity $WANDB_USER \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
-      --shuffle_docs_before_split \
        $ds_args 
-
-
-    #--save $CHECKPOINT_PATH \
-    #--load $CHECKPOINT_PATH \ # don't need these for pretraining

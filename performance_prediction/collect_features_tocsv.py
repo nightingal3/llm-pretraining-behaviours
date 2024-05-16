@@ -99,6 +99,8 @@ def extract_data_from_training_stages(model_data: dict, features: list):
             dataset_info = get_dataset_info(dataset_file)
             extracted_features = extract_features_from_json(dataset_info, features)
             for feature, value in extracted_features.items():
+                if value is None:
+                    continue
                 extracted_data[f"{stage['name']}_{feature}"] += value
 
     return extracted_data

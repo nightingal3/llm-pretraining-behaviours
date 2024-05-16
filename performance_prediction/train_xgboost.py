@@ -9,7 +9,7 @@ from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
 from sklearn.model_selection import cross_val_score, train_test_split, KFold
 import warnings
 import os
-
+import yaml
 import shap
 import matplotlib.pyplot as plt
 
@@ -149,6 +149,8 @@ if __name__ == "__main__":
 
     # Load the CSV files into pandas DataFrames
     training_scores = pd.read_csv(args.train_labels)
+    with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
+        mmlu_tasks = yaml.safe_load(f)["task"]
 
     if args.model_feats and args.data_feats:
         arch_metadata = pd.read_csv(args.model_feats)
@@ -169,7 +171,10 @@ if __name__ == "__main__":
         right_on="id",
     )
 
-    dataset = dataset.drop(columns=["assigned person", "notes"])
+    if "assigned person" in dataset.columns:
+        dataset = dataset.drop(columns=["assigned person"])
+    if "notes" in dataset.columns:
+        dataset = dataset.drop(columns=["notes"])
 
     if args.predictor_type == "scaling_laws":
         # drop all but total params and num tokens
@@ -205,18 +210,22 @@ if __name__ == "__main__":
 
     mae_per_task = []
     successful_tasks = []
+    mmlu_mae = []
+    all_feat_importances = []
+    mmlu_shap_values = []
+    mmlu_test_features = []
 
     for y_col in y_cols:
         # drop rows with missing score values
-        dataset = dataset.dropna(subset=y_col)
-        breakpoint()
-        if len(dataset) <= args.n_estimators:
+        dataset_copy = dataset.copy()
+        dataset_copy = dataset_copy.dropna(subset=y_col)
+        if len(dataset_copy) <= max(5, args.n_estimators):
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
             )
             continue
 
-        trainset = preprocess_data(dataset)
+        trainset = preprocess_data(dataset_copy)
 
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
@@ -254,10 +263,15 @@ if __name__ == "__main__":
             all_shap_values.append(shap_values.values)
             test_features_list.append(test_feats)
 
+            if any([y_col.startswith(t) for t in mmlu_tasks]):
+                mmlu_shap_values.append(shap_values.values)
+                mmlu_test_features.append(test_feats)
+
         mean_importances = np.mean(feat_importances, axis=0)
         importances_series = pd.Series(mean_importances, index=feats.columns)
         print("Feature Importances: ")
         print(importances_series)
+        all_feat_importances.append(importances_series)
 
         os.makedirs("./logs", exist_ok=True)
         with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
@@ -269,6 +283,9 @@ if __name__ == "__main__":
             f.write("\n")
 
         mae_per_task.append(np.mean(all_mae))
+        if any([y_col.startswith(t) for t in mmlu_tasks]):
+            mmlu_mae.extend(all_mae)
+
         successful_tasks.append(y_col)
         # Aggregating SHAP values
         aggregated_shap_values = np.concatenate(all_shap_values, axis=0)
@@ -288,5 +305,51 @@ if __name__ == "__main__":
             "mae": mae_per_task,
         }
     )
+
+    print("Overall mae: ", df_results["mae"].mean())
+    # aggregate mmlu tasks into one
+    if len(mmlu_mae) > 0:
+        df_results = pd.concat(
+            [
+                df_results,
+                pd.DataFrame(
+                    {
+                        "task": ["mmlu"],
+                        "mae": [np.mean(mmlu_mae)],
+                    }
+                ),
+            ]
+        )
+        # drop tasks that begin with any of the mmlu tasks
+        # df_results = df_results[~df_results["task"].str.#startswith("hendrycksTest")]
+
+    # report actual preds
     y_cols_joined = ",".join(args.y_col)
-    df_results.to_csv(f"summary_{y_cols_joined}_{args.predictor_type}.csv", index=False)
+    df_results.to_csv(
+        f"./performance_prediction/summary_{y_cols_joined}_{args.predictor_type}.csv",
+        index=False,
+    )
+
+    # report feature importances
+    importance_df = pd.concat(all_feat_importances, axis=1)
+    mean_importances = importance_df.mean(axis=1).sort_values(ascending=False)
+    print("Mean Feature Importances: ")
+    print(mean_importances)
+    mean_importances.to_csv(
+        f"./performance_prediction/feature_importances_{y_cols_joined}_{args.predictor_type}.csv"
+    )
+
+    if mmlu_shap_values:
+        aggregated_mmlu_shap_values = np.concatenate(mmlu_shap_values, axis=0)
+        aggregated_mmlu_test_features = pd.concat(mmlu_test_features, ignore_index=True)
+
+        # Plotting the aggregated SHAP values for all MMLU tasks
+        plt.figure(figsize=(10, 8))
+        shap.summary_plot(
+            aggregated_mmlu_shap_values, aggregated_mmlu_test_features, show=False
+        )
+        plt.title("Aggregated SHAP Values for MMLU Tasks")
+        plt.savefig(
+            f"./performance_prediction/figures/aggregate_shap_mmlu_{y_cols_joined}_{args.predictor_type}.png"
+        )
+        plt.gcf().clear()
