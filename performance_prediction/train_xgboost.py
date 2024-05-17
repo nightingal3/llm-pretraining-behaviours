@@ -65,7 +65,7 @@ def preprocess_data(data):
     return data
 
 
-if __name__ == "__main__":
+def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--model_feats",
@@ -130,13 +130,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--predictor_type", type=str, choices=["scaling_laws", "all"], default="all"
     )
-
     args = parser.parse_args()
+
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
     assert args.max_depth > 0, "Max depth must be greater than 0"
     if not (args.model_feats or args.data_feats):
         raise ValueError("Please provide either model_feats or data_feats")
+
+    return args
+
+
+if __name__ == "__main__":
+    args = get_args()
 
     categorical_variables = [
         "activation",
@@ -213,6 +219,7 @@ if __name__ == "__main__":
     all_feat_importances = []
     mmlu_shap_values = []
     mmlu_test_features = []
+    all_absolute_errors = []
 
     for y_col in y_cols:
         # drop rows with missing score values
@@ -234,7 +241,7 @@ if __name__ == "__main__":
         test_features_list = []
         all_shap_values = []
         all_mae = []
-        all_absolute_errors = {}
+        task_absolute_errors = {}
         feat_importances = []
 
         for train_index, test_index in k_folds.split(feats):
@@ -261,7 +268,7 @@ if __name__ == "__main__":
                     model_names[test_index], abs(test_labels - predictions)
                 )
             }
-            all_absolute_errors.update(absolute_errors)
+            task_absolute_errors.update(absolute_errors)
             mae = mean_absolute_error(test_labels, predictions)
             all_mae.append(mae)
 
@@ -285,6 +292,8 @@ if __name__ == "__main__":
         print(importances_series)
         all_feat_importances.append(importances_series)
 
+        all_absolute_errors.append({y_col: task_absolute_errors})
+
         os.makedirs("./logs", exist_ok=True)
         with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
             f.write(
@@ -292,7 +301,7 @@ if __name__ == "__main__":
                 + "".join(
                     [
                         f"{model}: {error}\n"
-                        for model, error in all_absolute_errors.items()
+                        for model, error in task_absolute_errors.items()
                     ]
                 )
             )
@@ -351,6 +360,17 @@ if __name__ == "__main__":
     df_results.to_csv(
         f"./performance_prediction/summary_{y_cols_joined}_{args.predictor_type}.csv",
         index=False,
+    )
+
+    # report absolute errors for each model/task
+    # all_absolute_errors is a list of {task_name: {model_name: error}} dicts
+    errors_dicts = [
+        list(d.values())[0] for d in all_absolute_errors
+    ]  # list of {model : error} dicts
+    task_names = [list(d.keys())[0] for d in all_absolute_errors]
+    df_errors = pd.DataFrame.from_records(errors_dicts, index=task_names).transpose()
+    df_errors.to_csv(
+        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}.csv"
     )
 
     # report feature importances
