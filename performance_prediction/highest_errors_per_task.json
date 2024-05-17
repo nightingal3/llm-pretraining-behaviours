@@ -1,58 +1,16 @@
 {
-    "hendrycksTest-econometrics_5-shot_acc": [
-        [
-            "mistralai/Mixtral-8x7B-v0.1",
-            0.2088066365635186
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.1859302055417445
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2625229614868498
-        ]
-    ],
-    "hendrycksTest-high_school_microeconomics_5-shot_acc": [
+    "hendrycksTest-jurisprudence_5-shot_acc": [
         [
             "Qwen/Qwen-7B",
-            0.2421542158146866
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.3156323272640965
+            0.3556749765519742
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.497868261417421
-        ]
-    ],
-    "hendrycksTest-computer_security_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3752956795692443
+            0.4579125929761816
         ],
         [
-            "playdev7/theseed-v0.3",
-            0.4000793695449829
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4650538921356201
-        ]
-    ],
-    "hendrycksTest-high_school_biology_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4523283596961729
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3842276915427178
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5424954564340652
+            "allenai/tulu-2-dpo-70b",
+            0.3767739788249686
         ]
     ],
     "hendrycksTest-virology_5-shot_acc": [
@@ -62,73 +20,45 @@
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.2206265089741672
+            0.208921348833176
         ],
         [
             "openai-community/gpt2",
-            0.1792234110544963
+            0.1836679804037852
         ]
     ],
-    "hendrycksTest-high_school_statistics_5-shot_acc": [
+    "arc:challenge_25-shot_acc": [
         [
             "playdev7/theseed-v0.3",
-            0.2602020744924193
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.3296465189368637
+            0.326432815794245
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.2716053779478427
-        ]
-    ],
-    "hendrycksTest-conceptual_physics_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.2441733989309757
+            0.2475755127216768
         ],
         [
-            "AbacusResearch/Jallabi-34B",
-            0.4179923255392845
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.2020491783923291
+            "allenai/tulu-2-dpo-70b",
+            0.2758276804315352
         ]
     ],
-    "hendrycksTest-us_foreign_policy_5-shot_acc": [
+    "hendrycksTest-clinical_knowledge_5-shot_acc": [
         [
             "Qwen/Qwen-7B",
-            0.3479686856269837
+            0.2788100893767374
         ],
         [
             "playdev7/theseed-v0.3",
-            0.5520138216018677
+            0.4481006140978832
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.5113632321357727
-        ]
-    ],
-    "hendrycksTest-high_school_government_and_politics_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4904581299099898
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.4765909900937056
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5454245816549489
+            0.4777190414239776
         ]
     ],
     "hendrycksTest-college_computer_science_5-shot_acc": [
         [
             "Qwen/Qwen-7B",
-            0.1989819693565369
+            0.1963288474082947
         ],
         [
             "tiiuae/falcon-7b",
@@ -136,693 +66,7 @@
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.302770072221756
-        ]
-    ],
-    "hendrycksTest-professional_medicine_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3789303232641781
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.364224440911237
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4901877203408409
-        ]
-    ],
-    "hendrycksTest-professional_accounting_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.1949821418904244
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.163067248273403
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.32645176382775
-        ]
-    ],
-    "hendrycksTest-public_relations_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3197245294397527
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.3114140152931213
-        ],
-        [
-            "openai-community/gpt2",
-            0.2681790297681636
-        ]
-    ],
-    "hendrycksTest-abstract_algebra_5-shot_acc": [
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2295394337177276
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.1125764226913452
-        ],
-        [
-            "Monero/WizardLM-13b-OpenAssistant-Uncensored",
-            0.0823343116044998
-        ]
-    ],
-    "hendrycksTest-astronomy_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3432651617025074
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3261258257062812
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5138660810495678
-        ]
-    ],
-    "hendrycksTest-prehistory_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3201349605748682
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.3990247249603271
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4950347347759906
-        ]
-    ],
-    "hendrycksTest-nutrition_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3805121023670521
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3330038618418127
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4616773333035263
-        ]
-    ],
-    "hendrycksTest-jurisprudence_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3648146633748654
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.3492963115374247
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4715642620016027
-        ]
-    ],
-    "hendrycksTest-human_aging_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3480208155285617
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.3792677448202142
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.3355154608931777
-        ]
-    ],
-    "hendrycksTest-moral_scenarios_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.0875100802109894
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.407840349820739
-        ],
-        [
-            "allenai/tulu-2-dpo-70b",
-            0.1639072104539285
-        ]
-    ],
-    "arc:challenge_25-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3046208536665594
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2712736638332796
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.2433072464864815
-        ]
-    ],
-    "hellaswag_10-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3472188511257555
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.2640680843462295
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.2514298466827926
-        ]
-    ],
-    "hendrycksTest-machine_learning_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.2052881164210184
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.338797220161983
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.1984105706214904
-        ]
-    ],
-    "gsm8k_5-shot_acc": [
-        [
-            "mistralai/Mixtral-8x7B-v0.1",
-            0.4792183277573524
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3411062931228172
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4633740912543904
-        ]
-    ],
-    "hendrycksTest-business_ethics_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3766488957405091
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3752883458137512
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4828203582763671
-        ]
-    ],
-    "hendrycksTest-high_school_us_history_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3570794159290837
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.4242139739148757
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5189643753509896
-        ]
-    ],
-    "hendrycksTest-high_school_physics_5-shot_acc": [
-        [
-            "mistralai/Mixtral-8x7B-v0.1",
-            0.0935464450065663
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2203741255185461
-        ],
-        [
-            "Monero/WizardLM-13b-OpenAssistant-Uncensored",
-            0.1145205132613908
-        ]
-    ],
-    "hendrycksTest-sociology_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.4069042672861868
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.4588429284332997
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4998888850805179
-        ]
-    ],
-    "hendrycksTest-marketing_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.4484411974747976
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.5000776210401813
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5011651465016551
-        ]
-    ],
-    "hendrycksTest-global_facts_5-shot_acc": [
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2477972090244293
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.1297256433963775
-        ],
-        [
-            "openai-community/gpt2",
-            0.2043407618999481
-        ]
-    ],
-    "hendrycksTest-philosophy_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3159079404122576
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.3930033891913975
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4629051208112784
-        ]
-    ],
-    "hendrycksTest-high_school_psychology_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4962143286652521
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.4579430837150013
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5293668012006567
-        ]
-    ],
-    "hendrycksTest-electrical_engineering_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.2741777397435286
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.2232615713415474
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4087067647226925
-        ]
-    ],
-    "hendrycksTest-high_school_european_history_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3593311284527634
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.356923885417707
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4658768751404502
-        ]
-    ],
-    "hendrycksTest-anatomy_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.2920396972585607
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.26301931142807
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.3580326460025929
-        ]
-    ],
-    "hendrycksTest-high_school_mathematics_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.0863485793272654
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.1122745052531913
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.1898285214547757
-        ]
-    ],
-    "hendrycksTest-elementary_mathematics_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.1361441271645681
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.142703895846372
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4541661088113431
-        ]
-    ],
-    "hendrycksTest-college_biology_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4590955111715529
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3742949896388584
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5708231727282206
-        ]
-    ],
-    "hendrycksTest-high_school_computer_science_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3107308280467987
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.4208372807502746
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4651763916015625
-        ]
-    ],
-    "hendrycksTest-college_mathematics_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.1905983960628509
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.1798613786697387
-        ],
-        [
-            "jisukim8873/falcon-7B-case-0",
-            0.1035371804237365
-        ]
-    ],
-    "hendrycksTest-human_sexuality_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3410951677169508
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.3989933556272784
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4780939417030975
-        ]
-    ],
-    "hendrycksTest-college_physics_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.1324254496424805
-        ],
-        [
-            "jb723/cross_lingual_epoch2",
-            0.1524829741786508
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2814834427599814
-        ]
-    ],
-    "hendrycksTest-professional_law_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.1682683268302112
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.1360756727287635
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.276891588232197
-        ]
-    ],
-    "hendrycksTest-moral_disputes_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3603924082193761
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3176625157367287
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4327366755187856
-        ]
-    ],
-    "winogrande_5-shot_acc": [
-        [
-            "mistralai/Mixtral-8x7B-v0.1",
-            0.1808972881831987
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.1785294902352903
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.1919098555712409
-        ]
-    ],
-    "hendrycksTest-security_studies_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.3677130847561116
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.3741529430661883
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4701296464521057
-        ]
-    ],
-    "hendrycksTest-management_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.4174091147566304
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.5111476981524126
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5484121190112771
-        ]
-    ],
-    "hendrycksTest-high_school_macroeconomics_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3855611257064036
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3094087395912562
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4730499273691422
-        ]
-    ],
-    "hendrycksTest-clinical_knowledge_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4481006140978832
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.270733971865672
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4872498837282073
-        ]
-    ],
-    "hendrycksTest-international_law_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.442391991122695
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.4534236399595402
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.503574652859002
-        ]
-    ],
-    "hendrycksTest-logical_fallacies_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4486996293799278
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.3386710505544043
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5055725859718089
-        ]
-    ],
-    "hendrycksTest-high_school_chemistry_5-shot_acc": [
-        [
-            "jb723/cross_lingual_epoch2",
-            0.2219981722937429
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.2142089846098951
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.3092913943264872
-        ]
-    ],
-    "hendrycksTest-college_medicine_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3559558567284159
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.281843336331362
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.3795155891448776
-        ]
-    ],
-    "hendrycksTest-medical_genetics_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.337979427576065
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.4476700401306152
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5475523614883423
-        ]
-    ],
-    "hendrycksTest-formal_logic_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.1784371090313744
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.1669365337916784
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.2628411972333514
-        ]
-    ],
-    "hendrycksTest-miscellaneous_5-shot_acc": [
-        [
-            "Qwen/Qwen-7B",
-            0.4008658516148193
-        ],
-        [
-            "playdev7/theseed-v0.3",
-            0.4244135189634934
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.49532484148045
-        ]
-    ],
-    "hendrycksTest-high_school_world_history_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4796763595649462
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.4099300337743156
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.5461489333130639
-        ]
-    ],
-    "hendrycksTest-professional_psychology_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.3644514087758033
-        ],
-        [
-            "tiiuae/falcon-7b",
-            0.2599083025471058
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4548355227981517
-        ]
-    ],
-    "hendrycksTest-world_religions_5-shot_acc": [
-        [
-            "playdev7/theseed-v0.3",
-            0.4674329701920002
-        ],
-        [
-            "AbacusResearch/Jallabi-34B",
-            0.4901287339584171
-        ],
-        [
-            "kevin009/flyingllama-v2",
-            0.4087327739648652
+            0.309867912530899
         ]
     ],
     "hendrycksTest-college_chemistry_5-shot_acc": [
@@ -836,7 +80,175 @@
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.2905460286140442
+            0.2474781858921051
+        ]
+    ],
+    "hendrycksTest-computer_security_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4000793695449829
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4140849769115448
+        ],
+        [
+            "openai-community/gpt2",
+            0.407884624004364
+        ]
+    ],
+    "hendrycksTest-high_school_microeconomics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3571775991375707
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.494491956314119
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.2948998668614556
+        ]
+    ],
+    "hendrycksTest-high_school_chemistry_5-shot_acc": [
+        [
+            "jb723/cross_lingual_epoch2",
+            0.2219981722937429
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3003368693325907
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.2264115317114468
+        ]
+    ],
+    "hendrycksTest-college_medicine_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3559558567284159
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4070532330543319
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.3879883692443716
+        ]
+    ],
+    "hendrycksTest-high_school_european_history_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3593311284527634
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.422163394906304
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.4264398444782603
+        ]
+    ],
+    "hendrycksTest-philosophy_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.3286651225335345
+        ],
+        [
+            "playdev7/theseed-v0.3",
+            0.3930033891913975
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3984929143999167
+        ]
+    ],
+    "hendrycksTest-high_school_world_history_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4796763595649462
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4702378286339562
+        ],
+        [
+            "openai-community/gpt2",
+            0.3388806835508549
+        ]
+    ],
+    "hendrycksTest-machine_learning_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.2347369236605508
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.2895335342202868
+        ],
+        [
+            "kevin009/flyingllama-v2",
+            0.2010433077812194
+        ]
+    ],
+    "hendrycksTest-high_school_physics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.1382416344636323
+        ],
+        [
+            "mistralai/Mixtral-8x7B-v0.1",
+            0.1709478446189931
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.237581956662879
+        ]
+    ],
+    "hendrycksTest-electrical_engineering_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.276504794482527
+        ],
+        [
+            "playdev7/theseed-v0.3",
+            0.2271454136947105
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4329474969156857
+        ]
+    ],
+    "hendrycksTest-world_religions_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4674329701920002
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3974283717529118
+        ],
+        [
+            "openai-community/gpt2",
+            0.4370199159572
+        ]
+    ],
+    "hendrycksTest-conceptual_physics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.2975432190489261
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3868956882902916
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.2378909610687418
         ]
     ],
     "hendrycksTest-high_school_geography_5-shot_acc": [
@@ -845,12 +257,600 @@
             0.4702342266988273
         ],
         [
-            "tiiuae/falcon-7b",
-            0.476040831117919
+            "AbacusResearch/Jallabi-34B",
+            0.5506238368424503
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.4329846733146243
+        ]
+    ],
+    "hendrycksTest-college_biology_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4590955111715529
         ],
         [
             "AbacusResearch/Jallabi-34B",
-            0.5111057487401096
+            0.5555923382441202
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.3820451166894701
+        ]
+    ],
+    "hendrycksTest-high_school_us_history_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4242139739148757
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.5410688472729104
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.5016414026419321
+        ]
+    ],
+    "hendrycksTest-professional_accounting_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.2340478903435647
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3360171172213047
+        ],
+        [
+            "kevin009/flyingllama-v2",
+            0.1903829477357526
+        ]
+    ],
+    "hendrycksTest-college_mathematics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.1855522072315216
+        ],
+        [
+            "jb723/cross_lingual_epoch2",
+            0.0903804814815521
+        ],
+        [
+            "jisukim8873/falcon-7B-case-0",
+            0.0866456115245819
+        ]
+    ],
+    "hendrycksTest-professional_psychology_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3644514087758033
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4193061179195354
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.2762498547828276
+        ]
+    ],
+    "hendrycksTest-security_studies_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3741529430661883
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4600613192636139
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.3298791848883337
+        ]
+    ],
+    "hendrycksTest-sociology_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.4017610122908407
+        ],
+        [
+            "playdev7/theseed-v0.3",
+            0.4588429284332997
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4100538671609774
+        ]
+    ],
+    "hendrycksTest-public_relations_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3197245294397527
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3384762525558471
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.3534329452297904
+        ]
+    ],
+    "hendrycksTest-marketing_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4981923857305804
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4389923163968272
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.3082899390122829
+        ]
+    ],
+    "hendrycksTest-high_school_biology_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.3509382313297641
+        ],
+        [
+            "playdev7/theseed-v0.3",
+            0.4523283596961729
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.5336749822862685
+        ]
+    ],
+    "hendrycksTest-moral_disputes_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3603924082193761
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3899788663566457
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.4006100917138116
+        ]
+    ],
+    "hendrycksTest-elementary_mathematics_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.1389186339718954
+        ],
+        [
+            "tiiuae/falcon-7b",
+            0.142703895846372
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4589020256642941
+        ]
+    ],
+    "hendrycksTest-human_aging_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3480208155285617
+        ],
+        [
+            "kevin009/flyingllama-v2",
+            0.3481796001639602
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.3563447041361856
+        ]
+    ],
+    "hendrycksTest-international_law_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.3848624052095019
+        ],
+        [
+            "playdev7/theseed-v0.3",
+            0.442391991122695
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3974554671728906
+        ]
+    ],
+    "hendrycksTest-professional_law_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.2119658032172351
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.2651676228257792
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.1287168788940997
+        ]
+    ],
+    "hendrycksTest-logical_fallacies_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4486996293799278
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4256933318691019
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.4587002158896324
+        ]
+    ],
+    "hendrycksTest-human_sexuality_5-shot_acc": [
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4681004481461212
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.4486602613034139
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.4052844807391859
+        ]
+    ],
+    "hendrycksTest-moral_scenarios_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.2200423787759003
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3954796279941857
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.1000053867281482
+        ]
+    ],
+    "hendrycksTest-high_school_macroeconomics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3855611257064036
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4914094990644699
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.3237036319879385
+        ]
+    ],
+    "hendrycksTest-nutrition_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3805121023670521
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4275639857731613
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.4168648575645646
+        ]
+    ],
+    "hendrycksTest-business_ethics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3364022874832153
+        ],
+        [
+            "mistralai/Mixtral-8x7B-v0.1",
+            0.256412456035614
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4766156637668609
+        ]
+    ],
+    "hendrycksTest-medical_genetics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4477115845680237
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4850639545917511
+        ],
+        [
+            "openai-community/gpt2",
+            0.238888840675354
+        ]
+    ],
+    "hendrycksTest-formal_logic_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.178507412709887
+        ],
+        [
+            "mistralai/Mixtral-8x7B-v0.1",
+            0.1922261454756297
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.2625181698609912
+        ]
+    ],
+    "hendrycksTest-high_school_mathematics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.1182169477144877
+        ],
+        [
+            "jb723/cross_lingual_epoch2",
+            0.1122745052531913
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.186937904799426
+        ]
+    ],
+    "hendrycksTest-high_school_statistics_5-shot_acc": [
+        [
+            "jb723/cross_lingual_epoch2",
+            0.319777837506047
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3329598958845492
+        ],
+        [
+            "jisukim8873/falcon-7B-case-0",
+            0.3040386648089798
+        ]
+    ],
+    "hendrycksTest-prehistory_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.3265966405103235
+        ],
+        [
+            "playdev7/theseed-v0.3",
+            0.3990247249603271
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.5034693582558337
+        ]
+    ],
+    "hendrycksTest-econometrics_5-shot_acc": [
+        [
+            "mistralai/Mixtral-8x7B-v0.1",
+            0.2088066365635186
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.2656942266121245
+        ],
+        [
+            "kevin009/flyingllama-v2",
+            0.2137407864394941
+        ]
+    ],
+    "hendrycksTest-anatomy_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.2920396972585607
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.3099640033863209
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.3644491924179925
+        ]
+    ],
+    "hendrycksTest-miscellaneous_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4244135189634934
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4512444052507441
+        ],
+        [
+            "openai-community/gpt2",
+            0.4894590961674316
+        ]
+    ],
+    "hendrycksTest-high_school_computer_science_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4208372807502746
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4408657729625702
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.3542191076278687
+        ]
+    ],
+    "hendrycksTest-us_foreign_policy_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.5520138216018677
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4264028906822205
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.3314954686164856
+        ]
+    ],
+    "hellaswag_10-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3484633961086656
+        ],
+        [
+            "jb723/cross_lingual_epoch2",
+            0.2653126293291397
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.2608580233637162
+        ]
+    ],
+    "winogrande_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.1940434699747255
+        ],
+        [
+            "jb723/cross_lingual_epoch2",
+            0.1425778400079416
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.1434045326737973
+        ]
+    ],
+    "hendrycksTest-management_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.5111476981524126
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.5205379770797433
+        ],
+        [
+            "kevin009/flyingllama-v2",
+            0.5036813223246233
+        ]
+    ],
+    "hendrycksTest-abstract_algebra_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.0987768185138702
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.2075961327552795
+        ],
+        [
+            "kevin009/flyingllama-v2",
+            0.1087265288829803
+        ]
+    ],
+    "gsm8k_5-shot_acc": [
+        [
+            "tiiuae/falcon-7b",
+            0.3411062931228172
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.5610920767652166
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.2952049629899749
+        ]
+    ],
+    "hendrycksTest-high_school_psychology_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4962143286652521
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4470009307248876
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.4058002120857938
+        ]
+    ],
+    "hendrycksTest-high_school_government_and_politics_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.4904581299099898
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4988492440065571
+        ],
+        [
+            "allenai/tulu-2-dpo-70b",
+            0.4462680540245431
+        ]
+    ],
+    "hendrycksTest-astronomy_5-shot_acc": [
+        [
+            "Qwen/Qwen-7B",
+            0.352641717383736
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.485287501623756
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.3858441741842973
+        ]
+    ],
+    "hendrycksTest-college_physics_5-shot_acc": [
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.281558514810076
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.1583894076300602
+        ],
+        [
+            "Monero/WizardLM-13b-OpenAssistant-Uncensored",
+            0.1678267010286743
+        ]
+    ],
+    "hendrycksTest-professional_medicine_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3789303232641781
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.4943859138909507
+        ],
+        [
+            "kevin009/babyllama-v0.6",
+            0.3957164427813362
+        ]
+    ],
+    "hendrycksTest-global_facts_5-shot_acc": [
+        [
+            "playdev7/theseed-v0.3",
+            0.1767676973342895
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.2004503786563873
+        ],
+        [
+            "openai-community/gpt2",
+            0.170183128118515
         ]
     ]
 }
