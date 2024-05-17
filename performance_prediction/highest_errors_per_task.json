@@ -852,5 +852,19 @@
             "AbacusResearch/Jallabi-34B",
             0.5111057487401096
         ]
+    ],
+    "mae": [
+        [
+            "playdev7/theseed-v0.3",
+            0.3153141327933494
+        ],
+        [
+            "tiiuae/falcon-7b",
+            0.24942943907746543
+        ],
+        [
+            "AbacusResearch/Jallabi-34B",
+            0.40843053825355546
+        ]
     ]
 }
