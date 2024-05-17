@@ -159,6 +159,7 @@ deepspeed $distributed_args \
        --wandb_entity $WANDB_USER \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
+      --shuffle_docs_before_split \
        $ds_args 
 
 
