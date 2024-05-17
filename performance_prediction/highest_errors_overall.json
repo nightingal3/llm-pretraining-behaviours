@@ -1,14 +1,14 @@
 {
-  "mae":{
-    "mistralai\/Mistral-7B-v0.1":0.1272078744,
-    "kevin009\/babyllama-v0.6":0.1308648469,
-    "openai-community\/gpt2":0.1403668092,
-    "mistralai\/Mixtral-8x7B-v0.1":0.144532519,
-    "kevin009\/flyingllama-v2":0.1575608606,
-    "jb723\/cross_lingual_epoch2":0.2004393427,
-    "Qwen\/Qwen-7B":0.2440635342,
-    "tiiuae\/falcon-7b":0.2494294391,
-    "playdev7\/theseed-v0.3":0.3153141328,
-    "AbacusResearch\/Jallabi-34B":0.4084305383
+  "mae": {
+    "mistralai\/Mistral-7B-v0.1": 0.1272078744,
+    "kevin009\/babyllama-v0.6": 0.1308648469,
+    "openai-community\/gpt2": 0.1403668092,
+    "mistralai\/Mixtral-8x7B-v0.1": 0.144532519,
+    "kevin009\/flyingllama-v2": 0.1575608606,
+    "jb723\/cross_lingual_epoch2": 0.2004393427,
+    "Qwen\/Qwen-7B": 0.2440635342,
+    "tiiuae\/falcon-7b": 0.2494294391,
+    "playdev7\/theseed-v0.3": 0.3153141328,
+    "AbacusResearch\/Jallabi-34B": 0.4084305383
   }
 }
