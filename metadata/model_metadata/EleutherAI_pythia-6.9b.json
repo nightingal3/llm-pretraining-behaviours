@@ -66,8 +66,8 @@
             "name": "pretraining",
             "data": "the_pile",
             "batch_instances": 1024,
-            "batch_tokens": 2000000,
-            "total_tokens_billions": 300,
+            "batch_tokens": 2097152,
+            "total_tokens_billions": 299.89,
             "optimizer": {
                 "type": "adam",
                 "params": {
