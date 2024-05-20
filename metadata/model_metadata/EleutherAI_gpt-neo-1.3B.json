@@ -1,0 +1,75 @@
+{
+    "id": "EleutherAI/gpt-neo-1.3B",
+    "author": "EleutherAI",
+    "sha": "dbe59a7f4a88d01d1ba9798d78dbe3fe038792c8",
+    "created_at": "2022-03-02T23:29:04+00:00",
+    "last_modified": "2024-01-31T20:30:21+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "jax",
+        "rust",
+        "safetensors",
+        "gpt_neo",
+        "text-generation",
+        "text generation",
+        "causal-lm",
+        "en",
+        "dataset:EleutherAI/pile",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPTNeoForCausalLM"
+        ],
+        "model_type": "gpt_neo",
+        "tokenizer_config": {
+            "unk_token": "<|endoftext|>",
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F32": 1315575808,
+            "U8": 50331648
+        },
+        "total": 1365907456
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": 2048,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 50257
+}

@@ -1,0 +1,68 @@
+{
+    "id": "stabilityai/japanese-stablelm-base-alpha-7b",
+    "author": "stabilityai",
+    "sha": "e6cc3eefb5054c4195c86ad1ea48a77de6bae7fe",
+    "created_at": "2023-08-09T14:30:09+00:00",
+    "last_modified": "2023-08-22T09:36:29+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "text-generation",
+        "japanese-stablelm",
+        "causal-lm",
+        "custom_code",
+        "ja",
+        "dataset:wikipedia",
+        "dataset:mc4",
+        "dataset:cc100",
+        "dataset:oscar-corpus/OSCAR-2301",
+        "dataset:oscar-corpus/OSCAR-2201",
+        "dataset:togethercomputer/RedPajama-Data-1T",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "JapaneseStableLMAlphaForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "stabilityai/japanese-stablelm-base-alpha-7b--configuration_japanese_stablelm_alpha.JapaneseStableLMAlphaConfig",
+            "AutoModelForCausalLM": "stabilityai/japanese-stablelm-base-alpha-7b--modeling_japanese_stablelm_alpha.JapaneseStableLMAlphaForCausalLM"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "stabilityai/japanese-stablelm-base-alpha-7b--modeling_japanese_stablelm_alpha.JapaneseStableLMAlphaForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": null
+    },
+    "safetensors": null,
+    "base_model": null,
+    "merged": null,
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": "silu",
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 65536
+}

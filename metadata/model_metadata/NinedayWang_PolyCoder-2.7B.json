@@ -1,0 +1,85 @@
+{
+    "id": "NinedayWang/PolyCoder-2.7B",
+    "author": "NinedayWang",
+    "sha": "84cbd497bdc0edde71141a3d73eb58d573f7522b",
+    "created_at": "2022-10-20T09:47:34+00:00",
+    "last_modified": "2022-10-21T06:03:23+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "gpt_neox",
+        "text-generation",
+        "arxiv:2202.13169",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": null,
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPTNeoXForCausalLM"
+        ],
+        "model_type": "gpt_neox",
+        "tokenizer_config": {
+            "bos_token": {
+                "__type": "AddedToken",
+                "content": "<|endoftext|>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "eos_token": {
+                "__type": "AddedToken",
+                "content": "<|endoftext|>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "pad_token": null,
+            "unk_token": {
+                "__type": "AddedToken",
+                "content": "<|endoftext|>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "base_model": null,
+    "merged": null,
+    "dimension": 2560,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 4.0,
+    "intermediate_size": 10240,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": "gelu",
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 50304
+}

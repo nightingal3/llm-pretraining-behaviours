@@ -1,0 +1,96 @@
+{
+    "id": "facebook/opt-350m",
+    "author": "facebook",
+    "sha": "08ab08cc4b72ff5593870b5d527cf4230323703c",
+    "created_at": "2022-05-11T08:25:39+00:00",
+    "last_modified": "2023-09-15T13:09:50+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "opt",
+        "text-generation",
+        "en",
+        "arxiv:2205.01068",
+        "arxiv:2005.14165",
+        "license:other",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "OPTForCausalLM"
+        ],
+        "model_type": "opt",
+        "tokenizer_config": {
+            "unk_token": {
+                "content": "</s>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            },
+            "bos_token": {
+                "content": "</s>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            },
+            "eos_token": {
+                "content": "</s>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            },
+            "pad_token": {
+                "content": "<pad>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "base_model": null,
+    "merged": null,
+    "dimension": 1024,
+    "num_heads": 16,
+    "num_layers": 24,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 50272
+}

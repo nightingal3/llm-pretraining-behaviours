@@ -1,4 +1,4 @@
-from huggingface_hub import model_info
+from huggingface_hub import model_info, hf_hub_download
 from typing import Any
 import json
 import argparse
@@ -20,8 +20,43 @@ def robust_asdict(obj):
         return obj
 
 
+def config_data_to_features(config_data: dict) -> dict:
+    """
+    Reformat fields from config.json to match our features.
+    """
+    # TODO: None - has to be filled in manually/I'm not sure what field it corresponds to
+    config_to_feature_name = {
+        "base_model": None,
+        "merged": None,
+        "dimension": config_data.get("hidden_size"),
+        "num_heads": config_data.get("num_attention_heads"),
+        "num_layers": config_data.get("num_hidden_layers"),
+        "mlp_ratio": (
+            config_data.get("intermediate_size") / config_data.get("hidden_size")
+            if config_data.get("intermediate_size") and config_data.get("hidden_size")
+            else None
+        ),
+        "intermediate_size": config_data.get("intermediate_size"),
+        "layer_norm_type": None,
+        "positional_embedding_type": None,
+        "attention_variant": None,
+        "biases": None,
+        "block_type": None,
+        "activation": config_data.get("hidden_act"),
+        "sequence_length": config_data.get("max_position_embeddings"),
+        "batch_instances": None,
+        "batch_tokens": None,
+        "weight_tying": True if config_data.get("tie_word_embeddings") else False,
+        "total_params": None,
+        "vocab_size": config_data.get("vocab_size"),
+    }
+
+    return config_to_feature_name
+
+
 def get_model_metadata(repo_id: str, token: str = None) -> dict[str, Any]:
     """Get metadata for a model from the Hugging Face Hub.
+    Also collect data from huggingface config json.
 
     Args:
         repo_id: The name of the model to get metadata for.
@@ -49,6 +84,21 @@ def get_model_metadata(repo_id: str, token: str = None) -> dict[str, Any]:
         "downloads",
     }
     data_dict = {k: v for k, v in data_dict.items() if k not in exclude_fields}
+
+    # Get data from the model config
+    try:
+        config_path = hf_hub_download(
+            repo_id=repo_id, filename="config.json", use_auth_token=token
+        )
+
+        with open(config_path, "r") as file:
+            config_data = json.load(file)
+
+        relevant_fields = config_data_to_features(config_data)
+        # Merge the config data with the existing metadata
+        data_dict.update(relevant_fields)
+    except Exception as e:
+        print(f"Failed to download or parse model_config.json: {e}")
 
     return data_dict
 

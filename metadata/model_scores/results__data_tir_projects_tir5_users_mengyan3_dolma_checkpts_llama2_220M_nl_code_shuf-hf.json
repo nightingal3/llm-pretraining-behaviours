@@ -1,0 +1,127 @@
+{
+    "model_name": "/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_220M_nl_code_shuf-hf",
+    "last_updated": null,
+    "results": {
+        "harness": {
+            "gsm8k": {
+                "x-shot": {
+                    "exact_match": "0.0091",
+                    "acc_stderr": "0.0026",
+                    "timestamp": "2024-04-23 21:12:24.253549"
+                }
+            },
+            "minerva_math_precalc": {
+                "x-shot": {
+                    "exact_match": "0.0055",
+                    "acc_stderr": "0.0032",
+                    "timestamp": "2024-04-23 21:15:00.306079"
+                }
+            },
+            "minerva_math": {
+                "x-shot": {
+                    "exact_match": "0.0026",
+                    "acc_stderr": "0.0025",
+                    "timestamp": "2024-04-23 21:32:46.895267"
+                }
+            },
+            "gsm8k_cot": {
+                "x-shot": {
+                    "exact_match": "0.0136",
+                    "acc_stderr": "0.0032",
+                    "timestamp": "2024-04-23 21:39:40.822392"
+                }
+            },
+            "mathqa": {
+                "x-shot": {
+                    "acc": "0.2208",
+                    "acc_stderr": "0.0076",
+                    "timestamp": "2024-04-23 21:40:38.950129"
+                }
+            },
+            "minerva_math_intermediate_algebra": {
+                "x-shot": {
+                    "exact_match": "0.0011",
+                    "acc_stderr": "0.0011",
+                    "timestamp": "2024-04-23 21:44:21.682763"
+                }
+            },
+            "arithmetic": {
+                "x-shot": {
+                    "acc": "0.0075",
+                    "acc_stderr": "0.0077",
+                    "timestamp": "2024-04-23 21:45:19.386558"
+                }
+            },
+            "fld": {
+                "x-shot": {
+                    "exact_match": "0",
+                    "acc_stderr": "0",
+                    "timestamp": "2024-04-23 22:06:22.342711"
+                }
+            },
+            "logiqa2": {
+                "x-shot": {
+                    "acc": "0.2322",
+                    "acc_stderr": "0.0107",
+                    "timestamp": "2024-04-23 22:07:48.917031"
+                }
+            },
+            "xnli": {
+                "x-shot": {
+                    "acc": "0.3444",
+                    "acc_stderr": "0.0224",
+                    "timestamp": "2024-04-23 22:21:27.221987"
+                }
+            },
+            "minerva_math_algebra": {
+                "x-shot": {
+                    "exact_match": "0.0042",
+                    "acc_stderr": "0.0019",
+                    "timestamp": "2024-04-23 22:26:08.776444"
+                }
+            },
+            "minerva_math_counting_and_prob": {
+                "x-shot": {
+                    "exact_match": "0",
+                    "acc_stderr": "0",
+                    "timestamp": "2024-04-23 22:28:40.428658"
+                }
+            },
+            "asdiv": {
+                "x-shot": {
+                    "acc": "0.0022",
+                    "acc_stderr": "0.001",
+                    "timestamp": "2024-04-23 22:29:35.474081"
+                }
+            },
+            "anli": {
+                "x-shot": {
+                    "acc": "0.3387",
+                    "acc_stderr": "0.0145",
+                    "timestamp": "2024-04-23 22:31:31.072490"
+                }
+            },
+            "minerva_math_geometry": {
+                "x-shot": {
+                    "exact_match": "0",
+                    "acc_stderr": "0",
+                    "timestamp": "2024-04-23 22:33:52.692117"
+                }
+            },
+            "minerva_math_prealgebra": {
+                "x-shot": {
+                    "exact_match": "0.0046",
+                    "acc_stderr": "0.0023",
+                    "timestamp": "2024-04-23 22:37:31.200554"
+                }
+            },
+            "minerva_math_num_theory": {
+                "x-shot": {
+                    "exact_match": "0",
+                    "acc_stderr": "0",
+                    "timestamp": "2024-04-23 22:40:22.107449"
+                }
+            }
+        }
+    }
+}
