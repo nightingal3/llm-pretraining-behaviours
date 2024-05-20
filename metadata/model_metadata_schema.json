@@ -248,6 +248,24 @@
             "type": "integer",
             "minimum": 1
         },
+        "batch_instances": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "batch_tokens": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "merged": {
+            "type": "boolean"
+        },
+        "positional_embedding_type": {
+            "type": "string"
+        },
+        "total_params": {
+            "type": "integer",
+            "minimum": 1
+        },
         "training_stages": {
             "type": "array",
             "items": {
