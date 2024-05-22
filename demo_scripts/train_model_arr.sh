@@ -7,6 +7,7 @@
 #SBATCH --partition=babel-shared-long
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
+#SBATCH --array=1-10%3
 
 set -a 
 source ./demo_scripts/configs/.env
@@ -128,4 +129,5 @@ deepspeed $distributed_args \
        --wandb_entity $WANDB_USER \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
+      --shuffle_docs_before_split \
        $ds_args 
