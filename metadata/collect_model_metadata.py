@@ -51,6 +51,11 @@ def config_data_to_features(config_data: dict) -> dict:
         "vocab_size": config_data.get("vocab_size"),
     }
 
+    # remove Nones
+    config_to_feature_name = {
+        k: v for k, v in config_to_feature_name.items() if v is not None
+    }
+
     return config_to_feature_name
 
 
