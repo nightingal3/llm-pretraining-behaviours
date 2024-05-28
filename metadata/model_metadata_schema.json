@@ -94,11 +94,6 @@
                     "type": "object"
                 }
             },
-            "required": [
-                "architectures",
-                "model_type",
-                "tokenizer_config"
-            ],
             "additionalProperties": false
         },
         "transformers_info": {
@@ -114,7 +109,7 @@
                     ]
                 },
                 "pipeline_tag": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "processor": {
                     "type": [
@@ -156,114 +151,123 @@
             "additionalProperties": false
         },
         "base_model": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "dimension": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "intermediate_size": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "num_heads": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "num_layers": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "mlp_ratio": {
-            "type": "number",
+            "type": ["number", "null"],
             "minimum": 0
         },
         "mlp_experts": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "mlp_experts_top_k": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "layer_norm_type": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
-                "non-paramteric",
+                "non-parametric",
                 "parametric",
-                "rmsnorm"
+                "rmsnorm",
+                null
             ]
         },
         "positional_embeddings": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
-                "rope"
+                "rope",
+                null
             ]
         },
         "attention_variant": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "full",
                 "gqa",
-                "mqa"
+                "mqa",
+                null
             ]
         },
         "attention_window": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "standard",
-                "sliding"
+                "sliding",
+                null
             ]
         },
         "biases": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "none",
                 "ln_only",
-                "attn_only"
+                "attn_only",
+                null
             ]
         },
         "block_type": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "sequential",
-                "parallel"
+                "parallel",
+                null
             ]
         },
         "activation": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "swiglu",
-                "gelu"
+                "gelu",
+                "gelu_fast",
+                "silu",
+                null
             ]
         },
         "sequence_length": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "weight_tying": {
-            "type": "boolean"
+            "type": ["boolean", "null"]
         },
         "vocab_size": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "batch_instances": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "batch_tokens": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "merged": {
-            "type": "boolean"
+            "type": ["boolean", "null"]
         },
         "positional_embedding_type": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "total_params": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "training_stages": {
