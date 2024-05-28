@@ -1,9 +1,9 @@
 {
     "id": "meta-llama/Llama-2-70b-hf",
     "author": "meta-llama",
-    "sha": "3aba440b59558f995867ba6e1f58f21d0336b5bb",
+    "sha": "ddf3d4193d28a593c46150fd7c03f8d5965e0c9f",
     "created_at": "2023-07-11T08:56:34+00:00",
-    "last_modified": "2024-04-17T08:40:41+00:00",
+    "last_modified": "2024-03-05T15:13:52+00:00",
     "private": false,
     "gated": "manual",
     "disabled": false,
@@ -19,9 +19,8 @@
         "llama-2",
         "en",
         "arxiv:2307.09288",
-        "license:llama2",
         "autotrain_compatible",
-        "endpoints_compatible",
+        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -78,10 +77,39 @@
     "dimension": 8192,
     "num_heads": 64,
     "num_layers": 80,
-    "mlp_ratio": 3.5,
-    "intermediate_size": 28672,
-    "activation": "silu",
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "gqa",
+    "attention_window": "standard",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
     "sequence_length": 4096,
     "weight_tying": false,
-    "vocab_size": 32000
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "llama2_data",
+            "batch_instances": 1024,
+            "batch_tokens": 4000000,
+            "total_tokens_billions": 2000,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 1.5e-4,
+                    "lr_min": 1.5e-5,
+                    "lr_schedule": "cosine",
+                    "lr_warmup": 2000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-5,
+                    "weight_decay": 0.1,
+                    "grad_clip": 1.0
+                }
+            }
+        }
+    ]
 }

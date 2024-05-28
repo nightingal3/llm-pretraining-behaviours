@@ -34,8 +34,7 @@
         "model_type": "mixtral",
         "quantization_config": {
             "load_in_4bit": true,
-            "load_in_8bit": false,
-            "quant_method": "bitsandbytes"
+            "load_in_8bit": false
         },
         "tokenizer_config": {
             "bos_token": "<s>",
@@ -48,7 +47,6 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
-        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
@@ -59,14 +57,5 @@
             "U8": 23945982117
         },
         "total": 24367733477
-    },
-    "dimension": 4096,
-    "num_heads": 32,
-    "num_layers": 32,
-    "mlp_ratio": 3.5,
-    "intermediate_size": 14336,
-    "activation": "silu",
-    "sequence_length": 32768,
-    "weight_tying": false,
-    "vocab_size": 32002
+    }
 }

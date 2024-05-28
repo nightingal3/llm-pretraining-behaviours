@@ -70,13 +70,23 @@
         "processor": null
     },
     "safetensors": null,
+    "base_model": null,
+    "merged": null,
     "dimension": 8192,
     "num_heads": 64,
     "num_layers": 42,
     "mlp_ratio": 4.0,
     "intermediate_size": 32768,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
     "activation": "silu",
     "sequence_length": 4096,
+    "batch_instances": null,
+    "batch_tokens": null,
     "weight_tying": false,
+    "total_params": null,
     "vocab_size": 135040
 }

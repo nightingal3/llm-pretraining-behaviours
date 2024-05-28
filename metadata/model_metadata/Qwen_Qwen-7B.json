@@ -19,6 +19,7 @@
         "arxiv:2309.16609",
         "license:other",
         "autotrain_compatible",
+        "has_space",
         "region:us"
     ],
     "pipeline_tag": "text-generation",
@@ -51,9 +52,39 @@
     "dimension": 4096,
     "num_heads": 32,
     "num_layers": 32,
-    "mlp_ratio": 5.375,
-    "intermediate_size": 22016,
-    "sequence_length": 32768,
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "attention_window": "standard",
+    "biases": "attn_only",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 4096,
     "weight_tying": false,
-    "vocab_size": 151936
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "qwen",
+            "batch_instances": 2048,
+            "batch_tokens": 4000000,
+            "total_tokens_billions": 2460,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 3.0e-4,
+                    "lr_min": 3.0e-5,
+                    "lr_schedule": "cosine",
+                    "lr_warmup": 5000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-8,
+                    "weight_decay": 0.1,
+                    "grad_clip": 1.0
+                }
+            }
+        }
+    ] 
 }

@@ -1,9 +1,9 @@
 {
     "id": "allenai/OLMo-7B",
     "author": "allenai",
-    "sha": "5105e9c43c4429878d4c534a5ec6833dc9952594",
+    "sha": "09dd55d8d37c14aa0cbab5a4ac545140d2bd0a60",
     "created_at": "2024-01-09T23:13:23+00:00",
-    "last_modified": "2024-04-25T20:25:18+00:00",
+    "last_modified": "2024-02-11T00:22:35+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
@@ -14,13 +14,14 @@
         "safetensors",
         "olmo",
         "text-generation",
-        "custom_code",
         "en",
         "dataset:allenai/dolma",
         "arxiv:2402.00838",
         "arxiv:2302.13971",
         "license:apache-2.0",
         "autotrain_compatible",
+        "endpoints_compatible",
+        "has_space",
         "region:us"
     ],
     "pipeline_tag": "text-generation",
@@ -32,10 +33,6 @@
             "OLMoForCausalLM"
         ],
         "model_type": "olmo",
-        "auto_map": {
-            "AutoConfig": "configuration_olmo.OLMoConfig",
-            "AutoModelForCausalLM": "modeling_olmo.OLMoForCausalLM"
-        },
         "tokenizer_config": {
             "eos_token": "<|endoftext|>",
             "pad_token": "<|padding|>"
@@ -43,9 +40,9 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
-        "custom_class": "modeling_olmo.OLMoForCausalLM",
+        "custom_class": null,
         "pipeline_tag": "text-generation",
-        "processor": "AutoTokenizer"
+        "processor": null
     },
     "safetensors": {
         "parameters": {
@@ -53,6 +50,42 @@
         },
         "total": 6888095744
     },
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "non-paramteric",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "attention_window": "standard",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
+    "sequence_length": 2048,
     "weight_tying": false,
-    "vocab_size": 50280
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "dolma",
+            "batch_instances": 2160,
+            "batch_tokens": 4000000,
+            "total_tokens_billions": 2460,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 3.0e-4,
+                    "lr_min": 3.0e-5,
+                    "lr_schedule": "linear",
+                    "lr_warmup": 5000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-5,
+                    "weight_decay": 0.1,
+                    "grad_clip": 1.0
+                }
+            }
+        }
+    ]
 }

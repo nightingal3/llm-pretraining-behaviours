@@ -17,6 +17,7 @@
         "license:other",
         "autotrain_compatible",
         "endpoints_compatible",
+        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -73,10 +74,39 @@
     "dimension": 4096,
     "num_heads": 32,
     "num_layers": 32,
-    "mlp_ratio": 2.6875,
-    "intermediate_size": 11008,
-    "activation": "silu",
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "rmsnorm",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "attention_window": "standard",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
     "sequence_length": 2048,
     "weight_tying": false,
-    "vocab_size": 32000
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "llama_data",
+            "batch_instances": 1024,
+            "batch_tokens": 4000000,
+            "total_tokens_billions": 1000,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 3.0e-4,
+                    "lr_min": 3.0e-5,
+                    "lr_schedule": "cosine",
+                    "lr_warmup": 2000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-5,
+                    "weight_decay": 0.1,
+                    "grad_clip": 1.0
+                }
+            }
+        }
+    ]
 }

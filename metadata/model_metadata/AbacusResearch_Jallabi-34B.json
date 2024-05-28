@@ -2,8 +2,8 @@
     "id": "AbacusResearch/Jallabi-34B",
     "author": "AbacusResearch",
     "sha": "f65696da4ed82c9a20e94b200d9dccffa07af682",
-    "created_at": "2024-03-01T15:53:25+00:00",
-    "last_modified": "2024-03-02T20:31:50+00:00",
+    "created_at": "2024-03-01T16:53:25+00:00",
+    "last_modified": "2024-03-02T21:31:50+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
@@ -209,7 +209,6 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
-        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
@@ -219,13 +218,5 @@
         },
         "total": 34388917248
     },
-    "dimension": 7168,
-    "num_heads": 56,
-    "num_layers": 60,
-    "mlp_ratio": 2.857142857142857,
-    "intermediate_size": 20480,
-    "activation": "silu",
-    "sequence_length": 4096,
-    "weight_tying": false,
-    "vocab_size": 64000
+    "base_model": "01-ai_Yi-34B"
 }

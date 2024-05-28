@@ -23,6 +23,7 @@
         "license:apache-2.0",
         "autotrain_compatible",
         "endpoints_compatible",
+        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -47,14 +48,40 @@
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "safetensors": null,
     "dimension": 4096,
     "num_heads": 32,
     "num_layers": 32,
-    "mlp_ratio": 4.0,
-    "intermediate_size": 16384,
-    "activation": "gelu",
+    "mlp_ratio": 2.666667,
+    "layer_norm_type": "parametric",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "attention_window": "standard",
+    "biases": "none",
+    "block_type": "sequential",
+    "activation": "swiglu",
     "sequence_length": 2048,
     "weight_tying": false,
-    "vocab_size": 50432
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "the_pile",
+            "batch_instances": 1024,
+            "batch_tokens": 2097152,
+            "total_tokens_billions": 299.89,
+            "optimizer": {
+                "type": "adam",
+                "params": {
+                    "lr": 0.00012,
+                    "lr_min": 0.000012,
+                    "lr_schedule": "linear",
+                    "lr_warmup": 5000,
+                    "betas": [
+                        0.9,
+                        0.95
+                    ],
+                    "eps": 1.0e-8
+                }
+            }
+        }
+    ]
 }

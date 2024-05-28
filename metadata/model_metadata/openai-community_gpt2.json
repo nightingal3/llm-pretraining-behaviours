@@ -25,6 +25,7 @@
         "license:mit",
         "autotrain_compatible",
         "endpoints_compatible",
+        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -50,7 +51,5 @@
             "F32": 137022720
         },
         "total": 137022720
-    },
-    "weight_tying": false,
-    "vocab_size": 50257
+    }
 }
