@@ -17,7 +17,6 @@
         "instruct",
         "en",
         "autotrain_compatible",
-        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -60,9 +59,18 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
     "safetensors": null,
-    "base_model": "meta-llama/Llama-2-13B-hf"
+    "dimension": 5120,
+    "num_heads": 40,
+    "num_layers": 40,
+    "mlp_ratio": 2.7,
+    "intermediate_size": 13824,
+    "activation": "silu",
+    "sequence_length": 2048,
+    "weight_tying": false,
+    "vocab_size": 32001
 }

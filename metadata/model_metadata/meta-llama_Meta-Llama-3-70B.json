@@ -1,9 +1,9 @@
 {
     "id": "meta-llama/Meta-Llama-3-70B",
     "author": "meta-llama",
-    "sha": "a897071033c208db3c2fdba8a1f4b1b3e2fbb283",
+    "sha": "b4d08b7db49d488da3ac49adf25a6b9ac01ae338",
     "created_at": "2024-04-17T09:25:54+00:00",
-    "last_modified": "2024-04-19T13:23:42+00:00",
+    "last_modified": "2024-05-13T09:35:34+00:00",
     "private": false,
     "gated": "manual",
     "disabled": false,
@@ -18,10 +18,9 @@
         "pytorch",
         "llama-3",
         "en",
-        "license:other",
+        "license:llama3",
         "autotrain_compatible",
         "endpoints_compatible",
-        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -50,5 +49,14 @@
             "BF16": 70553706496
         },
         "total": 70553706496
-    }
+    },
+    "dimension": 8192,
+    "num_heads": 64,
+    "num_layers": 80,
+    "mlp_ratio": 3.5,
+    "intermediate_size": 28672,
+    "activation": "silu",
+    "sequence_length": 8192,
+    "weight_tying": false,
+    "vocab_size": 128256
 }

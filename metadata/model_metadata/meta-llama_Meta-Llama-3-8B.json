@@ -1,9 +1,9 @@
 {
     "id": "meta-llama/Meta-Llama-3-8B",
     "author": "meta-llama",
-    "sha": "561487d18c41c76bcb5fc6cfb73a324982f04f47",
+    "sha": "62bd457b6fe961a42a631306577e622c83876cb6",
     "created_at": "2024-04-17T09:35:16+00:00",
-    "last_modified": "2024-04-19T13:25:43+00:00",
+    "last_modified": "2024-05-13T09:35:46+00:00",
     "private": false,
     "gated": "manual",
     "disabled": false,
@@ -18,10 +18,9 @@
         "pytorch",
         "llama-3",
         "en",
-        "license:other",
+        "license:llama3",
         "autotrain_compatible",
         "endpoints_compatible",
-        "has_space",
         "text-generation-inference",
         "region:us"
     ],
@@ -45,10 +44,14 @@
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
-    "safetensors": {
-        "parameters": {
-            "BF16": 8030261248
-        },
-        "total": 8030261248
-    }
+    "safetensors": null,
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 3.5,
+    "intermediate_size": 14336,
+    "activation": "silu",
+    "sequence_length": 8192,
+    "weight_tying": false,
+    "vocab_size": 128256
 }

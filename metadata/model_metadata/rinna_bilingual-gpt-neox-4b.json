@@ -59,23 +59,13 @@
         },
         "total": 3947117312
     },
-    "base_model": null,
-    "merged": null,
     "dimension": 2816,
     "num_heads": 22,
     "num_layers": 36,
     "mlp_ratio": 4.0,
     "intermediate_size": 11264,
-    "layer_norm_type": null,
-    "positional_embedding_type": null,
-    "attention_variant": null,
-    "biases": null,
-    "block_type": null,
     "activation": "gelu",
     "sequence_length": 2048,
-    "batch_instances": null,
-    "batch_tokens": null,
     "weight_tying": false,
-    "total_params": null,
     "vocab_size": 65536
 }

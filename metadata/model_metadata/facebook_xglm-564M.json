@@ -76,23 +76,7 @@
         "processor": "AutoTokenizer"
     },
     "safetensors": null,
-    "base_model": null,
-    "merged": null,
-    "dimension": null,
-    "num_heads": null,
-    "num_layers": null,
-    "mlp_ratio": null,
-    "intermediate_size": null,
-    "layer_norm_type": null,
-    "positional_embedding_type": null,
-    "attention_variant": null,
-    "biases": null,
-    "block_type": null,
-    "activation": null,
     "sequence_length": 2048,
-    "batch_instances": null,
-    "batch_tokens": null,
     "weight_tying": false,
-    "total_params": null,
     "vocab_size": 256008
 }

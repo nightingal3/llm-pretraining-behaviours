@@ -3,7 +3,7 @@
     "author": "jb723",
     "sha": "86e59e85b234e6c882758724849d7a1e4fe0b30a",
     "created_at": "2023-10-26T12:14:27+00:00",
-    "last_modified": "2023-11-22T12:26:36+00:00",
+    "last_modified": "2023-11-22T11:26:36+00:00",
     "private": false,
     "gated": false,
     "disabled": false,
@@ -65,9 +65,18 @@
     },
     "transformers_info": {
         "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
         "pipeline_tag": "text-generation",
         "processor": "AutoTokenizer"
     },
     "safetensors": null,
-    "base_model": "meta-llama/Llama-2-7b"
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 2.6875,
+    "intermediate_size": 11008,
+    "activation": "silu",
+    "sequence_length": 2048,
+    "weight_tying": false,
+    "vocab_size": 46336
 }
