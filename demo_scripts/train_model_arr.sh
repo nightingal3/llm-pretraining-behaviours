@@ -19,7 +19,7 @@ conda activate ${TOWERLLM_ENV_NAME}
 set -euo pipefail
 
 EXP_CONFIG=$1
-IFS=',' read -r task_id model_size nl_code_mix CHECKPOINT_PATH model_config data_mix_file external_tokenizer TOTAL_TRAIN_TOKENS cmd < <(sed "${SLURM_ARRAY_TASK_ID}q;d" $EXP_CONFIG)
+IFS=',' read -r task_id model_size nl_code_mix CHECKPOINT_PATH model_config data_mix_file external_tokenizer TOTAL_TRAIN_TOKENS cmd < <(sed "${SLURM_ARRAY_TASK_ID}q;d" <(tail -n +2 $EXP_CONFIG))
 
 echo "=== JOB INFO ==="
 echo "Task ID: $task_id"
