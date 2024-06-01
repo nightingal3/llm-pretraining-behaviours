@@ -36,16 +36,15 @@ repo=${BASE_REPO}
 
 # Check if the file is not empty
 if [ -s "$data_mix_file" ]; then
-    mapfile -t lines < "$data_mix_file"
+   mapfile -t lines < "$data_mix_file"
 
-    data_path=""
-    for line in "${lines[@]}"; do
-        # Replace placeholder with environment variable
-        replaced_line=$(echo "$line" | sed "s/{DOLMA_DATA_PATH}/$DOLMA_DATA_PATH/g")
-        data_path="${data_path} ${replaced_line}"
-    done
-    # Trim leading space
-    data_path=$(echo "$data_path" | sed 's/^\s*//')
+   data_path=""
+   for line in "${lines[@]}"; do
+      replaced_line=$(echo "$line" | sed "s|{DOLMA_DATA_PATH}|$DOLMA_DATA_PATH|g")
+      data_path="${data_path} ${replaced_line}"  # Append each replaced line to data_path
+   done
+   
+   data_path=$(echo "$data_path" | sed 's/^\s*//')  # Trim leading space
 
     echo "Data path: $data_path"
 else
