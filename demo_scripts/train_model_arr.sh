@@ -1,12 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=train_model_%A_%a
-#SBATCH --output=train_model_%A_%a.out
+#SBATCH --job-name=train_model_%A-%a
+#SBATCH --output=train_model_%A-%a.out
 #SBATCH --mem=30G
 #SBATCH --gres=gpu:A6000:4
-#SBATCH --time=1-00:00:00
-#SBATCH --partition=babel-shared-long
+#SBATCH --time=7-00:00:00
+#SBATCH --partition=long
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
+#SBATCH --array=1-10%3
 
 set -a 
 source ./demo_scripts/configs/.env
@@ -15,18 +16,44 @@ set +a
 source ${MINICONDA_PATH}
 conda activate ${TOWERLLM_ENV_NAME}
 
-export CUDA_DEVICE_MAX_CONNECTIONS=1
-
-# Usage: sbatch demo_scripts/train_model.sh <checkpoint_path> <model config (see ./configs)> <dataset_bin> <external_tokenizer>
-# to use the wandb logger: --wandb_logger --wandb_entity <your username> --wandb_id <some id> --wandb_api_key <your api key>
 set -euo pipefail
 
 EXP_CONFIG=$1
+IFS=',' read -r task_id model_size nl_code_mix CHECKPOINT_PATH model_config data_mix_file external_tokenizer TOTAL_TRAIN_TOKENS cmd < <(sed "${SLURM_ARRAY_TASK_ID}q;d" <(tail -n +2 $EXP_CONFIG))
 
-IFS=',' read -r task_id CHECKPOINT_PATH model_config dataset_bin external_tokenizer TOTAL_TRAIN_TOKENS <<< $(sed "${SLURM_ARRAY_TASK_ID}q;d" $CSV_FILE_PATH)
+echo "=== JOB INFO ==="
+echo "Task ID: $task_id"
+echo "Model Size: $model_size"
+echo "NL Code Mix: $nl_code_mix"
+echo "Checkpoint Path: $CHECKPOINT_PATH"
+echo "Model Config: $model_config"
+echo "Data Mix File: $data_mix_file"
+echo "External Tokenizer: ${external_tokenizer}"
+echo "Total Train Tokens: $TOTAL_TRAIN_TOKENS"
+echo "Command: $cmd"
+echo "================"
+
+
+
 
 repo=${BASE_REPO}
-data_path=${dataset_bin}
+
+# Check if the file is not empty
+if [ -s "$data_mix_file" ]; then
+   mapfile -t lines < "$data_mix_file"
+
+   data_path=""
+   for line in "${lines[@]}"; do
+      replaced_line=$(echo "$line" | sed "s|{DOLMA_DATA_PATH}|$DOLMA_DATA_PATH|g")
+      data_path="${data_path} ${replaced_line}"  # Append each replaced line to data_path
+   done
+   
+   data_path=$(echo "$data_path" | sed 's/^\s*//')  # Trim leading space
+
+    echo "Data path: $data_path"
+else
+    echo "The file is empty or does not exist."
+fi
 
 num_layers=$(yq '.training.num_layers' $model_config)
 num_attention_heads=$(yq '.training.num_attention_heads' $model_config)
@@ -128,4 +155,5 @@ deepspeed $distributed_args \
        --wandb_entity $WANDB_USER \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
+      --shuffle_docs_before_split \
        $ds_args 

@@ -304,6 +304,15 @@ if __name__ == "__main__":
         os.makedirs("./logs", exist_ok=True)
         with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
             f.write(
+                f"=== Absolute Error for each model: ===\n"
+                + "".join(
+                    [
+                        f"{model}: {error}\n"
+                        for model, error in task_absolute_errors.items()
+                    ]
+                )
+            )
+            f.write(
                 f"=== Average Mean Absolute Error across folds: {np.mean(all_mae)} ===\n"
             )
             f.write("=== Feature Importances: ===\n")
