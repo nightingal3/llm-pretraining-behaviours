@@ -121,7 +121,7 @@ if __name__ == "__main__":
     ].sort_values(by="mean_error")
     worst_overall_pos_json = worst_overall_pos.to_json(indent=2)
     worst_overall_neg_json = worst_overall_neg.to_json(indent=2)
-    with open(os.path.join(output_dir, "highest_errors_overall_pos.json"), "w") as file:
+    with open(os.path.join(output_dir, "largest_errors_overall_pos.json"), "w") as file:
         file.write(worst_overall_pos_json)
-    with open(os.path.join(output_dir, "highest_errors_overall_neg.json"), "w") as file:
+    with open(os.path.join(output_dir, "largest_errors_overall_neg.json"), "w") as file:
         file.write(worst_overall_neg_json)
