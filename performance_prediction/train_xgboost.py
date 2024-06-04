@@ -262,18 +262,18 @@ if __name__ == "__main__":
                 missing_val=args.missing_val,
             )
             predictions = model.predict(test_feats)
-            task_predictions.update({
-                name: pred
-                for (name, pred) in zip(
-                    model_names[test_index], predictions
-                )
-            })
-            task_scores.update({
-                name: score
-                for (name, score) in zip(
-                    model_names[test_index], test_labels
-                )
-            })
+            task_predictions.update(
+                {
+                    name: pred
+                    for (name, pred) in zip(model_names[test_index], predictions)
+                }
+            )
+            task_scores.update(
+                {
+                    name: score
+                    for (name, score) in zip(model_names[test_index], test_labels)
+                }
+            )
 
             mae = mean_absolute_error(test_labels, predictions)
             all_mae.append(mae)
@@ -376,25 +376,24 @@ if __name__ == "__main__":
     ]  # list of {model : predicted score} dicts
     task_names = [list(d.keys())[0] for d in all_predictions]
     df_preds = pd.DataFrame.from_records(pred_dicts, index=task_names).transpose()
-    df_preds.columns = ['pred_' + col for col in df_preds.columns]
+    df_preds.columns = ["pred_" + col for col in df_preds.columns]
     score_dicts = [
         list(d.values())[0] for d in all_scores
     ]  # list of {model : true score} dicts
     df_scores = pd.DataFrame.from_records(score_dicts, index=task_names).transpose()
-    df_scores.columns = ['true_' + col for col in df_scores.columns]
-    df_errors = pd.merge(
-        df_preds,
-        df_scores,
-        left_index=True,
-        right_index=True
-    )
-    df_errors.columns.append(pd.Index(['SErr_' + task for task in task_names]))
-    df_errors.columns.append(pd.Index(['AErr_' + task for task in task_names]))
+    df_scores.columns = ["true_" + col for col in df_scores.columns]
+    df_errors = pd.merge(df_preds, df_scores, left_index=True, right_index=True)
+    df_errors.columns.append(pd.Index(["SErr_" + task for task in task_names]))
+    df_errors.columns.append(pd.Index(["AErr_" + task for task in task_names]))
     for task in task_names:
-        df_errors['SErr_' + task] = df_errors['pred_' + task] - df_errors['true_' + task]
-        df_errors['AErr_' + task] = abs(df_errors['SErr_' + task])
+        df_errors["SErr_" + task] = (
+            df_errors["pred_" + task] - df_errors["true_" + task]
+        )
+        df_errors["AErr_" + task] = abs(df_errors["SErr_" + task])
     # group columns representing same task together
-    df_errors = df_errors.reindex(sorted(df_errors.columns, key=lambda x: x[4:]), axis=1)
+    df_errors = df_errors.reindex(
+        sorted(df_errors.columns, key=lambda x: x[4:]), axis=1
+    )
     df_errors.to_csv(
         f"./performance_prediction/errors_{y_cols_joined}_{args.predictor_type}.csv"
     )
