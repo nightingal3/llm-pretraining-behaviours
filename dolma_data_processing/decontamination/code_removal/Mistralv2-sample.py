@@ -18,6 +18,7 @@ def get_formatted_prompts(texts):
 
     return formatted_prompts
 
+
 def load_model(model_name, temp=0.1, p=0.95):
     """
     Load the model given the model name and sampling params
@@ -33,6 +34,7 @@ def load_model(model_name, temp=0.1, p=0.95):
     print("Loaded model!", flush=True)
 
     return (llm, sampling_params)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -61,9 +63,8 @@ def main():
     outputs = llm_model.generate(formatted_prompts, sampling_params)
     print("Generated outputs...", flush=True)
 
-
     output_array = [prompt[1] for prompt in prompts_with_labels]
-    true_labels = [True if out=="Code" else False for out in output_array]
+    true_labels = [True if out == "Code" else False for out in output_array]
 
     # Print the outputs.
     decisions_array = []
@@ -73,7 +74,7 @@ def main():
         generated_text = output.outputs[0].text
         print(f"Prompt: {prompt!r}, Generated text: {generated_text!r}", flush=True)
         contains_code = "True" in generated_text
-        print("Decision: ",  contains_code, flush=True)
+        print("Decision: ", contains_code, flush=True)
         decisions_array.append(contains_code)
 
     print("True Labels \t Inferenced Label", flush=True)
@@ -81,10 +82,10 @@ def main():
     correct = 0
     for i in range(len(decisions_array)):
         print(true_labels[i], " \t ", decisions_array[i])
-        if(true_labels[i] == decisions_array[i]):
-            correct+=1
+        if true_labels[i] == decisions_array[i]:
+            correct += 1
 
-    print("Accuracy = ", correct/len(decisions_array), flush=True)
+    print("Accuracy = ", correct / len(decisions_array), flush=True)
 
 
 if __name__ == "__main__":
