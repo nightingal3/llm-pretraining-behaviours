@@ -1,0 +1,27 @@
+[
+  [
+    "AbacusResearch/Jallabi-34B",
+    "gsm8k_5-shot_acc",
+    -0.5610920767652166
+  ],
+  [
+    "AbacusResearch/Jallabi-34B",
+    "hendrycksTest-college_biology_5-shot_acc",
+    -0.5555923382441202
+  ],
+  [
+    "AbacusResearch/Jallabi-34B",
+    "hendrycksTest-high_school_geography_5-shot_acc",
+    -0.5506238368424503
+  ],
+  [
+    "AbacusResearch/Jallabi-34B",
+    "hendrycksTest-high_school_us_history_5-shot_acc",
+    -0.5410688472729104
+  ],
+  [
+    "AbacusResearch/Jallabi-34B",
+    "hendrycksTest-high_school_biology_5-shot_acc",
+    -0.5336749822862685
+  ]
+]
