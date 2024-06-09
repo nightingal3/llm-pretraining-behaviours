@@ -65,7 +65,7 @@ def preprocess_data(data):
     return data
 
 
-if __name__ == "__main__":
+def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--model_feats",
@@ -84,9 +84,9 @@ if __name__ == "__main__":
         required=True,
     )
     parser.add_argument(
-        "--y_col",
+        "--y_cols",
         type=str,
-        help="The name of the column containing the target variable in the train_labels file",
+        help="The name(s) of the column(s) containing the target variable(s) in the train_labels file",
         required=True,
         nargs="+",
     )
@@ -130,13 +130,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--predictor_type", type=str, choices=["scaling_laws", "all"], default="all"
     )
-
     args = parser.parse_args()
+
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
     assert args.lr > 0, "Learning rate must be greater than 0"
     assert args.max_depth > 0, "Max depth must be greater than 0"
     if not (args.model_feats or args.data_feats):
         raise ValueError("Please provide either model_feats or data_feats")
+
+    return args
+
+
+if __name__ == "__main__":
+    args = get_args()
 
     categorical_variables = [
         "activation",
@@ -189,11 +195,10 @@ if __name__ == "__main__":
         ]
         categorical_variables = []
 
-    if args.y_col == ["all"]:
+    if args.y_cols == ["all"]:
         y_cols = [t for t in list(cols_from_results) if t.endswith("_acc")]
     else:
-        y_cols = args.y_col
-    # ordinal encode
+        y_cols = args.y_cols
     if args.predictor_type == "all":
         if "is_instruction_tuned" in dataset.columns:
             dataset["is_instruction_tuned"] = dataset["is_instruction_tuned"].map(
@@ -214,17 +219,18 @@ if __name__ == "__main__":
     all_feat_importances = []
     mmlu_shap_values = []
     mmlu_test_features = []
+    all_absolute_errors = []
 
     for y_col in y_cols:
         # drop rows with missing score values
-        dataset_copy = dataset.copy()
-        dataset_copy = dataset_copy.dropna(subset=y_col)
+        dataset_copy = dataset.copy().dropna(subset=y_col).reset_index(drop=True)
         if len(dataset_copy) <= max(5, args.n_estimators):
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
             )
             continue
 
+        model_names = dataset_copy["model_name"]
         trainset = preprocess_data(dataset_copy)
 
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
@@ -235,9 +241,11 @@ if __name__ == "__main__":
         test_features_list = []
         all_shap_values = []
         all_mae = []
+        task_absolute_errors = {}
         feat_importances = []
 
         for train_index, test_index in k_folds.split(feats):
+            # train model, get MAEs
             train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
             train_labels, test_labels = (
                 labels.iloc[train_index],
@@ -252,12 +260,23 @@ if __name__ == "__main__":
                 missing_val=args.missing_val,
             )
             predictions = model.predict(test_feats)
+
+            # Get the absolute error for each model so we can see where the predictions are off
+            absolute_errors = {
+                name: ae
+                for (name, ae) in zip(
+                    model_names[test_index], abs(test_labels - predictions)
+                )
+            }
+            task_absolute_errors.update(absolute_errors)
             mae = mean_absolute_error(test_labels, predictions)
             all_mae.append(mae)
 
+            # get feature importances
             importances = model.feature_importances_
             feat_importances.append(importances)
 
+            # get shap values
             explainer = shap.Explainer(model)
             shap_values = explainer(test_feats)
             all_shap_values.append(shap_values.values)
@@ -273,8 +292,19 @@ if __name__ == "__main__":
         print(importances_series)
         all_feat_importances.append(importances_series)
 
+        all_absolute_errors.append({y_col: task_absolute_errors})
+
         os.makedirs("./logs", exist_ok=True)
         with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
+            f.write(
+                f"=== Absolute Error for each model: ===\n"
+                + "".join(
+                    [
+                        f"{model}: {error}\n"
+                        for model, error in task_absolute_errors.items()
+                    ]
+                )
+            )
             f.write(
                 f"=== Average Mean Absolute Error across folds: {np.mean(all_mae)} ===\n"
             )
@@ -295,8 +325,10 @@ if __name__ == "__main__":
         plt.figure(figsize=(10, 8))
         shap.summary_plot(aggregated_shap_values, aggregated_test_features, show=False)
 
-        os.makedirs("./figures", exist_ok=True)
-        plt.savefig(f"./figures/aggregate_shap_{y_col}_{args.predictor_type}.png")
+        os.makedirs("./performance_prediction/figures", exist_ok=True)
+        plt.savefig(
+            f"./performance_prediction/figures/aggregate_shap_{y_col}_{args.predictor_type}.png"
+        )
         plt.gcf().clear()
 
     df_results = pd.DataFrame(
@@ -324,10 +356,21 @@ if __name__ == "__main__":
         # df_results = df_results[~df_results["task"].str.#startswith("hendrycksTest")]
 
     # report actual preds
-    y_cols_joined = ",".join(args.y_col)
+    y_cols_joined = ",".join(args.y_cols)
     df_results.to_csv(
         f"./performance_prediction/summary_{y_cols_joined}_{args.predictor_type}.csv",
         index=False,
+    )
+
+    # report absolute errors for each model/task
+    # all_absolute_errors is a list of {task_name: {model_name: error}} dicts
+    errors_dicts = [
+        list(d.values())[0] for d in all_absolute_errors
+    ]  # list of {model : error} dicts
+    task_names = [list(d.keys())[0] for d in all_absolute_errors]
+    df_errors = pd.DataFrame.from_records(errors_dicts, index=task_names).transpose()
+    df_errors.to_csv(
+        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}.csv"
     )
 
     # report feature importances
