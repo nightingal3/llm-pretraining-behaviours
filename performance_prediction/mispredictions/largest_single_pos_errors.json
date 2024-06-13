@@ -1,0 +1,27 @@
+[
+  [
+    "playdev7/theseed-v0.3",
+    "hendrycksTest-high_school_psychology_5-shot_acc",
+    0.4962143286652521
+  ],
+  [
+    "playdev7/theseed-v0.3",
+    "hendrycksTest-marketing_5-shot_acc",
+    0.4981923857305804
+  ],
+  [
+    "kevin009/flyingllama-v2",
+    "hendrycksTest-management_5-shot_acc",
+    0.5036813223246233
+  ],
+  [
+    "playdev7/theseed-v0.3",
+    "hendrycksTest-management_5-shot_acc",
+    0.5111476981524126
+  ],
+  [
+    "playdev7/theseed-v0.3",
+    "hendrycksTest-us_foreign_policy_5-shot_acc",
+    0.5520138216018677
+  ]
+]
