@@ -1,0 +1,69 @@
+{
+  "results": {
+    "logiqa2": {
+      "acc,none": 0.2506361323155216,
+      "acc_stderr,none": 0.01093402649472266,
+      "acc_norm,none": 0.28435114503816794,
+      "acc_norm_stderr,none": 0.011381234942587042,
+      "alias": "logiqa2"
+    }
+  },
+  "configs": {
+    "logiqa2": {
+      "task": "logiqa2",
+      "dataset_path": "baber/logiqa2",
+      "dataset_name": "logiqa2",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "def doc_to_text(doc) -> str:\n    \"\"\"\n    Passage: <passage>\n    Question: <question>\n    A. <choice1>\n    B. <choice2>\n    C. <choice3>\n    D. <choice4>\n    Answer:\n    \"\"\"\n    choices = [\"a\", \"b\", \"c\", \"d\"]\n    prompt = \"Passage: \" + doc[\"text\"] + \"\\n\"\n    prompt += \"Question: \" + doc[\"question\"] + \"\\n\"\n    for choice, option in zip(choices, doc[\"options\"]):\n        prompt += f\"{choice.upper()}. {option}\\n\"\n    prompt += \"Answer:\"\n    return prompt\n",
+      "doc_to_target": "{{answer}}",
+      "doc_to_choice": "{{options}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "acc_norm",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "doc_to_decontamination_query": "{{context}}",
+      "metadata": {
+        "version": 0.0
+      }
+    }
+  },
+  "versions": {
+    "logiqa2": 0.0
+  },
+  "n-shot": {
+    "logiqa2": 0
+  },
+  "config": {
+    "model": "hf",
+    "model_args": "pretrained=jisukim8873/falcon-7B-case-c,dtype=float16,trust_remote_code=True",
+    "batch_size": "auto:4",
+    "batch_sizes": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "device": "cuda:0",
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null
+  },
+  "git_hash": "8d612ac"
+}

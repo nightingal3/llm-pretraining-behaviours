@@ -1,0 +1,381 @@
+{
+  "results": {
+    "arithmetic": {
+      "acc,none": 0.07475,
+      "acc_stderr,none": 0.08072409633332253,
+      "alias": "arithmetic"
+    },
+    "arithmetic_1dc": {
+      "acc,none": 0.094,
+      "acc_stderr,none": 0.006527120471603565,
+      "alias": " - arithmetic_1dc"
+    },
+    "arithmetic_2da": {
+      "acc,none": 0.149,
+      "acc_stderr,none": 0.00796437163923195,
+      "alias": " - arithmetic_2da"
+    },
+    "arithmetic_2dm": {
+      "acc,none": 0.1045,
+      "acc_stderr,none": 0.006842023212531482,
+      "alias": " - arithmetic_2dm"
+    },
+    "arithmetic_2ds": {
+      "acc,none": 0.309,
+      "acc_stderr,none": 0.01033503296817333,
+      "alias": " - arithmetic_2ds"
+    },
+    "arithmetic_3da": {
+      "acc,none": 0.033,
+      "acc_stderr,none": 0.003995432609977369,
+      "alias": " - arithmetic_3da"
+    },
+    "arithmetic_3ds": {
+      "acc,none": 0.052,
+      "acc_stderr,none": 0.004965916850399506,
+      "alias": " - arithmetic_3ds"
+    },
+    "arithmetic_4da": {
+      "acc,none": 0.0015,
+      "acc_stderr,none": 0.0008655920660521425,
+      "alias": " - arithmetic_4da"
+    },
+    "arithmetic_4ds": {
+      "acc,none": 0.003,
+      "acc_stderr,none": 0.0012232122154647207,
+      "alias": " - arithmetic_4ds"
+    },
+    "arithmetic_5da": {
+      "acc,none": 0.0,
+      "acc_stderr,none": 0.0,
+      "alias": " - arithmetic_5da"
+    },
+    "arithmetic_5ds": {
+      "acc,none": 0.0015,
+      "acc_stderr,none": 0.0008655920660521535,
+      "alias": " - arithmetic_5ds"
+    }
+  },
+  "groups": {
+    "arithmetic": {
+      "acc,none": 0.07475,
+      "acc_stderr,none": 0.08072409633332253,
+      "alias": "arithmetic"
+    }
+  },
+  "configs": {
+    "arithmetic_1dc": {
+      "task": "arithmetic_1dc",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_1dc",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_2da": {
+      "task": "arithmetic_2da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_2da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_2dm": {
+      "task": "arithmetic_2dm",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_2dm",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_2ds": {
+      "task": "arithmetic_2ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_2ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_3da": {
+      "task": "arithmetic_3da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_3da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_3ds": {
+      "task": "arithmetic_3ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_3ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_4da": {
+      "task": "arithmetic_4da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_4da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_4ds": {
+      "task": "arithmetic_4ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_4ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_5da": {
+      "task": "arithmetic_5da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_5da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_5ds": {
+      "task": "arithmetic_5ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_5ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    }
+  },
+  "versions": {
+    "arithmetic": "N/A",
+    "arithmetic_1dc": 1.0,
+    "arithmetic_2da": 1.0,
+    "arithmetic_2dm": 1.0,
+    "arithmetic_2ds": 1.0,
+    "arithmetic_3da": 1.0,
+    "arithmetic_3ds": 1.0,
+    "arithmetic_4da": 1.0,
+    "arithmetic_4ds": 1.0,
+    "arithmetic_5da": 1.0,
+    "arithmetic_5ds": 1.0
+  },
+  "n-shot": {
+    "arithmetic": 0,
+    "arithmetic_1dc": 0,
+    "arithmetic_2da": 0,
+    "arithmetic_2dm": 0,
+    "arithmetic_2ds": 0,
+    "arithmetic_3da": 0,
+    "arithmetic_3ds": 0,
+    "arithmetic_4da": 0,
+    "arithmetic_4ds": 0,
+    "arithmetic_5da": 0,
+    "arithmetic_5ds": 0
+  },
+  "config": {
+    "model": "hf",
+    "model_args": "pretrained=jisukim8873/falcon-7B-case-2,dtype=float16,trust_remote_code=True",
+    "batch_size": "auto:4",
+    "batch_sizes": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "device": "cuda:0",
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null
+  },
+  "git_hash": "8d612ac"
+}

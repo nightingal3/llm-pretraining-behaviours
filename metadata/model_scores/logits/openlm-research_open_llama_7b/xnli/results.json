@@ -1,0 +1,552 @@
+{
+  "results": {
+    "xnli": {
+      "acc,none": 0.3800803212851406,
+      "acc_stderr,none": 0.043393935898148106,
+      "alias": "xnli"
+    },
+    "xnli_ar": {
+      "acc,none": 0.3269076305220884,
+      "acc_stderr,none": 0.009402371661447655,
+      "alias": " - xnli_ar"
+    },
+    "xnli_bg": {
+      "acc,none": 0.35943775100401604,
+      "acc_stderr,none": 0.009617895762902742,
+      "alias": " - xnli_bg"
+    },
+    "xnli_de": {
+      "acc,none": 0.40763052208835343,
+      "acc_stderr,none": 0.009849569202733739,
+      "alias": " - xnli_de"
+    },
+    "xnli_el": {
+      "acc,none": 0.3409638554216867,
+      "acc_stderr,none": 0.009501591178361541,
+      "alias": " - xnli_el"
+    },
+    "xnli_en": {
+      "acc,none": 0.5377510040160642,
+      "acc_stderr,none": 0.00999346636087279,
+      "alias": " - xnli_en"
+    },
+    "xnli_es": {
+      "acc,none": 0.43855421686746987,
+      "acc_stderr,none": 0.009946106597784596,
+      "alias": " - xnli_es"
+    },
+    "xnli_fr": {
+      "acc,none": 0.45863453815261046,
+      "acc_stderr,none": 0.009987716412406573,
+      "alias": " - xnli_fr"
+    },
+    "xnli_hi": {
+      "acc,none": 0.35180722891566263,
+      "acc_stderr,none": 0.009571764897113621,
+      "alias": " - xnli_hi"
+    },
+    "xnli_ru": {
+      "acc,none": 0.39196787148594375,
+      "acc_stderr,none": 0.009785342947722884,
+      "alias": " - xnli_ru"
+    },
+    "xnli_sw": {
+      "acc,none": 0.3542168674698795,
+      "acc_stderr,none": 0.009586620142951845,
+      "alias": " - xnli_sw"
+    },
+    "xnli_th": {
+      "acc,none": 0.3397590361445783,
+      "acc_stderr,none": 0.009493454925438252,
+      "alias": " - xnli_th"
+    },
+    "xnli_tr": {
+      "acc,none": 0.351004016064257,
+      "acc_stderr,none": 0.009566753834803285,
+      "alias": " - xnli_tr"
+    },
+    "xnli_ur": {
+      "acc,none": 0.3329317269076305,
+      "acc_stderr,none": 0.00944605100135823,
+      "alias": " - xnli_ur"
+    },
+    "xnli_vi": {
+      "acc,none": 0.35903614457831323,
+      "acc_stderr,none": 0.009615533992414596,
+      "alias": " - xnli_vi"
+    },
+    "xnli_zh": {
+      "acc,none": 0.3506024096385542,
+      "acc_stderr,none": 0.009564237156206102,
+      "alias": " - xnli_zh"
+    }
+  },
+  "groups": {
+    "xnli": {
+      "acc,none": 0.3800803212851406,
+      "acc_stderr,none": 0.043393935898148106,
+      "alias": "xnli"
+    }
+  },
+  "configs": {
+    "xnli_ar": {
+      "task": "xnli_ar",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "ar",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", صحيح? نعم, \"+hypothesis,premise+\", صحيح? لذا, \"+hypothesis,premise+\", صحيح? رقم, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_bg": {
+      "task": "xnli_bg",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "bg",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", правилно? да, \"+hypothesis,premise+\", правилно? така, \"+hypothesis,premise+\", правилно? не, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_de": {
+      "task": "xnli_de",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "de",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", richtig? Ja, \"+hypothesis,premise+\", richtig? Auch, \"+hypothesis,premise+\", richtig? Nein, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_el": {
+      "task": "xnli_el",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "el",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", σωστός? Ναί, \"+hypothesis,premise+\", σωστός? Έτσι, \"+hypothesis,premise+\", σωστός? όχι, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_en": {
+      "task": "xnli_en",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "en",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", right? Yes, \"+hypothesis,premise+\", right? Also, \"+hypothesis,premise+\", right? No, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_es": {
+      "task": "xnli_es",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "es",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", correcto? Sí, \"+hypothesis,premise+\", correcto? Asi que, \"+hypothesis,premise+\", correcto? No, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_fr": {
+      "task": "xnli_fr",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "fr",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", correct? Oui, \"+hypothesis,premise+\", correct? Aussi, \"+hypothesis,premise+\", correct? Non, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_hi": {
+      "task": "xnli_hi",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "hi",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", सही? हाँ, \"+hypothesis,premise+\", सही? इसलिए, \"+hypothesis,premise+\", सही? नहीं, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_ru": {
+      "task": "xnli_ru",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "ru",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", правильно? Да, \"+hypothesis,premise+\", правильно? Так, \"+hypothesis,premise+\", правильно? Нет, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_sw": {
+      "task": "xnli_sw",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "sw",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", sahihi? Ndiyo, \"+hypothesis,premise+\", sahihi? Hivyo, \"+hypothesis,premise+\", sahihi? Hapana, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_th": {
+      "task": "xnli_th",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "th",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", ถูกต้อง? ใช่, \"+hypothesis,premise+\", ถูกต้อง? ดังนั้น, \"+hypothesis,premise+\", ถูกต้อง? ไม่, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_tr": {
+      "task": "xnli_tr",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "tr",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", doğru? Evet, \"+hypothesis,premise+\", doğru? Böylece, \"+hypothesis,premise+\", doğru? Hayır, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_ur": {
+      "task": "xnli_ur",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "ur",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", صحیح? جی ہاں, \"+hypothesis,premise+\", صحیح? اس لئے, \"+hypothesis,premise+\", صحیح? نہیں, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_vi": {
+      "task": "xnli_vi",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "vi",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", đúng? Vâng, \"+hypothesis,premise+\", đúng? Vì vậy, \"+hypothesis,premise+\", đúng? Không, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_zh": {
+      "task": "xnli_zh",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "zh",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", 正确? 是的, \"+hypothesis,premise+\", 正确? 所以, \"+hypothesis,premise+\", 正确? 不是的, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    }
+  },
+  "versions": {
+    "xnli": "N/A",
+    "xnli_ar": 1.0,
+    "xnli_bg": 1.0,
+    "xnli_de": 1.0,
+    "xnli_el": 1.0,
+    "xnli_en": 1.0,
+    "xnli_es": 1.0,
+    "xnli_fr": 1.0,
+    "xnli_hi": 1.0,
+    "xnli_ru": 1.0,
+    "xnli_sw": 1.0,
+    "xnli_th": 1.0,
+    "xnli_tr": 1.0,
+    "xnli_ur": 1.0,
+    "xnli_vi": 1.0,
+    "xnli_zh": 1.0
+  },
+  "n-shot": {
+    "xnli": 0,
+    "xnli_ar": 0,
+    "xnli_bg": 0,
+    "xnli_de": 0,
+    "xnli_el": 0,
+    "xnli_en": 0,
+    "xnli_es": 0,
+    "xnli_fr": 0,
+    "xnli_hi": 0,
+    "xnli_ru": 0,
+    "xnli_sw": 0,
+    "xnli_th": 0,
+    "xnli_tr": 0,
+    "xnli_ur": 0,
+    "xnli_vi": 0,
+    "xnli_zh": 0
+  },
+  "config": {
+    "model": "hf",
+    "model_args": "pretrained=openlm-research/open_llama_7b,dtype=float16,trust_remote_code=True",
+    "batch_size": "auto:4",
+    "batch_sizes": [
+      32,
+      64,
+      64,
+      64,
+      64
+    ],
+    "device": "cuda:0",
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null
+  },
+  "git_hash": "8d612ac"
+}

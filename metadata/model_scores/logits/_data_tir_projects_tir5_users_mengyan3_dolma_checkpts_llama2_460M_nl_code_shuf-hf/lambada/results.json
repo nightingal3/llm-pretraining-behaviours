@@ -1,0 +1,130 @@
+{
+  "results": {
+    "lambada": {
+      "perplexity,none": 48.82078329371017,
+      "perplexity_stderr,none": 9.486319770719176,
+      "acc,none": 0.3152532505336697,
+      "acc_stderr,none": 0.02327609769370199,
+      "alias": "lambada"
+    },
+    "lambada_openai": {
+      "perplexity,none": 30.28460606656472,
+      "perplexity_stderr,none": 1.0812508279237465,
+      "acc,none": 0.3599844750630701,
+      "acc_stderr,none": 0.006687275461729999,
+      "alias": " - lambada_openai"
+    },
+    "lambada_standard": {
+      "perplexity,none": 67.35696052085562,
+      "perplexity_stderr,none": 2.645866757420038,
+      "acc,none": 0.27052202600426933,
+      "acc_stderr,none": 0.00618898571238146,
+      "alias": " - lambada_standard"
+    }
+  },
+  "groups": {
+    "lambada": {
+      "perplexity,none": 48.82078329371017,
+      "perplexity_stderr,none": 9.486319770719176,
+      "acc,none": 0.3152532505336697,
+      "acc_stderr,none": 0.02327609769370199,
+      "alias": "lambada"
+    }
+  },
+  "configs": {
+    "lambada_openai": {
+      "task": "lambada_openai",
+      "group": [
+        "lambada"
+      ],
+      "dataset_path": "EleutherAI/lambada_openai",
+      "dataset_name": "default",
+      "test_split": "test",
+      "doc_to_text": "{{text.split(' ')[:-1]|join(' ')}}",
+      "doc_to_target": "{{' '+text.split(' ')[-1]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "perplexity",
+          "aggregation": "perplexity",
+          "higher_is_better": false
+        },
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "{{text}}",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "lambada_standard": {
+      "task": "lambada_standard",
+      "group": [
+        "lambada"
+      ],
+      "dataset_path": "lambada",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "{{text.split(' ')[:-1]|join(' ')}}",
+      "doc_to_target": "{{' '+text.split(' ')[-1]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "perplexity",
+          "aggregation": "perplexity",
+          "higher_is_better": false
+        },
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "{{text}}",
+      "metadata": {
+        "version": 1.0
+      }
+    }
+  },
+  "versions": {
+    "lambada": "N/A",
+    "lambada_openai": 1.0,
+    "lambada_standard": 1.0
+  },
+  "n-shot": {
+    "lambada": 0,
+    "lambada_openai": 0,
+    "lambada_standard": 0
+  },
+  "config": {
+    "model": "hf",
+    "model_args": "pretrained=/data/tir/projects/tir5/users/mengyan3/dolma_checkpts/llama2_460M_nl_code_shuf-hf,dtype=float",
+    "batch_size": "auto:4",
+    "batch_sizes": [
+      64,
+      64,
+      64,
+      64,
+      64
+    ],
+    "device": "cuda:0",
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null
+  },
+  "git_hash": "43f9729"
+}

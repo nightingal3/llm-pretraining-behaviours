@@ -1,0 +1,1836 @@
+{
+  "results": {
+    "reasoning": {
+      "acc,none": 0.2090036449576154,
+      "acc_stderr,none": 0.09570196643539737,
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "exact_match,get-answer": 0.004520997339514632,
+      "exact_match_stderr,get-answer": 3.433495921995886e-06,
+      "perplexity,none": 66.91980593352707,
+      "perplexity_stderr,none": 188.76698206547593,
+      "acc_norm,none": 0.2799767112412225,
+      "acc_norm_stderr,none": 0.00039611510762066493,
+      "exact_match,none": 0.0124,
+      "exact_match_stderr,none": 2.650471246121495e-05,
+      "alias": "reasoning"
+    },
+    "anli": {
+      "acc,none": 0.3440625,
+      "acc_stderr,none": 0.014636905198265111,
+      "alias": " - anli"
+    },
+    "anli_r1": {
+      "acc,none": 0.343,
+      "acc_stderr,none": 0.015019206922356951,
+      "alias": "  - anli_r1"
+    },
+    "anli_r2": {
+      "acc,none": 0.34,
+      "acc_stderr,none": 0.014987482264363935,
+      "alias": "  - anli_r2"
+    },
+    "anli_r3": {
+      "acc,none": 0.34833333333333333,
+      "acc_stderr,none": 0.013759437498874065,
+      "alias": "  - anli_r3"
+    },
+    "arithmetic": {
+      "acc,none": 0.00265,
+      "acc_stderr,none": 0.0031889923751009237,
+      "alias": " - arithmetic"
+    },
+    "arithmetic_1dc": {
+      "acc,none": 0.0,
+      "acc_stderr,none": 0.0,
+      "alias": "  - arithmetic_1dc"
+    },
+    "arithmetic_2da": {
+      "acc,none": 0.0035,
+      "acc_stderr,none": 0.0013208888574315761,
+      "alias": "  - arithmetic_2da"
+    },
+    "arithmetic_2dm": {
+      "acc,none": 0.0125,
+      "acc_stderr,none": 0.0024849471787626726,
+      "alias": "  - arithmetic_2dm"
+    },
+    "arithmetic_2ds": {
+      "acc,none": 0.0075,
+      "acc_stderr,none": 0.0019296986470519833,
+      "alias": "  - arithmetic_2ds"
+    },
+    "arithmetic_3da": {
+      "acc,none": 0.001,
+      "acc_stderr,none": 0.0007069298939339296,
+      "alias": "  - arithmetic_3da"
+    },
+    "arithmetic_3ds": {
+      "acc,none": 0.0015,
+      "acc_stderr,none": 0.0008655920660521436,
+      "alias": "  - arithmetic_3ds"
+    },
+    "arithmetic_4da": {
+      "acc,none": 0.0005,
+      "acc_stderr,none": 0.0005000000000000152,
+      "alias": "  - arithmetic_4da"
+    },
+    "arithmetic_4ds": {
+      "acc,none": 0.0,
+      "acc_stderr,none": 0.0,
+      "alias": "  - arithmetic_4ds"
+    },
+    "arithmetic_5da": {
+      "acc,none": 0.0,
+      "acc_stderr,none": 0.0,
+      "alias": "  - arithmetic_5da"
+    },
+    "arithmetic_5ds": {
+      "acc,none": 0.0,
+      "acc_stderr,none": 0.0,
+      "alias": "  - arithmetic_5ds"
+    },
+    "fld": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": " - fld"
+    },
+    "fld_default": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": "  - fld_default"
+    },
+    "fld_star": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": "  - fld_star"
+    },
+    "gsm8k": {
+      "exact_match,get-answer": 0.004548900682335102,
+      "exact_match_stderr,get-answer": 0.0018535550440036204,
+      "alias": " - gsm8k"
+    },
+    "gsm8k_cot": {
+      "exact_match,get-answer": 0.0037907505686125853,
+      "exact_match_stderr,get-answer": 0.0016927007401501821,
+      "alias": " - gsm8k_cot"
+    },
+    "lambada": {
+      "perplexity,none": 66.91980593352707,
+      "perplexity_stderr,none": 13.739249690775546,
+      "acc,none": 0.29060741315738403,
+      "acc_stderr,none": 0.016714291669733587,
+      "alias": " - lambada"
+    },
+    "lambada_openai": {
+      "perplexity,none": 40.06453062118839,
+      "perplexity_stderr,none": 1.4791782358442531,
+      "acc,none": 0.32156025616145933,
+      "acc_stderr,none": 0.006507271043993028,
+      "alias": "  - lambada_openai"
+    },
+    "lambada_standard": {
+      "perplexity,none": 93.77508124586576,
+      "perplexity_stderr,none": 3.8353274411303673,
+      "acc,none": 0.25965457015330873,
+      "acc_stderr,none": 0.006108397042730507,
+      "alias": "  - lambada_standard"
+    },
+    "logiqa2": {
+      "acc,none": 0.23918575063613232,
+      "acc_stderr,none": 0.010762641593043952,
+      "acc_norm,none": 0.28435114503816794,
+      "acc_norm_stderr,none": 0.011381234942587042,
+      "alias": " - logiqa2"
+    },
+    "mathqa": {
+      "acc,none": 0.21105527638190955,
+      "acc_stderr,none": 0.007470023801451696,
+      "acc_norm,none": 0.2100502512562814,
+      "acc_norm_stderr,none": 0.007456961930598775,
+      "alias": " - mathqa"
+    },
+    "minerva_math": {
+      "exact_match,none": 0.0124,
+      "exact_match_stderr,none": 0.005148272764842103,
+      "alias": " - minerva_math"
+    },
+    "minerva_math_algebra": {
+      "exact_match,none": 0.017691659646166806,
+      "exact_match_stderr,none": 0.0038279464976423224,
+      "alias": "  - minerva_math_algebra"
+    },
+    "minerva_math_counting_and_prob": {
+      "exact_match,none": 0.008438818565400843,
+      "exact_match_stderr,none": 0.0042060072077130545,
+      "alias": "  - minerva_math_counting_and_prob"
+    },
+    "minerva_math_geometry": {
+      "exact_match,none": 0.008350730688935281,
+      "exact_match_stderr,none": 0.0041622421102958515,
+      "alias": "  - minerva_math_geometry"
+    },
+    "minerva_math_intermediate_algebra": {
+      "exact_match,none": 0.009966777408637873,
+      "exact_match_stderr,none": 0.0033074934669720365,
+      "alias": "  - minerva_math_intermediate_algebra"
+    },
+    "minerva_math_num_theory": {
+      "exact_match,none": 0.005555555555555556,
+      "exact_match_stderr,none": 0.0032015451273209087,
+      "alias": "  - minerva_math_num_theory"
+    },
+    "minerva_math_prealgebra": {
+      "exact_match,none": 0.016073478760045924,
+      "exact_match_stderr,none": 0.004263601904034612,
+      "alias": "  - minerva_math_prealgebra"
+    },
+    "minerva_math_precalc": {
+      "exact_match,none": 0.01282051282051282,
+      "exact_match_stderr,none": 0.004818950982487616,
+      "alias": "  - minerva_math_precalc"
+    },
+    "xnli": {
+      "acc,none": 0.3505756358768407,
+      "acc_stderr,none": 0.024914037811898215,
+      "alias": " - xnli"
+    },
+    "xnli_ar": {
+      "acc,none": 0.3333333333333333,
+      "acc_stderr,none": 0.009448900914617616,
+      "alias": "  - xnli_ar"
+    },
+    "xnli_bg": {
+      "acc,none": 0.3373493975903614,
+      "acc_stderr,none": 0.009476976849778593,
+      "alias": "  - xnli_bg"
+    },
+    "xnli_de": {
+      "acc,none": 0.3257028112449799,
+      "acc_stderr,none": 0.009393425164263995,
+      "alias": "  - xnli_de"
+    },
+    "xnli_el": {
+      "acc,none": 0.3353413654618474,
+      "acc_stderr,none": 0.009463034891512703,
+      "alias": "  - xnli_el"
+    },
+    "xnli_en": {
+      "acc,none": 0.46987951807228917,
+      "acc_stderr,none": 0.010003871419517722,
+      "alias": "  - xnli_en"
+    },
+    "xnli_es": {
+      "acc,none": 0.3325301204819277,
+      "acc_stderr,none": 0.009443193365903345,
+      "alias": "  - xnli_es"
+    },
+    "xnli_fr": {
+      "acc,none": 0.3373493975903614,
+      "acc_stderr,none": 0.009476976849778588,
+      "alias": "  - xnli_fr"
+    },
+    "xnli_hi": {
+      "acc,none": 0.3670682730923695,
+      "acc_stderr,none": 0.009661385450096044,
+      "alias": "  - xnli_hi"
+    },
+    "xnli_ru": {
+      "acc,none": 0.3485943775100402,
+      "acc_stderr,none": 0.009551542053301812,
+      "alias": "  - xnli_ru"
+    },
+    "xnli_sw": {
+      "acc,none": 0.3289156626506024,
+      "acc_stderr,none": 0.00941712598180673,
+      "alias": "  - xnli_sw"
+    },
+    "xnli_th": {
+      "acc,none": 0.3385542168674699,
+      "acc_stderr,none": 0.009485250208516876,
+      "alias": "  - xnli_th"
+    },
+    "xnli_tr": {
+      "acc,none": 0.3369477911646586,
+      "acc_stderr,none": 0.009474203778757712,
+      "alias": "  - xnli_tr"
+    },
+    "xnli_ur": {
+      "acc,none": 0.35180722891566263,
+      "acc_stderr,none": 0.009571764897113623,
+      "alias": "  - xnli_ur"
+    },
+    "xnli_vi": {
+      "acc,none": 0.37670682730923694,
+      "acc_stderr,none": 0.009712599529552996,
+      "alias": "  - xnli_vi"
+    },
+    "xnli_zh": {
+      "acc,none": 0.3385542168674699,
+      "acc_stderr,none": 0.009485250208516876,
+      "alias": "  - xnli_zh"
+    }
+  },
+  "groups": {
+    "reasoning": {
+      "acc,none": 0.2090036449576154,
+      "acc_stderr,none": 0.09570196643539737,
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "exact_match,get-answer": 0.004520997339514632,
+      "exact_match_stderr,get-answer": 3.433495921995886e-06,
+      "perplexity,none": 66.91980593352707,
+      "perplexity_stderr,none": 188.76698206547593,
+      "acc_norm,none": 0.2799767112412225,
+      "acc_norm_stderr,none": 0.00039611510762066493,
+      "exact_match,none": 0.0124,
+      "exact_match_stderr,none": 2.650471246121495e-05,
+      "alias": "reasoning"
+    },
+    "anli": {
+      "acc,none": 0.3440625,
+      "acc_stderr,none": 0.014636905198265111,
+      "alias": " - anli"
+    },
+    "arithmetic": {
+      "acc,none": 0.00265,
+      "acc_stderr,none": 0.0031889923751009237,
+      "alias": " - arithmetic"
+    },
+    "fld": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": " - fld"
+    },
+    "lambada": {
+      "perplexity,none": 66.91980593352707,
+      "perplexity_stderr,none": 13.739249690775546,
+      "acc,none": 0.29060741315738403,
+      "acc_stderr,none": 0.016714291669733587,
+      "alias": " - lambada"
+    },
+    "minerva_math": {
+      "exact_match,none": 0.0124,
+      "exact_match_stderr,none": 0.005148272764842103,
+      "alias": " - minerva_math"
+    },
+    "xnli": {
+      "acc,none": 0.3505756358768407,
+      "acc_stderr,none": 0.024914037811898215,
+      "alias": " - xnli"
+    }
+  },
+  "configs": {
+    "anli_r1": {
+      "task": "anli_r1",
+      "group": [
+        "anli"
+      ],
+      "dataset_path": "anli",
+      "training_split": "train_r1",
+      "validation_split": "dev_r1",
+      "test_split": "test_r1",
+      "doc_to_text": "{{premise}}\nQuestion: {{hypothesis}} True, False, or Neither?\nAnswer:",
+      "doc_to_target": "{{['True', 'Neither', 'False'][label]}}",
+      "doc_to_choice": [
+        "True",
+        "Neither",
+        "False"
+      ],
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "premise",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "anli_r2": {
+      "task": "anli_r2",
+      "group": [
+        "anli"
+      ],
+      "dataset_path": "anli",
+      "training_split": "train_r2",
+      "validation_split": "dev_r2",
+      "test_split": "test_r2",
+      "doc_to_text": "{{premise}}\nQuestion: {{hypothesis}} True, False, or Neither?\nAnswer:",
+      "doc_to_target": "{{['True', 'Neither', 'False'][label]}}",
+      "doc_to_choice": [
+        "True",
+        "Neither",
+        "False"
+      ],
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "premise",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "anli_r3": {
+      "task": "anli_r3",
+      "group": [
+        "anli"
+      ],
+      "dataset_path": "anli",
+      "training_split": "train_r3",
+      "validation_split": "dev_r3",
+      "test_split": "test_r3",
+      "doc_to_text": "{{premise}}\nQuestion: {{hypothesis}} True, False, or Neither?\nAnswer:",
+      "doc_to_target": "{{['True', 'Neither', 'False'][label]}}",
+      "doc_to_choice": [
+        "True",
+        "Neither",
+        "False"
+      ],
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "premise",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_1dc": {
+      "task": "arithmetic_1dc",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_1dc",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_2da": {
+      "task": "arithmetic_2da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_2da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_2dm": {
+      "task": "arithmetic_2dm",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_2dm",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_2ds": {
+      "task": "arithmetic_2ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_2ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_3da": {
+      "task": "arithmetic_3da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_3da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_3ds": {
+      "task": "arithmetic_3ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_3ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_4da": {
+      "task": "arithmetic_4da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_4da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_4ds": {
+      "task": "arithmetic_4ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_4ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_5da": {
+      "task": "arithmetic_5da",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_5da",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "arithmetic_5ds": {
+      "task": "arithmetic_5ds",
+      "group": [
+        "arithmetic"
+      ],
+      "dataset_path": "EleutherAI/arithmetic",
+      "dataset_name": "arithmetic_5ds",
+      "validation_split": "validation",
+      "doc_to_text": "{{context}}",
+      "doc_to_target": "{{completion}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "fld_default": {
+      "task": "fld_default",
+      "group": [
+        "fld"
+      ],
+      "dataset_path": "hitachi-nlp/FLD.v2",
+      "dataset_name": "default",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "Based on the provided facts ($context$), either prove or disprove the hypothesis or state that it is unknown. {{prompt_serial}}",
+      "doc_to_target": "world_assump_label",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "\n\n"
+        ],
+        "do_sample": false
+      },
+      "repeats": 1,
+      "filter_list": [
+        {
+          "name": "remove_whitespace",
+          "filter": [
+            {
+              "function": "remove_whitespace"
+            },
+            {
+              "function": "take_first"
+            }
+          ]
+        }
+      ],
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 2.0
+      }
+    },
+    "fld_star": {
+      "task": "fld_star",
+      "group": [
+        "fld"
+      ],
+      "dataset_path": "hitachi-nlp/FLD.v2",
+      "dataset_name": "star",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "Based on the provided facts ($context$), either prove or disprove the hypothesis or state that it is unknown. {{prompt_serial}}",
+      "doc_to_target": "world_assump_label",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "\n\n"
+        ],
+        "do_sample": false
+      },
+      "repeats": 1,
+      "filter_list": [
+        {
+          "name": "remove_whitespace",
+          "filter": [
+            {
+              "function": "remove_whitespace"
+            },
+            {
+              "function": "take_first"
+            }
+          ]
+        }
+      ],
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 2.0
+      }
+    },
+    "gsm8k": {
+      "task": "gsm8k",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "gsm8k",
+      "dataset_name": "main",
+      "training_split": "train",
+      "test_split": "test",
+      "fewshot_split": "train",
+      "doc_to_text": "Question: {{question}}\nAnswer:",
+      "doc_to_target": "{{answer}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 5,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true,
+          "ignore_case": true,
+          "ignore_punctuation": false,
+          "regexes_to_ignore": [
+            ",",
+            "\\$",
+            "(?s).*#### "
+          ]
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "\n\n",
+          "Question:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "filter_list": [
+        {
+          "name": "get-answer",
+          "filter": [
+            {
+              "function": "regex",
+              "regex_pattern": "#### (\\-?[0-9\\.\\,]+)"
+            },
+            {
+              "function": "take_first"
+            }
+          ]
+        }
+      ],
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 2.0
+      }
+    },
+    "gsm8k_cot": {
+      "task": "gsm8k_cot",
+      "group": [
+        "chain_of_thought"
+      ],
+      "dataset_path": "gsm8k",
+      "dataset_name": "main",
+      "test_split": "test",
+      "doc_to_text": "Q: There are 15 trees in the grove. Grove workers will plant trees in the grove today. After they are done, there will be 21 trees. How many trees did the grove workers plant today?\nA: There are 15 trees originally. Then there were 21 trees after some more were planted. So there must have been 21 - 15 = 6. The answer is 6.\n\nQ: If there are 3 cars in the parking lot and 2 more cars arrive, how many cars are in the parking lot?\nA: There are originally 3 cars. 2 more cars arrive. 3 + 2 = 5. The answer is 5.\n\nQ: Leah had 32 chocolates and her sister had 42. If they ate 35, how many pieces do they have left in total?\nA: Originally, Leah had 32 chocolates. Her sister had 42. So in total they had 32 + 42 = 74. After eating 35, they had 74 - 35 = 39. The answer is 39.\n\nQ: Jason had 20 lollipops. He gave Denny some lollipops. Now Jason has 12 lollipops. How many lollipops did Jason give to Denny?\nA: Jason started with 20 lollipops. Then he had 12 after giving some to Denny. So he gave Denny 20 - 12 = 8. The answer is 8.\n\nQ: Shawn has five toys. For Christmas, he got two toys each from his mom and dad. How many toys does he have now?\nA: Shawn started with 5 toys. If he got 2 toys each from his mom and dad, then that is 4 more toys. 5 + 4 = 9. The answer is 9.\n\nQ: There were nine computers in the server room. Five more computers were installed each day, from monday to thursday. How many computers are now in the server room?\nA: There were originally 9 computers. For each of 4 days, 5 more computers were added. So 5 * 4 = 20 computers were added. 9 + 20 is 29. The answer is 29.\n\nQ: Michael had 58 golf balls. On tuesday, he lost 23 golf balls. On wednesday, he lost 2 more. How many golf balls did he have at the end of wednesday?\nA: Michael started with 58 golf balls. After losing 23 on tuesday, he had 58 - 23 = 35. After losing 2 more, he had 35 - 2 = 33 golf balls. The answer is 33.\n\nQ: Olivia has $23. She bought five bagels for $3 each. How much money does she have left?\nA: Olivia had 23 dollars. 5 bagels for 3 dollars each will be 5 x 3 = 15 dollars. So she has 23 - 15 dollars left. 23 - 15 is 8. The answer is 8.\n\nQ: {{question}}\nA:",
+      "doc_to_target": "{{answer.split('####')[-1].strip()}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true,
+          "ignore_case": true,
+          "ignore_punctuation": false,
+          "regexes_to_ignore": [
+            ",",
+            "\\$",
+            "(?s).*#### ",
+            "\n\n"
+          ]
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Q:",
+          "\n\n"
+        ],
+        "do_sample": false
+      },
+      "repeats": 1,
+      "filter_list": [
+        {
+          "name": "get-answer",
+          "filter": [
+            {
+              "function": "regex",
+              "regex_pattern": "The answer is (\\-?[0-9\\.\\,]+)."
+            },
+            {
+              "function": "take_first"
+            }
+          ]
+        }
+      ],
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 2.0
+      }
+    },
+    "lambada_openai": {
+      "task": "lambada_openai",
+      "group": [
+        "lambada"
+      ],
+      "dataset_path": "EleutherAI/lambada_openai",
+      "dataset_name": "default",
+      "test_split": "test",
+      "doc_to_text": "{{text.split(' ')[:-1]|join(' ')}}",
+      "doc_to_target": "{{' '+text.split(' ')[-1]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "perplexity",
+          "aggregation": "perplexity",
+          "higher_is_better": false
+        },
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "{{text}}",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "lambada_standard": {
+      "task": "lambada_standard",
+      "group": [
+        "lambada"
+      ],
+      "dataset_path": "lambada",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "{{text.split(' ')[:-1]|join(' ')}}",
+      "doc_to_target": "{{' '+text.split(' ')[-1]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "perplexity",
+          "aggregation": "perplexity",
+          "higher_is_better": false
+        },
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "loglikelihood",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "{{text}}",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "logiqa2": {
+      "task": "logiqa2",
+      "dataset_path": "baber/logiqa2",
+      "dataset_name": "logiqa2",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "def doc_to_text(doc) -> str:\n    \"\"\"\n    Passage: <passage>\n    Question: <question>\n    A. <choice1>\n    B. <choice2>\n    C. <choice3>\n    D. <choice4>\n    Answer:\n    \"\"\"\n    choices = [\"a\", \"b\", \"c\", \"d\"]\n    prompt = \"Passage: \" + doc[\"text\"] + \"\\n\"\n    prompt += \"Question: \" + doc[\"question\"] + \"\\n\"\n    for choice, option in zip(choices, doc[\"options\"]):\n        prompt += f\"{choice.upper()}. {option}\\n\"\n    prompt += \"Answer:\"\n    return prompt\n",
+      "doc_to_target": "{{answer}}",
+      "doc_to_choice": "{{options}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "acc_norm",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "doc_to_decontamination_query": "{{context}}",
+      "metadata": {
+        "version": 0.0
+      }
+    },
+    "mathqa": {
+      "task": "mathqa",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "math_qa",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "Question: {{Problem}}\nAnswer:",
+      "doc_to_target": "{{['a', 'b', 'c', 'd', 'e'].index(correct)}}",
+      "doc_to_choice": "def doc_to_choice(doc):\n    choices = [\n        c[4:].rstrip(\" ,\")\n        for c in re.findall(r\"[abcd] \\) .*?, |e \\) .*?$\", doc[\"options\"])\n    ]\n    return choices\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        },
+        {
+          "metric": "acc_norm",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": true,
+      "doc_to_decontamination_query": "Question: {{Problem}}\nAnswer:",
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_algebra": {
+      "task": "minerva_math_algebra",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "algebra",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_counting_and_prob": {
+      "task": "minerva_math_counting_and_prob",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "counting_and_probability",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_geometry": {
+      "task": "minerva_math_geometry",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "geometry",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_intermediate_algebra": {
+      "task": "minerva_math_intermediate_algebra",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "intermediate_algebra",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_num_theory": {
+      "task": "minerva_math_num_theory",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "number_theory",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_prealgebra": {
+      "task": "minerva_math_prealgebra",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "prealgebra",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "minerva_math_precalc": {
+      "task": "minerva_math_precalc",
+      "group": [
+        "math_word_problems"
+      ],
+      "dataset_path": "EleutherAI/hendrycks_math",
+      "dataset_name": "precalculus",
+      "training_split": "train",
+      "test_split": "test",
+      "process_docs": "def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:\n    def _process_doc(doc: dict) -> dict:\n        out_doc = {\n            \"problem\": doc[\"problem\"],\n            \"solution\": doc[\"solution\"],\n            \"answer\": normalize_final_answer(\n                remove_boxed(last_boxed_only_string(doc[\"solution\"]))\n            ),\n        }\n        return out_doc\n\n    return dataset.map(_process_doc)\n",
+      "doc_to_text": "def doc_to_text(doc: dict) -> str:\n    PROMPT = r\"\"\"Problem:\nFind the domain of the expression  $\\frac{\\sqrt{x-2}}{\\sqrt{5-x}}$.}\n\nSolution:\nThe expressions inside each square root must be non-negative. Therefore, $x-2 \\ge 0$, so $x\\ge2$, and $5 - x \\ge 0$, so $x \\le 5$. Also, the denominator cannot be equal to zero, so $5-x>0$, which gives $x<5$. Therefore, the domain of the expression is $\\boxed{[2,5)}$.\nFinal Answer: The final answer is $[2,5)$. I hope it is correct.\n\nProblem:\nIf $\\det \\mathbf{A} = 2$ and $\\det \\mathbf{B} = 12,$ then find $\\det (\\mathbf{A} \\mathbf{B}).$\n\nSolution:\nWe have that $\\det (\\mathbf{A} \\mathbf{B}) = (\\det \\mathbf{A})(\\det \\mathbf{B}) = (2)(12) = \\boxed{24}.$\nFinal Answer: The final answer is $24$. I hope it is correct.\n\nProblem:\nTerrell usually lifts two 20-pound weights 12 times. If he uses two 15-pound weights instead, how many times must Terrell lift them in order to lift the same total weight?\n\nSolution:\nIf Terrell lifts two 20-pound weights 12 times, he lifts a total of $2\\cdot 12\\cdot20=480$ pounds of weight.  If he lifts two 15-pound weights instead for $n$ times, he will lift a total of $2\\cdot15\\cdot n=30n$ pounds of weight.  Equating this to 480 pounds, we can solve for $n$:\n\\begin{align*}\n30n&=480\\\\\n\\Rightarrow\\qquad n&=480/30=\\boxed{16}\n\\end{align*}\nFinal Answer: The final answer is $16$. I hope it is correct.\n\nProblem:\nIf the system of equations\n\n\\begin{align*}\n6x-4y&=a,\\\\\n6y-9x &=b.\n\\end{align*}has a solution $(x, y)$ where $x$ and $y$ are both nonzero,\nfind $\\frac{a}{b},$ assuming $b$ is nonzero.\n\nSolution:\nIf we multiply the first equation by $-\\frac{3}{2}$, we obtain\n\n$$6y-9x=-\\frac{3}{2}a.$$Since we also know that $6y-9x=b$, we have\n\n$$-\\frac{3}{2}a=b\\Rightarrow\\frac{a}{b}=\\boxed{-\\frac{2}{3}}.$$\nFinal Answer: The final answer is $-\\frac{2}{3}$. I hope it is correct.\"\"\"\n\n    return PROMPT + \"\\n\\n\" + \"Problem:\" + \"\\n\" + doc[\"problem\"] + \"\\n\\n\" + \"Solution:\"\n",
+      "doc_to_target": "{{answer}}",
+      "process_results": "def process_results(doc: dict, results: List[str]) -> Dict[str, int]:\n    candidates = results[0]\n\n    unnormalized_answer = get_unnormalized_answer(candidates)\n    answer = normalize_final_answer(unnormalized_answer)\n\n    if is_equiv(answer, doc[\"answer\"]):\n        retval = 1\n    else:\n        retval = 0\n\n    results = {\n        \"exact_match\": retval,\n    }\n    return results\n",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "Problem:"
+        ],
+        "do_sample": false,
+        "temperature": 0.0
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_ar": {
+      "task": "xnli_ar",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "ar",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", صحيح? نعم, \"+hypothesis,premise+\", صحيح? لذا, \"+hypothesis,premise+\", صحيح? رقم, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_bg": {
+      "task": "xnli_bg",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "bg",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", правилно? да, \"+hypothesis,premise+\", правилно? така, \"+hypothesis,premise+\", правилно? не, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_de": {
+      "task": "xnli_de",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "de",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", richtig? Ja, \"+hypothesis,premise+\", richtig? Auch, \"+hypothesis,premise+\", richtig? Nein, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_el": {
+      "task": "xnli_el",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "el",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", σωστός? Ναί, \"+hypothesis,premise+\", σωστός? Έτσι, \"+hypothesis,premise+\", σωστός? όχι, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_en": {
+      "task": "xnli_en",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "en",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", right? Yes, \"+hypothesis,premise+\", right? Also, \"+hypothesis,premise+\", right? No, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_es": {
+      "task": "xnli_es",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "es",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", correcto? Sí, \"+hypothesis,premise+\", correcto? Asi que, \"+hypothesis,premise+\", correcto? No, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_fr": {
+      "task": "xnli_fr",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "fr",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", correct? Oui, \"+hypothesis,premise+\", correct? Aussi, \"+hypothesis,premise+\", correct? Non, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_hi": {
+      "task": "xnli_hi",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "hi",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", सही? हाँ, \"+hypothesis,premise+\", सही? इसलिए, \"+hypothesis,premise+\", सही? नहीं, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_ru": {
+      "task": "xnli_ru",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "ru",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", правильно? Да, \"+hypothesis,premise+\", правильно? Так, \"+hypothesis,premise+\", правильно? Нет, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_sw": {
+      "task": "xnli_sw",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "sw",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", sahihi? Ndiyo, \"+hypothesis,premise+\", sahihi? Hivyo, \"+hypothesis,premise+\", sahihi? Hapana, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_th": {
+      "task": "xnli_th",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "th",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", ถูกต้อง? ใช่, \"+hypothesis,premise+\", ถูกต้อง? ดังนั้น, \"+hypothesis,premise+\", ถูกต้อง? ไม่, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_tr": {
+      "task": "xnli_tr",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "tr",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", doğru? Evet, \"+hypothesis,premise+\", doğru? Böylece, \"+hypothesis,premise+\", doğru? Hayır, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_ur": {
+      "task": "xnli_ur",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "ur",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", صحیح? جی ہاں, \"+hypothesis,premise+\", صحیح? اس لئے, \"+hypothesis,premise+\", صحیح? نہیں, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_vi": {
+      "task": "xnli_vi",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "vi",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", đúng? Vâng, \"+hypothesis,premise+\", đúng? Vì vậy, \"+hypothesis,premise+\", đúng? Không, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    },
+    "xnli_zh": {
+      "task": "xnli_zh",
+      "group": "xnli",
+      "dataset_path": "xnli",
+      "dataset_name": "zh",
+      "training_split": "train",
+      "validation_split": "validation",
+      "doc_to_text": "",
+      "doc_to_target": "label",
+      "doc_to_choice": "{{[premise+\", 正确? 是的, \"+hypothesis,premise+\", 正确? 所以, \"+hypothesis,premise+\", 正确? 不是的, \"+hypothesis]}}",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "acc",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "multiple_choice",
+      "repeats": 1,
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 1.0
+      }
+    }
+  },
+  "versions": {
+    "anli": "N/A",
+    "anli_r1": 1.0,
+    "anli_r2": 1.0,
+    "anli_r3": 1.0,
+    "arithmetic": "N/A",
+    "arithmetic_1dc": 1.0,
+    "arithmetic_2da": 1.0,
+    "arithmetic_2dm": 1.0,
+    "arithmetic_2ds": 1.0,
+    "arithmetic_3da": 1.0,
+    "arithmetic_3ds": 1.0,
+    "arithmetic_4da": 1.0,
+    "arithmetic_4ds": 1.0,
+    "arithmetic_5da": 1.0,
+    "arithmetic_5ds": 1.0,
+    "fld": "N/A",
+    "fld_default": 2.0,
+    "fld_star": 2.0,
+    "gsm8k": 2.0,
+    "gsm8k_cot": 2.0,
+    "lambada": "N/A",
+    "lambada_openai": 1.0,
+    "lambada_standard": 1.0,
+    "logiqa2": 0.0,
+    "mathqa": 1.0,
+    "minerva_math": "N/A",
+    "minerva_math_algebra": 1.0,
+    "minerva_math_counting_and_prob": 1.0,
+    "minerva_math_geometry": 1.0,
+    "minerva_math_intermediate_algebra": 1.0,
+    "minerva_math_num_theory": 1.0,
+    "minerva_math_prealgebra": 1.0,
+    "minerva_math_precalc": 1.0,
+    "reasoning": "N/A",
+    "xnli": "N/A",
+    "xnli_ar": 1.0,
+    "xnli_bg": 1.0,
+    "xnli_de": 1.0,
+    "xnli_el": 1.0,
+    "xnli_en": 1.0,
+    "xnli_es": 1.0,
+    "xnli_fr": 1.0,
+    "xnli_hi": 1.0,
+    "xnli_ru": 1.0,
+    "xnli_sw": 1.0,
+    "xnli_th": 1.0,
+    "xnli_tr": 1.0,
+    "xnli_ur": 1.0,
+    "xnli_vi": 1.0,
+    "xnli_zh": 1.0
+  },
+  "n-shot": {
+    "anli": 0,
+    "anli_r1": 0,
+    "anli_r2": 0,
+    "anli_r3": 0,
+    "arithmetic": 0,
+    "arithmetic_1dc": 0,
+    "arithmetic_2da": 0,
+    "arithmetic_2dm": 0,
+    "arithmetic_2ds": 0,
+    "arithmetic_3da": 0,
+    "arithmetic_3ds": 0,
+    "arithmetic_4da": 0,
+    "arithmetic_4ds": 0,
+    "arithmetic_5da": 0,
+    "arithmetic_5ds": 0,
+    "fld": 0,
+    "fld_default": 0,
+    "fld_star": 0,
+    "gsm8k": 5,
+    "gsm8k_cot": 0,
+    "lambada": 0,
+    "lambada_openai": 0,
+    "lambada_standard": 0,
+    "logiqa2": 0,
+    "mathqa": 0,
+    "minerva_math": 0,
+    "minerva_math_algebra": 0,
+    "minerva_math_counting_and_prob": 0,
+    "minerva_math_geometry": 0,
+    "minerva_math_intermediate_algebra": 0,
+    "minerva_math_num_theory": 0,
+    "minerva_math_prealgebra": 0,
+    "minerva_math_precalc": 0,
+    "reasoning": 0,
+    "xnli": 0,
+    "xnli_ar": 0,
+    "xnli_bg": 0,
+    "xnli_de": 0,
+    "xnli_el": 0,
+    "xnli_en": 0,
+    "xnli_es": 0,
+    "xnli_fr": 0,
+    "xnli_hi": 0,
+    "xnli_ru": 0,
+    "xnli_sw": 0,
+    "xnli_th": 0,
+    "xnli_tr": 0,
+    "xnli_ur": 0,
+    "xnli_vi": 0,
+    "xnli_zh": 0
+  },
+  "config": {
+    "model": "hf",
+    "model_args": "pretrained=gpt2,dtype=float16,trust_remote_code=True",
+    "batch_size": "auto:4",
+    "batch_sizes": [
+      64,
+      64,
+      64,
+      64,
+      64
+    ],
+    "device": "cuda:0",
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null
+  },
+  "git_hash": "d24f4ed"
+}

@@ -1,6 +1,6 @@
 {
     "model_name": "openlm-research/open_llama_7b",
-    "last_updated": "2023-07-19",
+    "last_updated": "2023-07-18",
     "results": {
         "harness": {
             "drop": {
@@ -564,118 +564,6 @@
                     "mc2": 0.34847307072652783,
                     "mc2_stderr": 0.01355010175265617,
                     "timestamp": "2023-08-11T21-33-21.920055"
-                }
-            },
-            "minerva_math_prealgebra": {
-                "x-shot": {
-                    "exact_match": 0.0505,
-                    "acc_stderr": 0.0074,
-                    "timestamp": "2024-04-30 05:54:17.119387"
-                }
-            },
-            "asdiv": {
-                "x-shot": {
-                    "acc": 0.0022,
-                    "acc_stderr": 0.001,
-                    "timestamp": "2024-04-30 05:55:07.435297"
-                }
-            },
-            "minerva_math_counting_and_prob": {
-                "x-shot": {
-                    "exact_match": 0.038,
-                    "acc_stderr": 0.0088,
-                    "timestamp": "2024-04-30 09:25:05.023886"
-                }
-            },
-            "xnli": {
-                "x-shot": {
-                    "acc": 0.3801,
-                    "acc_stderr": 0.0434,
-                    "timestamp": "2024-04-30 10:26:42.030034"
-                }
-            },
-            "minerva_math_intermediate_algebra": {
-                "x-shot": {
-                    "exact_match": 0.0177,
-                    "acc_stderr": 0.0044,
-                    "timestamp": "2024-04-30 10:51:02.899782"
-                }
-            },
-            "anli": {
-                "x-shot": {
-                    "acc": 0.3463,
-                    "acc_stderr": 0.0208,
-                    "timestamp": "2024-04-30 10:59:18.314037"
-                }
-            },
-            "minerva_math_algebra": {
-                "x-shot": {
-                    "exact_match": 0.0303,
-                    "acc_stderr": 0.005,
-                    "timestamp": "2024-04-30 11:30:20.782222"
-                }
-            },
-            "minerva_math": {
-                "x-shot": {
-                    "exact_match": 0.03,
-                    "acc_stderr": 0.0112,
-                    "timestamp": "2024-04-30 13:39:47.608771"
-                }
-            },
-            "minerva_math_num_theory": {
-                "x-shot": {
-                    "exact_match": 0.0167,
-                    "acc_stderr": 0.0055,
-                    "timestamp": "2024-04-30 13:54:43.828025"
-                }
-            },
-            "minerva_math_precalc": {
-                "x-shot": {
-                    "exact_match": 0.0311,
-                    "acc_stderr": 0.0074,
-                    "timestamp": "2024-04-30 14:11:21.621493"
-                }
-            },
-            "mathqa": {
-                "x-shot": {
-                    "acc": 0.2653,
-                    "acc_stderr": 0.0081,
-                    "timestamp": "2024-04-30 14:14:22.328084"
-                }
-            },
-            "logiqa2": {
-                "x-shot": {
-                    "acc": 0.2341,
-                    "acc_stderr": 0.0107,
-                    "timestamp": "2024-04-30 14:19:14.991604"
-                }
-            },
-            "gsm8k_cot": {
-                "x-shot": {
-                    "exact_match": 0.047,
-                    "acc_stderr": 0.0058,
-                    "timestamp": "2024-04-30 14:44:26.332089"
-                }
-            },
-            "arithmetic": {
-                "x-shot": {
-                    "acc": 0.3389,
-                    "acc_stderr": 0.1761,
-                    "timestamp": "2024-04-30 14:46:43.484616"
-                }
-            },
-            "minerva_math_geometry": {
-                "x-shot": {
-                    "exact_match": 0.023,
-                    "acc_stderr": 0.0069,
-                    "timestamp": "2024-04-30 15:00:10.776200"
-                }
-            },
-            "fld": {
-                "x-shot": {
-                    "exact_match": 0.0,
-                    "acc_stderr": 0.0,
-                    "timestamp": "2024-04-30 18:24:19.261295"
                 }
             }
         }
