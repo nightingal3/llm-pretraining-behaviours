@@ -43,7 +43,7 @@ def train_regressor(
         n_estimators=n_estimators,
         enable_categorical=True,
         missing=missing_val,
-        random_state=seed
+        random_state=seed,
     )
 
     fit_regressor(reg, train_feats, train_labels)
@@ -187,6 +187,7 @@ def get_args():
 
     return args
 
+
 def map_importances_to_categories(
     feature_importances, feature_names, encoder, categorical_columns
 ):
@@ -244,7 +245,11 @@ if __name__ == "__main__":
         right_on="id",
     )
 
-    dataset['total_params'] = np.where(dataset['safetensors:total'].isna(), dataset['total_params'], dataset['safetensors:total'])
+    dataset["total_params"] = np.where(
+        dataset["safetensors:total"].isna(),
+        dataset["total_params"],
+        dataset["safetensors:total"],
+    )
 
     cols_to_drop = [
         "assigned person",
@@ -299,7 +304,10 @@ if __name__ == "__main__":
     all_predictions = []
     all_scores = []
 
-    scaling_laws_features = ["total_params", "pretraining_summary:total_tokens_billions"]
+    scaling_laws_features = [
+        "total_params",
+        "pretraining_summary:total_tokens_billions",
+    ]
 
     for y_col in y_cols:
         # drop rows with missing score values
@@ -350,7 +358,7 @@ if __name__ == "__main__":
                 max_depth=args.max_depth,
                 n_estimators=args.n_estimators,
                 missing_val=args.missing_val,
-                seed=args.seed
+                seed=args.seed,
             )
             predictions = model.predict(test_feats)
             task_predictions.update(
