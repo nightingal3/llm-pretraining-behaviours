@@ -1,856 +1,856 @@
 {
   "arc:challenge_25-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.326432815794245
+      "rinna/bilingual-gpt-neox-4b",
+      0.09265261288389
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2013785328474467
+      "cerebras/Cerebras-GPT-13B",
+      0.0955216488943979
     ],
     [
-      "openai-community/gpt2",
-      0.1366747560761487
+      "Deci/DeciCoder-1b",
+      0.147715522364138
     ]
   ],
   "gsm8k_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2216829508543014
+      "cerebras/Cerebras-GPT-13B",
+      0.0577780592613278
     ],
     [
-      "tiiuae/falcon-7b",
-      0.3411062931228172
+      "facebook/xglm-7.5B",
+      0.0596122253146743
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2771378092416947
+      "LLM360/Amber",
+      0.0546633685184212
     ]
   ],
   "hellaswag_10-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3484633961086656
+      "EleutherAI/pythia-70m",
+      0.0896961158417867
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2653126293291397
+      "EleutherAI/pythia-70m-deduped",
+      0.0903383381597978
     ],
     [
-      "openai-community/gpt2",
-      0.113463763090463
+      "Deci/DeciCoder-1b",
+      0.1348585623641622
     ]
   ],
   "hendrycksTest-abstract_algebra_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.0987768185138702
+      "mosaicml/mpt-7b",
+      0.1059609627723693
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.1087265288829803
+      "facebook/xglm-564M",
+      0.0748355865478515
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      0.0842652440071106
+      "facebook/xglm-4.5B",
+      0.0997862994670867
     ]
   ],
   "hendrycksTest-anatomy_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2920396972585607
+      "rinna/bilingual-gpt-neox-4b",
+      0.1279270737259477
     ],
     [
-      "tiiuae/falcon-7b",
-      0.1937397003173828
+      "EleutherAI/gpt-neo-1.3B",
+      0.1316371869157862
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3644491924179925
+      "LLM360/Amber",
+      0.1628982292281257
     ]
   ],
   "hendrycksTest-astronomy_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3301138721014324
+      "facebook/opt-6.7b",
+      0.1623588047529522
     ],
     [
-      "tiiuae/falcon-7b",
-      0.3261258257062812
+      "cerebras/Cerebras-GPT-13B",
+      0.1496776405133699
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3858441741842973
+      "facebook/xglm-7.5B",
+      0.1430986931449488
     ]
   ],
   "hendrycksTest-business_ethics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3364022874832153
+      "tiiuae/falcon-7b",
+      0.0955514693260193
     ],
     [
-      "openlm-research/open_llama_7b",
-      0.1255961191654205
+      "EleutherAI/pythia-160m-deduped",
+      0.1347070205211639
     ],
     [
-      "openai-community/gpt2",
-      0.2244353461265563
+      "cerebras/Cerebras-GPT-6.7B",
+      0.1634380173683166
     ]
   ],
   "hendrycksTest-clinical_knowledge_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4481006140978832
+      "cerebras/Cerebras-GPT-13B",
+      0.1358025558714596
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1839496707016567
+      "facebook/xglm-564M",
+      0.123234900888407
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2040751767608354
+      "LLM360/Amber",
+      0.1918932230967396
     ]
   ],
   "hendrycksTest-college_biology_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4590955111715529
-    ],
-    [
       "tiiuae/falcon-7b",
-      0.3428049617343479
+      0.103996776872211
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3820451166894701
+      "openlm-research/open_llama_3b_v2",
+      0.1268252697255877
+    ],
+    [
+      "LLM360/Amber",
+      0.1286602715651194
     ]
   ],
   "hendrycksTest-college_chemistry_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2756562197208404
+      "EleutherAI/pythia-1b-deduped",
+      0.0956517934799194
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2556562197208404
+      "tiiuae/falcon-7b",
+      0.1006034100055694
     ],
     [
-      "huggyllama/llama-7b",
-      0.1194399118423462
+      "facebook/xglm-564M",
+      0.1334291875362396
     ]
   ],
   "hendrycksTest-college_computer_science_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1823035407066345
+      "EleutherAI/gpt-j-6b",
+      0.1209890437126159
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1581870245933532
+      "facebook/xglm-564M",
+      0.1588674247264862
     ],
     [
-      "tiiuae/falcon-7b",
-      0.2214226233959197
+      "Deci/DeciCoder-1b",
+      0.1289620375633239
     ]
   ],
   "hendrycksTest-college_mathematics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1855522072315216
+      "rinna/bilingual-gpt-neox-4b",
+      0.1031869828701019
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.0903804814815521
+      "EleutherAI/pythia-1b-deduped",
+      0.0892627418041229
     ],
     [
-      "jisukim8873/falcon-7B-case-0",
-      0.0866456115245819
+      "LLM360/Amber",
+      0.0996530640125274
     ]
   ],
   "hendrycksTest-college_medicine_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3559558567284159
+      "openlm-research/open_llama_3b_v2",
+      0.0968771151380043
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.3166421524362068
+      "EleutherAI/pythia-70m-deduped",
+      0.0970367222507564
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3879883692443716
+      "LLM360/Amber",
+      0.1116082985277121
     ]
   ],
   "hendrycksTest-college_physics_5-shot_acc": [
     [
-      "jb723/cross_lingual_epoch2",
-      0.1524829741786508
+      "facebook/opt-350m",
+      0.081244008213866
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1583894076300602
+      "cerebras/Cerebras-GPT-2.7B",
+      0.0654061629491694
     ],
     [
-      "Monero/WizardLM-13b-OpenAssistant-Uncensored",
-      0.1678267010286743
+      "EleutherAI/pythia-2.8b-deduped",
+      0.0861015083158718
     ]
   ],
   "hendrycksTest-computer_security_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4000793695449829
+      "cerebras/Cerebras-GPT-13B",
+      0.1405253815650939
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2193608903884887
+      "facebook/xglm-7.5B",
+      0.1305253815650939
     ],
     [
-      "openai-community/gpt2",
-      0.407884624004364
+      "LLM360/Amber",
+      0.1536361098289489
     ]
   ],
   "hendrycksTest-conceptual_physics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2975432190489261
+      "cerebras/Cerebras-GPT-13B",
+      0.0912236266947807
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.209065598756709
+      "facebook/opt-2.7b",
+      0.0808657913766008
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2378909610687418
+      "LLM360/Amber",
+      0.0931212245149815
     ]
   ],
   "hendrycksTest-econometrics_5-shot_acc": [
     [
-      "jb723/cross_lingual_epoch2",
-      0.1859302055417445
+      "EleutherAI/pythia-70m",
+      0.0666256301235735
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2137407864394941
+      "EleutherAI/pythia-1b-deduped",
+      0.0685519403532932
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1874249969658099
+      "Deci/DeciCoder-1b",
+      0.070408617718178
     ]
   ],
   "hendrycksTest-electrical_engineering_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2271454136947105
+      "facebook/xglm-7.5B",
+      0.1375846780579666
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1298793241895479
+      "openlm-research/open_llama_3b_v2",
+      0.1579967356961349
     ],
     [
       "huggyllama/llama-7b",
-      0.1148882537052549
+      0.1535809962913908
     ]
   ],
   "hendrycksTest-elementary_mathematics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1325199548844938
+      "cerebras/Cerebras-GPT-2.7B",
+      0.0621151108905752
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.0984874115419135
+      "rinna/bilingual-gpt-neox-4b",
+      0.0648608579837456
     ],
     [
-      "tiiuae/falcon-7b",
-      0.142703895846372
+      "Deci/DeciCoder-1b",
+      0.0622424543219268
     ]
   ],
   "hendrycksTest-formal_logic_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1621146060171582
+      "facebook/xglm-564M",
+      0.1717321489538466
     ],
     [
-      "tiiuae/falcon-7b",
-      0.1281984916755132
+      "facebook/opt-125m",
+      0.1158871863569532
     ],
     [
-      "openai-community/gpt2",
-      0.1195886049951826
+      "facebook/xglm-4.5B",
+      0.1399861172078148
     ]
   ],
   "hendrycksTest-global_facts_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1767676973342895
+      "cerebras/Cerebras-GPT-2.7B",
+      0.1192407977581024
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.0746877574920654
+      "rinna/bilingual-gpt-neox-4b",
+      0.1235120368003845
     ],
     [
-      "openai-community/gpt2",
-      0.170183128118515
+      "cerebras/Cerebras-GPT-13B",
+      0.1237675726413726
     ]
   ],
   "hendrycksTest-high_school_biology_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4523283596961729
+      "cerebras/Cerebras-GPT-13B",
+      0.1186901644352944
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2620057790510116
+      "Deci/DeciCoder-1b",
+      0.174627495581104
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3067356805647573
+      "LLM360/Amber",
+      0.1670281398680902
     ]
   ],
   "hendrycksTest-high_school_chemistry_5-shot_acc": [
     [
-      "jb723/cross_lingual_epoch2",
-      0.2219981722937429
+      "rinna/bilingual-gpt-neox-4b",
+      0.0959313117665023
     ],
     [
-      "tiiuae/falcon-7b",
-      0.2142089846098951
+      "Deci/DeciCoder-1b",
+      0.1232154905208814
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2264115317114468
+      "LLM360/Amber",
+      0.1204727551913614
     ]
   ],
   "hendrycksTest-high_school_computer_science_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4208372807502746
+      "facebook/opt-6.7b",
+      0.1098027718067169
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2608372807502747
+      "EleutherAI/gpt-j-6b",
+      0.143030172586441
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2409685838222503
+      "cerebras/Cerebras-GPT-13B",
+      0.1340282452106475
     ]
   ],
   "hendrycksTest-high_school_european_history_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3593311284527634
+      "openlm-research/open_llama_3b_v2",
+      0.1329087927485958
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.3047856739073089
+      "facebook/xglm-4.5B",
+      0.1040304126161518
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.307913741198453
+      "LLM360/Amber",
+      0.1078028346552993
     ]
   ],
   "hendrycksTest-high_school_geography_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4702342266988273
+      "mosaicml/mpt-7b",
+      0.1902070211039649
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.3086180650826656
+      "EleutherAI/gpt-neo-1.3B",
+      0.1757799790363119
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2412736879454718
+      "LLM360/Amber",
+      0.2333083011285223
     ]
   ],
   "hendrycksTest-high_school_government_and_politics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4904581299099898
+      "cerebras/Cerebras-GPT-13B",
+      0.1938502161614018
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.3576888608808963
+      "LLM360/Amber",
+      0.2905342548004704
     ],
     [
-      "openai-community/gpt2",
-      0.3013720391945518
+      "cerebras/Cerebras-GPT-6.7B",
+      0.1589616612758043
     ]
   ],
   "hendrycksTest-high_school_macroeconomics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3855611257064036
+      "facebook/xglm-564M",
+      0.1510186962592296
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.3060739462192242
+      "Deci/DeciCoder-1b",
+      0.1532516065316323
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3237036319879385
+      "LLM360/Amber",
+      0.1406030818437919
     ]
   ],
   "hendrycksTest-high_school_mathematics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1182169477144877
+      "cerebras/Cerebras-GPT-13B",
+      0.1118207130167219
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1122745052531913
+      "mosaicml/mpt-7b-instruct",
+      0.0473331060674456
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.0517921288808187
+      "LLM360/Amber",
+      0.0551300719932273
     ]
   ],
   "hendrycksTest-high_school_microeconomics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3571775991375707
+      "Deci/DeciCoder-1b",
+      0.1297110203935319
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2544300127931002
+      "facebook/xglm-4.5B",
+      0.1015933619326904
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2948998668614556
+      "LLM360/Amber",
+      0.0984250159323716
     ]
   ],
   "hendrycksTest-high_school_physics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1382416344636323
+      "facebook/opt-6.7b",
+      0.1122364139320045
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.0900081627021562
+      "rinna/bilingual-gpt-neox-4b",
+      0.1148208843556461
     ],
     [
-      "Monero/WizardLM-13b-OpenAssistant-Uncensored",
-      0.0757965378413926
+      "facebook/xglm-564M",
+      0.1160696016636905
     ]
   ],
   "hendrycksTest-high_school_psychology_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4962143286652521
+      "openlm-research/open_llama_3b_v2",
+      0.1398197921044236
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.342167378893686
+      "Deci/DeciCoder-1b",
+      0.1442304976489565
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3302890886954212
+      "LLM360/Amber",
+      0.2507374535459991
     ]
   ],
   "hendrycksTest-high_school_statistics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2602020744924193
+      "EleutherAI/gpt-j-6b",
+      0.2049987393396872
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.319777837506047
+      "rinna/bilingual-gpt-neox-4b",
+      0.2137059999836815
     ],
     [
-      "jisukim8873/falcon-7B-case-0",
-      0.3040386648089798
+      "tiiuae/falcon-7b",
+      0.2087417675389183
     ]
   ],
   "hendrycksTest-high_school_us_history_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4242139739148757
+      "openlm-research/open_llama_3b_v2",
+      0.1528430738869835
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.3261747582286012
+      "EleutherAI/pythia-160m-deduped",
+      0.1028266578328376
     ],
     [
-      "openai-community/gpt2",
-      0.3881885409355163
+      "LLM360/Amber",
+      0.0938713059705846
     ]
   ],
   "hendrycksTest-high_school_world_history_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4796763595649462
+      "openlm-research/open_llama_3b_v2",
+      0.148194047469127
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2476088490164229
+      "EleutherAI/gpt-neo-125m",
+      0.0895923716860984
     ],
     [
-      "openai-community/gpt2",
-      0.3388806835508549
+      "LLM360/Amber",
+      0.1287693496997849
     ]
   ],
   "hendrycksTest-human_aging_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3480208155285617
+      "EleutherAI/gpt-neo-2.7B",
+      0.1492968349980667
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.3481796001639602
+      "bigscience/bloom-1b7",
+      0.1909484910056195
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1734058648481497
+      "Dampish/StellarX-4B-V0",
+      0.2329894325658345
     ]
   ],
   "hendrycksTest-human_sexuality_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3989933556272784
+      "cerebras/Cerebras-GPT-13B",
+      0.1940201500444922
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.3887102044265689
+      "facebook/xglm-7.5B",
+      0.1863865622582326
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.4486602613034139
+      "openlm-research/open_llama_3b_v2",
+      0.1560334212907398
     ]
   ],
   "hendrycksTest-international_law_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.442391991122695
+      "tiiuae/falcon-7b",
+      0.118314555114951
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2129161101727447
+      "Deci/DeciCoder-1b",
+      0.1252261991343222
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2681650514445029
+      "cerebras/Cerebras-GPT-6.7B",
+      0.1205843874245635
     ]
   ],
   "hendrycksTest-jurisprudence_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3492963115374247
+      "cerebras/Cerebras-GPT-13B",
+      0.1528796255588531
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2381852004263136
+      "facebook/xglm-7.5B",
+      0.1899166625958902
     ],
     [
-      "openai-community/gpt2",
-      0.2981832248193247
+      "LLM360/Amber",
+      0.1827517449855804
     ]
   ],
   "hendrycksTest-logical_fallacies_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4486996293799278
+      "cerebras/Cerebras-GPT-13B",
+      0.1086484956229391
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.3979537881956511
+      "mosaicml/mpt-7b",
+      0.1025135262977858
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.4587002158896324
+      "LLM360/Amber",
+      0.1762704207487633
     ]
   ],
   "hendrycksTest-machine_learning_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2347369236605508
+      "facebook/opt-350m",
+      0.1346607846873148
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1338595449924469
+      "bigscience/bloom-1b7",
+      0.1209514779703958
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2010433077812194
+      "cerebras/Cerebras-GPT-6.7B",
+      0.1140432442937579
     ]
   ],
   "hendrycksTest-management_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.5111476981524126
+      "cerebras/Cerebras-GPT-13B",
+      0.2012770291671012
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.5036813223246233
+      "facebook/xglm-7.5B",
+      0.1818595534389459
     ],
     [
-      "openai-community/gpt2",
-      0.3316417145497591
+      "LLM360/Amber",
+      0.2799179458502427
     ]
   ],
   "hendrycksTest-marketing_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4981923857305804
+      "facebook/xglm-7.5B",
+      0.1704327655144226
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2720535229413938
+      "openlm-research/open_llama_3b_v2",
+      0.1682663091227539
     ],
     [
-      "openai-community/gpt2",
-      0.2177336407013428
+      "LLM360/Amber",
+      0.1759511940499656
     ]
   ],
   "hendrycksTest-medical_genetics_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4477115845680237
+      "cerebras/Cerebras-GPT-13B",
+      0.1614594769477844
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2381346082687377
+      "openlm-research/open_llama_3b_v2",
+      0.1964273941516876
     ],
     [
-      "openai-community/gpt2",
-      0.238888840675354
+      "Deci/DeciCoder-1b",
+      0.1455240726470947
     ]
   ],
   "hendrycksTest-miscellaneous_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4244135189634934
+      "openlm-research/open_llama_3b_v2",
+      0.1561972273187771
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2935387564497128
+      "facebook/xglm-4.5B",
+      0.1190142955055334
     ],
     [
-      "openai-community/gpt2",
-      0.4894590961674316
+      "LLM360/Amber",
+      0.1865949309877052
     ]
   ],
   "hendrycksTest-moral_disputes_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3603924082193761
+      "openlm-research/open_llama_3b_v2",
+      0.1209443414831437
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2583166011151551
+      "Deci/DeciCoder-1b",
+      0.0666418208207698
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.4006100917138116
+      "LLM360/Amber",
+      0.0742978939431251
     ]
   ],
   "hendrycksTest-moral_scenarios_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2200423787759003
+      "EleutherAI/pythia-70m",
+      0.0441450780996397
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.0830408064679727
+      "cerebras/Cerebras-GPT-1.3B",
+      0.046870114783335
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1000053867281482
+      "facebook/xglm-4.5B",
+      0.0630983751246383
     ]
   ],
   "hendrycksTest-nutrition_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3805121023670521
+      "openlm-research/open_llama_3b_v2",
+      0.1047380408819984
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2993392480744256
+      "facebook/opt-2.7b",
+      0.1034764234536614
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.4168648575645646
+      "LLM360/Amber",
+      0.1237722175573212
     ]
   ],
   "hendrycksTest-philosophy_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3930033891913975
+      "rinna/bilingual-gpt-neox-4b",
+      0.1135202726750511
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.1881200694194561
+      "facebook/xglm-7.5B",
+      0.1253390047711192
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2140408653729982
+      "EleutherAI/gpt-neo-1.3B",
+      0.1454357585339684
     ]
   ],
   "hendrycksTest-prehistory_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3990247249603271
+      "cerebras/Cerebras-GPT-13B",
+      0.1438776887493369
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1953210212566234
+      "facebook/xglm-7.5B",
+      0.1130134912184727
     ],
     [
-      "openai-community/gpt2",
-      0.1815125791378963
+      "LLM360/Amber",
+      0.1500197034559132
     ]
   ],
   "hendrycksTest-professional_accounting_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2340478903435647
+      "cerebras/Cerebras-GPT-13B",
+      0.0495001874494214
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.1903829477357526
+      "EleutherAI/pythia-70m",
+      0.0596451402133238
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1797446498634122
+      "Deci/DeciCoder-1b",
+      0.0565013386679034
     ]
   ],
   "hendrycksTest-professional_law_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2119658032172351
+      "cerebras/Cerebras-GPT-13B",
+      0.0440200407159996
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.109598183414305
+      "facebook/xglm-7.5B",
+      0.0424417384367101
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1287168788940997
+      "openlm-research/open_llama_3b_v2",
+      0.0633369623604467
     ]
   ],
   "hendrycksTest-professional_medicine_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3789303232641781
+      "openlm-research/open_llama_3b_v2",
+      0.194779271588606
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.364224440911237
+      "EleutherAI/gpt-neo-1.3B",
+      0.2550722746288075
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3957164427813362
+      "LLM360/Amber",
+      0.1905549466609954
     ]
   ],
   "hendrycksTest-professional_psychology_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3644514087758033
+      "cerebras/Cerebras-GPT-13B",
+      0.1013431702953538
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.2442907702689078
+      "tiiuae/falcon-7b",
+      0.0751993794456806
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2762498547828276
+      "openlm-research/open_llama_3b_v2",
+      0.0790992817457984
     ]
   ],
   "hendrycksTest-public_relations_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3197245294397527
+      "EleutherAI/gpt-neo-2.7B",
+      0.1354013052853671
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.1511068587953394
+      "rinna/bilingual-gpt-neox-4b",
+      0.1312504416162318
     ],
     [
-      "openai-community/gpt2",
-      0.2823444908315486
+      "LLM360/Amber",
+      0.1197032028978521
     ]
   ],
   "hendrycksTest-security_studies_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.3741529430661883
+      "Deci/DeciCoder-1b",
+      0.1687779863269962
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.2190509022498617
+      "LLM360/Amber",
+      0.2330332714684155
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3166745500905173
+      "cerebras/Cerebras-GPT-6.7B",
+      0.1613238334655761
     ]
   ],
   "hendrycksTest-sociology_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4588429284332997
+      "openlm-research/open_llama_3b_v2",
+      0.1551145175796243
     ],
     [
-      "openlm-research/open_llama_7b",
-      0.2796165456819297
+      "Deci/DeciCoder-1b",
+      0.131445897307562
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3784358735701338
+      "LLM360/Amber",
+      0.1770277794320784
     ]
   ],
   "hendrycksTest-us_foreign_policy_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.5520138216018677
+      "cerebras/Cerebras-GPT-13B",
+      0.2059953606128692
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1620138216018677
+      "facebook/xglm-7.5B",
+      0.2059953606128692
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.2607867205142975
+      "LLM360/Amber",
+      0.157799345254898
     ]
   ],
   "hendrycksTest-virology_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.2153751304350704
+      "EleutherAI/pythia-160m",
+      0.0966393358736153
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.0948932027242269
+      "bigscience/bloom-1b7",
+      0.0941181965621121
     ],
     [
-      "openai-community/gpt2",
-      0.1836679804037852
+      "facebook/xglm-4.5B",
+      0.1248502400984247
     ]
   ],
   "hendrycksTest-world_religions_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.4674329701920002
+      "EleutherAI/pythia-70m",
+      0.1218883858786689
     ],
     [
-      "kevin009/babyllama-v0.6",
-      0.3788530251436066
+      "openlm-research/open_llama_3b_v2",
+      0.1343441255259932
     ],
     [
-      "openai-community/gpt2",
-      0.4370199159572
+      "facebook/opt-2.7b",
+      0.1312175257164136
     ]
   ],
   "winogrande_5-shot_acc": [
     [
-      "playdev7/theseed-v0.3",
-      0.1940434699747255
+      "rinna/bilingual-gpt-neox-4b",
+      0.0963834751847229
     ],
     [
-      "jb723/cross_lingual_epoch2",
-      0.1425778400079416
+      "EleutherAI/gpt-neo-125m",
+      0.0790852348731085
     ],
     [
-      "kevin009/flyingllama-v2",
-      0.1103872120051093
+      "Deci/DeciCoder-1b",
+      0.1006354867424095
     ]
   ]
 }
