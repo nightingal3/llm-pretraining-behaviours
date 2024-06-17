@@ -1,14 +1,14 @@
 {
   "mae":{
-    "meta-llama\/Llama-2-70b-hf":0.1193263647,
-    "openai-community\/gpt2":0.1487375974,
-    "mistralai\/Mixtral-8x7B-v0.1":0.1500564514,
-    "kevin009\/flyingllama-v2":0.1628197635,
-    "Qwen\/Qwen-7B":0.183277315,
-    "jb723\/cross_lingual_epoch2":0.1974633349,
-    "kevin009\/babyllama-v0.6":0.2191982671,
-    "allenai\/tulu-2-dpo-70b":0.2321817703,
-    "playdev7\/theseed-v0.3":0.331020221,
-    "AbacusResearch\/Jallabi-34B":0.3826767341
+    "cerebras\/Cerebras-GPT-13B":0.0896088677,
+    "LLM360\/Amber":0.1052992628,
+    "openlm-research\/open_llama_7b_v2":0.1110725467,
+    "meta-llama\/Llama-2-70b-hf":0.118954536,
+    "meta-llama\/Meta-Llama-3-8B":0.1232860986,
+    "meta-llama\/Meta-Llama-3-8B-Instruct":0.1351859464,
+    "Qwen\/Qwen-7B":0.1793428562,
+    "01-ai\/Yi-34B":0.2048100792,
+    "AbacusResearch\/Jallabi-34B":0.210075773,
+    "meta-llama\/Meta-Llama-3-70B":0.2998536169
   }
 }
