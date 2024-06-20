@@ -1,0 +1,9 @@
+{
+  "mean_error":{
+    "rinna\/bilingual-gpt-neox-4b":0.0591799704,
+    "facebook\/xglm-7.5B":0.0607121763,
+    "Deci\/DeciCoder-1b":0.0696881362,
+    "cerebras\/Cerebras-GPT-13B":0.0838939553,
+    "LLM360\/Amber":0.0959481967
+  }
+}
