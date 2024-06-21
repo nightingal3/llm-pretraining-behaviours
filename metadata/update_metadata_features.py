@@ -12,7 +12,9 @@ def main(feature: str, domain: str, feature_dir: str, metadata_file: str):
             # for simple features that we want to aggregate, pandas should work fine
             feature_df = pd.read_parquet(f)
             feature_mean = feature_df[feature].mean()
+            feature_std = feature_df[feature].std()
             metadata["features"][f"{feature}_mean"] = feature_mean
+            metadata["features"][f"{feature}_std"] = feature_std
         else:
             continue
     updated_metadata = json.dumps(metadata, indent=4)

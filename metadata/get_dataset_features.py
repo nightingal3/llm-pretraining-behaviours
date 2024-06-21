@@ -83,6 +83,15 @@ feature_registry = {
     },
 }
 
+json_escape_sequences = [
+    r'"',
+    r"/",
+    r"\b",
+    r"\f",
+    r"\n",
+    r"\t"
+]
+
 # we probably shouldn't broadcast this, creating global variables instead
 stanza_pipeline = defaultdict(lambda: None)
 stanza_langdetect_pipeline = None
@@ -159,6 +168,10 @@ def main(feature: str, input_filepath: str, output_filepath: str):
     # sometimes the text column is called content
     if "content" in df.columns and "text" not in df.columns:
         df = df.withColumnRenamed("content", "text")
+        # we need to make sure that the appropriate characters are escaped
+        for sequence in json_escape_sequences:
+            escaped_sequence = f"\{sequence}"
+            df["text"] = df["text"].str.replace(sequence, escaped_sequence)
     df.cache()
 
     if do_tokenize:

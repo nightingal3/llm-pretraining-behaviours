@@ -1,6 +1,7 @@
 #!/bin/bash --login
-#SBATCH --time=1-00:00:00
-#SBATCH --partition=general
+#SBATCH --array=1-4
+#SBATCH --time=5-00:00:00
+#SBATCH --partition=long
 #SBATCH --ntasks=8
 #SBATCH --cpus-per-task=30
 #SBATCH --mem=50G
@@ -8,6 +9,10 @@
 #SBATCH --output=calculate_dataset_features-%a.out
 
 # script to calculate and update aggregate feature statistics to metadata json files
+
+config='/data/tir/projects/tir4/users/ltjuatja/llm-pretraining-behaviours/metadata/test/collect_dataset_metadata_commands.csv'
+feature=$(awk -v TaskID=$SLURM_ARRAY_TASK_ID '$1==TaskID {print $2}' $config)
+metadata_file=$(awk -v TaskID=$SLURM_ARRAY_TASK_ID '$1==TaskID {print $3}' $config)
 
 set -euo pipefail
 
