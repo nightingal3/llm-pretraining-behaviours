@@ -158,7 +158,9 @@ def main(feature: str, input_filepath: str, output_filepath: str):
     broadcast_tokenizer = spark.sparkContext.broadcast(tokenizer)
 
     def tokenize(text: str) -> list[int]:
-        return broadcast_tokenizer.value(text, add_special_tokens=False)["input_ids"]
+        return broadcast_tokenizer.value(
+            text, add_special_tokens=False
+        )["input_ids"]
 
     tokenize_udf = pyspark.sql.functions.udf(
         tokenize, pyspark.sql.types.ArrayType(pyspark.sql.types.IntegerType())
@@ -181,7 +183,9 @@ def main(feature: str, input_filepath: str, output_filepath: str):
         df = df.withColumn("token_ids", F.col("text"))
 
     if needs_parse:
-        feature_udf = parse_features_udf_wrapper(feature_fn, stanza_args, dtype)
+        feature_udf = parse_features_udf_wrapper(
+            feature_fn, stanza_args, dtype
+        )
         # detect the languages first
         detect_lang_udf = pyspark.sql.functions.udf(
             detect_lang, pyspark.sql.types.StringType()
@@ -206,16 +210,25 @@ def main(feature: str, input_filepath: str, output_filepath: str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--feature", choices=list(feature_registry.keys()), required=True
+        "--feature",
+        choices=list(feature_registry.keys()),
+        required=True
     )
-    parser.add_argument("--input", help="Input file (jsonl)", type=str, required=True)
+    parser.add_argument(
+        "--input",
+        help="Input file (jsonl)",
+        type=str,
+        required=True
+    )
     parser.add_argument("--output", help="Output file (arrow)", type=str)
     logging.basicConfig(level=logging.INFO)
 
     args = parser.parse_args()
 
     if multiprocessing.cpu_count() < 30:
-        raise ValueError("Recommend using at least 30 cores to run this script")
+        raise ValueError(
+            "Recommend using at least 30 cores to run this script"
+        )
 
     start_time = time.time()
     main(args.feature, args.input, args.output)
