@@ -16,14 +16,17 @@ metadata_file=$(awk -v TaskID=$SLURM_ARRAY_TASK_ID '$1==TaskID {print $3}' $conf
 
 set -euo pipefail
 
-source ~/.bashrc
-conda init bash
-conda activate towerllm-env
+set -a 
+source ./demo_scripts/configs/.env
+set +a
+
+source ${MINICONDA_PATH}
+conda activate ${TOWERLLM_ENV_NAME}
 
 cd metadata
 
 # TODO: update this to be done in parallel across jsons in an array job
-metadata_file='/data/tir/projects/tir4/users/ltjuatja/llm-pretraining-behaviours/metadata/dataset_metadata/test.json'
+metadata_file='/data/tir/projects/tir4/users/ltjuatja/llm-pretraining-behaviours/metadata/dataset_metadata/test_clean.json'
 dataset=$(basename $metadata_file .json)
 feature="num_tokens"
 # TODO: update this to be a more permanent dir, ideally shared
