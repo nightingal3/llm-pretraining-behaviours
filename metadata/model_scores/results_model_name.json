@@ -1,0 +1,113 @@
+{
+    "model_name": "model_name",
+    "last_updated": "2024-06-25 14:31:01.404115",
+    "results": {
+        "harness": {
+            "minerva_math_precalc": {
+                "exact_match": 0.13553113553113552,
+                "exact_match_stderr": 0.014662092847395482,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "minerva_math_prealgebra": {
+                "exact_match": 0.4890929965556831,
+                "exact_match_stderr": 0.01694755389652771,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "minerva_math_num_theory": {
+                "exact_match": 0.17037037037037037,
+                "exact_match_stderr": 0.016193651111111738,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "minerva_math_intermediate_algebra": {
+                "exact_match": 0.11738648947951273,
+                "exact_match_stderr": 0.010717440330431139,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "minerva_math_geometry": {
+                "exact_match": 0.21294363256784968,
+                "exact_match_stderr": 0.018724977273263204,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "minerva_math_counting_and_prob": {
+                "exact_match": 0.1962025316455696,
+                "exact_match_stderr": 0.01825975937156573,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "minerva_math_algebra": {
+                "exact_match": 0.4018534119629318,
+                "exact_match_stderr": 0.014236239984076448,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "fld_default": {
+                "exact_match": 0.0,
+                "exact_match_stderr": 0.0,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "fld_star": {
+                "exact_match": 0.0,
+                "exact_match_stderr": 0.0,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_3da": {
+                "acc": 0.9945,
+                "acc_stderr": 0.0016541593398342208,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_3ds": {
+                "acc": 0.9995,
+                "acc_stderr": 0.0005000000000000049,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_4da": {
+                "acc": 0.983,
+                "acc_stderr": 0.0028913110935905434,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_2ds": {
+                "acc": 1.0,
+                "acc_stderr": 0.0,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_5ds": {
+                "acc": 0.982,
+                "acc_stderr": 0.0029736208922129114,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_5da": {
+                "acc": 0.9755,
+                "acc_stderr": 0.003457723662536254,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_1dc": {
+                "acc": 0.935,
+                "acc_stderr": 0.005513864466114152,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_4ds": {
+                "acc": 0.995,
+                "acc_stderr": 0.0015775754727385416,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_2dm": {
+                "acc": 0.9525,
+                "acc_stderr": 0.004757435401116703,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "arithmetic_2da": {
+                "acc": 1.0,
+                "acc_stderr": 0.0,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "gsm8k_cot": {
+                "exact_match": 0.6072782410917361,
+                "exact_match_stderr": 0.01345174534958657,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            },
+            "gsm8k": {
+                "exact_match": 0.5837755875663382,
+                "exact_match_stderr": 0.01357778833465266,
+                "timestamp": "2024-06-18T02-27-15.247105"
+            }
+        }
+    }
+}
