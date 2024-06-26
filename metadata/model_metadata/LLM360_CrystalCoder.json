@@ -1,0 +1,78 @@
+{
+    "id": "LLM360/CrystalCoder",
+    "author": "LLM360",
+    "sha": "a8c07fe67eb9ceb39acd5768c812d07dfc256015",
+    "created_at": "2023-12-08T19:34:58+00:00",
+    "last_modified": "2024-03-12T20:25:38+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "crystalcoder",
+        "text-generation",
+        "llm",
+        "code",
+        "custom_code",
+        "en",
+        "arxiv:2312.06550",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "CrystalCoderLMHeadModel"
+        ],
+        "auto_map": {
+            "AutoConfig": "LLM360/CrystalCoder--configuration_crystalcoder.CrystalCoderConfig",
+            "AutoModel": "LLM360/CrystalCoder--modeling_crystalcoder.CrystalCoderModel",
+            "AutoModelForCausalLM": "LLM360/CrystalCoder--modeling_crystalcoder.CrystalCoderLMHeadModel"
+        },
+        "model_type": "crystalcoder",
+        "tokenizer_config": {
+            "bos_token": "<s>",
+            "eos_token": "</s>",
+            "pad_token": null,
+            "unk_token": "<unk>",
+            "use_default_system_prompt": false
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "LLM360/CrystalCoder--modeling_crystalcoder.CrystalCoderLMHeadModel",
+        "pipeline_tag": "text-generation",
+        "processor": null
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 6575278720
+        },
+        "total": 6575278720
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": null,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": null,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 32032
+}

@@ -1,0 +1,146 @@
+{
+  "results": {
+    "fld": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": "fld"
+    },
+    "fld_default": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": " - fld_default"
+    },
+    "fld_star": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": " - fld_star"
+    }
+  },
+  "groups": {
+    "fld": {
+      "exact_match,remove_whitespace": 0.0,
+      "exact_match_stderr,remove_whitespace": 0.0,
+      "alias": "fld"
+    }
+  },
+  "configs": {
+    "fld_default": {
+      "task": "fld_default",
+      "group": [
+        "fld"
+      ],
+      "dataset_path": "hitachi-nlp/FLD.v2",
+      "dataset_name": "default",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "Based on the provided facts ($context$), either prove or disprove the hypothesis or state that it is unknown. {{prompt_serial}}",
+      "doc_to_target": "world_assump_label",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "\n\n"
+        ],
+        "do_sample": false
+      },
+      "repeats": 1,
+      "filter_list": [
+        {
+          "name": "remove_whitespace",
+          "filter": [
+            {
+              "function": "remove_whitespace"
+            },
+            {
+              "function": "take_first"
+            }
+          ]
+        }
+      ],
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 2.0
+      }
+    },
+    "fld_star": {
+      "task": "fld_star",
+      "group": [
+        "fld"
+      ],
+      "dataset_path": "hitachi-nlp/FLD.v2",
+      "dataset_name": "star",
+      "training_split": "train",
+      "validation_split": "validation",
+      "test_split": "test",
+      "doc_to_text": "Based on the provided facts ($context$), either prove or disprove the hypothesis or state that it is unknown. {{prompt_serial}}",
+      "doc_to_target": "world_assump_label",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "metric_list": [
+        {
+          "metric": "exact_match",
+          "aggregation": "mean",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "until": [
+          "\n\n"
+        ],
+        "do_sample": false
+      },
+      "repeats": 1,
+      "filter_list": [
+        {
+          "name": "remove_whitespace",
+          "filter": [
+            {
+              "function": "remove_whitespace"
+            },
+            {
+              "function": "take_first"
+            }
+          ]
+        }
+      ],
+      "should_decontaminate": false,
+      "metadata": {
+        "version": 2.0
+      }
+    }
+  },
+  "versions": {
+    "fld": "N/A",
+    "fld_default": 2.0,
+    "fld_star": 2.0
+  },
+  "n-shot": {
+    "fld": 0,
+    "fld_default": 0,
+    "fld_star": 0
+  },
+  "config": {
+    "model": "hf",
+    "model_args": "pretrained=EleutherAI/gpt-neo-125m,dtype=float16,trust_remote_code=True",
+    "batch_size": "auto:4",
+    "batch_sizes": [],
+    "device": "cuda:0",
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": null
+  },
+  "git_hash": "861ee4c"
+}

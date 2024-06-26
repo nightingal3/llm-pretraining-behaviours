@@ -72,7 +72,7 @@
         }
     ],
     "summary": {
-        "total_size_tokens_billions": -1,
+        "total_tokens_billions": -1,
         "total_documents": 280490
     }
 }

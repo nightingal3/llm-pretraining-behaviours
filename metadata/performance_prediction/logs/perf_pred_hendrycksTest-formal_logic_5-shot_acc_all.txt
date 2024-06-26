@@ -1,0 +1,36 @@
+=== Average Mean Absolute Error across folds: 0.07374866638864792 ===
+=== Feature Importances: ===
+sequence_length                                   0.424889
+total_params                                      0.392805
+num_heads                                         0.101301
+mlp_ratio                                         0.040892
+attention_variant_1.0                             0.014119
+activation_1.0                                    0.010290
+dimension                                         0.009239
+block_type_2.0                                    0.005418
+total_summary:total_size_tokens_billions          0.001002
+batch_instances                                   0.000046
+layer_norm_type_0.0                               0.000000
+block_type_0.0                                    0.000000
+block_type_1.0                                    0.000000
+positional_embeddings_-1                          0.000000
+layer_norm_type_1.0                               0.000000
+layer_norm_type_2.0                               0.000000
+biases_2.0                                        0.000000
+positional_embeddings_rope                        0.000000
+positional_embeddings_rotary                      0.000000
+weight_tying_-1                                   0.000000
+biases_3.0                                        0.000000
+attention_variant_2.0                             0.000000
+biases_1.0                                        0.000000
+biases_0.0                                        0.000000
+attention_variant_3.0                             0.000000
+attention_variant_0.0                             0.000000
+activation_3.0                                    0.000000
+activation_2.0                                    0.000000
+activation_0.0                                    0.000000
+sft_summary:total_size_tokens_billions            0.000000
+pretraining_summary:total_size_tokens_billions    0.000000
+deep_key                                          0.000000
+batch_tokens                                      0.000000
+weight_tying_FALSE                                0.000000

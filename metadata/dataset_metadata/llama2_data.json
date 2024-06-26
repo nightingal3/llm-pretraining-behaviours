@@ -2,12 +2,14 @@
     "domains": [
         {
             "name": "llama2",
-            "doc_type": ["unknown"],
+            "doc_type": [
+                "unknown"
+            ],
             "tokens_billions": 2000
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 2000,
+        "total_tokens_billions": 2000.0,
         "percentage_english": 0.897,
         "percentage_code": 0.0838
     }

@@ -2,11 +2,13 @@
     "domains": [
         {
             "name": "qwen",
-            "doc_type": ["unknown"],
+            "doc_type": [
+                "unknown"
+            ],
             "tokens_billions": 3000
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 3000
+        "total_tokens_billions": 2460.0
     }
 }

@@ -54,7 +54,7 @@
     "num_heads": 32,
     "num_layers": 32,
     "mlp_ratio": 2.666667,
-    "layer_norm_type": "non-paramteric",
+    "layer_norm_type": "non-parametric",
     "positional_embeddings": "rope",
     "attention_variant": "full",
     "attention_window": "standard",

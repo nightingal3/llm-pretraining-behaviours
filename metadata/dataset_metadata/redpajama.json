@@ -2,56 +2,74 @@
     "domains": [
         {
             "name": "common_crawl_redpajama",
-            "doc_type": ["web"],
+            "doc_type": [
+                "web"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 878
         },
         {
             "name": "c4_redpajama",
-            "doc_type": ["web"],
+            "doc_type": [
+                "web"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 175
         },
         {
             "name": "github_redpajama",
-            "doc_type": ["code", "source_code"],
+            "doc_type": [
+                "code",
+                "source_code"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 59
         },
         {
             "name": "wiki_redpajama",
-            "doc_type": ["reference", "encyclopedic"],
+            "doc_type": [
+                "reference",
+                "encyclopedic"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 24
         },
         {
             "name": "books_redpajama",
-            "doc_type": ["books"],
+            "doc_type": [
+                "books"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 26
         },
         {
             "name": "arxiv_redpajama",
-            "doc_type": ["academic_papers", "sciences"],
+            "doc_type": [
+                "academic_papers",
+                "sciences"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 28
         },
         {
             "name": "stackexchange_redpajama",
-            "doc_type": ["code", "forums"],
+            "doc_type": [
+                "code",
+                "forums"
+            ],
             "documents": -1,
             "data_size_gb": -1,
             "tokens_billions": 20
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 1200,
+        "total_tokens_billions": 1000.0,
         "percentage_web": 0.8942,
         "percentage_code": 0.0492,
         "percentage_books": 0.0217,

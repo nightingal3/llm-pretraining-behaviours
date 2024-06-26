@@ -1,0 +1,74 @@
+{
+    "id": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "author": "meta-llama",
+    "sha": "c4a54320a52ed5f88b7a2f84496903ea4ff07b45",
+    "created_at": "2024-04-17T09:35:12+00:00",
+    "last_modified": "2024-05-13T09:35:55+00:00",
+    "private": false,
+    "gated": "manual",
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "facebook",
+        "meta",
+        "pytorch",
+        "llama-3",
+        "conversational",
+        "en",
+        "license:llama3",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": "<|begin_of_text|>",
+            "chat_template": "{% set loop_messages = messages %}{% for message in loop_messages %}{% set content = '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n'+ message['content'] | trim + '<|eot_id|>' %}{% if loop.index0 == 0 %}{% set content = bos_token + content %}{% endif %}{{ content }}{% endfor %}{% if add_generation_prompt %}{{ '<|start_header_id|>assistant<|end_header_id|>\n\n' }}{% endif %}",
+            "eos_token": "<|eot_id|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 8030261248
+        },
+        "total": 8030261248
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 3.5,
+    "intermediate_size": 14336,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": "silu",
+    "sequence_length": 8192,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 128256
+}

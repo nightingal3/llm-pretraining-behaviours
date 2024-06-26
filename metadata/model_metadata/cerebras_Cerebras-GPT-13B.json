@@ -1,0 +1,63 @@
+{
+    "id": "cerebras/Cerebras-GPT-13B",
+    "author": "cerebras",
+    "sha": "0600d825e90eaf087b013c4146c1d7d460b831c0",
+    "created_at": "2023-03-20T20:45:54+00:00",
+    "last_modified": "2023-11-22T21:49:12+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "gpt2",
+        "feature-extraction",
+        "causal-lm",
+        "text-generation",
+        "en",
+        "dataset:the_pile",
+        "arxiv:2304.03208",
+        "arxiv:2203.15556",
+        "arxiv:2101.00027",
+        "license:apache-2.0",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPT2Model"
+        ],
+        "model_type": "gpt2"
+    },
+    "transformers_info": {
+        "auto_model": "AutoModel",
+        "custom_class": null,
+        "pipeline_tag": "feature-extraction",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "base_model": null,
+    "merged": null,
+    "dimension": null,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": null,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 50257
+}

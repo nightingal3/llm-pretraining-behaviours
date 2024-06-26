@@ -33,7 +33,7 @@
                 {
                     "type": "string",
                     "enum": [
-                        "manual"
+                        "manual", "auto"
                     ]
                 }
             ]
@@ -42,7 +42,7 @@
             "type": "boolean"
         },
         "library_name": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "tags": {
             "type": "array",
@@ -51,7 +51,7 @@
             }
         },
         "pipeline_tag": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "mask_token": {
             "type": [
@@ -72,7 +72,7 @@
             ]
         },
         "config": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "architectures": {
                     "type": "array",
@@ -94,18 +94,13 @@
                     "type": "object"
                 }
             },
-            "required": [
-                "architectures",
-                "model_type",
-                "tokenizer_config"
-            ],
             "additionalProperties": false
         },
         "transformers_info": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "auto_model": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "custom_class": {
                     "type": [
@@ -114,7 +109,7 @@
                     ]
                 },
                 "pipeline_tag": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "processor": {
                     "type": [
@@ -156,97 +151,139 @@
             "additionalProperties": false
         },
         "base_model": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "dimension": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "intermediate_size": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "num_heads": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "num_layers": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "mlp_ratio": {
-            "type": "number",
+            "type": ["number", "null"],
             "minimum": 0
         },
         "mlp_experts": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "mlp_experts_top_k": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "layer_norm_type": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
-                "non-paramteric",
+                "non-parametric",
                 "parametric",
-                "rmsnorm"
+                "rmsnorm",
+                null
             ]
         },
         "positional_embeddings": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
-                "rope"
+                "rope",
+                "rotary",
+                "learned",
+                "sinusoidal",
+                "alibi",
+                "relative",
+                null
             ]
         },
         "attention_variant": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "full",
                 "gqa",
-                "mqa"
+                "mqa",
+                "local",
+                "local,full",
+                null
             ]
         },
         "attention_window": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "standard",
-                "sliding"
+                "sliding",
+                null
             ]
         },
         "biases": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "none",
                 "ln_only",
-                "attn_only"
+                "attn_only",
+                null
             ]
         },
         "block_type": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "sequential",
-                "parallel"
+                "parallel",
+                null
             ]
         },
         "activation": {
-            "type": "string",
+            "type": ["string", "null"],
             "enum": [
                 "swiglu",
-                "gelu"
+                "gelu",
+                "gelu_fast",
+                "gelu_new",
+                "silu",
+                "relu",
+                null
             ]
         },
         "sequence_length": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
         },
         "weight_tying": {
-            "type": "boolean"
+            "type": ["boolean", "null"]
         },
         "vocab_size": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
+        },
+        "batch_instances": {
+            "type": ["integer", "null"],
+            "minimum": 1
+        },
+        "batch_tokens": {
+            "type": ["integer", "null"],
+            "minimum": 1
+        },
+        "merged": {
+            "type": ["boolean", "null"]
+        },
+        "positional_embedding_type": {
+            "type": ["string", "null"]
+        },
+        "total_params": {
+            "type": ["integer", "null"],
+            "minimum": 1
+        },
+        "is_instruction_tuned": {
+            "type": ["boolean", "null"]
+        },
+        "is_preference_tuned": {
+            "type": ["boolean", "null"]
         },
         "training_stages": {
             "type": "array",
@@ -352,7 +389,6 @@
                 "required": [
                     "name",
                     "data",
-                    "batch_tokens",
                     "total_tokens_billions"
                 ],
                 "additionalProperties": false

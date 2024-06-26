@@ -1,0 +1,11 @@
+{
+    "domains": [],
+    "summary": {
+        "total_tokens_billions": 1300.0,
+        "percentage_web": 68.51,
+        "percentage_code": 24.91,
+        "percentage_books": 2.29,
+        "percentage_reference": 1.9,
+        "percentage_academic": 2.38
+    }
+}

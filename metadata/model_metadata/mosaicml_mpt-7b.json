@@ -1,0 +1,82 @@
+{
+    "id": "mosaicml/mpt-7b",
+    "author": "mosaicml",
+    "sha": "039e37745f00858f0e01e988383a8c4393b1a4f5",
+    "created_at": "2023-05-05T00:48:02+00:00",
+    "last_modified": "2024-03-05T20:23:57+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "mpt",
+        "text-generation",
+        "Composer",
+        "MosaicML",
+        "llm-foundry",
+        "StreamingDatasets",
+        "custom_code",
+        "dataset:mc4",
+        "dataset:c4",
+        "dataset:togethercomputer/RedPajama-Data-1T",
+        "dataset:bigcode/the-stack",
+        "dataset:allenai/s2orc",
+        "arxiv:2108.12409",
+        "arxiv:2302.13971",
+        "arxiv:2205.14135",
+        "arxiv:2010.04245",
+        "arxiv:1909.08053",
+        "arxiv:2302.06675",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MPTForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_mpt.MPTConfig",
+            "AutoModelForCausalLM": "modeling_mpt.MPTForCausalLM"
+        },
+        "model_type": "mpt",
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_mpt.MPTForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "base_model": null,
+    "merged": null,
+    "dimension": null,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": null,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 50432
+}

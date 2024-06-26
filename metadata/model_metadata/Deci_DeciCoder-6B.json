@@ -1,0 +1,72 @@
+{
+    "id": "Deci/DeciCoder-6B",
+    "author": "Deci",
+    "sha": "c4af0b530b0cf83087d372ca481c0a3675a19ccf",
+    "created_at": "2024-01-15T15:24:01+00:00",
+    "last_modified": "2024-02-11T14:27:15+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "deci",
+        "text-generation",
+        "custom_code",
+        "dataset:bigcode/starcoderdata",
+        "arxiv:2104.09864",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "DeciLMForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_decilm.DeciLMConfig",
+            "AutoModelForCausalLM": "modeling_decilm.DeciLMForCausalLM"
+        },
+        "model_type": "deci",
+        "tokenizer_config": {
+            "eos_token": "<|endoftext|>",
+            "pad_token": null
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_decilm.DeciLMForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": null
+    },
+    "safetensors": {
+        "parameters": {
+            "F32": 5866000384
+        },
+        "total": 5866000384
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": 4096,
+    "num_heads": 32,
+    "num_layers": 32,
+    "mlp_ratio": 2.6875,
+    "intermediate_size": 11008,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": "silu",
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 51200
+}

@@ -1,0 +1,133 @@
+{
+    "id": "Deci/DeciCoder-1b",
+    "author": "Deci",
+    "sha": "d045c14763eab7225fe79a6bc309890fda7b1483",
+    "created_at": "2023-08-16T14:52:10+00:00",
+    "last_modified": "2024-02-15T08:45:52+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "text-generation",
+        "text generation",
+        "Deci AI",
+        "DeciCoder",
+        "custom_code",
+        "dataset:bigcode/starcoderdata",
+        "arxiv:2305.13245",
+        "arxiv:2104.09864",
+        "license:apache-2.0",
+        "model-index",
+        "autotrain_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": [
+        {
+            "name": "DeciCoder-1b",
+            "results": [
+                {
+                    "task": {
+                        "type": "text-generation"
+                    },
+                    "dataset": {
+                        "type": "nuprl/MultiPL-E",
+                        "name": "MultiPL-HumanEval (Python)"
+                    },
+                    "metrics": [
+                        {
+                            "name": "pass@1",
+                            "type": "pass@1",
+                            "value": 0.191,
+                            "verified": false
+                        }
+                    ]
+                },
+                {
+                    "task": {
+                        "type": "text-generation"
+                    },
+                    "dataset": {
+                        "type": "nuprl/MultiPL-E",
+                        "name": "MultiPL-HumanEval (JavaScript)"
+                    },
+                    "metrics": [
+                        {
+                            "name": "pass@1",
+                            "type": "pass@1",
+                            "value": 0.184,
+                            "verified": false
+                        }
+                    ]
+                },
+                {
+                    "task": {
+                        "type": "text-generation"
+                    },
+                    "dataset": {
+                        "type": "nuprl/MultiPL-E",
+                        "name": "MultiPL-HumanEval (Java)"
+                    },
+                    "metrics": [
+                        {
+                            "name": "pass@1",
+                            "type": "pass@1",
+                            "value": 0.166,
+                            "verified": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "config": {
+        "architectures": [
+            "DeciCoderForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_decicoder.DeciCoderConfig",
+            "AutoModelForCausalLM": "modeling_decicoder.DeciCoderForCausalLM"
+        },
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_decicoder.DeciCoderForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": null
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 1113671680
+        },
+        "total": 1113671680
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": 2048,
+    "num_heads": 32,
+    "num_layers": 20,
+    "mlp_ratio": 2.875,
+    "intermediate_size": 5888,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": "silu",
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 49152
+}

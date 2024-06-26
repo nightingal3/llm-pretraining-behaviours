@@ -1,5 +1,6 @@
 from collect_model_scores_hf import get_model_scores
 from collect_model_metadata import get_model_metadata
+from collect_integrated_model_scores import integrated_eval
 import json
 import argparse
 import os
@@ -68,8 +69,8 @@ if __name__ == "__main__":
     model_metadata = get_model_metadata(args.model_name, args.token)
 
     # Get the model scores
-    model_scores = get_model_scores(args.model_name)
-
+    # model_scores = get_model_scores(args.model_name)
+    model_scores = integrated_eval(args.model_name)
     # Write the metadata to a JSON file
     os.makedirs(args.metadata_output_dir, exist_ok=True)
     with open(metadata_file_name, "w") as f:

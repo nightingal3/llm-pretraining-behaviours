@@ -1,0 +1,27 @@
+{
+    "model_name": "gpt2",
+    "results": {
+        "harness": {
+            "anli": {
+                "acc": 0.345,
+                "acc_stderr": 0.0147,
+                "timestamp": "2024-05-03 14:35:00.111304"
+            },
+            "xnli": {
+                "acc": 0.3506,
+                "acc_stderr": 0.0249,
+                "timestamp": "2024-05-03 14:35:01.257845"
+            },
+            "mathqa": {
+                "acc": 0.2111,
+                "acc_stderr": 0.0075,
+                "timestamp": "2024-05-03 14:35:01.842230"
+            },
+            "logiqa2": {
+                "acc": 0.2392,
+                "acc_stderr": 0.0108,
+                "timestamp": "2024-05-03 14:35:02.374285"
+            }
+        }
+    }
+}

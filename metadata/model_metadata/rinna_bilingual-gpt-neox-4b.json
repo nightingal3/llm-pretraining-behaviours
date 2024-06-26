@@ -1,0 +1,81 @@
+{
+    "id": "rinna/bilingual-gpt-neox-4b",
+    "author": "rinna",
+    "sha": "f27955e1532fb35e6a1f2afa74ca882d3429bbe3",
+    "created_at": "2023-07-31T02:34:03+00:00",
+    "last_modified": "2024-04-03T08:06:05+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "gpt_neox",
+        "text-generation",
+        "ja",
+        "en",
+        "dataset:mc4",
+        "dataset:cc100",
+        "dataset:wikipedia",
+        "dataset:EleutherAI/pile",
+        "dataset:togethercomputer/RedPajama-Data-1T",
+        "arxiv:2404.01657",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPTNeoXForCausalLM"
+        ],
+        "model_type": "gpt_neox",
+        "tokenizer_config": {
+            "eos_token": "</s>",
+            "unk_token": "[UNK]",
+            "pad_token": "[PAD]",
+            "bos_token": "<s>",
+            "cls_token": "[CLS]",
+            "sep_token": "[SEP]",
+            "mask_token": "[MASK]"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F16": 3796122368,
+            "BOOL": 150994944
+        },
+        "total": 3947117312
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": 2816,
+    "num_heads": 22,
+    "num_layers": 36,
+    "mlp_ratio": 4.0,
+    "intermediate_size": 11264,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": "gelu",
+    "sequence_length": 2048,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 65536
+}
