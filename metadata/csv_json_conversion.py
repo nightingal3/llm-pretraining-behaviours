@@ -20,9 +20,7 @@ def process_entry(
 ):
     model_id = row["id"]
     model_id_filename = model_id.replace("/", "_")
-    model_json_path = os.path.join(
-        json_model_dir, f"{model_id_filename}.json"
-    )
+    model_json_path = os.path.join(json_model_dir, f"{model_id_filename}.json")
     print(f"Processing model {model_json_path}")
 
     if not row["total_params"] or not row["summary:total_tokens_billions"]:
