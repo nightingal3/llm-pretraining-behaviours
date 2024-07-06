@@ -6,7 +6,7 @@ import pytest
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-MODELS_METADATA_DIR = os.path.join(BASE_DIR, "model_metadata", "processed_6_9")
+MODELS_METADATA_DIR = os.path.join(BASE_DIR, "model_metadata")
 MODELS_SCHEMA_FILE_PATH = os.path.join(BASE_DIR, "model_metadata_schema.json")
 
 RESULTS_METADATA_DIR = os.path.join(BASE_DIR, "model_scores")
