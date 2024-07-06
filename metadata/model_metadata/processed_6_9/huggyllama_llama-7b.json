@@ -1,0 +1,92 @@
+{
+    "id": "huggyllama/llama-7b",
+    "author": "huggyllama",
+    "sha": "8416d3fefb0cb3ff5775a7b13c1692d10ff1aa16",
+    "created_at": "2023-04-03T23:16:48+00:00",
+    "last_modified": "2023-04-07T15:50:47+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "license:other",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "bos_token": {
+                "__type": "AddedToken",
+                "content": "<s>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "eos_token": {
+                "__type": "AddedToken",
+                "content": "</s>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            },
+            "pad_token": null,
+            "unk_token": {
+                "__type": "AddedToken",
+                "content": "<unk>",
+                "lstrip": false,
+                "normalized": true,
+                "rstrip": false,
+                "single_word": false
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F16": 6738415616,
+            "F32": 2048
+        },
+        "total": 6738417664
+    },
+    "dimension": 4096.0,
+    "num_heads": 32.0,
+    "num_layers": 32.0,
+    "mlp_ratio": 2.666667,
+    "intermediate_size": 11008.0,
+    "activation": "swiglu",
+    "sequence_length": 2048.0,
+    "weight_tying": false,
+    "vocab_size": 32000,
+    "base_model": "llama1-7b",
+    "positional_embeddings": "rope",
+    "attention_variant": "full",
+    "biases": "none",
+    "block_type": "sequential",
+    "batch_instances": 1024.0,
+    "is_instruction_tuned": false,
+    "is_preference_tuned": false,
+    "total_params": 6738417664.0,
+    "layer_norm_type": "rmsnorm"
+}

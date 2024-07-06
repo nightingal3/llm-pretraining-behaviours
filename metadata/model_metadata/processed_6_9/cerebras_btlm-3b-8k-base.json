@@ -1,0 +1,82 @@
+{
+    "id": "cerebras/btlm-3b-8k-base",
+    "author": "cerebras",
+    "sha": "2f325501c4db6464d4fe03c84c3a394197865690",
+    "created_at": "2023-07-14T19:01:11+00:00",
+    "last_modified": "2023-10-23T14:45:35+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "btlm",
+        "text-generation",
+        "causal-lm",
+        "Cerebras",
+        "BTLM",
+        "custom_code",
+        "en",
+        "dataset:cerebras/SlimPajama-627B",
+        "arxiv:2304.03208",
+        "arxiv:2002.05202",
+        "arxiv:2108.12409",
+        "arxiv:2203.03466",
+        "arxiv:2309.11568",
+        "arxiv:2310.13017",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "BTLMLMHeadModel"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_btlm.BTLMConfig",
+            "AutoModel": "modeling_btlm.BTLMModel",
+            "AutoModelForCausalLM": "modeling_btlm.BTLMLMHeadModel",
+            "AutoModelForQuestionAnswering": "modeling_btlm.BTLMForQuestionAnswering",
+            "AutoModelForSequenceClassification": "modeling_btlm.BTLMForSequenceClassification",
+            "AutoModelForTokenClassification": "modeling_btlm.BTLMForTokenClassification"
+        },
+        "model_type": "btlm",
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_btlm.BTLMLMHeadModel",
+        "pipeline_tag": "text-generation",
+        "processor": null
+    },
+    "safetensors": null,
+    "weight_tying": false,
+    "vocab_size": 50257.0,
+    "dimension": 2560.0,
+    "num_heads": 32.0,
+    "num_layers": 32.0,
+    "mlp_ratio": 2.66640625,
+    "positional_embeddings": "alibi",
+    "sequence_length": 2000.0,
+    "is_instruction_tuned": false,
+    "is_preference_tuned": false,
+    "intermediate_size": 6826.0,
+    "total_params": 3000000000.0,
+    "activation": "swiglu",
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "redpajama",
+            "total_tokens_billions": 627.0
+        }
+    ]
+}

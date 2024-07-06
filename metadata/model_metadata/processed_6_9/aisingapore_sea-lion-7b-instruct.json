@@ -1,0 +1,73 @@
+{
+    "id": "aisingapore/sea-lion-7b-instruct",
+    "author": "aisingapore",
+    "sha": "d7d187cab419cff4a03be5380248326f26eb7529",
+    "created_at": "2024-02-01T06:19:29+00:00",
+    "last_modified": "2024-06-05T09:22:32+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "mpt",
+        "text-generation",
+        "conversational",
+        "custom_code",
+        "en",
+        "zh",
+        "id",
+        "ms",
+        "tl",
+        "my",
+        "vi",
+        "th",
+        "lo",
+        "km",
+        "ta",
+        "arxiv:2309.06085",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MPTForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_mpt.MPTConfig",
+            "AutoModelForCausalLM": "modeling_mpt.MPTForCausalLM"
+        },
+        "model_type": "mpt",
+        "tokenizer_config": {
+            "bos_token": null,
+            "eos_token": "<|endoftext|>",
+            "pad_token": "<|padding|>",
+            "unk_token": "<unk>",
+            "chat_template": "{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if message['role'] == 'user' %}### USER:\n{{ message['content'] + '\n\n' }}{% elif message['role'] == 'assistant' %}### RESPONSE:\n{{ message['content'] + '\n\n' }}{% else %}{{ raise_exception('Only user and assistant roles are supported!') }}{% endif %}{% endfor %}{% if add_generation_prompt %}### RESPONSE:\n{% endif %}"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_mpt.MPTForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 7501651968
+        },
+        "total": 7501651968
+    },
+    "weight_tying": false,
+    "vocab_size": 256000.0,
+    "base_model": "aisingapore/sea-lion-7b",
+    "is_instruction_tuned": true,
+    "is_preference_tuned": false
+}

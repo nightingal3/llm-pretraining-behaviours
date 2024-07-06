@@ -1,0 +1,68 @@
+{
+    "id": "mosaicml/mpt-7b-instruct",
+    "author": "mosaicml",
+    "sha": "7bf8dfd6c819cdb82e2f9d0b251f79ddd33314fb",
+    "created_at": "2023-05-05T00:52:12+00:00",
+    "last_modified": "2024-03-05T20:24:35+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "mpt",
+        "text-generation",
+        "Composer",
+        "MosaicML",
+        "llm-foundry",
+        "custom_code",
+        "dataset:mosaicml/dolly_hhrlhf",
+        "arxiv:2205.14135",
+        "arxiv:2108.12409",
+        "arxiv:2010.04245",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MPTForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_mpt.MPTConfig",
+            "AutoModelForCausalLM": "modeling_mpt.MPTForCausalLM"
+        },
+        "model_type": "mpt",
+        "tokenizer_config": {
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>",
+            "unk_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_mpt.MPTForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "weight_tying": false,
+    "vocab_size": 50432.0,
+    "dimension": 4096.0,
+    "num_heads": 32.0,
+    "num_layers": 32.0,
+    "positional_embeddings": "alibi",
+    "attention_variant": "full",
+    "biases": "none",
+    "sequence_length": 2048.0,
+    "is_instruction_tuned": true,
+    "is_preference_tuned": false,
+    "total_params": 7000000000.0,
+    "activation": "relu"
+}

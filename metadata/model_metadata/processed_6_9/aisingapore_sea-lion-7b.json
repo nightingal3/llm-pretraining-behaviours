@@ -1,0 +1,82 @@
+{
+    "id": "aisingapore/sea-lion-7b",
+    "author": "aisingapore",
+    "sha": "2089235feeb2d990dfb62bb12bf32b85c5ccf780",
+    "created_at": "2023-10-30T07:39:19+00:00",
+    "last_modified": "2024-04-11T01:45:33+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "mpt",
+        "text-generation",
+        "custom_code",
+        "en",
+        "zh",
+        "id",
+        "ms",
+        "th",
+        "vi",
+        "fil",
+        "ta",
+        "my",
+        "km",
+        "lo",
+        "arxiv:2101.09635",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MPTForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_mpt.MPTConfig",
+            "AutoModelForCausalLM": "modeling_mpt.MPTForCausalLM"
+        },
+        "model_type": "mpt",
+        "tokenizer_config": {
+            "bos_token": null,
+            "eos_token": "<|endoftext|>",
+            "pad_token": null,
+            "unk_token": "<unk>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_mpt.MPTForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 7501651968
+        },
+        "total": 7501651968
+    },
+    "weight_tying": false,
+    "vocab_size": 256000.0,
+    "dimension": 4096.0,
+    "num_heads": 32.0,
+    "num_layers": 32.0,
+    "sequence_length": 2048.0,
+    "is_instruction_tuned": false,
+    "is_preference_tuned": false,
+    "total_params": 7000000000.0,
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "sea-lion",
+            "total_tokens_billions": 980.0
+        }
+    ]
+}

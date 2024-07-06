@@ -1,0 +1,72 @@
+{
+    "id": "mistralai/Mixtral-8x7B-v0.1",
+    "author": "mistralai",
+    "sha": "985aa055896a8f943d4a9f2572e6ea1341823841",
+    "created_at": "2023-12-01T09:42:00+00:00",
+    "last_modified": "2024-01-21T10:35:31+00:00",
+    "private": false,
+    "gated": "auto",
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "mixtral",
+        "text-generation",
+        "moe",
+        "fr",
+        "it",
+        "de",
+        "es",
+        "en",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MixtralForCausalLM"
+        ],
+        "model_type": "mixtral",
+        "tokenizer_config": {
+            "bos_token": "<s>",
+            "eos_token": "</s>",
+            "pad_token": null,
+            "unk_token": "<unk>",
+            "use_default_system_prompt": false
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 46702792704
+        },
+        "total": 46702792704
+    },
+    "dimension": 4096.0,
+    "num_heads": 32.0,
+    "num_layers": 32.0,
+    "mlp_ratio": 3.5,
+    "intermediate_size": 14336.0,
+    "activation": "swiglu",
+    "sequence_length": 32768.0,
+    "weight_tying": false,
+    "vocab_size": 32000.0,
+    "base_model": "mixtral-8x7B-v0.1",
+    "positional_embeddings": "rope",
+    "attention_variant": "gqa",
+    "is_instruction_tuned": false,
+    "is_preference_tuned": false,
+    "layer_norm_type": "rmsnorm"
+}

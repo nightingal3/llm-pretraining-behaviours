@@ -1,0 +1,58 @@
+{
+    "id": "Salesforce/codegen25-7b-instruct_P",
+    "author": "Salesforce",
+    "sha": "c87ed5d4843fe50aa2ee41607a06bdb6dae2b2d8",
+    "created_at": "2023-07-06T17:49:25+00:00",
+    "last_modified": "2024-02-01T00:22:24+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "llama",
+        "text-generation",
+        "code",
+        "dataset:bigcode/starcoderdata",
+        "arxiv:2305.02309",
+        "license:other",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "LlamaForCausalLM"
+        ],
+        "model_type": "llama",
+        "tokenizer_config": {
+            "eos_token": "<|endoftext|>",
+            "pad_token": null
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "dimension": 4096.0,
+    "num_heads": 32.0,
+    "num_layers": 32.0,
+    "mlp_ratio": 2.6875,
+    "intermediate_size": 11008.0,
+    "activation": "silu",
+    "sequence_length": 2048.0,
+    "weight_tying": false,
+    "vocab_size": 51200.0,
+    "base_model": "Salesforce/CodeGen2.5-7B-mono",
+    "is_instruction_tuned": true,
+    "is_preference_tuned": false
+}

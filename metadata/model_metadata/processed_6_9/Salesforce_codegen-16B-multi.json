@@ -1,0 +1,56 @@
+{
+    "id": "Salesforce/codegen-16B-multi",
+    "author": "Salesforce",
+    "sha": "efa2106893f6211c5deb8e10d03fa61af3651906",
+    "created_at": "2022-04-13T00:52:09+00:00",
+    "last_modified": "2022-10-03T16:18:49+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "codegen",
+        "text-generation",
+        "arxiv:2203.13474",
+        "license:bsd-3-clause",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "CodeGenForCausalLM"
+        ],
+        "model_type": "codegen",
+        "tokenizer_config": {
+            "unk_token": "<|endoftext|>",
+            "bos_token": "<|endoftext|>",
+            "eos_token": "<|endoftext|>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "weight_tying": false,
+    "vocab_size": 51200,
+    "base_model": "Salesforce/codegen6B-nl",
+    "is_instruction_tuned": false,
+    "is_preference_tuned": false,
+    "training_stages": [
+        {
+            "name": "pretraining",
+            "data": "bigquery",
+            "total_tokens_billions": 119.2
+        }
+    ]
+}
