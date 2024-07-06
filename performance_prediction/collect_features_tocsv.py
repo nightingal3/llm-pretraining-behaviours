@@ -223,6 +223,7 @@ def main(
             extracted_features_all.append(extracted_features)
 
     df = pd.DataFrame(extracted_features_all)
+    breakpoint()
 
     if type_selection == "score":
         features_df = df.drop(columns=["model_name"]).apply(

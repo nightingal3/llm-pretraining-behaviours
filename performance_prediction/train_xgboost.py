@@ -6,7 +6,13 @@ from sklearn import gaussian_process
 from sklearn.preprocessing import OrdinalEncoder
 import argparse
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
-from sklearn.model_selection import cross_val_score, train_test_split, KFold
+from sklearn.model_selection import (
+    cross_val_score,
+    train_test_split,
+    KFold,
+    GridSearchCV,
+)
+
 import warnings
 import os
 import yaml
@@ -43,6 +49,7 @@ def train_regressor(
         n_estimators=n_estimators,
         enable_categorical=True,
         missing=missing_val,
+        nrounds=10000,
         random_state=seed,
     )
 
@@ -121,6 +128,12 @@ def get_args():
         type=str,
         help="The path to the CSV file containing the training labels",
         required=True,
+    )
+    parser.add_argument(
+        "--feat_subset",
+        type=str,
+        nargs="+",
+        help="Subset of features to use for training",
     )
     parser.add_argument(
         "--y_cols",
@@ -245,11 +258,7 @@ if __name__ == "__main__":
         right_on="id",
     )
 
-    dataset["total_params"] = np.where(
-        dataset["safetensors:total"].isna(),
-        dataset["total_params"],
-        dataset["safetensors:total"],
-    )
+    dataset['total_params'] = np.where(dataset['safetensors:total'].isna(), dataset['total_params'], dataset['safetensors:total'])
 
     cols_to_drop = [
         "assigned person",
@@ -295,20 +304,22 @@ if __name__ == "__main__":
         for var in categorical_variables:
             dataset[var] = dataset[var].astype("category")
 
+        # enc = OrdinalEncoder()
+        # dataset[categorical_variables] = enc.fit_transform(
+        # dataset[categorical_variables]
+        # )
+
+        # breakpoint()
+
     mae_per_task = []
     successful_tasks = []
     mmlu_mae = []
     all_feat_importances = []
     mmlu_shap_values = []
     mmlu_test_features = []
-    all_predictions = []
-    all_scores = []
+    all_absolute_errors = []
 
-    scaling_laws_features = [
-        "total_params",
-        "pretraining_summary:total_tokens_billions",
-    ]
-
+    scaling_laws_features = ["total_params", "pretraining_summary:total_tokens_billions"]
     for y_col in y_cols:
         # drop rows with missing score values
         dataset_copy = (
@@ -316,6 +327,7 @@ if __name__ == "__main__":
             .dropna(subset=[y_col] + scaling_laws_features)
             .reset_index(drop=True)
         )
+        #breakpoint()
         dataset_copy["total_params"] = pd.to_numeric(
             dataset_copy["total_params"], errors="coerce"
         )
@@ -335,13 +347,15 @@ if __name__ == "__main__":
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
 
+        # best_model = #train_regressor_with_hyperparameter_search(feats, labels)
+        # breakpoint()
+
         # cross val
         k_folds = KFold(n_splits=5, random_state=args.seed, shuffle=True)
         test_features_list = []
         all_shap_values = []
         all_mae = []
-        task_predictions = {}
-        task_scores = {}
+        task_absolute_errors = {}
         feat_importances = []
 
         for train_index, test_index in k_folds.split(feats):
@@ -358,27 +372,28 @@ if __name__ == "__main__":
                 max_depth=args.max_depth,
                 n_estimators=args.n_estimators,
                 missing_val=args.missing_val,
-                seed=args.seed,
-            )
-            predictions = model.predict(test_feats)
-            task_predictions.update(
-                {
-                    name: pred
-                    for (name, pred) in zip(model_names[test_index], predictions)
-                }
-            )
-            task_scores.update(
-                {
-                    name: score
-                    for (name, score) in zip(model_names[test_index], test_labels)
-                }
+                seed=args.seed
             )
 
+            predictions = model.predict(test_feats)
+
+            # Get the absolute error for each model so we can see where the predictions are off
+            absolute_errors = {
+                name: ae
+                for (name, ae) in zip(
+                    model_names[test_index], abs(test_labels - predictions)
+                )
+            }
+            task_absolute_errors.update(absolute_errors)
             mae = mean_absolute_error(test_labels, predictions)
             all_mae.append(mae)
 
             # get feature importances
             importances = model.feature_importances_
+            # decoded_importances = map_importances_to_categories(
+            # importances, train_feats.columns, enc, categorical_variables
+            # )
+            # breakpoint()
             feat_importances.append(importances)
 
             # get shap values
@@ -397,8 +412,7 @@ if __name__ == "__main__":
         print(importances_series)
         all_feat_importances.append(importances_series)
 
-        all_predictions.append({y_col: task_predictions})
-        all_scores.append({y_col: task_scores})
+        all_absolute_errors.append({y_col: task_absolute_errors})
 
         os.makedirs("./logs", exist_ok=True)
         with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
@@ -468,33 +482,15 @@ if __name__ == "__main__":
         index=False,
     )
 
-    # report (prediction, true score, signed error, abs error) for each model/task
-    # all_predictions is a list of {task_name: {model_name: prediction}} dicts
-    pred_dicts = [
-        list(d.values())[0] for d in all_predictions
-    ]  # list of {model : predicted score} dicts
-    task_names = [list(d.keys())[0] for d in all_predictions]
-    df_preds = pd.DataFrame.from_records(pred_dicts, index=task_names).transpose()
-    df_preds.columns = ["pred_" + col for col in df_preds.columns]
-    score_dicts = [
-        list(d.values())[0] for d in all_scores
-    ]  # list of {model : true score} dicts
-    df_scores = pd.DataFrame.from_records(score_dicts, index=task_names).transpose()
-    df_scores.columns = ["true_" + col for col in df_scores.columns]
-    df_errors = pd.merge(df_preds, df_scores, left_index=True, right_index=True)
-    df_errors.columns.append(pd.Index(["SErr_" + task for task in task_names]))
-    df_errors.columns.append(pd.Index(["AErr_" + task for task in task_names]))
-    for task in task_names:
-        df_errors["SErr_" + task] = (
-            df_errors["pred_" + task] - df_errors["true_" + task]
-        )
-        df_errors["AErr_" + task] = abs(df_errors["SErr_" + task])
-    # group columns representing same task together
-    df_errors = df_errors.reindex(
-        sorted(df_errors.columns, key=lambda x: x[4:]), axis=1
-    )
+    # report absolute errors for each model/task
+    # all_absolute_errors is a list of {task_name: {model_name: error}} dicts
+    errors_dicts = [
+        list(d.values())[0] for d in all_absolute_errors
+    ]  # list of {model : error} dicts
+    task_names = [list(d.keys())[0] for d in all_absolute_errors]
+    df_errors = pd.DataFrame.from_records(errors_dicts, index=task_names).transpose()
     df_errors.to_csv(
-        f"./performance_prediction/errors_{y_cols_joined}_{args.predictor_type}.csv"
+        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}.csv"
     )
 
     # report feature importances
