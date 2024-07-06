@@ -33,7 +33,7 @@
                 {
                     "type": "string",
                     "enum": [
-                        "manual"
+                        "manual", "auto"
                     ]
                 }
             ]
@@ -42,7 +42,7 @@
             "type": "boolean"
         },
         "library_name": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "tags": {
             "type": "array",
@@ -51,7 +51,7 @@
             }
         },
         "pipeline_tag": {
-            "type": "string"
+            "type": ["string", "null"]
         },
         "mask_token": {
             "type": [
@@ -72,7 +72,7 @@
             ]
         },
         "config": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "architectures": {
                     "type": "array",
@@ -97,10 +97,10 @@
             "additionalProperties": false
         },
         "transformers_info": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "auto_model": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "custom_class": {
                     "type": [
@@ -194,6 +194,11 @@
             "type": ["string", "null"],
             "enum": [
                 "rope",
+                "rotary",
+                "learned",
+                "sinusoidal",
+                "alibi",
+                "relative",
                 null
             ]
         },
@@ -203,6 +208,8 @@
                 "full",
                 "gqa",
                 "mqa",
+                "local",
+                "local,full",
                 null
             ]
         },
@@ -237,7 +244,9 @@
                 "swiglu",
                 "gelu",
                 "gelu_fast",
+                "gelu_new",
                 "silu",
+                "relu",
                 null
             ]
         },
@@ -269,6 +278,12 @@
         "total_params": {
             "type": ["integer", "null"],
             "minimum": 1
+        },
+        "is_instruction_tuned": {
+            "type": ["boolean", "null"]
+        },
+        "is_preference_tuned": {
+            "type": ["boolean", "null"]
         },
         "training_stages": {
             "type": "array",
@@ -374,7 +389,6 @@
                 "required": [
                     "name",
                     "data",
-                    "batch_tokens",
                     "total_tokens_billions"
                 ],
                 "additionalProperties": false

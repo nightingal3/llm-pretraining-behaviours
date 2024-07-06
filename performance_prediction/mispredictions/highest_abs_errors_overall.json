@@ -1,0 +1,14 @@
+{
+  "mae":{
+    "cerebras\/Cerebras-GPT-13B":0.0896088677,
+    "LLM360\/Amber":0.1052992628,
+    "openlm-research\/open_llama_7b_v2":0.1110725467,
+    "meta-llama\/Llama-2-70b-hf":0.118954536,
+    "meta-llama\/Meta-Llama-3-8B":0.1232860986,
+    "meta-llama\/Meta-Llama-3-8B-Instruct":0.1351859464,
+    "Qwen\/Qwen-7B":0.1793428562,
+    "01-ai\/Yi-34B":0.2048100792,
+    "AbacusResearch\/Jallabi-34B":0.210075773,
+    "meta-llama\/Meta-Llama-3-70B":0.2998536169
+  }
+}

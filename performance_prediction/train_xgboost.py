@@ -29,6 +29,7 @@ def train_regressor(
     max_depth=10,
     n_estimators=100,
     missing_val=-1,
+    seed=42,
     **kwargs,
 ):
     print(
@@ -42,10 +43,48 @@ def train_regressor(
         n_estimators=n_estimators,
         enable_categorical=True,
         missing=missing_val,
+        random_state=seed,
     )
 
     fit_regressor(reg, train_feats, train_labels)
     return reg
+
+
+def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_folds=5):
+    # Set up the model
+    xgb_model = xgb.XGBRegressor(
+        objective="reg:squarederror",
+        n_estimators=10,  # Fixed as per your requirement
+        enable_categorical=True,
+        missing=-1,
+    )
+
+    # Define the hyperparameter grid
+    param_grid = {
+        "learning_rate": [0.01, 0.1, 0.2],  # Example values
+        "max_depth": [3, 5, 7, 9],
+        "min_child_weight": [1, 2, 4],
+        "subsample": [0.6, 0.8, 1.0],
+        "colsample_bytree": [0.6, 0.8, 1.0],
+    }
+
+    # Set up GridSearchCV
+    grid_search = GridSearchCV(
+        estimator=xgb_model,
+        param_grid=param_grid,
+        scoring="neg_mean_absolute_error",  # or 'neg_mean_squared_error'
+        cv=KFold(n_splits=cv_folds, shuffle=True, random_state=42),
+        verbose=2,
+    )
+
+    # Run the grid search
+    grid_search.fit(train_feats, train_labels)
+
+    # Output the best parameters and best score
+    print("Best parameters:", grid_search.best_params_)
+    print("Best score:", grid_search.best_score_)
+
+    return grid_search.best_estimator_
 
 
 def preprocess_data(data):
@@ -130,6 +169,14 @@ def get_args():
     parser.add_argument(
         "--predictor_type", type=str, choices=["scaling_laws", "all"], default="all"
     )
+    parser.add_argument(
+        "--seed", type=int, default=42, help="Random seed for reproducibility"
+    )
+    parser.add_argument(
+        "--drop_instruction_tuned",
+        action="store_true",
+        help="Whether to drop models that are instruction tuned",
+    )
     args = parser.parse_args()
 
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
@@ -139,6 +186,27 @@ def get_args():
         raise ValueError("Please provide either model_feats or data_feats")
 
     return args
+
+
+def map_importances_to_categories(
+    feature_importances, feature_names, encoder, categorical_columns
+):
+    decoded_importances = pd.Series(0, index=feature_names)
+    for idx, feature in enumerate(feature_names):
+        if feature in categorical_columns:
+            cat_index = categorical_columns.index(feature)
+            # Map each category's importance
+            for i, cat in enumerate(encoder.categories_[cat_index]):
+                # This assumes that each category contributes to a separate element in feature_importances
+                # which might need adjustment depending on how your model handles importances
+                decoded_feature_name = f"{feature}_{cat}"
+                decoded_importances[decoded_feature_name] = feature_importances[
+                    idx * len(encoder.categories_[cat_index]) + i
+                ]
+        else:
+            decoded_importances[feature] = feature_importances[idx]
+
+    return decoded_importances.sort_values(ascending=False)
 
 
 if __name__ == "__main__":
@@ -177,17 +245,36 @@ if __name__ == "__main__":
         right_on="id",
     )
 
-    if "assigned person" in dataset.columns:
-        dataset = dataset.drop(columns=["assigned person"])
-    if "notes" in dataset.columns:
-        dataset = dataset.drop(columns=["notes"])
+    dataset["total_params"] = np.where(
+        dataset["safetensors:total"].isna(),
+        dataset["total_params"],
+        dataset["safetensors:total"],
+    )
+
+    cols_to_drop = [
+        "assigned person",
+        "notes",
+        "link to instruction/sft data",
+        "instruction/sft data",
+        "base model",
+        "pretraining data",
+        "is_preference_tuned",
+        "merged",
+        "link to pretraining data",
+    ]
+    for col in cols_to_drop:
+        if col in dataset.columns:
+            dataset = dataset.drop(columns=[col])
+
+    if args.drop_instruction_tuned:
+        dataset = dataset[dataset["is_instruction_tuned"] == False]
 
     if args.predictor_type == "scaling_laws":
         # drop all but total params and num tokens
         dataset = dataset[
             [
                 "total_params",
-                "total_summary:total_size_tokens_billions",
+                "pretraining_summary:total_tokens_billions",
                 "model_name",
                 "id",
             ]
@@ -208,22 +295,34 @@ if __name__ == "__main__":
         for var in categorical_variables:
             dataset[var] = dataset[var].astype("category")
 
-        enc = OrdinalEncoder()
-        dataset[categorical_variables] = enc.fit_transform(
-            dataset[categorical_variables]
-        )
-
     mae_per_task = []
     successful_tasks = []
     mmlu_mae = []
     all_feat_importances = []
     mmlu_shap_values = []
     mmlu_test_features = []
-    all_absolute_errors = []
+    all_predictions = []
+    all_scores = []
+
+    scaling_laws_features = [
+        "total_params",
+        "pretraining_summary:total_tokens_billions",
+    ]
 
     for y_col in y_cols:
         # drop rows with missing score values
-        dataset_copy = dataset.copy().dropna(subset=y_col).reset_index(drop=True)
+        dataset_copy = (
+            dataset.copy()
+            .dropna(subset=[y_col] + scaling_laws_features)
+            .reset_index(drop=True)
+        )
+        dataset_copy["total_params"] = pd.to_numeric(
+            dataset_copy["total_params"], errors="coerce"
+        )
+        dataset_copy["pretraining_summary:total_tokens_billions"] = pd.to_numeric(
+            dataset_copy["pretraining_summary:total_tokens_billions"], errors="coerce"
+        )
+
         if len(dataset_copy) <= max(5, args.n_estimators):
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
@@ -237,11 +336,12 @@ if __name__ == "__main__":
         labels = trainset[y_col]
 
         # cross val
-        k_folds = KFold(n_splits=5, random_state=42, shuffle=True)
+        k_folds = KFold(n_splits=5, random_state=args.seed, shuffle=True)
         test_features_list = []
         all_shap_values = []
         all_mae = []
-        task_absolute_errors = {}
+        task_predictions = {}
+        task_scores = {}
         feat_importances = []
 
         for train_index, test_index in k_folds.split(feats):
@@ -258,17 +358,22 @@ if __name__ == "__main__":
                 max_depth=args.max_depth,
                 n_estimators=args.n_estimators,
                 missing_val=args.missing_val,
+                seed=args.seed,
             )
             predictions = model.predict(test_feats)
+            task_predictions.update(
+                {
+                    name: pred
+                    for (name, pred) in zip(model_names[test_index], predictions)
+                }
+            )
+            task_scores.update(
+                {
+                    name: score
+                    for (name, score) in zip(model_names[test_index], test_labels)
+                }
+            )
 
-            # Get the absolute error for each model so we can see where the predictions are off
-            absolute_errors = {
-                name: ae
-                for (name, ae) in zip(
-                    model_names[test_index], abs(test_labels - predictions)
-                )
-            }
-            task_absolute_errors.update(absolute_errors)
             mae = mean_absolute_error(test_labels, predictions)
             all_mae.append(mae)
 
@@ -292,7 +397,8 @@ if __name__ == "__main__":
         print(importances_series)
         all_feat_importances.append(importances_series)
 
-        all_absolute_errors.append({y_col: task_absolute_errors})
+        all_predictions.append({y_col: task_predictions})
+        all_scores.append({y_col: task_scores})
 
         os.makedirs("./logs", exist_ok=True)
         with open(f"./logs/perf_pred_{y_col}_{args.predictor_type}.txt", "w") as f:
@@ -362,15 +468,33 @@ if __name__ == "__main__":
         index=False,
     )
 
-    # report absolute errors for each model/task
-    # all_absolute_errors is a list of {task_name: {model_name: error}} dicts
-    errors_dicts = [
-        list(d.values())[0] for d in all_absolute_errors
-    ]  # list of {model : error} dicts
-    task_names = [list(d.keys())[0] for d in all_absolute_errors]
-    df_errors = pd.DataFrame.from_records(errors_dicts, index=task_names).transpose()
+    # report (prediction, true score, signed error, abs error) for each model/task
+    # all_predictions is a list of {task_name: {model_name: prediction}} dicts
+    pred_dicts = [
+        list(d.values())[0] for d in all_predictions
+    ]  # list of {model : predicted score} dicts
+    task_names = [list(d.keys())[0] for d in all_predictions]
+    df_preds = pd.DataFrame.from_records(pred_dicts, index=task_names).transpose()
+    df_preds.columns = ["pred_" + col for col in df_preds.columns]
+    score_dicts = [
+        list(d.values())[0] for d in all_scores
+    ]  # list of {model : true score} dicts
+    df_scores = pd.DataFrame.from_records(score_dicts, index=task_names).transpose()
+    df_scores.columns = ["true_" + col for col in df_scores.columns]
+    df_errors = pd.merge(df_preds, df_scores, left_index=True, right_index=True)
+    df_errors.columns.append(pd.Index(["SErr_" + task for task in task_names]))
+    df_errors.columns.append(pd.Index(["AErr_" + task for task in task_names]))
+    for task in task_names:
+        df_errors["SErr_" + task] = (
+            df_errors["pred_" + task] - df_errors["true_" + task]
+        )
+        df_errors["AErr_" + task] = abs(df_errors["SErr_" + task])
+    # group columns representing same task together
+    df_errors = df_errors.reindex(
+        sorted(df_errors.columns, key=lambda x: x[4:]), axis=1
+    )
     df_errors.to_csv(
-        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}.csv"
+        f"./performance_prediction/errors_{y_cols_joined}_{args.predictor_type}.csv"
     )
 
     # report feature importances
