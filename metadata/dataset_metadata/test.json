@@ -10,6 +10,6 @@
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 250
+        "total_tokens_billions": 250
     }
 }

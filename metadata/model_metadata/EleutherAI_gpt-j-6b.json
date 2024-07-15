@@ -1,0 +1,90 @@
+{
+    "id": "EleutherAI/gpt-j-6b",
+    "author": "EleutherAI",
+    "sha": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "created_at": "2022-03-02T23:29:04+00:00",
+    "last_modified": "2023-06-21T14:33:36+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "gptj",
+        "text-generation",
+        "causal-lm",
+        "en",
+        "dataset:EleutherAI/pile",
+        "arxiv:2104.09864",
+        "arxiv:2101.00027",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "GPTJForCausalLM"
+        ],
+        "model_type": "gptj",
+        "tokenizer_config": {
+            "unk_token": {
+                "content": "<|endoftext|>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            },
+            "bos_token": {
+                "content": "<|endoftext|>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            },
+            "eos_token": {
+                "content": "<|endoftext|>",
+                "single_word": false,
+                "lstrip": false,
+                "rstrip": false,
+                "normalized": true,
+                "__type": "AddedToken"
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": null,
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": null,
+    "base_model": null,
+    "merged": null,
+    "dimension": null,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": null,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 50400
+}

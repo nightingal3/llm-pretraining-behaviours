@@ -1,0 +1,7 @@
+{
+    "model_name": "cerebras/btlm-3b-8k-base",
+    "last_updated": null,
+    "results": {
+        "harness": {}
+    }
+}

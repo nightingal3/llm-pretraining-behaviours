@@ -1,6 +1,6 @@
 {
     "model_name": "meta-llama/Llama-2-70b-hf",
-    "last_updated": "2023-12-03",
+    "last_updated": "2023-09-18",
     "results": {
         "harness": {
             "drop": {

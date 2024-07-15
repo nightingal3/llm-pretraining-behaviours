@@ -1,0 +1,117 @@
+id,BASE MODEL,dimension_x,num_heads_x,num_layers_x,mlp_ratio_x,positional_embeddings_x,attention_variant_x,biases_x,block_type_x,sequence_length_x,batch_instances_x,batch_tokens,batch_tokens.1,weight_tying_x,vocab_size_x,deep_key,total_params.1,vocab_size.1,Unnamed: 24,is_instruction_tuned_x,RLHF?,instruction tuning data,finetuning data,base model,dimension_y,num_heads_y,num_layers_y,mlp_ratio_y,positional_embeddings_y,attention_variant_y,biases_y,block_type_y,sequence_length_y,batch_instances_y,weight_tying_y,vocab_size_y,link to pretraining data,pretraining data,summary:total_size_tokens_billions,summary:percentage_web,summary:percentage_code,summary:percentage_books,summary:percentage_reference,summary:percentage_academic,summary:percentage_english,is_instruction_tuned_y,is_preference_tuned,link to instruction/sft data,instruction/sft data,sft:total_size_tokens_billions,sft:percentage_web,sft:percentage_code,sft:percentage_books,sft:percentage_reference,sft:percentage_academic,sft:percentage_english,intermediate_size,total_params,merged,layer_norm_type,activation
+AbacusResearch/Jallabi-34B,yi-34b,7168.0,56.0,60.0,2.857142857,rope,gqa,none,sequential,4096.0,-1,,-1.0,FALSE,64000.0,Lara,based on Llama,,,unknown,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,20480,34388917248,no,rmsnorm,swiglu
+allenai/OLMo-7B,olmo-7b,4096.0,32.0,32.0,5.375,rope,full,none,sequential,2048.0,2160,,4000000.0,FALSE,,DONE,,,,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,22016,,no,non-parametric,swiglu
+EleutherAI/pythia-6.9b,pythia-6.9b,4096.0,32.0,32.0,2.666667,rotary,-1,-1,-1,2048.0,1024,,2000000.0,FALSE,,Lara,,,,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10922.66803,"6,857,302,106",no,-1,gelu
+huggyllama/llama-7b,llama1-7b,4096.0,32.0,32.0,2.666667,rope,full,none,sequential,2048.0,1024,,4000000.0,FALSE,,DONE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10922.66803,6738417664,no,rmsnorm,swiglu
+jb723/cross_lingual_epoch2,llama2-7b,4096.0,32.0,32.0,2.6875,rope,gqa,none,sequential,4096.0,1024,32.0,4000000.0,FALSE,32000.0,Lara,says in Korean on the model page that it was initialized from llama2-7b-hf,,,yes,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11008,-1,no,rmsnorm,swiglu
+jb723/LLaMA2-en-ko-7B-model,llama2-7b,4096.0,32.0,32.0,2.6875,rope,gqa,none,sequential,4096.0,1024,32.0,4000000.0,FALSE,32000.0,Emmy,,,,yes,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11008,-1,no,rmsnorm,swiglu
+jisukim8873/falcon-7B-case-0,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-1,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,Lindia,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-2,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-3,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-4,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-5,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,Emmy,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-6,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-8,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+jisukim8873/falcon-7B-case-c,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,DONE,,,,yes,no,sample from Open-Orca,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+kevin009/babyllama-v0.6,tinyllama-1.1b,2048.0,32.0,22.0,2.75,rope,gqa,none,sequential,2048.0,1024,,2000000.0,FALSE,32000.0,Shreya,based on tinyllama -> which adopts llama2 architecture,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,5632,1261529088,no,rmsnorm,swiglu
+kevin009/flyingllama-v2,flyingllama-v2,1024.0,16.0,4.0,rmsnorm,-1,sequential,silu,1024,4000000.0,FALSE,-1.0,6921720704.0,,,Shreya,based on Llama,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,rope,,no,gqa,1024
+meta-llama/Llama-2-70b-chat-hf,llama2-70b,8192.0,64.0,80.0,3.5,rope,gqa,none,sequential,4096.0,1024,80.0,4000000.0,FALSE,32000.0,DONE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,28672,68976653312,no,rmsnorm,swiglu
+meta-llama/Llama-2-70b-hf,llama2-70b,8192.0,64.0,80.0,3.5,rope,gqa,none,sequential,4096.0,1024,80.0,4000000.0,FALSE,32000.0,DONE,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,28672,68976653312,no,rmsnorm,swiglu
+meta-llama/Llama-2-7b,llama2-7b,4096.0,32.0,32.0,2.6875,rope,gqa,none,sequential,4096.0,1024,32.0,4000000.0,FALSE,32000.0,,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11008,-1,no,rmsnorm,swiglu
+mistralai/Mistral-7B-v0.1,mistral-7b-1,4096.0,32.0,32.0,3.5,rope,gqa,none,sequential,4096.0,-1,,-1.0,FALSE,,DONE,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,14336,7241732096,no,rmsnorm,silu
+mistralai/Mixtral-8x7B-v0.1,mixtral-8x7B-v0.1 ,4096.0,32.0,32.0,,rope,gqa,,,32768.0,-1,,,FALSE,32000.0,DONE,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,14336,,no,rmsnorm,swiglu
+Monero/WizardLM-13b-OpenAssistant-Uncensored,llama2-13b,5120.0,40.0,40.0,2.666667,rope,gqa,none,sequential,4096.0,1024,40.0,4000000.0,FALSE,32000.0,DONE,based in kkana13b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,13653.33504,,no,rmsnorm,swiglu
+openai-community/gpt2,gpt2,768.0,12.0,12.0,-1,-1,-1,-1,-1,1024.0,-1,,-1.0,-1,,Shreya,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,137022720,no,-1,gelu
+openlm-research/open_llama_7b,openlm-7b,4096.0,32.0,32.0,2.666667,rope,full,ln_only,sequential,2048.0,2048,,4000000.0,FALSE,,DONE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10922.66803,,no,parametric,swiglu
+playdev7/theseed-v0.3,mixtral-8x7B-v0.1 ,4096.0,32.0,32.0,,rope,gqa,,,32768.0,-1,,,FALSE,32000.0,Emmy,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,14336,,no,rmsnorm,swiglu
+Qwen/Qwen-7B,qwen-7b,4096.0,32.0,32.0,5.375,rotary,-1,none,-1,8192.0,-1,32.0,-1.0,FALSE,151851.0,Shreya,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,22016,-1,no,-1,-1
+tiiuae/falcon-7b,falcon-7b,4544.0,71.0,32.0,4,rope,mqa,ln_only,parallel,2048.0,2304,32.0,4000000.0,FALSE,65024.0,,,,,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18176,6921720704,no,parametric,gelu
+cerebras/Cerebras-GPT-13B,,,,,,,,,,,,,,,,,,,,,,,,,5120.0,40.0,40.0,4.0,learned,,,,2048.0,720.0,False,50257.0,,pile,371.0,,,,,,100.0,False,False,,,,,,,,,,20480.0,13000000000,,,
+cerebras/Cerebras-GPT-6.7B,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,4.0,learned,,,,2048.0,1040.0,True,50257.0,,pile,371.0,,,,,,100.0,False,False,,,,,,,,,,16384.0,6700000000,,,
+cerebras/Cerebras-GPT-2.7B,,,,,,,,,,,,,,,,,,,,,,,,,2560.0,32.0,32.0,4.0,learned,,,,2048.0,528.0,True,50257.0,,pile,371.0,,,,,,100.0,False,False,,,,,,,,,,10240.0,2700000000,,,
+cerebras/Cerebras-GPT-1.3B,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,16.0,24.0,4.0,learned,,,,2048.0,528.0,True,50257.0,,pile,371.0,,,,,,100.0,False,False,,,,,,,,,,8192.0,1300000000,,,
+T5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeBERTa,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+mT5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/gpt-neo-125M,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/gpt-neo-1.3B,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,16.0,24.0,,,"local,full",,sequential,2048.0,,False,50257.0,,pile,380.0,,,,,,100.0,False,False,,,,,,,,,,,1300000000,,,gelu_new
+EleutherAI/gpt-neo-2.7B,,,,,,,,,,,,,,,,,,,,,,,,,2560.0,20.0,32.0,,,"local,full",,sequential,2048.0,,False,50257.0,,pile,420.0,,,,,,100.0,False,False,,,,,,,,,,,2700000000,,,gelu_new
+EleutherAI/gpt-j-6b,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,16.0,28.0,4.0,rope,full,,sequential,2048.0,,False,50400.0,,pile,402.0,,,,,,100.0,False,False,,,,,,,,,,16384.0,6053381344,,,gelu_new
+IEITYuan/Yuan2-2B-hf,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,32.0,24.0,4.0,,,,,8192.0,,True,135040.0,,,,,,,,,,True,False,,,,,,,,,,8192.0,,,,silu
+IEITYuan/Yuan2-51B-hf,,,,,,,,,,,,,,,,,,,,,,,,,8192.0,64.0,42.0,4.0,,,,,4096.0,,False,135040.0,,,,,,,,,,True,False,,,,,,,,,,32768.0,,,,silu
+facebook/xglm-564M,,,,,,,,,,,,,,,,,,,,,,,,,1024.0,16.0,24.0,4.0,,,,sequential,2048.0,2000.0,False,256008.0,,cc100-xl,500.0,,,,,,32.59,False,False,,,,,,,,,,4096.0,564000000,,,gelu
+facebook/xglm-2.9B,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,16.0,48.0,4.0,,,,sequential,2048.0,2000.0,False,256008.0,,cc100-xl,500.0,,,,,,32.59,False,False,,,,,,,,,,8192.0,2900000000,,,gelu
+facebook/xglm-4.5B,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,16.0,48.0,8.0,,,,sequential,2048.0,2000.0,False,256008.0,,cc100-xl,500.0,,,,,,32.59,False,False,,,,,,,,,,16384.0,4500000000,,,relu
+facebook/xglm-7.5B,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,4.0,,,,sequential,2048.0,2000.0,False,256008.0,,cc100-xl,500.0,,,,,,32.59,False,False,,,,,,,,,,16384.0,7500000000,,,gelu
+EleutherAI/gpt-neox-20b,,,,,,,,,,,,,,,,,,,,,,,,,6144.0,64.0,44.0,4.0,rope,full,,parallel,2048.0,1538.0,False,50432.0,,pile,,,,,,,100.0,False,False,,,,,,,,,,24576.0,20000000000,,,gelu_fast
+NinedayWang/PolyCoder-2.7B,,,,,,,,,,,,,,,,,,,,,,,,,2560.0,32.0,32.0,4.0,rope,full,,sequential,2048.0,128.0,False,50304.0,,polycoder,,,,,,,,False,False,,,,,,,,,,10240.0,2700000000,,,gelu
+Salesforce/codegen-350M-multi,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-350M-nl,,,,,,,,,,,False,51200.0,,bigquery,119.2,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-350M-mono,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-350M-multi,,,,,,,,,,,False,51200.0,,bigpython,71.7,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-2B-multi,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-2B-nl,,,,,,,,,,,False,51200.0,,bigquery,119.2,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-2B-mono,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-2B-multi,,,,,,,,,,,False,51200.0,,bigpython,71.7,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-6B-multi,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-6B-nl,,,,,,,,,,,False,51200.0,,bigquery,119.2,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-6B-mono,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-6B-multi,,,,,,,,,,,False,51200.0,,bigpython,71.7,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-16B-multi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Salesforce/codegen-16B-mono,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+facebook/opt-125m,,,,,,,,,,,,,,,,,,,,,,,,,768.0,12.0,12.0,4.0,,,,sequential,2048.0,250.0,False,50272.0,,opt,180.0,,,,,,,False,False,,,,,,,,,,3072.0,125000000,,,relu
+facebook/opt-350m,,,,,,,,,,,,,,,,,,,,,,,,,1024.0,16.0,24.0,4.0,,,,sequential,2048.0,250.0,False,50272.0,,opt,180.0,,,,,,,False,False,,,,,,,,,,4096.0,350000000,,,relu
+facebook/opt-2.7b,,,,,,,,,,,,,,,,,,,,,,,,,2560.0,32.0,32.0,4.0,,,,sequential,2048.0,500.0,False,50272.0,,opt,180.0,,,,,,,False,False,,,,,,,,,,10240.0,2700000000,,,relu
+facebook/opt-6.7b,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,4.0,,,,sequential,2048.0,500.0,False,50272.0,,opt,180.0,,,,,,,False,False,,,,,,,,,,16384.0,6700000000,,,relu
+bigscience/bloom-1b7,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,16.0,24.0,,,,,,2048.0,,False,250880.0,,bloom,350.0,,13.4,,,,31.3,False,False,,,,,,,,,,,"1,722,408,960",,,
+bigscience/bloom-7b1,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,30.0,,,,,,2048.0,,False,250880.0,,,,,,,,,,,,,,,,,,,,,,"7,069,016,064",,,
+Salesforce/codegen25-7b-multi_P,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,2.6875,,,,,2048.0,,False,51200.0,,starcoder,1400.0,,,,,,,False,False,,,,,,,,,,11008.0,,,,silu
+Salesforce/codegen25-7b-mono_P,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,2.6875,,,,,2048.0,,False,51200.0,,,,,,,,,,False,False,,,,,,,,,,11008.0,,,,silu
+Salesforce/codegen25-7b-instruct_P,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/CodeGen2.5-7B-mono,4096.0,32.0,32.0,2.6875,,,,,2048.0,,False,51200.0,,,,,,,,,,True,False,,,,,,,,,,11008.0,,,,silu
+mosaicml/mpt-7b,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,,alibi,full,none,,2048.0,,False,50432.0,,mpt,1000.0,71.9,15.9,3.0,4.0,5.2,96.49,False,False,,,,,,,,,,,7000000000,,,relu
+mosaicml/mpt-7b-instruct,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,,alibi,full,none,,2048.0,,False,50432.0,,mpt,1000.0,71.9,15.9,3.0,4.0,5.2,96.49,True,False,,,,,,,,,,,7000000000,,,relu
+mosaicml/mpt-7b-storywriter,,,,,,,,,,,,,,,,,,,,,,,,mosaicml/mpt-7b,4096.0,32.0,32.0,,alibi,full,none,,65536.0,,False,50432.0,,,,,,,,,,True,False,https://huggingface.co/datasets/the_pile_books3,books3,,,,,,,,,7000000000,,,relu
+Dampish/StellarX-4B-V0,,,,,,,,,,,,,,,,,,,,,,,,gpt-neox,2560.0,32.0,47.0,4.0,rope,,,,2048.0,,False,50432.0,,redpyjama,300.0,,,,,,,False,False,,,,,,,,,,10240.0,4000000000,,,gelu
+mosaicml/mpt-30b,,,,,,,,,,,,,,,,,,,,,,,,,7168.0,64.0,48.0,,alibi,full,none,,8192.0,,False,50432.0,,mpt,1000.0,71.9,15.9,3.0,4.0,5.2,96.49,False,False,,,,,,,,,,,30000000000,,,relu
+mosaicml/mpt-30b-instruct,,,,,,,,,,,,,,,,,,,,,,,,,7168.0,64.0,48.0,,alibi,full,none,,8192.0,,False,50432.0,,mpt,1000.0,71.9,15.9,3.0,4.0,5.2,96.49,True,False,,,,,,,,,,,30000000000,,,relu
+openlm-research/open_llama_3b_v2,,,,,,,,,,,,,,,,,,,,,,,,,3200.0,32.0,26.0,2.7,,,,,2048.0,,False,32000.0,,,,,,,,,,False,False,,,,,,,,,,8640.0,3000000000,,,silu
+openlm-research/open_llama_7b_v2,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,2.6875,,,,,2048.0,,False,32000.0,,openllama,1000.0,,,,,,,False,False,,,,,,,,,,11008.0,7000000000,,,silu
+cerebras/btlm-3b-8k-base,,,,,,,,,,,,,,,,,,,,,,,,,2560.0,32.0,32.0,2.66640625,alibi,,,,2000.0,,False,50257.0,,redpyjama,627.0,,,,,,,False,False,,,,,,,,,,6826.0,3000000000,,,swiglu
+rinna/bilingual-gpt-neox-4b,,,,,,,,,,,,,,,,,,,,,,,,,2816.0,22.0,36.0,4.0,rope,,,,2048.0,,False,65536.0,,rinna,524.0,,,,,,,False,False,,,,,,,,,,11264.0,3800000000,,,gelu
+stabilityai/japanese-stablelm-base-alpha-7b,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,,rope,,,,2048.0,,False,65536.0,,japanese-stablelm-base-alpha-7b,750.0,,,,,,,False,False,,,,,,,,,,,7000000000,,,silu
+Deci/DeciCoder-1b,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,32.0,20.0,2.875,rope,gqa,,,2048.0,768.0,False,49152.0,,starcoder,446.0,,,,,,,False,False,,,,,,,,,,5888.0,1000000000,,,silu
+Deci/DeciCoder-6B,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,2.6875,rope,gqa,,,2048.0,,False,51200.0,,starcoder,,,,,,,,,,,,,,,,,,,11008.0,6000000000,,,silu
+aisingapore/sea-lion-7b,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,,,,,,2048.0,,False,256000.0,,sea-lion,980.0,80.52,19.48,0.0,0.0,3.12,72.28,False,False,,,,,,,,,,,7000000000,,,
+aisingapore/sea-lion-7b-instruct,,,,,,,,,,,,,,,,,,,,,,,,aisingapore/sea-lion-7b,,,,,,,,,,,False,256000.0,,,,,,,,,,True,False,,,,,,,,,,,,,,
+LLM360/CrystalCoder,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,2.666503906,rope,full,,sequential,2048.0,,False,32032.0,,crystalcoder,1382.0,27.46,55.6,1.42,1.24,1.5,,False,False,,,,,,,,,,10922.0,6700000000,,parametric,swiglu
+LLM360/Amber,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,2.6875,rope,full,,sequential,2048.0,,False,32000.0,,amber,1300.0,68.51,24.91,2.29,1.9,2.38,,False,False,,,,,,,,,,11008.0,6700000000,,rmsnorm,silu
+EleutherAI/pile-t5-large,,,,,,,,,,,,,,,,,,,,,,,,,1024.0,16.0,48.0,2.75,relative,full,,sequential,512.0,2048.0,False,32128.0,,pile,2000.0,,,,,,100.0,False,False,,,,,,,,,,2816.0,783173632,,,gelu_new
+meta-llama/Meta-Llama-3-8B,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,3.5,rope,gqa,none,sequential,8192.0,,False,128256.0,,llama3,15000.0,,,,,,100.0,False,False,,,,,,,,,,14336.0,8000000000,,rmsnorm,swiglu
+meta-llama/Meta-Llama-3-8B-Instruct,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,3.5,rope,gqa,none,sequential,8192.0,,False,128256.0,,llama3,15000.0,,,,,,100.0,True,True,,,,,,,,,,14336.0,8000000000,,rmsnorm,swiglu
+meta-llama/Meta-Llama-3-8B-Instruct,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,32.0,32.0,3.5,rope,gqa,none,sequential,8192.0,,False,128256.0,,llama3,15000.0,,,,,,100.0,True,True,,,,,,,,,,14336.0,8000000000,,rmsnorm,swiglu
+meta-llama/Meta-Llama-3-70B,,,,,,,,,,,,,,,,,,,,,,,,,8192.0,64.0,80.0,3.5,rope,gqa,none,sequential,8192.0,,False,128256.0,,llama3,15000.0,,,,,,100.0,False,False,,,,,,,,,,28672.0,70000000000,,rmsnorm,swiglu
+01-ai/Yi-34B,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+CohereForAI/c4ai-command-r-plus,,,,,,,,,,,,,,,,,,,,,,,,,12288.0,96.0,64.0,2.75,rope,,,,128000.0,,,256000.0,,,,,,,,,,True,True,,,,,,,,,,33792.0,104000000000,,,
+CohereForAI/c4ai-command-r-v01,,,,,,,,,,,,,,,,,,,,,,,,,8192.0,64.0,40.0,2.75,rope,,,,131072.0,,True,256000.0,,,,,,,,,,True,True,,,,,,,,,,22528.0,35000000000,,,
+EleutherAI/gpt-neo-125m,,,,,,,,,,,,,,,,,,,,,,,,,768.0,12.0,12.0,,,"local,full",,sequential,2048.0,,False,50257.0,,pile,300.0,,,,,,100.0,False,False,,,,,,,,,,,125000000,,,gelu_new
+EleutherAI/pythia-1.4b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-1.4b-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-12b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-12b-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-14m,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-160m,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-160m-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-1b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-1b-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-2.8b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-2.8b-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-410m,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-410m-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-6.9b-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-70m,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+EleutherAI/pythia-70m-deduped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+NousResearch/Nous-Hermes-2-Yi-34B,,,,,,,,,,,,,,,,,,,,,,,,Yi-34B,,,,,,,,,,,,,,,,,,,,,,True,,,teknium/OpenHermes-2.5,,,,,,,,,,,,
+Salesforce/codegen-16B-nl,,,,,,,,,,,,,,,,,,,,,,,,,6144.0,24.0,34.0,,rope,full,,parallel,2048.0,1000.0,False,51200.0,,pile,386.3,91.82,8.18,0.0,0.0,0.0,100.0,False,False,,,,,,,,,,,16000000000,,,gelu_new
+Salesforce/codegen-16B-nl-multi,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-16B-nl,,,,,,,,,,,,,,bigquery,119.2,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-16B-nl-mono,,,,,,,,,,,,,,,,,,,,,,,,Salesforce/codegen-16B-nl-multi,,,,,,,,,,,,,,bigpython,71.7,0.0,100.0,0.0,0.0,0.0,,False,False,,,,,,,,,,,,,,
+Salesforce/codegen-2B-nl,,,,,,,,,,,,,,,,,,,,,,,,,2560.0,32.0,32.0,,rope,full,,parallel,2048.0,500.0,False,51200.0,,pile,386.3,91.82,8.18,0.0,0.0,0.0,100.0,False,False,,,,,,,,,,,2700000000,,,gelu_new
+Salesforce/codegen-350M-nl,,,,,,,,,,,,,,,,,,,,,,,,,1024.0,16.0,20.0,,rope,full,,parallel,2048.0,250.0,False,51200.0,,pile,386.3,91.82,8.18,0.0,0.0,0.0,100.0,False,False,,,,,,,,,,,350000000,,,gelu_new
+Salesforce/codegen-6B-nl,,,,,,,,,,,,,,,,,,,,,,,,,4096.0,16.0,33.0,,rope,full,,parallel,2048.0,1000.0,False,,,pile,386.3,91.82,8.18,0.0,0.0,0.0,100.0,False,False,,,,,,,,,,,6000000000,,,gelu_new
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,,,,,,,,,,,,,,,,,,,,,,,,,2048.0,32.0,22.0,2.75,rope,gqa,none,sequential,2048.0,,False,32000.0,,tinyllama,3000.0,,,,,,,True,True,,,,,,,,,,5632.0,1100000000,,rmsnorm,swiglu
+allenai/tulu-2-70b,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+meta-llama/Llama-2-13b-hf,,,,,,,,,,,,,,,,,,,,,,,,,5120.0,40.0,40.0,2.7,rope,gqa,none,sequential,4096.0,1000.0,False,32000.0,,llama2,2000.0,,,,,,100.0,False,False,,,,,,,,,,13824.0,13000000000,,rmsnorm,swiglu
