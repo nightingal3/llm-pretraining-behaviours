@@ -124,7 +124,11 @@ def parse_harness_group_results(results: str, tasks: list[str]) -> dict[str, Any
 
 
 def parse_harness_group_json_files(path: str):
-    results_file = [file for file in os.listdir(path) if (file.startswith("results_") & file.endswith(".json"))][0]
+    results_file = [
+        file
+        for file in os.listdir(path)
+        if (file.startswith("results_") & file.endswith(".json"))
+    ][0]
     timestamp = results_file.replace("results_", "").replace(".json", "")
     task_data = {}
     with open(os.path.join(path, results_file)) as file:
@@ -133,7 +137,7 @@ def parse_harness_group_json_files(path: str):
 
         group_names = []
         task_names = []
-        for group,task_list in results_dict["group_subtasks"].items():
+        for group, task_list in results_dict["group_subtasks"].items():
             group_names.append(group)
             for task in task_list:
                 if task not in group_names:
@@ -141,9 +145,9 @@ def parse_harness_group_json_files(path: str):
                     task_names.append(task)
                     scores.pop("alias")
                     task_data[task] = {
-                            **{k.split(",")[0]:v for k,v in scores.items()},
-                            "timestamp": timestamp,
-                        }
+                        **{k.split(",")[0]: v for k, v in scores.items()},
+                        "timestamp": timestamp,
+                    }
 
     return task_data
 
@@ -215,7 +219,7 @@ def integrated_eval(
     model_scores["results"]["harness"].update(new_results)
 
     if os.path.exists(json_path):
-    
+
         if overwrite:
             # overwrite the json file
             with open(json_path, "w") as f:
