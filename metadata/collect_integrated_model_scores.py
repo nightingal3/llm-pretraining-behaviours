@@ -37,7 +37,7 @@ def evaluate_with_harness(
     task_list = get_task_list_from_yaml(include_path, task_name)
 
     output_dir = os.path.join(
-        output_filepath, "logits", model_name.replace("/", "_"), task_name
+        output_filepath, "logits", model_name.replace("/", "__"), task_name
     )
     command = f"""lm_eval --model hf --model_args pretrained={model_name},dtype=float16,trust_remote_code=True --include_path {include_path} --tasks {task_name} --device {DEVICE} --batch_size auto:4 --log_samples --output {output_dir}"""
     new_results = {}
@@ -123,6 +123,35 @@ def parse_harness_group_results(results: str, tasks: list[str]) -> dict[str, Any
     return task_data
 
 
+def parse_harness_group_json_files(path: str):
+    results_file = [
+        file
+        for file in os.listdir(path)
+        if (file.startswith("results_") & file.endswith(".json"))
+    ][0]
+    timestamp = results_file.replace("results_", "").replace(".json", "")
+    task_data = {}
+    with open(os.path.join(path, results_file)) as file:
+        results_dict = json.load(file)
+        results_scores = results_dict["results"]
+
+        group_names = []
+        task_names = []
+        for group, task_list in results_dict["group_subtasks"].items():
+            group_names.append(group)
+            for task in task_list:
+                if task not in group_names:
+                    scores = results_scores[task]
+                    task_names.append(task)
+                    scores.pop("alias")
+                    task_data[task] = {
+                        **{k.split(",")[0]: v for k, v in scores.items()},
+                        "timestamp": timestamp,
+                    }
+
+    return task_data
+
+
 def parse_harness_results(
     results: str, dataset_name: str, metric: str = "acc"
 ) -> dict[str, Any]:
@@ -160,6 +189,7 @@ def integrated_eval(
     update: bool = False,
     eval_harness_only: bool = False,
     include_path: str = "./eval_task_groups",
+    results_path: str = None,
 ) -> None:
     """
     Evaluate a model on a set of tasks in eval harness + any additional tasks found in the open llm leaderboard on huggingface.
@@ -174,30 +204,44 @@ def integrated_eval(
     else:
         model_scores = {"model_name": model_name, "results": {"harness": {}}}
         json_path = os.path.join(
-            output_filename, f"results_{model_name.replace('/', '_')}.json"
+            output_filename, f"results_{model_name.replace('/', '__')}.json"
         )
 
-    # Evaluate the model on the tasks
-    new_results = evaluate_with_harness(
-        model_name, task_name, output_filename, include_path
-    )
+    if results_path:
+        new_results = parse_harness_group_json_files(results_path)
+    else:
+        # Evaluate the model on the tasks
+        new_results = evaluate_with_harness(
+            model_name, task_name, output_filename, include_path
+        )
 
     # Update the model scores with the new results
     model_scores["results"]["harness"].update(new_results)
 
-    if overwrite:
-        # overwrite the json file
-        with open(json_path, "w") as f:
-            json.dump(model_scores, f, indent=4)
-    elif update:
-        # update the json file
-        with open(json_path, "r") as f:
-            old_model_scores = json.load(f)
+    if os.path.exists(json_path):
 
-        old_model_scores["results"]["harness"].update(new_results)
+        if overwrite:
+            # overwrite the json file
+            with open(json_path, "w") as f:
+                json.dump(model_scores, f, indent=4)
+        elif update:
+            # update the json file
+            with open(json_path, "r") as f:
+                old_model_scores = json.load(f)
 
+            old_model_scores["results"]["harness"].update(new_results)
+            old_model_scores["last_updated"] = str(datetime.now())
+
+            with open(json_path, "w") as f:
+                json.dump(old_model_scores, f, indent=4)
+    else:
+        new_model_scores = {
+            "model_name": model_name,
+            "last_updated": str(datetime.now()),
+            **model_scores,
+        }
         with open(json_path, "w") as f:
-            json.dump(old_model_scores, f, indent=4)
+            json.dump(new_model_scores, f, indent=4)
 
     print(f"Scores for '{model_name}' saved to {json_path}")
 
@@ -241,6 +285,12 @@ if __name__ == "__main__":
         help="Include the task yamls in this directory as well when looking for tasks",
         default="./eval_task_groups",
     )
+    parser.add_argument(
+        "--results_path",
+        type=str,
+        help="Path to eval harness results",
+        default="./eval_task_groups",
+    )
 
     args = parser.parse_args()
 
@@ -254,4 +304,5 @@ if __name__ == "__main__":
         args.update,
         args.eval_harness_only,
         args.include_path,
+        args.results_path,
     )
