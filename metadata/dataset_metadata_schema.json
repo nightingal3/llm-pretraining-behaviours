@@ -5,7 +5,7 @@
     "domains": {
       "type": "array",
       "items": {
-        "oneOf": [
+        "anyOf": [
           {
             "type": "object",
             "properties": {
@@ -61,7 +61,7 @@
     "summary": {
       "type": "object",
       "properties": {
-        "total_size_tokens_billions": {
+        "total_tokens_billions": {
           "type": "number"
         },
         "percentage_web": {
@@ -83,8 +83,8 @@
           "type": "number"
         }
       },
-      "required": ["total_size_tokens_billions"]
+      "required": ["total_tokens_billions"]
     }
   },
-  "required": ["domains", "summary"]
+  "required": ["summary"]
 }

@@ -1,856 +1,856 @@
 {
   "arc:challenge_25-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1066419449682528
+      "01-ai/Yi-34B",
+      -0.1408738599702359
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1787855289495031
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.2475755127216768
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2758276804315352
+      -0.1536202939297152
     ]
   ],
   "gsm8k_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.2314079490866599
+      "meta-llama/Meta-Llama-3-8B-Instruct",
+      -0.3514847329749222
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.5610920767652166
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3953530069234428
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.2952049629899749
+      "Qwen/Qwen-7B",
+      -0.4078655887234156
     ]
   ],
   "hellaswag_10-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0650000573866539
+      "01-ai/Yi-34B",
+      -0.1130487249087964
     ],
     [
-      "Monero/WizardLM-13b-OpenAssistant-Uncensored",
-      -0.1275807293055898
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1469011363625122
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.2608580233637162
+      "openlm-research/open_llama_3b_v2",
+      -0.1172991304301664
     ]
   ],
   "hendrycksTest-abstract_algebra_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0495820009708404
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1832585740089416
+    ],
+    [
+      "Dampish/StellarX-4B-V0",
+      -0.1043686383962631
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.2075961327552795
-    ],
-    [
-      "jisukim8873/falcon-7B-case-0",
-      -0.0449354720115661
+      -0.1444371438026428
     ]
   ],
   "hendrycksTest-anatomy_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.2025791607521198
+      "01-ai/Yi-34B",
+      -0.224915270893662
     ],
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1746269694081059
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2490040333182723
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.3099640033863209
+      "openlm-research/open_llama_7b_v2",
+      -0.1711380046826821
     ]
   ],
   "hendrycksTest-astronomy_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.3133806994086817
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4811711876015913
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.352641717383736
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.485287501623756
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2611958447255587
+      -0.275585369059914
     ]
   ],
   "hendrycksTest-business_ethics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.256412456035614
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3950857591629028
+    ],
+    [
+      "Qwen/Qwen-7B",
+      -0.2566232311725617
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4766156637668609
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2310422766208648
+      -0.2826189661026
     ]
   ],
   "hendrycksTest-clinical_knowledge_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.2788100893767374
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3757751307397519
     ],
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1669937255247584
+      "Qwen/Qwen-7B",
+      -0.2192155177863138
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4777190414239776
+      -0.2393732693960082
     ]
   ],
   "hendrycksTest-college_biology_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3411826822492811
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4328165650367737
     ],
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.2145155999395582
+      "Qwen/Qwen-7B",
+      -0.2526586684915755
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.5555923382441202
+      -0.2918807665506998
     ]
   ],
   "hendrycksTest-college_chemistry_5-shot_acc": [
     [
+      "EleutherAI/pythia-70m",
+      -0.1439765334129333
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2176284742355346
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.2259510266780853
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.2474781858921051
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2400904095172882
+      -0.2077188897132873
     ]
   ],
   "hendrycksTest-college_computer_science_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.1963288474082947
+      "meta-llama/Meta-Llama-3-8B-Instruct",
+      -0.1453739964962005
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.305625479221344
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.309867912530899
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.158524956703186
+      -0.1386859655380249
     ]
   ],
   "hendrycksTest-college_mathematics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0796195185184479
+      "01-ai/Yi-34B",
+      -0.0884062159061431
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.0716920912265777
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1421787333488464
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.0793728971481323
+      "Dampish/StellarX-4B-V0",
+      -0.1025557374954223
     ]
   ],
   "hendrycksTest-college_medicine_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.1828000331889687
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4072842031200497
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.2759231831986091
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.4070532330543319
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.295347445962057
+      -0.2069702353436133
     ]
   ],
   "hendrycksTest-college_physics_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.1376431061356675
-    ],
-    [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1024189866056628
+      "meta-llama/Meta-Llama-3-8B",
+      -0.1247642642142725
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.281558514810076
+      -0.1345681857829
+    ],
+    [
+      "facebook/opt-125m",
+      -0.132596604379953
     ]
   ],
   "hendrycksTest-computer_security_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1599206304550171
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2475217151641845
+    ],
+    [
+      "meta-llama/Meta-Llama-3-8B",
+      -0.2263475036621094
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4140849769115448
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2356782865524291
+      -0.2663475036621093
     ]
   ],
   "hendrycksTest-conceptual_physics_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.208402391697498
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3710731715598004
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.1765991487401597
-    ],
-    [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1643372393668966
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.3868956882902916
+      -0.2194057145017258
     ]
   ],
   "hendrycksTest-econometrics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.2088066365635186
+      "meta-llama/Meta-Llama-3-8B-Instruct",
+      -0.1809246383215251
     ],
     [
-      "mistralai/Mistral-7B-v0.1",
-      -0.0913053750991821
+      "01-ai/Yi-34B",
+      -0.0961334924948843
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.2656942266121245
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2898667810256021
     ]
   ],
   "hendrycksTest-electrical_engineering_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.276504794482527
+      "01-ai/Yi-34B",
+      -0.3042188465595246
     ],
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1735689516725211
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3361754855205272
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4329474969156857
+      -0.2212858898886318
     ]
   ],
   "hendrycksTest-elementary_mathematics_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.1389186339718954
+      "01-ai/Yi-34B",
+      -0.167474477852463
     ],
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1263803133258112
+      "Qwen/Qwen-7B",
+      -0.1679834680897848
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4589020256642941
+      -0.284837747061694
     ]
   ],
   "hendrycksTest-formal_logic_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.1349802353079356
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.299347856688121
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.178507412709887
-    ],
-    [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1922261454756297
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.2625181698609912
+      -0.1213315976044487
     ]
   ],
   "hendrycksTest-global_facts_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1541395878791809
+      "01-ai/Yi-34B",
+      -0.1321255755424499
+    ],
+    [
+      "Dampish/StellarX-4B-V0",
+      -0.109185026884079
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.2004503786563873
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.0833769929409027
+      -0.1718355298042297
     ]
   ],
   "hendrycksTest-high_school_biology_5-shot_acc": [
     [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4521769852407515
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.3509382313297641
+      -0.2855786686943423
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.5336749822862685
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2105216203197356
+      -0.2879733712442458
     ]
   ],
   "hendrycksTest-high_school_chemistry_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.1747841736659627
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.355683167579726
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.2070407843942125
-    ],
-    [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1671643892826118
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.3003368693325907
+      -0.2805225229615649
     ]
   ],
   "hendrycksTest-high_school_computer_science_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.2374333810806274
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.42466144323349
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.3211474251747132
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.4408657729625702
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3542191076278687
+      -0.2388148140907288
     ]
   ],
   "hendrycksTest-high_school_european_history_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.307527224222819
+      "01-ai/Yi-34B",
+      -0.2662826100985209
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2633799831072489
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.422163394906304
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.4264398444782603
+      -0.2820516207001425
     ]
   ],
   "hendrycksTest-high_school_geography_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3915695373458091
+      "01-ai/Yi-34B",
+      -0.2607595505136432
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.387526633161487
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.5506238368424503
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.4329846733146243
+      -0.2758686867627231
     ]
   ],
   "hendrycksTest-high_school_government_and_politics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.188298346773948
+      "01-ai/Yi-34B",
+      -0.2897232579443739
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.4988492440065571
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4064335035536573
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.4462680540245431
+      "Qwen/Qwen-7B",
+      -0.2973258847399697
     ]
   ],
   "hendrycksTest-high_school_macroeconomics_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.2708146339807755
+      "01-ai/Yi-34B",
+      -0.2251857399940491
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3762648299718514
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4914094990644699
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2273286422093708
+      -0.2415512091074234
     ]
   ],
   "hendrycksTest-high_school_mathematics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0655032725245864
+      "01-ai/Yi-34B",
+      -0.0774078932073381
     ],
     [
-      "mistralai/Mistral-7B-v0.1",
-      -0.0307762724381905
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1912050739482597
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.186937904799426
+      -0.0722878043298367
     ]
   ],
   "hendrycksTest-high_school_microeconomics_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.2507508447190293
+      "01-ai/Yi-34B",
+      -0.2638656411852155
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2915165654751432
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.494491956314119
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2355348648143416
+      -0.261528453907045
     ]
   ],
   "hendrycksTest-high_school_physics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1709478446189931
+      "01-ai/Yi-34B",
+      -0.1005531833661312
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1675604941039685
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.237581956662879
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.0697075570655973
+      -0.0819524410149908
     ]
   ],
   "hendrycksTest-high_school_psychology_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.4032035454697565
+      "01-ai/Yi-34B",
+      -0.2687642217776097
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3783005927680829
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4470009307248876
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.4058002120857938
+      -0.2815305690152929
     ]
   ],
   "hendrycksTest-high_school_statistics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1286868143964696
+      "facebook/xglm-7.5B",
+      -0.123768953261552
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.3329598958845492
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2266923078784236
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.1754526683577785
+      "cerebras/Cerebras-GPT-1.3B",
+      -0.141384912861718
     ]
   ],
   "hendrycksTest-high_school_us_history_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1444134770655164
+      "01-ai/Yi-34B",
+      -0.272528330485026
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3068712774445028
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.5410688472729104
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.5016414026419321
+      -0.2822420550327675
     ]
   ],
   "hendrycksTest-high_school_world_history_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.2038679442325222
+      "01-ai/Yi-34B",
+      -0.283815152785949
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3449190751912724
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4702378286339562
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3213467567781859
+      -0.2844337893940728
     ]
   ],
   "hendrycksTest-human_aging_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1497370320050706
+      "01-ai/Yi-34B",
+      -0.217156111392205
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2791866692192352
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.3351395056653985
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3563447041361856
+      -0.1958213673044213
     ]
   ],
   "hendrycksTest-human_sexuality_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3555277171935743
+      "01-ai/Yi-34B",
+      -0.2488319682710953
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3664334853186862
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4681004481461212
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.4052844807391859
+      -0.2462610798027679
     ]
   ],
   "hendrycksTest-international_law_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3848624052095019
+      "01-ai/Yi-34B",
+      -0.2562828985127536
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2336938494493153
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.3974554671728906
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3308850024357315
+      -0.2801306976759729
     ]
   ],
   "hendrycksTest-jurisprudence_5-shot_acc": [
     [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3746371037430234
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.3556749765519742
+      -0.3130791728143338
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4579125929761816
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3767739788249686
+      -0.2893426109243322
     ]
   ],
   "hendrycksTest-logical_fallacies_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3156922874640833
+      "01-ai/Yi-34B",
+      -0.28390339583707
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4208297663671108
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4256933318691019
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.4072053280710442
+      -0.2561992096023325
     ]
   ],
   "hendrycksTest-machine_learning_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0893547407218388
+      "01-ai/Yi-34B",
+      -0.1311317256518772
     ],
     [
-      "mistralai/Mistral-7B-v0.1",
-      -0.0709116373743329
+      "meta-llama/Meta-Llama-3-70B",
+      -0.165167361497879
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.2895335342202868
+      -0.1828796352658953
     ]
   ],
   "hendrycksTest-management_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1975901659252574
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3537594479264565
+    ],
+    [
+      "Qwen/Qwen-7B",
+      -0.3032935785437093
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.5205379770797433
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.4054153411133775
+      -0.2902137683433236
     ]
   ],
   "hendrycksTest-marketing_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1855682980301033
+      "01-ai/Yi-34B",
+      -0.2712507207169492
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.4389923163968272
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3357233965498769
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.3082899390122829
+      "openlm-research/open_llama_7b_v2",
+      -0.2890137798256345
     ]
   ],
   "hendrycksTest-medical_genetics_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1422884154319763
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2790909743309021
+    ],
+    [
+      "Qwen/Qwen-7B",
+      -0.2835726058483123
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4850639545917511
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2155015492439269
+      -0.2582122230529785
     ]
   ],
   "hendrycksTest-miscellaneous_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1681790736290991
+      "01-ai/Yi-34B",
+      -0.2641911395512625
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3220834766311208
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4512444052507441
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3650252138898442
+      -0.2895241889764827
     ]
   ],
   "hendrycksTest-moral_disputes_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.2435680179926701
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4105763214861038
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.3073594384110731
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.3899788663566457
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2567761450833667
+      -0.2491282634652418
     ]
   ],
   "hendrycksTest-moral_scenarios_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0800876851521391
+      "01-ai/Yi-34B",
+      -0.1869679575858835
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.144725054835474
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.3954796279941857
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.064343075379313
+      -0.2230296815906822
     ]
   ],
   "hendrycksTest-nutrition_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.2615029134002387
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4110205989647535
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.3224504993242376
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.4275639857731613
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2565466633030012
+      -0.2549075887483709
     ]
   ],
   "hendrycksTest-philosophy_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3286651225335345
+      "01-ai/Yi-34B",
+      -0.2503801818062638
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3679295569370797
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.3984929143999167
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3125023317682015
+      -0.237427306136901
     ]
   ],
   "hendrycksTest-prehistory_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3265966405103235
+      "01-ai/Yi-34B",
+      -0.2763792173362073
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4078968564669291
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.5034693582558337
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.256885243050846
+      -0.258263181021184
     ]
   ],
   "hendrycksTest-professional_accounting_5-shot_acc": [
     [
+      "01-ai/Yi-34B",
+      -0.2075315916791875
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1749716863987294
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.1058847919000801
-    ],
-    [
-      "AbacusResearch/Jallabi-34B",
-      -0.3360171172213047
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.1361623793206317
+      -0.1572778239740547
     ]
   ],
   "hendrycksTest-professional_law_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.1250293484878042
+      "01-ai/Yi-34B",
+      -0.1651302633571501
     ],
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1237786092845215
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2187717813401054
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.2651676228257792
+      -0.1313663413736002
     ]
   ],
   "hendrycksTest-professional_medicine_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.2430755390840417
+      "01-ai/Yi-34B",
+      -0.199316143989563
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.2587481807259952
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4943859138909507
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.2059359550476074
+      -0.2188160279217887
     ]
   ],
   "hendrycksTest-professional_psychology_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.2516362871609482
+      "01-ai/Yi-34B",
+      -0.2358851175682217
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3590035352831572
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4193061179195354
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.1999061411502314
+      -0.2306530362640331
     ]
   ],
   "hendrycksTest-public_relations_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.0984572887420653
+      "01-ai/Yi-34B",
+      -0.2271728981624949
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.3384762525558471
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3017537935213609
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.3534329452297904
+      "Qwen/Qwen-7B",
+      -0.1861433966593308
     ]
   ],
   "hendrycksTest-security_studies_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.3155617623913045
+      "01-ai/Yi-34B",
+      -0.2446993326654239
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3667932147882422
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4600613192636139
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3298791848883337
+      -0.2493032292443878
     ]
   ],
   "hendrycksTest-sociology_5-shot_acc": [
     [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.4778464095509468
+    ],
+    [
       "Qwen/Qwen-7B",
-      -0.4017610122908407
+      -0.3586111535776907
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.4100538671609774
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3905951435589672
+      "openlm-research/open_llama_7b_v2",
+      -0.2626312621197297
     ]
   ],
   "hendrycksTest-us_foreign_policy_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1879861783981323
+      "01-ai/Yi-34B",
+      -0.245086932182312
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3444514894485473
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.4264028906822205
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3314954686164856
+      -0.2556389808654785
     ]
   ],
   "hendrycksTest-virology_5-shot_acc": [
     [
-      "Qwen/Qwen-7B",
-      -0.0914703787091266
+      "01-ai/Yi-34B",
+      -0.1307857848075498
     ],
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.208921348833176
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1408007101840284
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.1221961160022092
+      "openlm-research/open_llama_7b_v2",
+      -0.1115855915718767
     ]
   ],
   "hendrycksTest-world_religions_5-shot_acc": [
     [
-      "mistralai/Mixtral-8x7B-v0.1",
-      -0.1582980239600465
+      "01-ai/Yi-34B",
+      -0.2377420747489259
+    ],
+    [
+      "meta-llama/Meta-Llama-3-70B",
+      -0.3321545727071705
     ],
     [
       "AbacusResearch/Jallabi-34B",
-      -0.3974283717529118
-    ],
-    [
-      "allenai/tulu-2-dpo-70b",
-      -0.3960687676716966
+      -0.2868466161147892
     ]
   ],
   "winogrande_5-shot_acc": [
     [
-      "AbacusResearch/Jallabi-34B",
-      -0.1434045326737973
+      "01-ai/Yi-34B",
+      -0.0972574077540716
     ],
     [
-      "allenai/tulu-2-dpo-70b",
-      -0.0656499621335596
+      "meta-llama/Meta-Llama-3-70B",
+      -0.1176880853046276
     ],
     [
       "meta-llama/Llama-2-70b-hf",
-      -0.0695638483965029
+      -0.0993577665292849
     ]
   ]
 }

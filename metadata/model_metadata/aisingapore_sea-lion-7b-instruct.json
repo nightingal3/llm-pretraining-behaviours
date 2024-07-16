@@ -1,0 +1,85 @@
+{
+    "id": "aisingapore/sea-lion-7b-instruct",
+    "author": "aisingapore",
+    "sha": "566afff3d12a72de5e2a0a627d233ad940fe7dcb",
+    "created_at": "2024-02-01T06:19:29+00:00",
+    "last_modified": "2024-04-12T07:35:45+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "safetensors",
+        "mpt",
+        "text-generation",
+        "custom_code",
+        "en",
+        "zh",
+        "id",
+        "ms",
+        "tl",
+        "my",
+        "vi",
+        "th",
+        "lo",
+        "km",
+        "ta",
+        "arxiv:2309.06085",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "region:us"
+    ],
+    "pipeline_tag": "text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "MPTForCausalLM"
+        ],
+        "auto_map": {
+            "AutoConfig": "configuration_mpt.MPTConfig",
+            "AutoModelForCausalLM": "modeling_mpt.MPTForCausalLM"
+        },
+        "model_type": "mpt",
+        "tokenizer_config": {
+            "bos_token": null,
+            "eos_token": "<|endoftext|>",
+            "pad_token": "<|padding|>",
+            "unk_token": "<unk>"
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForCausalLM",
+        "custom_class": "modeling_mpt.MPTForCausalLM",
+        "pipeline_tag": "text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "BF16": 7501651968
+        },
+        "total": 7501651968
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": null,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": null,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 256000
+}
