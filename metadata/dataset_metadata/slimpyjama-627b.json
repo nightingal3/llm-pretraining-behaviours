@@ -51,6 +51,6 @@
         }
     ],
     "summary": {
-        "total_size_tokens_billions": 627
+        "total_tokens_billions": 627
     }
 }

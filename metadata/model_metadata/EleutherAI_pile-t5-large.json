@@ -1,0 +1,95 @@
+{
+    "id": "EleutherAI/pile-t5-large",
+    "author": "EleutherAI",
+    "sha": "bd11f5ec6311bc866bc31213941972cec09ec95f",
+    "created_at": "2023-09-01T07:56:07+00:00",
+    "last_modified": "2024-04-17T09:40:19+00:00",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "library_name": "transformers",
+    "tags": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "umt5",
+        "text2text-generation",
+        "t5x",
+        "encoder-decoder",
+        "en",
+        "dataset:EleutherAI/pile",
+        "arxiv:2101.00027",
+        "arxiv:2201.07311",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "pipeline_tag": "text2text-generation",
+    "mask_token": null,
+    "card_data": {},
+    "model_index": null,
+    "config": {
+        "architectures": [
+            "UMT5ForConditionalGeneration"
+        ],
+        "model_type": "umt5",
+        "tokenizer_config": {
+            "bos_token": {
+                "__type": "AddedToken",
+                "content": "<s>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            },
+            "eos_token": {
+                "__type": "AddedToken",
+                "content": "</s>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            },
+            "pad_token": null,
+            "unk_token": {
+                "__type": "AddedToken",
+                "content": "<unk>",
+                "lstrip": false,
+                "normalized": false,
+                "rstrip": false,
+                "single_word": false
+            }
+        }
+    },
+    "transformers_info": {
+        "auto_model": "AutoModelForSeq2SeqLM",
+        "custom_class": null,
+        "pipeline_tag": "text2text-generation",
+        "processor": "AutoTokenizer"
+    },
+    "safetensors": {
+        "parameters": {
+            "F32": 783173632
+        },
+        "total": 783173632
+    },
+    "base_model": null,
+    "merged": null,
+    "dimension": null,
+    "num_heads": null,
+    "num_layers": null,
+    "mlp_ratio": null,
+    "intermediate_size": null,
+    "layer_norm_type": null,
+    "positional_embedding_type": null,
+    "attention_variant": null,
+    "biases": null,
+    "block_type": null,
+    "activation": null,
+    "sequence_length": null,
+    "batch_instances": null,
+    "batch_tokens": null,
+    "weight_tying": false,
+    "total_params": null,
+    "vocab_size": 32128
+}

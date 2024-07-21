@@ -1,0 +1,57 @@
+{
+    "model_name": "EleutherAI/pythia-410M",
+    "last_updated": null,
+    "results": {
+        "harness": {
+            "anli": {
+                "x-shot": {
+                    "acc": "0.3381",
+                    "acc_stderr": "0.0148",
+                    "timestamp": "2024-04-09 12:15:59.735231"
+                }
+            },
+            "logiqa2": {
+                "x-shot": {
+                    "acc": "0.2252",
+                    "acc_stderr": "0.0105",
+                    "timestamp": "2024-04-09 12:19:54.956165"
+                }
+            },
+            "mathqa": {
+                "x-shot": {
+                    "acc": "0.2379",
+                    "acc_stderr": "0.0078",
+                    "timestamp": "2024-04-09 12:22:14.862142"
+                }
+            },
+            "asdiv": {
+                "x-shot": {
+                    "acc": "0.0017",
+                    "acc_stderr": "0.0009",
+                    "timestamp": "2024-04-09 12:22:58.501783"
+                }
+            },
+            "hellaswag": {
+                "x-shot": {
+                    "acc": "0.3372",
+                    "acc_stderr": "0.0047",
+                    "timestamp": "2024-04-09 12:32:00.321843"
+                }
+            },
+            "xnli": {
+                "x-shot": {
+                    "acc": "0.3699",
+                    "acc_stderr": "0.0318",
+                    "timestamp": "2024-04-09 13:05:39.097847"
+                }
+            },
+            "arithmetic": {
+                "x-shot": {
+                    "acc": "0.0080",
+                    "acc_stderr": "0.0086",
+                    "timestamp": "2024-04-09 13:07:52.070883"
+                }
+            }
+        }
+    }
+}
