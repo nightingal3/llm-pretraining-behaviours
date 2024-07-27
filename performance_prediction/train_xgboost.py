@@ -191,14 +191,10 @@ def get_args():
         help="Whether to drop models that are instruction tuned",
     )
     parser.add_argument(
-        "--new_task_only",
-        action="store_true",
-        help="only keep new tasks"
+        "--new_task_only", action="store_true", help="only keep new tasks"
     )
     parser.add_argument(
-        "--metric",
-        default="acc",
-        choices=["acc", "brier_score", "perplexity"]
+        "--metric", default="acc", choices=["acc", "brier_score", "perplexity"]
     )
     args = parser.parse_args()
 
