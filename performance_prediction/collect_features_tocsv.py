@@ -196,6 +196,8 @@ def main(
         if type_selection == "score":
             if dataset == "all":
                 for _, ds_value in json_data.get("results", {}).items():
+                    if "harness" in ds_value.keys():
+                        ds_value = json_data["harness"]
                     extracted_features = process_dataset_scores(
                         input_file, ds_value, n_shots
                     )
@@ -258,12 +260,17 @@ def process_dataset_scores(input_file: str, ds_value: dict, n_shots: int = -1):
         try:
             if n_shots == -1:
                 avail_shots = list(ds_value[dataset].keys())
-                for n_s in avail_shots:
-                    n_shots_tmp = n_s.split("-")[0]
-                    new_key = f"{dataset}_{n_shots_tmp}-shot"
-                    extracted_features[new_key] = ds_value[dataset][
-                        f"{n_shots_tmp}-shot"
-                    ]
+                # sometimes has x-shot subdict, sometimes not...
+                if any(["shot" in key for key in avail_shots]):
+                    for n_s in avail_shots:
+                        n_shots_tmp = n_s.split("-")[0]
+                        new_key = f"{dataset}_{n_shots_tmp}-shot"
+                        extracted_features[new_key] = ds_value[dataset][
+                            f"{n_shots_tmp}-shot"
+                        ]
+                else:
+                    new_key = f"{dataset}_x-shot_new_task_groups"
+                    extracted_features[new_key] = ds_value[dataset]
             else:
                 new_key = f"{dataset}_{n_shots}-shot"
                 extracted_features[new_key] = ds_value[dataset][f"{n_shots}-shot"]
