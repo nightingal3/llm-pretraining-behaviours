@@ -314,7 +314,6 @@ if __name__ == "__main__":
         for var in categorical_variables:
             dataset[var] = dataset[var].astype("category")
 
-
     mae_per_task = []
     successful_tasks = []
     mmlu_mae = []
@@ -392,28 +391,21 @@ if __name__ == "__main__":
 
             task_predictions.update(
                 {
-
                     name: pred
-
                     for (name, pred) in zip(model_names[test_index], predictions)
-
                 }
             )
 
             task_scores.update(
                 {
-
                     name: score
-
                     for (name, score) in zip(model_names[test_index], test_labels)
-
                 }
             )
             absolute_errors = {
                 name: ae
                 for (name, ae) in zip(
                     model_names[test_index], abs(test_labels - predictions)
-
                 )
             }
             task_absolute_errors.update(absolute_errors)
@@ -517,9 +509,7 @@ if __name__ == "__main__":
     # all_predictions is a list of {task_name: {model_name: prediction}} dicts
 
     pred_dicts = [
-
         list(d.values())[0] for d in all_predictions
-
     ]  # list of {model : predicted score} dicts
 
     task_names = [list(d.keys())[0] for d in all_predictions]
@@ -529,9 +519,7 @@ if __name__ == "__main__":
     df_preds.columns = ["pred_" + col for col in df_preds.columns]
 
     score_dicts = [
-
         list(d.values())[0] for d in all_scores
-
     ]  # list of {model : true score} dicts
 
     df_scores = pd.DataFrame.from_records(score_dicts, index=task_names).transpose()
