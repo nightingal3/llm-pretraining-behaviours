@@ -190,6 +190,12 @@ def get_args():
         action="store_true",
         help="Whether to drop models that are instruction tuned",
     )
+    parser.add_argument(
+        "--new_task_only", action="store_true", help="only keep new tasks"
+    )
+    parser.add_argument(
+        "--metric", default="acc", choices=["acc", "brier_score", "perplexity"]
+    )
     args = parser.parse_args()
 
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
@@ -296,7 +302,7 @@ if __name__ == "__main__":
         categorical_variables = []
 
     if args.y_cols == ["all"]:
-        y_cols = [t for t in list(cols_from_results) if t.endswith("_acc")]
+        y_cols = [t for t in list(cols_from_results) if t.endswith(f"_{args.metric}")]
     else:
         y_cols = args.y_cols
     if args.predictor_type == "all":
@@ -328,6 +334,8 @@ if __name__ == "__main__":
         "pretraining_summary:total_tokens_billions",
     ]
     for y_col in y_cols:
+        if args.new_task_only and "new_task_groups" not in y_col:
+            continue
         # drop rows with missing score values
         dataset_copy = (
             dataset.copy()
@@ -485,7 +493,7 @@ if __name__ == "__main__":
     # report actual preds
     y_cols_joined = ",".join(args.y_cols)
     df_results.to_csv(
-        f"./performance_prediction/summary_{y_cols_joined}_{args.predictor_type}.csv",
+        f"./performance_prediction/summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv",
         index=False,
     )
 
@@ -497,7 +505,7 @@ if __name__ == "__main__":
     task_names = [list(d.keys())[0] for d in all_absolute_errors]
     df_errors = pd.DataFrame.from_records(errors_dicts, index=task_names).transpose()
     df_errors.to_csv(
-        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}.csv"
+        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
     )
 
     # report feature importances
