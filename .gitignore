@@ -1,9 +1,11 @@
+.DS_Store
 .apex/
 .pdsh/
 *.png
 plot_train_validation_losses.py
 configs/*_uservars.tconf
 private_scripts/
+logs/
 
 __pycache__/
 .vscode
