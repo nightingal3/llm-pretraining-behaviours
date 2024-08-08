@@ -499,8 +499,9 @@ if __name__ == "__main__":
 
     # report actual preds
     y_cols_joined = ",".join(args.y_cols)
+    os.makedirs("./performance_prediction/generated_data", exist_ok=True)
     df_results.to_csv(
-        f"./performance_prediction/summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv",
+        f"./performance_prediction/generated_data/summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv",
         index=False,
     )
 
@@ -539,12 +540,11 @@ if __name__ == "__main__":
         df_errors["AErr_" + task] = abs(df_errors["SErr_" + task])
 
     # group columns representing same task together
-
     df_errors = df_errors.reindex(
         sorted(df_errors.columns, key=lambda x: x[4:]), axis=1
     )
     df_errors.to_csv(
-        f"./performance_prediction/absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
+        f"./performance_prediction/generated_data/absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
     )
 
     # report feature importances
@@ -553,7 +553,7 @@ if __name__ == "__main__":
     print("Mean Feature Importances: ")
     print(mean_importances)
     mean_importances.to_csv(
-        f"./performance_prediction/feature_importances_{y_cols_joined}_{args.predictor_type}.csv"
+        f"./performance_prediction/generated_data/feature_importances_{y_cols_joined}_{args.predictor_type}.csv"
     )
 
     if mmlu_shap_values:
