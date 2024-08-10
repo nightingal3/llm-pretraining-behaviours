@@ -547,19 +547,27 @@ if __name__ == "__main__":
         f"./performance_prediction/generated_data/absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
     )
 
-    signed_errors = df_errors.filter(regex='^SErr_')
-    absolute_errors = df_errors.filter(regex='^AErr_')
+    signed_errors = df_errors.filter(regex="^SErr_")
+    absolute_errors = df_errors.filter(regex="^AErr_")
 
     # Calculate mean signed errors and mean absolute errors
     mean_signed_errors = signed_errors.mean(axis=1).sort_values(ascending=True)
     mean_absolute_errors = absolute_errors.mean(axis=1).sort_values(ascending=True)
-    df_mean_signed_errors = pd.DataFrame({'mean_signed_error': mean_signed_errors})
-    df_mean_absolute_errors = pd.DataFrame({'mean_absolute_error': mean_absolute_errors})
+    df_mean_signed_errors = pd.DataFrame({"mean_signed_error": mean_signed_errors})
+    df_mean_absolute_errors = pd.DataFrame(
+        {"mean_absolute_error": mean_absolute_errors}
+    )
 
-    df_mean_signed_errors.to_csv(f"./performance_prediction/mispredictions/mean_signed_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv")
-    df_mean_absolute_errors.to_csv(f"./performance_prediction/mispredictions/mean_absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv")
+    df_mean_signed_errors.to_csv(
+        f"./performance_prediction/mispredictions/mean_signed_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
+    )
+    df_mean_absolute_errors.to_csv(
+        f"./performance_prediction/mispredictions/mean_absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
+    )
 
-    print(f"Mean signed errors and mean absolute errors saved to {os.getcwd()}/performance_prediction/mispredictions/mean_X_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv")
+    print(
+        f"Mean signed errors and mean absolute errors saved to {os.getcwd()}/performance_prediction/mispredictions/mean_X_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv"
+    )
 
     # report feature importances
     importance_df = pd.concat(all_feat_importances, axis=1)
