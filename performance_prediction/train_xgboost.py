@@ -59,19 +59,21 @@ def train_regressor(
             random_state=seed,
         )
     elif regressor == "linear":
-        reg = make_pipeline(SimpleImputer(strategy='mean'), LinearRegression())
+        reg = make_pipeline(SimpleImputer(strategy="mean"), LinearRegression())
     elif regressor == "svr":
-        reg = make_pipeline(SimpleImputer(strategy='mean'), SVR())
+        reg = make_pipeline(SimpleImputer(strategy="mean"), SVR())
     else:
         raise ValueError(f"Unsupported regressor: {regressor}")
 
     reg = fit_regressor(reg, train_feats, train_labels)
-    
+
     # Calculate feature importances
     if regressor == "xgboost":
         importances = reg.feature_importances_
     else:
-        perm_importance = permutation_importance(reg, train_feats, train_labels, n_repeats=10, random_state=seed)
+        perm_importance = permutation_importance(
+            reg, train_feats, train_labels, n_repeats=10, random_state=seed
+        )
         importances = perm_importance.importances_mean
 
     return reg, importances
@@ -493,7 +495,9 @@ if __name__ == "__main__":
             aggregated_test_features = pd.concat(test_features_list, ignore_index=True)
 
             plt.figure(figsize=(10, 8))
-            shap.summary_plot(aggregated_shap_values, aggregated_test_features, show=False)
+            shap.summary_plot(
+                aggregated_shap_values, aggregated_test_features, show=False
+            )
 
             os.makedirs("./performance_prediction/figures", exist_ok=True)
             plt.savefig(
