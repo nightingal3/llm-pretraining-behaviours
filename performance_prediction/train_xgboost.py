@@ -12,6 +12,11 @@ from sklearn.model_selection import (
     KFold,
     GridSearchCV,
 )
+from sklearn.linear_model import LinearRegression
+from sklearn.svm import SVR
+from sklearn.inspection import permutation_importance
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import make_pipeline
 
 import warnings
 import os
@@ -42,19 +47,36 @@ def train_regressor(
         f"Training a {regressor} model with training data of shape {train_feats.shape}."
     )
 
-    reg = xgb.XGBRegressor(
-        objective="reg:squarederror",
-        learning_rate=lr,
-        max_depth=max_depth,
-        n_estimators=n_estimators,
-        enable_categorical=True,
-        missing=missing_val,
-        nrounds=10000,
-        random_state=seed,
-    )
+    if regressor == "xgboost":
+        reg = xgb.XGBRegressor(
+            objective="reg:squarederror",
+            learning_rate=lr,
+            max_depth=max_depth,
+            n_estimators=n_estimators,
+            enable_categorical=True,
+            missing=missing_val,
+            nrounds=10000,
+            random_state=seed,
+        )
+    elif regressor == "linear":
+        reg = make_pipeline(SimpleImputer(strategy="mean"), LinearRegression())
+    elif regressor == "svr":
+        reg = make_pipeline(SimpleImputer(strategy="mean"), SVR())
+    else:
+        raise ValueError(f"Unsupported regressor: {regressor}")
 
-    fit_regressor(reg, train_feats, train_labels)
-    return reg
+    reg = fit_regressor(reg, train_feats, train_labels)
+
+    # Calculate feature importances
+    if regressor == "xgboost":
+        importances = reg.feature_importances_
+    else:
+        perm_importance = permutation_importance(
+            reg, train_feats, train_labels, n_repeats=10, random_state=seed
+        )
+        importances = perm_importance.importances_mean
+
+    return reg, importances
 
 
 def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_folds=5):
@@ -113,6 +135,13 @@ def preprocess_data(data):
 
 def get_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--regressor",
+        type=str,
+        default="xgboost",
+        choices=["xgboost", "linear", "svr"],
+        help="Type of regressor to use",
+    )
     parser.add_argument(
         "--model_feats",
         type=str,
@@ -377,9 +406,10 @@ if __name__ == "__main__":
                 labels.iloc[train_index],
                 labels.iloc[test_index],
             )
-            model = train_regressor(
+            model, importances = train_regressor(
                 train_feats,
                 train_labels,
+                regressor=args.regressor,
                 lr=args.lr,
                 max_depth=args.max_depth,
                 n_estimators=args.n_estimators,
@@ -413,20 +443,18 @@ if __name__ == "__main__":
             mae = mean_absolute_error(test_labels, predictions)
             all_mae.append(mae)
 
-            # get feature importances
-            importances = model.feature_importances_
-
             feat_importances.append(importances)
 
-            # get shap values
-            explainer = shap.Explainer(model)
-            shap_values = explainer(test_feats)
-            all_shap_values.append(shap_values.values)
-            test_features_list.append(test_feats)
+            if args.regressor == "xgboost":
+                # get shap values
+                explainer = shap.Explainer(model)
+                shap_values = explainer(test_feats)
+                all_shap_values.append(shap_values.values)
+                test_features_list.append(test_feats)
 
-            if any([y_col.startswith(t) for t in mmlu_tasks]):
-                mmlu_shap_values.append(shap_values.values)
-                mmlu_test_features.append(test_feats)
+                if any([y_col.startswith(t) for t in mmlu_tasks]):
+                    mmlu_shap_values.append(shap_values.values)
+                    mmlu_test_features.append(test_feats)
 
         mean_importances = np.mean(feat_importances, axis=0)
         importances_series = pd.Series(mean_importances, index=feats.columns)
@@ -459,19 +487,23 @@ if __name__ == "__main__":
             mmlu_mae.extend(all_mae)
 
         successful_tasks.append(y_col)
-        # Aggregating SHAP values
-        aggregated_shap_values = np.concatenate(all_shap_values, axis=0)
-        aggregated_test_features = pd.concat(test_features_list, ignore_index=True)
-
         print(f"Average Mean Squared Error across folds: {np.mean(all_mae)}")
-        plt.figure(figsize=(10, 8))
-        shap.summary_plot(aggregated_shap_values, aggregated_test_features, show=False)
 
-        os.makedirs("./performance_prediction/figures", exist_ok=True)
-        plt.savefig(
-            f"./performance_prediction/figures/aggregate_shap_{y_col}_{args.predictor_type}.png"
-        )
-        plt.gcf().clear()
+        if args.regressor == "xgboost":
+            # Aggregating SHAP values
+            aggregated_shap_values = np.concatenate(all_shap_values, axis=0)
+            aggregated_test_features = pd.concat(test_features_list, ignore_index=True)
+
+            plt.figure(figsize=(10, 8))
+            shap.summary_plot(
+                aggregated_shap_values, aggregated_test_features, show=False
+            )
+
+            os.makedirs("./performance_prediction/figures", exist_ok=True)
+            plt.savefig(
+                f"./performance_prediction/figures/aggregate_shap_{y_col}_{args.predictor_type}.png"
+            )
+            plt.gcf().clear()
 
     df_results = pd.DataFrame(
         {
