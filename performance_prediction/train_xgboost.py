@@ -146,20 +146,20 @@ def get_args():
         "--model_feats",
         type=str,
         help="The path to the CSV file containing the training features related to models.",
-        default="./performance_prediction/gathered_data/training_model_final.csv"
+        default="./performance_prediction/gathered_data/training_model_final.csv",
     )
     parser.add_argument(
         "--data_feats",
         type=str,
         help="The path to the CSV file containing the training features related to datasets.",
-        default="./performance_prediction/gathered_data/training_dataset_final_revised.csv"
+        default="./performance_prediction/gathered_data/training_dataset_final_revised.csv",
     )
     parser.add_argument(
         "--train_labels",
         type=str,
         help="The path to the CSV file containing the training labels",
         required=True,
-        default="./performance_prediction/gathered_data/training_score_final.csv"
+        default="./performance_prediction/gathered_data/training_score_final.csv",
     )
     parser.add_argument(
         "--feat_subset",
@@ -263,7 +263,7 @@ def map_importances_to_categories(
 def load_data(args: argparse.Namespace):
     # Load the CSV files into pandas DataFrames
     training_scores = pd.read_csv(args.train_labels)
-    
+
     if args.model_feats and args.data_feats:
         arch_metadata = pd.read_csv(args.model_feats)
         data_metadata = pd.read_csv(args.data_feats)
@@ -338,6 +338,7 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
 
     return dataset
 
+
 def feat_transform(dataset: pd.DataFrame):
     # transform total_params and pretraining_summary:total_tokens_billions to log scale
     dataset["total_params"] = np.log(dataset["total_params"])
@@ -345,6 +346,7 @@ def feat_transform(dataset: pd.DataFrame):
         dataset["pretraining_summary:total_tokens_billions"]
     )
     return dataset
+
 
 def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
     mae_per_task = []
@@ -506,11 +508,21 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             )
             plt.gcf().clear()
 
-    return successful_tasks, mae_per_task, mmlu_mae, all_feat_importances, mmlu_shap_values, mmlu_test_features, all_predictions, all_scores
+    return (
+        successful_tasks,
+        mae_per_task,
+        mmlu_mae,
+        all_feat_importances,
+        mmlu_shap_values,
+        mmlu_test_features,
+        all_predictions,
+        all_scores,
+    )
+
 
 def process_predictions_and_scores(all_predictions, all_scores):
     task_names = [list(d.keys())[0] for d in all_predictions]
-    
+
     def process_dict_list(dict_list, prefix):
         dicts = [list(d.values())[0] for d in dict_list]
         df = pd.DataFrame.from_records(dicts, index=task_names).transpose()
@@ -519,8 +531,9 @@ def process_predictions_and_scores(all_predictions, all_scores):
 
     df_preds = process_dict_list(all_predictions, "pred")
     df_scores = process_dict_list(all_scores, "true")
-    
+
     return pd.merge(df_preds, df_scores, left_index=True, right_index=True), task_names
+
 
 def calculate_errors(df, task_names):
     for task in task_names:
@@ -528,69 +541,124 @@ def calculate_errors(df, task_names):
         df[f"AErr_{task}"] = abs(df[f"SErr_{task}"])
     return df.reindex(sorted(df.columns, key=lambda x: x[4:]), axis=1)
 
+
 def calculate_mean_errors(df):
     signed_errors = df.filter(regex="^SErr_")
     absolute_errors = df.filter(regex="^AErr_")
     return (
-        pd.DataFrame({"mean_signed_error": signed_errors.mean(axis=1).sort_values(ascending=True)}),
-        pd.DataFrame({"mean_absolute_error": absolute_errors.mean(axis=1).sort_values(ascending=True)})
+        pd.DataFrame(
+            {
+                "mean_signed_error": signed_errors.mean(axis=1).sort_values(
+                    ascending=True
+                )
+            }
+        ),
+        pd.DataFrame(
+            {
+                "mean_absolute_error": absolute_errors.mean(axis=1).sort_values(
+                    ascending=True
+                )
+            }
+        ),
     )
 
-def plot_mmlu_shap_values(mmlu_shap_values, mmlu_test_features, y_cols_joined, predictor_type):
+
+def plot_mmlu_shap_values(
+    mmlu_shap_values, mmlu_test_features, y_cols_joined, predictor_type
+):
     if not mmlu_shap_values:
         return
-    
+
     aggregated_mmlu_shap_values = np.concatenate(mmlu_shap_values, axis=0)
     aggregated_mmlu_test_features = pd.concat(mmlu_test_features, ignore_index=True)
 
     plt.figure(figsize=(10, 8))
-    shap.summary_plot(aggregated_mmlu_shap_values, aggregated_mmlu_test_features, show=False)
+    shap.summary_plot(
+        aggregated_mmlu_shap_values, aggregated_mmlu_test_features, show=False
+    )
     plt.title("Aggregated SHAP Values for MMLU Tasks")
-    plt.savefig(f"./performance_prediction/figures/aggregate_shap_mmlu_{y_cols_joined}_{predictor_type}.png")
+    plt.savefig(
+        f"./performance_prediction/figures/aggregate_shap_mmlu_{y_cols_joined}_{predictor_type}.png"
+    )
     plt.close()
 
-def save_dataframe(df, filename, directory="./performance_prediction/generated_data", keep_index=False):
+
+def save_dataframe(
+    df, filename, directory="./performance_prediction/generated_data", keep_index=False
+):
     os.makedirs(directory, exist_ok=True)
     df.to_csv(os.path.join(directory, filename), index=keep_index)
 
-def postprocess_results(args, df_results, all_predictions, all_scores, mmlu_shap_values, mmlu_test_features, all_feat_importances):
+
+def postprocess_results(
+    args,
+    df_results,
+    all_predictions,
+    all_scores,
+    mmlu_shap_values,
+    mmlu_test_features,
+    all_feat_importances,
+):
     if len(mmlu_mae) > 0:
-        df_results = pd.concat([
-            df_results,
-            pd.DataFrame({"task": ["mmlu"], "mae": [np.mean(mmlu_mae)]})
-        ])
+        df_results = pd.concat(
+            [df_results, pd.DataFrame({"task": ["mmlu"], "mae": [np.mean(mmlu_mae)]})]
+        )
 
     y_cols_joined = ",".join(args.y_cols)
-    save_dataframe(df_results, f"summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv")
+    save_dataframe(
+        df_results,
+        f"summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv",
+    )
 
     df_errors, task_names = process_predictions_and_scores(all_predictions, all_scores)
     df_errors = calculate_errors(df_errors, task_names)
-    
-    save_dataframe(df_errors, f"absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv", keep_index=True)
+
+    save_dataframe(
+        df_errors,
+        f"absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv",
+        keep_index=True,
+    )
 
     df_mean_signed_errors, df_mean_absolute_errors = calculate_mean_errors(df_errors)
-    
-    save_dataframe(df_mean_signed_errors, f"mean_signed_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv", 
-                   directory="./performance_prediction/mispredictions", keep_index=True)
 
-    save_dataframe(df_mean_absolute_errors, f"mean_absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv", directory="./performance_prediction/mispredictions", keep_index=True)
+    save_dataframe(
+        df_mean_signed_errors,
+        f"mean_signed_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv",
+        directory="./performance_prediction/mispredictions",
+        keep_index=True,
+    )
 
-    print(f"Mean signed errors and mean absolute errors saved to {os.getcwd()}/performance_prediction/mispredictions/")
+    save_dataframe(
+        df_mean_absolute_errors,
+        f"mean_absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv",
+        directory="./performance_prediction/mispredictions",
+        keep_index=True,
+    )
+
+    print(
+        f"Mean signed errors and mean absolute errors saved to {os.getcwd()}/performance_prediction/mispredictions/"
+    )
 
     importance_df = pd.concat(all_feat_importances, axis=1)
     mean_importances = importance_df.mean(axis=1).sort_values(ascending=False)
     print("Mean Feature Importances:")
     print(mean_importances)
-    save_dataframe(mean_importances.reset_index(), f"feature_importances_{y_cols_joined}_{args.predictor_type}.csv")
+    save_dataframe(
+        mean_importances.reset_index(),
+        f"feature_importances_{y_cols_joined}_{args.predictor_type}.csv",
+    )
 
-    plot_mmlu_shap_values(mmlu_shap_values, mmlu_test_features, y_cols_joined, args.predictor_type)
+    plot_mmlu_shap_values(
+        mmlu_shap_values, mmlu_test_features, y_cols_joined, args.predictor_type
+    )
+
 
 if __name__ == "__main__":
     args = get_args()
-    
+
     # join the metadata and scores
     dataset = load_data(args)
-    
+
     with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
         mmlu_tasks = yaml.safe_load(f)["task"]
 
@@ -616,9 +684,18 @@ if __name__ == "__main__":
         # drop safetensors
         dataset = dataset.drop(columns=["safetensors:total"])
 
-    dataset = feat_transform(dataset)   
+    dataset = feat_transform(dataset)
 
-    successful_tasks, mae_per_task, mmlu_mae, all_feat_importances, mmlu_shap_values, mmlu_test_features, all_predictions, all_scores = fit_predictors_on_datasets(args, dataset)
+    (
+        successful_tasks,
+        mae_per_task,
+        mmlu_mae,
+        all_feat_importances,
+        mmlu_shap_values,
+        mmlu_test_features,
+        all_predictions,
+        all_scores,
+    ) = fit_predictors_on_datasets(args, dataset)
 
     df_results = pd.DataFrame(
         {
@@ -629,4 +706,12 @@ if __name__ == "__main__":
 
     print("Overall mae: ", df_results["mae"].mean())
 
-    postprocess_results(args, df_results, all_predictions, all_scores, mmlu_shap_values, mmlu_test_features, all_feat_importances)
+    postprocess_results(
+        args,
+        df_results,
+        all_predictions,
+        all_scores,
+        mmlu_shap_values,
+        mmlu_test_features,
+        all_feat_importances,
+    )
