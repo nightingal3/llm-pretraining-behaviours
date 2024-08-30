@@ -189,7 +189,7 @@ def get_args():
     parser.add_argument(
         "--n_estimators",
         type=int,
-        default=100,
+        default=10,
         help="The number of trees in the XGBoost model",
     )
     parser.add_argument(
@@ -336,6 +336,14 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
         for var in categorical_variables:
             dataset[var] = dataset[var].astype("category")
 
+    return dataset
+
+def feat_transform(dataset: pd.DataFrame):
+    # transform total_params and pretraining_summary:total_tokens_billions to log scale
+    dataset["total_params"] = np.log(dataset["total_params"])
+    dataset["pretraining_summary:total_tokens_billions"] = np.log(
+        dataset["pretraining_summary:total_tokens_billions"]
+    )
     return dataset
 
 def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
@@ -541,9 +549,9 @@ def plot_mmlu_shap_values(mmlu_shap_values, mmlu_test_features, y_cols_joined, p
     plt.savefig(f"./performance_prediction/figures/aggregate_shap_mmlu_{y_cols_joined}_{predictor_type}.png")
     plt.close()
 
-def save_dataframe(df, filename, directory="./performance_prediction/generated_data"):
+def save_dataframe(df, filename, directory="./performance_prediction/generated_data", keep_index=False):
     os.makedirs(directory, exist_ok=True)
-    df.to_csv(os.path.join(directory, filename), index=False)
+    df.to_csv(os.path.join(directory, filename), index=keep_index)
 
 def postprocess_results(args, df_results, all_predictions, all_scores, mmlu_shap_values, mmlu_test_features, all_feat_importances):
     if len(mmlu_mae) > 0:
@@ -553,19 +561,19 @@ def postprocess_results(args, df_results, all_predictions, all_scores, mmlu_shap
         ])
 
     y_cols_joined = ",".join(args.y_cols)
-    save_dataframe(df_results, f"summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv")
+    save_dataframe(df_results, f"summary_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv")
 
     df_errors, task_names = process_predictions_and_scores(all_predictions, all_scores)
     df_errors = calculate_errors(df_errors, task_names)
     
-    save_dataframe(df_errors, f"absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv")
+    save_dataframe(df_errors, f"absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv", keep_index=True)
 
     df_mean_signed_errors, df_mean_absolute_errors = calculate_mean_errors(df_errors)
     
-    save_dataframe(df_mean_signed_errors, f"mean_signed_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv", 
-                   directory="./performance_prediction/mispredictions")
-    save_dataframe(df_mean_absolute_errors, f"mean_absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}.csv", 
-                   directory="./performance_prediction/mispredictions")
+    save_dataframe(df_mean_signed_errors, f"mean_signed_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv", 
+                   directory="./performance_prediction/mispredictions", keep_index=True)
+
+    save_dataframe(df_mean_absolute_errors, f"mean_absolute_errors_{y_cols_joined}_{args.predictor_type}_metric_{args.metric}_{args.regressor}.csv", directory="./performance_prediction/mispredictions", keep_index=True)
 
     print(f"Mean signed errors and mean absolute errors saved to {os.getcwd()}/performance_prediction/mispredictions/")
 
@@ -580,6 +588,7 @@ def postprocess_results(args, df_results, all_predictions, all_scores, mmlu_shap
 if __name__ == "__main__":
     args = get_args()
     
+    # join the metadata and scores
     dataset = load_data(args)
     
     with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
@@ -603,6 +612,11 @@ if __name__ == "__main__":
             dataset["safetensors:total"],
         )
         dataset = dataset.drop(columns=["safetensors:total"])
+    if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
+        # drop safetensors
+        dataset = dataset.drop(columns=["safetensors:total"])
+
+    dataset = feat_transform(dataset)   
 
     successful_tasks, mae_per_task, mmlu_mae, all_feat_importances, mmlu_shap_values, mmlu_test_features, all_predictions, all_scores = fit_predictors_on_datasets(args, dataset)
 
@@ -614,3 +628,5 @@ if __name__ == "__main__":
     )
 
     print("Overall mae: ", df_results["mae"].mean())
+
+    postprocess_results(args, df_results, all_predictions, all_scores, mmlu_shap_values, mmlu_test_features, all_feat_importances)
