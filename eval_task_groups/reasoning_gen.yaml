@@ -3,5 +3,5 @@ task:
   - gsm8k
   - gsm8k_cot
   - minerva_math
-  - fld
+  - fld_default
   - arithmetic
