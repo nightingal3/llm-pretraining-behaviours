@@ -23,7 +23,10 @@ import os
 import yaml
 import shap
 import matplotlib.pyplot as plt
+from datasets import Dataset
 
+# args shared across perf prediction scripts
+from common_args import add_common_args, load_data
 
 def fit_regressor(reg, train_feats, train_labels):
     reg.fit(train_feats, train_labels)
@@ -46,6 +49,7 @@ def train_regressor(
     print(
         f"Training a {regressor} model with training data of shape {train_feats.shape}."
     )
+    train_feats = preprocess_features(train_feats)
 
     if regressor == "xgboost":
         reg = xgb.XGBRegressor(
@@ -78,32 +82,41 @@ def train_regressor(
 
     return reg, importances
 
+def preprocess_features(df):
+    # Convert object columns to numeric if possible
+    for col in df.select_dtypes(include=['object']).columns:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+
+    # Convert categorical columns to numeric codes
+    for col in df.select_dtypes(include=['category']).columns:
+        df[col] = df[col].cat.codes
+
+    # Handle missing values
+    df = df.fillna(-1)
+    
+    return df
 
 def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_folds=5):
-    # Set up the model
     xgb_model = xgb.XGBRegressor(
         objective="reg:squarederror",
-        n_estimators=10,  # Fixed as per your requirement
         enable_categorical=True,
         missing=-1,
     )
 
-    # Define the hyperparameter grid
     param_grid = {
-        "learning_rate": [0.01, 0.1, 0.2],  # Example values
-        "max_depth": [3, 5, 7, 9],
-        "min_child_weight": [1, 2, 4],
+        "learning_rate": [0.01, 0.1, 0.2],  
+        "max_depth": [3, 5, 10],
         "subsample": [0.6, 0.8, 1.0],
-        "colsample_bytree": [0.6, 0.8, 1.0],
+        "n_estimators": [10, 20, 50],
     }
 
-    # Set up GridSearchCV
     grid_search = GridSearchCV(
         estimator=xgb_model,
         param_grid=param_grid,
         scoring="neg_mean_absolute_error",  # or 'neg_mean_squared_error'
         cv=KFold(n_splits=cv_folds, shuffle=True, random_state=42),
         verbose=2,
+        n_jobs=10
     )
 
     # Run the grid search
@@ -113,7 +126,7 @@ def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_fol
     print("Best parameters:", grid_search.best_params_)
     print("Best score:", grid_search.best_score_)
 
-    return grid_search.best_estimator_
+    return grid_search.best_estimator_, grid_search.best_estimator_.feature_importances_
 
 
 def preprocess_data(data):
@@ -135,44 +148,13 @@ def preprocess_data(data):
 
 def get_args():
     parser = argparse.ArgumentParser()
+    add_common_args(parser)
     parser.add_argument(
         "--regressor",
         type=str,
         default="xgboost",
         choices=["xgboost", "linear", "svr"],
         help="Type of regressor to use",
-    )
-    parser.add_argument(
-        "--model_feats",
-        type=str,
-        help="The path to the CSV file containing the training features related to models.",
-        default="./performance_prediction/gathered_data/training_model_final.csv",
-    )
-    parser.add_argument(
-        "--data_feats",
-        type=str,
-        help="The path to the CSV file containing the training features related to datasets.",
-        default="./performance_prediction/gathered_data/training_dataset_final_revised.csv",
-    )
-    parser.add_argument(
-        "--train_labels",
-        type=str,
-        help="The path to the CSV file containing the training labels",
-        required=True,
-        default="./performance_prediction/gathered_data/training_score_final.csv",
-    )
-    parser.add_argument(
-        "--feat_subset",
-        type=str,
-        nargs="+",
-        help="Subset of features to use for training",
-    )
-    parser.add_argument(
-        "--y_cols",
-        type=str,
-        help="The name(s) of the column(s) containing the target variable(s) in the train_labels file",
-        required=True,
-        nargs="+",
     )
     parser.add_argument(
         "--lr",
@@ -218,16 +200,11 @@ def get_args():
         "--seed", type=int, default=42, help="Random seed for reproducibility"
     )
     parser.add_argument(
-        "--drop_instruction_tuned",
+        "--hyperparam_search",
         action="store_true",
-        help="Whether to drop models that are instruction tuned",
+        help="Whether to perform hyperparameter search"
     )
-    parser.add_argument(
-        "--new_task_only", action="store_true", help="only keep new tasks"
-    )
-    parser.add_argument(
-        "--metric", default="acc", choices=["acc", "brier_score", "perplexity"]
-    )
+
     args = parser.parse_args()
 
     assert args.n_estimators > 0, "Number of trees must be greater than 0"
@@ -258,32 +235,6 @@ def map_importances_to_categories(
             decoded_importances[feature] = feature_importances[idx]
 
     return decoded_importances.sort_values(ascending=False)
-
-
-def load_data(args: argparse.Namespace):
-    # Load the CSV files into pandas DataFrames
-    training_scores = pd.read_csv(args.train_labels)
-
-    if args.model_feats and args.data_feats:
-        arch_metadata = pd.read_csv(args.model_feats)
-        data_metadata = pd.read_csv(args.data_feats)
-        metadata_feats = pd.merge(arch_metadata, data_metadata, on="id")
-    elif args.model_feats:
-        metadata_feats = pd.read_csv(args.model_feats)
-    else:
-        metadata_feats = pd.read_csv(args.data_feats)
-
-    # Merge the DataFrames based on 'model_name' and 'id', dropping entries without matches
-    dataset = pd.merge(
-        training_scores,
-        metadata_feats,
-        how="inner",
-        left_on="model_name",
-        right_on="id",
-    )
-
-    return dataset
-
 
 def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
     cols_to_drop = [
@@ -341,6 +292,8 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
 
 def feat_transform(dataset: pd.DataFrame):
     # transform total_params and pretraining_summary:total_tokens_billions to log scale
+    dataset["total_params"], dataset["pretraining_summary:total_tokens_billions"] = pd.to_numeric(dataset["total_params"], errors="coerce"), pd.to_numeric(dataset["pretraining_summary:total_tokens_billions"], errors="coerce")
+
     dataset["total_params"] = np.log(dataset["total_params"])
     dataset["pretraining_summary:total_tokens_billions"] = np.log(
         dataset["pretraining_summary:total_tokens_billions"]
@@ -362,15 +315,28 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         "total_params",
         "pretraining_summary:total_tokens_billions",
     ]
+
     for y_col in y_cols:
         if args.new_task_only and "new_task_groups" not in y_col:
             continue
         # drop rows with missing score values
-        dataset_copy = (
-            dataset.copy()
-            .dropna(subset=[y_col] + scaling_laws_features)
-            .reset_index(drop=True)
-        )
+        if args.predictor_type == "scaling_laws":
+            dataset_copy = (
+                dataset.copy()
+                .dropna(subset=[y_col] + scaling_laws_features)
+                .reset_index(drop=True)
+            )
+        else:
+            if args.feat_subset:
+                dataset_copy = dataset[args.feat_subset + [y_col, "model_name", "id"]].copy().dropna().reset_index(drop=True)
+            else:
+                dataset_copy = (
+                    dataset.copy()
+                    .dropna(subset=[y_col] + scaling_laws_features)
+                    .reset_index(drop=True)
+                )
+            
+                
 
         dataset_copy["total_params"] = pd.to_numeric(
             dataset_copy["total_params"], errors="coerce"
@@ -409,17 +375,23 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
                 labels.iloc[train_index],
                 labels.iloc[test_index],
             )
-            model, importances = train_regressor(
-                train_feats,
-                train_labels,
-                regressor=args.regressor,
-                lr=args.lr,
-                max_depth=args.max_depth,
-                n_estimators=args.n_estimators,
-                missing_val=args.missing_val,
-                seed=args.seed,
-            )
+            if args.hyperparam_search:
+                model, importances = train_regressor_with_hyperparameter_search(
+                    train_feats, train_labels
+                )
+            else:
+                model, importances = train_regressor(
+                    train_feats,
+                    train_labels,
+                    regressor=args.regressor,
+                    lr=args.lr,
+                    max_depth=args.max_depth,
+                    n_estimators=args.n_estimators,
+                    missing_val=args.missing_val,
+                    seed=args.seed,
+                )
 
+            test_feats = preprocess_features(test_feats)
             predictions = model.predict(test_feats)
 
             task_predictions.update(
@@ -461,7 +433,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
 
         mean_importances = np.mean(feat_importances, axis=0)
         importances_series = pd.Series(mean_importances, index=feats.columns)
-        print("Feature Importances: ")
+        print(f"Feature Importances for task {y_col}: ")
         print(importances_series)
         all_feat_importances.append(importances_series)
 
@@ -479,7 +451,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
                 )
             )
             f.write(
-                f"=== Average Mean Absolute Error across folds: {np.mean(all_mae)} ===\n"
+                f"=== Average Mean Absolute Error across folds for task : {np.mean(all_mae)} ===\n"
             )
             f.write("=== Feature Importances: ===\n")
             f.write(importances_series.sort_values(ascending=False).to_string())
@@ -490,7 +462,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             mmlu_mae.extend(all_mae)
 
         successful_tasks.append(y_col)
-        print(f"Average Mean Squared Error across folds: {np.mean(all_mae)}")
+        print(f"Average Mean Squared Error across folds for {y_col}: {np.mean(all_mae)}")
 
         if args.regressor == "xgboost":
             # Aggregating SHAP values
@@ -507,6 +479,18 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
                 f"./performance_prediction/figures/aggregate_shap_{y_col}_{args.predictor_type}.png"
             )
             plt.gcf().clear()
+
+    sorted_tasks_by_mae = sorted(zip(successful_tasks, mae_per_task), key=lambda x: x[1])
+
+    # Print tasks sorted by MAE
+    for task, mae in sorted_tasks_by_mae:
+        print(f"Task {task} MAE: {mae}")
+    
+    best_task_mae = successful_tasks[np.argmin(mae_per_task)]
+    worst_task_mae = successful_tasks[np.argmax(mae_per_task)]
+    print(f"\nMost predictable task by MAE: {best_task_mae} with MAE: {min(mae_per_task)}")
+    print(f"Least predictable task by MAE: {worst_task_mae} with MAE: {max(mae_per_task)}")
+
 
     return (
         successful_tasks,
@@ -641,7 +625,7 @@ def postprocess_results(
 
     importance_df = pd.concat(all_feat_importances, axis=1)
     mean_importances = importance_df.mean(axis=1).sort_values(ascending=False)
-    print("Mean Feature Importances:")
+    print(f"Mean Feature Importances overall:")
     print(mean_importances)
     save_dataframe(
         mean_importances.reset_index(),
@@ -658,6 +642,9 @@ if __name__ == "__main__":
 
     # join the metadata and scores
     dataset = load_data(args)
+
+    warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
+    warnings.filterwarnings("ignore", category=UserWarning)
 
     with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
         mmlu_tasks = yaml.safe_load(f)["task"]
@@ -681,9 +668,15 @@ if __name__ == "__main__":
         )
         dataset = dataset.drop(columns=["safetensors:total"])
     if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
+        # fill in total_params with values from safetensors:total as the canonical column
+        dataset["total_params"] = np.where(
+            dataset["total_params"].isna(),
+            dataset["safetensors:total"],
+            dataset["total_params"],
+        )
         # drop safetensors
         dataset = dataset.drop(columns=["safetensors:total"])
-
+    
     dataset = feat_transform(dataset)
 
     (
