@@ -208,7 +208,7 @@ def integrated_eval(
         )
 
     if results_path:
-        new_results = parse_harness_group_json_files(results_path)
+        new_results = parse_harness_group_json_files(os.path.abspath(results_path))
     else:
         # Evaluate the model on the tasks
         new_results = evaluate_with_harness(
