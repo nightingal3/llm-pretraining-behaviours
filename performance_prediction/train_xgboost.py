@@ -577,10 +577,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             )
             plt.gcf().clear()
 
-<<<<<<< HEAD
-=======
     
->>>>>>> f3d9714 (tidy up performance prediction code)
     return (
         successful_tasks,
         mae_per_task,
@@ -760,13 +757,8 @@ def postprocess_results(
 
     importance_df = pd.concat(all_feat_importances, axis=1)
     mean_importances = importance_df.mean(axis=1).sort_values(ascending=False)
-<<<<<<< HEAD
-    print("Mean Feature Importances:")
-    print(mean_importances)
-=======
     logging.info("Mean Feature Importances overall:")
     logging.info(mean_importances)
->>>>>>> f3d9714 (tidy up performance prediction code)
     save_dataframe(
         mean_importances.reset_index(),
         f"feature_importances_{y_cols_joined}_{args.predictor_type}.csv",
