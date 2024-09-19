@@ -173,7 +173,11 @@ def train_regressor_with_hyperparameter_search(
     joblib.dump(grid_search.best_params_, params_file)
     logging.info(f"Saved best parameters for {y_col} (Fold {fold}) to {params_file}")
 
-    return grid_search.best_estimator_, grid_search.best_estimator_.feature_importances_, grid_search.best_params_
+    return (
+        grid_search.best_estimator_,
+        grid_search.best_estimator_.feature_importances_,
+        grid_search.best_params_,
+    )
 
 
 def preprocess_data(data):
@@ -359,7 +363,7 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
     test_features_list = []
     all_shap_values = []
     all_mae = []
-    all_mae_median_baseline = []  
+    all_mae_median_baseline = []
     all_predictions = []
     all_test_labels = []
     all_test_indices = []
@@ -381,14 +385,18 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
         all_mae_median_baseline.append(mae_median)
 
         if args.hyperparam_search:
-            model, importances, fold_best_params = train_regressor_with_hyperparameter_search(
+            (
+                model,
+                importances,
+                fold_best_params,
+            ) = train_regressor_with_hyperparameter_search(
                 train_feats,
                 train_labels,
                 y_col,
                 seed=args.seed,
                 force_new_search=args.force_new_search,
                 model_dir=f"./models_{args.predictor_type}",
-                fold=i
+                fold=i,
             )
             best_params_per_fold.append(fold_best_params)
         else:
@@ -715,9 +723,13 @@ def postprocess_results(
     print(f"Number of successful tasks: {len(successful_tasks)}")
     print(f"MAE per task: {mae_per_task}")
     print(f"Median baseline MAE per task: {med_baseline_mae_per_task}")
-    print(f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}")
+    print(
+        f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}"
+    )
 
-    for task, mae, baseline_mae in zip(successful_tasks, mae_per_task, med_baseline_mae_per_task):
+    for task, mae, baseline_mae in zip(
+        successful_tasks, mae_per_task, med_baseline_mae_per_task
+    ):
         print(f"Task: {task}")
         print(f"  MAE: {mae}")
         print(f"  Baseline MAE: {baseline_mae}")
