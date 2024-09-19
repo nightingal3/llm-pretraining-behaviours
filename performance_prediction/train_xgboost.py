@@ -27,6 +27,7 @@ from datasets import Dataset
 import logging
 import joblib
 
+
 # args shared across perf prediction scripts
 from common_args import add_common_args, load_data
 
@@ -57,6 +58,7 @@ def train_regressor(
     logging.debug(
         f"Training a {regressor} model with training data of shape {train_feats.shape}."
     )
+    train_feats = preprocess_features(train_feats)
 
     kwargs = {
         "objective": "reg:squarederror",
@@ -130,16 +132,13 @@ def train_regressor_with_hyperparameter_search(train_feats, train_labels, y_col,
     }
     xgb_model = get_regressor("xgboost", **kwargs)
 
-    # Define the hyperparameter grid
     param_grid = {
-        "learning_rate": [0.01, 0.1, 0.2],  # Example values
-        "max_depth": [3, 5, 7, 9],
-        "min_child_weight": [1, 2, 4],
+        "learning_rate": [0.01, 0.1, 0.2],
+        "max_depth": [3, 5, 10],
         "subsample": [0.6, 0.8, 1.0],
-        "colsample_bytree": [0.6, 0.8, 1.0],
+        "n_estimators": [10, 20, 50],
     }
 
-    # Set up GridSearchCV
     grid_search = GridSearchCV(
         estimator=xgb_model,
         param_grid=param_grid,
@@ -159,7 +158,7 @@ def train_regressor_with_hyperparameter_search(train_feats, train_labels, y_col,
     joblib.dump(grid_search.best_estimator_, model_path)
     logging.info(f"Saved best model to {model_path}")
 
-    return grid_search.best_estimator_
+    return grid_search.best_estimator_, grid_search.best_estimator_.feature_importances_
 
 
 def preprocess_data(data):
@@ -181,44 +180,13 @@ def preprocess_data(data):
 
 def get_args():
     parser = argparse.ArgumentParser()
+    add_common_args(parser)
     parser.add_argument(
         "--regressor",
         type=str,
         default="xgboost",
         choices=["xgboost", "linear", "svr"],
         help="Type of regressor to use",
-    )
-    parser.add_argument(
-        "--model_feats",
-        type=str,
-        help="The path to the CSV file containing the training features related to models.",
-        default="./performance_prediction/gathered_data/training_model_final.csv",
-    )
-    parser.add_argument(
-        "--data_feats",
-        type=str,
-        help="The path to the CSV file containing the training features related to datasets.",
-        default="./performance_prediction/gathered_data/training_dataset_final_revised.csv",
-    )
-    parser.add_argument(
-        "--train_labels",
-        type=str,
-        help="The path to the CSV file containing the training labels",
-        required=True,
-        default="./performance_prediction/gathered_data/training_score_final.csv",
-    )
-    parser.add_argument(
-        "--feat_subset",
-        type=str,
-        nargs="+",
-        help="Subset of features to use for training",
-    )
-    parser.add_argument(
-        "--y_cols",
-        type=str,
-        help="The name(s) of the column(s) containing the target variable(s) in the train_labels file",
-        required=True,
-        nargs="+",
     )
     parser.add_argument(
         "--lr",
@@ -264,15 +232,9 @@ def get_args():
         "--seed", type=int, default=42, help="Random seed for reproducibility"
     )
     parser.add_argument(
-        "--drop_instruction_tuned",
+        "--hyperparam_search",
         action="store_true",
-        help="Whether to drop models that are instruction tuned",
-    )
-    parser.add_argument(
-        "--new_task_only", action="store_true", help="only keep new tasks"
-    )
-    parser.add_argument(
-        "--metric", default="acc", choices=["acc", "brier_score", "perplexity"]
+        help="Whether to perform hyperparameter search",
     )
     parser.add_argument(
         "--force_new_search",
@@ -305,7 +267,6 @@ def get_args():
         raise ValueError("Please provide either model_feats or data_feats")
     
     return args
-
 
 def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
     cols_to_drop = [
@@ -363,6 +324,13 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
 
 def feat_transform(dataset: pd.DataFrame):
     # transform total_params and pretraining_summary:total_tokens_billions to log scale
+    (
+        dataset["total_params"],
+        dataset["pretraining_summary:total_tokens_billions"],
+    ) = pd.to_numeric(dataset["total_params"], errors="coerce"), pd.to_numeric(
+        dataset["pretraining_summary:total_tokens_billions"], errors="coerce"
+    )
+
     dataset["total_params"] = np.log(dataset["total_params"])
     dataset["pretraining_summary:total_tokens_billions"] = np.log(
         dataset["pretraining_summary:total_tokens_billions"]
@@ -455,15 +423,31 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         "total_params",
         "pretraining_summary:total_tokens_billions",
     ]
+
     for y_col in y_cols:
         if args.new_task_only and "new_task_groups" not in y_col:
             continue
         # drop rows with missing score values
-        dataset_copy = (
-            dataset.copy()
-            .dropna(subset=[y_col] + scaling_laws_features)
-            .reset_index(drop=True)
-        )
+        if args.predictor_type == "scaling_laws":
+            dataset_copy = (
+                dataset.copy()
+                .dropna(subset=[y_col] + scaling_laws_features)
+                .reset_index(drop=True)
+            )
+        else:
+            if args.feat_subset:
+                dataset_copy = (
+                    dataset[args.feat_subset + [y_col, "model_name", "id"]]
+                    .copy()
+                    .dropna()
+                    .reset_index(drop=True)
+                )
+            else:
+                dataset_copy = (
+                    dataset.copy()
+                    .dropna(subset=[y_col] + scaling_laws_features)
+                    .reset_index(drop=True)
+                )
 
         dataset_copy["total_params"] = pd.to_numeric(
             dataset_copy["total_params"], errors="coerce"
@@ -542,7 +526,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
                 )
             )
             f.write(
-                f"=== Average Mean Absolute Error across folds: {np.mean(all_mae)} ===\n"
+                f"=== Average Mean Absolute Error across folds for task : {np.mean(all_mae)} ===\n"
             )
             f.write(f"=== Median Baseline MAE across folds : {np.mean(all_mae_median_baseline)} ===\n")
             f.write("=== Feature Importances: ===\n")
@@ -576,8 +560,8 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
                 f"./performance_prediction/figures/aggregate_shap_{y_col}_{args.predictor_type}.png"
             )
             plt.gcf().clear()
-
     
+
     return (
         successful_tasks,
         mae_per_task,
@@ -759,6 +743,8 @@ def postprocess_results(
     mean_importances = importance_df.mean(axis=1).sort_values(ascending=False)
     logging.info("Mean Feature Importances overall:")
     logging.info(mean_importances)
+    
+    
     save_dataframe(
         mean_importances.reset_index(),
         f"feature_importances_{y_cols_joined}_{args.predictor_type}.csv",
@@ -777,6 +763,9 @@ if __name__ == "__main__":
 
     # join the metadata and scores
     dataset = load_data(args)
+
+    warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
+    warnings.filterwarnings("ignore", category=UserWarning)
 
     with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
         mmlu_tasks = yaml.safe_load(f)["task"]
@@ -800,6 +789,12 @@ if __name__ == "__main__":
         )
         dataset = dataset.drop(columns=["safetensors:total"])
     if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
+        # fill in total_params with values from safetensors:total as the canonical column
+        dataset["total_params"] = np.where(
+            dataset["total_params"].isna(),
+            dataset["safetensors:total"],
+            dataset["total_params"],
+        )
         # drop safetensors
         dataset = dataset.drop(columns=["safetensors:total"])
 
