@@ -122,17 +122,19 @@ def train_regressor_with_hyperparameter_search(
     seed=42,
     model_dir="./models",
     force_new_search=False,
+    fold=0,
 ):
     # NOTE: currently this only supports XGBoost, other regressors should also be added.
-    os.makedirs(model_dir, exist_ok=True)
+    params_dir = os.path.join(model_dir, "best_params")
+    os.makedirs(params_dir, exist_ok=True)
+    params_file = os.path.join(params_dir, f"best_params_{y_col}_fold_{fold}.joblib")
 
-    if not force_new_search:
-        model_path = os.path.join(model_dir, f"best_xgb_model_{y_col}_{seed}.joblib")
-
-        if os.path.exists(model_path):
-            logging.info(f"Loading previous best model from {model_path}")
-            best_model = joblib.load(model_path)
-            return best_model, best_model.feature_importances_
+    if not force_new_search and os.path.exists(params_file):
+        logging.info(f"Loading previous best parameters for {y_col} (Fold {fold})")
+        best_params = joblib.load(params_file)
+        xgb_model = get_regressor("xgboost", **best_params)
+        xgb_model.fit(train_feats, train_labels)
+        return xgb_model, xgb_model.feature_importances_, best_params
 
     logging.info(f"Performing hyperparameter search for {y_col}")
 
@@ -168,10 +170,10 @@ def train_regressor_with_hyperparameter_search(
     logging.debug("Best parameters:", grid_search.best_params_)
     logging.debug("Best score:", grid_search.best_score_)
 
-    joblib.dump(grid_search.best_estimator_, model_path)
-    logging.info(f"Saved best model to {model_path}")
+    joblib.dump(grid_search.best_params_, params_file)
+    logging.info(f"Saved best parameters for {y_col} (Fold {fold}) to {params_file}")
 
-    return grid_search.best_estimator_, grid_search.best_estimator_.feature_importances_
+    return grid_search.best_estimator_, grid_search.best_estimator_.feature_importances_, grid_search.best_params_
 
 
 def preprocess_data(data):
@@ -357,14 +359,15 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
     test_features_list = []
     all_shap_values = []
     all_mae = []
-    all_mae_median_baseline = []  # To store MAE for median baseline
+    all_mae_median_baseline = []  
     all_predictions = []
     all_test_labels = []
     all_test_indices = []
+    best_params_per_fold = []
 
     feat_importances = []
 
-    for train_index, test_index in k_folds.split(feats):
+    for i, (train_index, test_index) in enumerate(k_folds.split(feats)):
         # train model, get MAEs
         train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
         train_labels, test_labels = (
@@ -378,14 +381,16 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
         all_mae_median_baseline.append(mae_median)
 
         if args.hyperparam_search:
-            model, importances = train_regressor_with_hyperparameter_search(
+            model, importances, fold_best_params = train_regressor_with_hyperparameter_search(
                 train_feats,
                 train_labels,
                 y_col,
                 seed=args.seed,
                 force_new_search=args.force_new_search,
                 model_dir=f"./models_{args.predictor_type}",
+                fold=i
             )
+            best_params_per_fold.append(fold_best_params)
         else:
             model, importances = train_regressor(
                 train_feats,
@@ -426,6 +431,7 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
         "feat_importances": feat_importances,
         "all_shap_values": all_shap_values,
         "test_features_list": test_features_list,
+        "best_params_per_fold": best_params_per_fold,
     }
 
 
@@ -705,7 +711,22 @@ def postprocess_results(
         )
         # delete all the individual arithmetic tasks
         df_results = df_results[~df_results["task"].str.startswith("arithmetic_")]
+    print("Debug information:")
+    print(f"Number of successful tasks: {len(successful_tasks)}")
+    print(f"MAE per task: {mae_per_task}")
+    print(f"Median baseline MAE per task: {med_baseline_mae_per_task}")
+    print(f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}")
 
+    for task, mae, baseline_mae in zip(successful_tasks, mae_per_task, med_baseline_mae_per_task):
+        print(f"Task: {task}")
+        print(f"  MAE: {mae}")
+        print(f"  Baseline MAE: {baseline_mae}")
+        print(f"  Improvement: {baseline_mae - mae}")
+
+    print("\nDataFrame contents:")
+    print(df_results)
+    breakpoint()
+    # TODO: wtf why is mae so much smaller now? Take a look...
     sorted_tasks_by_mae = sorted(
         zip(successful_tasks, mae_per_task), key=lambda x: x[1]
     )
@@ -845,8 +866,8 @@ if __name__ == "__main__":
         }
     )
 
-    logging.info("Overall mae: ", df_results["mae"].mean())
-    logging.info("Median baseline mae: ", np.mean(med_baseline_mae_per_task))
+    logging.info(f"Overall mae: {df_results['mae'].mean()}")
+    logging.info(f"Median baseline mae: {np.mean(med_baseline_mae_per_task)}")
     postprocess_results(
         args,
         df_results,
