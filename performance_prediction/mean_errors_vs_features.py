@@ -11,9 +11,78 @@ def calculate_r_squared(x, y):
     model = sm.OLS(y, x_with_const)
     results = model.fit()
     return results.rsquared
+def plot_line_plot(sel_data: pd.DataFrame, data_feat: str, apply_log: bool = False, threshold: float = None) -> alt.Chart:
+    if apply_log:
+        sel_data[data_feat] = pd.to_numeric(sel_data[data_feat], errors='coerce')
+        sel_data[data_feat] = np.log(sel_data[data_feat])
+        data_feat_label = f"log({data_feat})"
 
+        min_val, max_val = sel_data[data_feat].min(), sel_data[data_feat].max()
+    else:
+        data_feat_label = data_feat
 
-def plot_line_plot(sel_data: pd.DataFrame, data_feat: str, apply_log: bool = False) -> alt.Chart:
+        min_val, max_val = sel_data[data_feat].min(), sel_data[data_feat].max()
+
+    # Calculate R^2 value
+    try:
+        r_squared = calculate_r_squared(sel_data[data_feat], sel_data["mean_signed_error"])
+    except ValueError:
+        sel_data[data_feat] = sel_data[data_feat].astype(float)
+        r_squared = calculate_r_squared(sel_data[data_feat], sel_data["mean_signed_error"])
+    r_squared_text = f"R^2 = {r_squared:.2f}"
+
+    # Create the points chart
+    points = (
+        alt.Chart(sel_data)
+        .mark_point()
+        .encode(
+            x=alt.X(data_feat, title=data_feat_label, scale=alt.Scale(domain=(min_val, max_val))),
+            y=alt.Y("mean_signed_error", title="Mean Error"),
+        )
+    )
+
+    # Create the text labels only if a threshold is specified
+    if threshold is not None:
+        # Filter data for labels based on the threshold
+        label_data = sel_data[(sel_data["mean_signed_error"].abs() > threshold)]
+        labels = (
+            alt.Chart(label_data)
+            .mark_text(align='left', dx=5, dy=-5, fontSize=8)  # Smaller font size
+            .encode(
+                x=alt.X(data_feat, title=data_feat_label, scale=alt.Scale(domain=(min_val, max_val))),
+                y=alt.Y("mean_signed_error", title="Mean Error"),
+                text='id'  # Use the 'id' column for the text
+            )
+        )
+        final_chart = points + labels  # Add labels only if there are labels to add
+    else:
+        final_chart = points
+
+    regression_line = (
+        alt.Chart(sel_data)
+        .transform_regression(data_feat, "mean_signed_error", method="linear")
+        .mark_line(color="red")
+        .encode(
+            x=alt.X(data_feat, title=data_feat),
+            y=alt.Y("mean_signed_error", title="Mean Error"),
+        )
+    )
+
+    r_squared_label = (
+        alt.Chart({"values": [{}]})
+        .mark_text(align="left", dx=5, dy=-5)
+        .encode(
+            x=alt.value(5),  # pixel offset from left
+            y=alt.value(5),  # pixel offset from top
+            text=alt.value(r_squared_text),
+        )
+    )
+
+    final_chart = final_chart + regression_line + r_squared_label
+
+    return final_chart
+
+def _plot_line_plot(sel_data: pd.DataFrame, data_feat: str, apply_log: bool = False) -> alt.Chart:
     if apply_log:
         sel_data[data_feat] = pd.to_numeric(sel_data[data_feat], errors='coerce')
         sel_data[data_feat] = np.log(sel_data[data_feat])
@@ -40,7 +109,7 @@ def plot_line_plot(sel_data: pd.DataFrame, data_feat: str, apply_log: bool = Fal
         .encode(
             x=alt.X(data_feat, title=data_feat_label, scale=alt.Scale(domain=(min_val, max_val))),
             y=alt.Y("mean_signed_error", title="Mean Error"),
-            tooltip="id",
+            text="id"
         )
     )
 
@@ -132,8 +201,8 @@ if __name__ == "__main__":
             sel_data = sel_data.rename(columns={data_feat: data_feat.replace(":", "_")})
             data_feat = data_feat.replace(":", "_")
 
-        print(apply_log)
-        final_chart = plot_line_plot(sel_data, data_feat, apply_log =apply_log)
+        threshold = None if not apply_log else 0.05
+        final_chart = plot_line_plot(sel_data, data_feat, apply_log =apply_log, threshold=threshold)
 
         # save
         Path("./performance_prediction/figures/mean_errs_revised/data").mkdir(
@@ -163,9 +232,10 @@ if __name__ == "__main__":
         if len(sel_data) <= 10:
             print(f"Skipping {model_feat} due to insufficient data")
             continue
-
+        
+        threshold = None if not apply_log else 0.05
         if model_feat in numeric_features:
-            plot = plot_line_plot(sel_data, model_feat, apply_log=apply_log)
+            plot = plot_line_plot(sel_data, model_feat, apply_log=apply_log, threshold=threshold)
 
         else:
             # Create the boxplot
