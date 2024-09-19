@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 from pathlib import Path
 import statsmodels.api as sm
-
+import numpy as np
 
 def calculate_r_squared(x, y):
     """Fit a regression model and calculate R squared"""
@@ -13,9 +13,24 @@ def calculate_r_squared(x, y):
     return results.rsquared
 
 
-def plot_line_plot(sel_data: pd.DataFrame, data_feat: str) -> alt.Chart:
+def plot_line_plot(sel_data: pd.DataFrame, data_feat: str, apply_log: bool = False) -> alt.Chart:
+    if apply_log:
+        sel_data[data_feat] = pd.to_numeric(sel_data[data_feat], errors='coerce')
+        sel_data[data_feat] = np.log(sel_data[data_feat])
+        data_feat_label = f"log({data_feat})"
+
+        min_val, max_val = sel_data[data_feat].min(), sel_data[data_feat].max()
+    else:
+        data_feat_label = data_feat
+
+        min_val, max_val = sel_data[data_feat].min(), sel_data[data_feat].max()
+
     # Calculate R^2 value
-    r_squared = calculate_r_squared(sel_data[data_feat], sel_data["mean_error"])
+    try:
+        r_squared = calculate_r_squared(sel_data[data_feat], sel_data["mean_signed_error"])
+    except ValueError:
+        sel_data[data_feat] = sel_data[data_feat].astype(float)
+        r_squared = calculate_r_squared(sel_data[data_feat], sel_data["mean_signed_error"])
     r_squared_text = f"R^2 = {r_squared:.2f}"
 
     # Create the chart
@@ -23,19 +38,19 @@ def plot_line_plot(sel_data: pd.DataFrame, data_feat: str) -> alt.Chart:
         alt.Chart(sel_data)
         .mark_point()
         .encode(
-            x=alt.X(data_feat, title=data_feat),
-            y=alt.Y("mean_error", title="Mean Error"),
+            x=alt.X(data_feat, title=data_feat_label, scale=alt.Scale(domain=(min_val, max_val))),
+            y=alt.Y("mean_signed_error", title="Mean Error"),
             tooltip="id",
         )
     )
 
     regression_line = (
         alt.Chart(sel_data)
-        .transform_regression(data_feat, "mean_error", method="linear")
+        .transform_regression(data_feat, "mean_signed_error", method="linear")
         .mark_line(color="red")
         .encode(
             x=alt.X(data_feat, title=data_feat),
-            y=alt.Y("mean_error", title="Mean Error"),
+            y=alt.Y("mean_signed_error", title="Mean Error"),
         )
     )
 
@@ -61,7 +76,7 @@ def plot_box_plot(sel_data: pd.DataFrame, model_feat: str) -> alt.Chart:
         .mark_boxplot()
         .encode(
             x=alt.X(model_feat, title=model_feat),
-            y=alt.Y("mean_error", title="Mean Error"),
+            y=alt.Y("mean_signed_error", title="Mean Error"),
             color=alt.Color(model_feat, legend=None),
         )
     )
@@ -74,7 +89,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--features_csv",
         type=str,
-        default="./performance_prediction/mispredictions/mean_errors.csv",
+        default="./performance_prediction/mispredictions/mean_signed_errors_all_all_metric_acc_xgboost.csv",
     )
     parser.add_argument(
         "--data_feats_csv",
@@ -105,24 +120,27 @@ if __name__ == "__main__":
     for data_feat in data_feats:
         print(data_feat)
 
-        sel_data = df_2.copy(deep=True)[[data_feat, "mean_error", "id"]]
+        sel_data = df_2.copy(deep=True)[[data_feat, "mean_signed_error", "id"]]
         sel_data = sel_data.dropna()
 
         if len(sel_data) <= 10:
             print(f"Skipping {data_feat} due to insufficient data")
             continue
+
+        apply_log = (data_feat == "pretraining_summary:total_tokens_billions" or data_feat == "total_params")
         if ":" in data_feat:  # rename the col to avoid clash with altair
             sel_data = sel_data.rename(columns={data_feat: data_feat.replace(":", "_")})
             data_feat = data_feat.replace(":", "_")
 
-        final_chart = plot_line_plot(sel_data, data_feat)
+        print(apply_log)
+        final_chart = plot_line_plot(sel_data, data_feat, apply_log =apply_log)
 
         # save
-        Path("./performance_prediction/figures/mean_errs/data").mkdir(
+        Path("./performance_prediction/figures/mean_errs_revised/data").mkdir(
             parents=True, exist_ok=True
         )
         final_chart.save(
-            f"./performance_prediction/figures/mean_errs/data/mean_error_vs_{data_feat}.pdf"
+            f"./performance_prediction/figures/mean_errs_revised/data/mean_error_vs_{data_feat}.pdf"
         )
 
     numeric_features = [
@@ -134,7 +152,8 @@ if __name__ == "__main__":
         "total_params",
     ]
     for model_feat in model_feats:
-        sel_data = df_2[[model_feat, "mean_error", "id"]].dropna()
+        sel_data = df_2[[model_feat, "mean_signed_error", "id"]].dropna()
+        apply_log = (model_feat == "total_params")
         if ":" in model_feat:  # rename the col to avoid clash with Altair
             sel_data = sel_data.rename(
                 columns={model_feat: model_feat.replace(":", "_")}
@@ -146,16 +165,16 @@ if __name__ == "__main__":
             continue
 
         if model_feat in numeric_features:
-            plot = plot_line_plot(sel_data, model_feat)
+            plot = plot_line_plot(sel_data, model_feat, apply_log=apply_log)
 
         else:
             # Create the boxplot
             plot = plot_box_plot(sel_data, model_feat)
 
         # Save the chart
-        Path("./performance_prediction/figures/mean_errs/model").mkdir(
+        Path("./performance_prediction/figures/mean_errs_revised/model").mkdir(
             parents=True, exist_ok=True
         )
         plot.save(
-            f"./performance_prediction/figures/mean_errs/model/mean_error_vs_{model_feat}.pdf"
+            f"./performance_prediction/figures/mean_errs_revised/model/mean_error_vs_{model_feat}.pdf"
         )
