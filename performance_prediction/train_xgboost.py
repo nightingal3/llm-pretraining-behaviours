@@ -24,14 +24,25 @@ import yaml
 import shap
 import matplotlib.pyplot as plt
 from datasets import Dataset
+import logging
+import joblib
+
 
 # args shared across perf prediction scripts
 from common_args import add_common_args, load_data
+
+# min samples to consider a task
+MIN_SAMPLES = 10
 
 
 def fit_regressor(reg, train_feats, train_labels):
     reg.fit(train_feats, train_labels)
     return reg
+
+
+def median_baseline(train_labels, test_feats):
+    median = train_labels.median()
+    return np.full(len(test_feats), median)
 
 
 def train_regressor(
@@ -47,28 +58,21 @@ def train_regressor(
     seed=42,
     **kwargs,
 ):
-    print(
+    logging.debug(
         f"Training a {regressor} model with training data of shape {train_feats.shape}."
     )
     train_feats = preprocess_features(train_feats)
 
-    if regressor == "xgboost":
-        reg = xgb.XGBRegressor(
-            objective="reg:squarederror",
-            learning_rate=lr,
-            max_depth=max_depth,
-            n_estimators=n_estimators,
-            enable_categorical=True,
-            missing=missing_val,
-            nrounds=10000,
-            random_state=seed,
-        )
-    elif regressor == "linear":
-        reg = make_pipeline(SimpleImputer(strategy="mean"), LinearRegression())
-    elif regressor == "svr":
-        reg = make_pipeline(SimpleImputer(strategy="mean"), SVR())
-    else:
-        raise ValueError(f"Unsupported regressor: {regressor}")
+    kwargs = {
+        "objective": "reg:squarederror",
+        "learning_rate": lr,
+        "max_depth": max_depth,
+        "n_estimators": n_estimators,
+        "enable_categorical": True,
+        "missing": missing_val,
+        "random_state": seed,
+    }
+    reg = get_regressor(regressor, **kwargs)
 
     reg = fit_regressor(reg, train_feats, train_labels)
 
@@ -99,12 +103,49 @@ def preprocess_features(df):
     return df
 
 
-def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_folds=5):
-    xgb_model = xgb.XGBRegressor(
-        objective="reg:squarederror",
-        enable_categorical=True,
-        missing=-1,
-    )
+def get_regressor(regressor_name, **params):
+    if regressor_name == "xgboost":
+        return xgb.XGBRegressor(**params)
+    elif regressor_name == "linear":
+        return make_pipeline(SimpleImputer(strategy="mean"), LinearRegression())
+    elif regressor_name == "svr":
+        return make_pipeline(SimpleImputer(strategy="mean"), SVR())
+    else:
+        raise ValueError(f"Unsupported regressor: {regressor_name}")
+
+
+def train_regressor_with_hyperparameter_search(
+    train_feats,
+    train_labels,
+    y_col,
+    cv_folds=5,
+    seed=42,
+    model_dir="./models",
+    force_new_search=False,
+    fold=0,
+):
+    # NOTE: currently this only supports XGBoost, other regressors should also be added.
+    params_dir = os.path.join(model_dir, "best_params")
+    os.makedirs(params_dir, exist_ok=True)
+    params_file = os.path.join(params_dir, f"best_params_{y_col}_fold_{fold}.joblib")
+
+    if not force_new_search and os.path.exists(params_file):
+        logging.info(f"Loading previous best parameters for {y_col} (Fold {fold})")
+        best_params = joblib.load(params_file)
+        xgb_model = get_regressor("xgboost", **best_params)
+        xgb_model.fit(train_feats, train_labels)
+        return xgb_model, xgb_model.feature_importances_, best_params
+
+    logging.info(f"Performing hyperparameter search for {y_col}")
+
+    train_feats = preprocess_features(train_feats)
+
+    kwargs = {
+        "objective": "reg:squarederror",
+        "enable_categorical": True,
+        "missing": -1,
+    }
+    xgb_model = get_regressor("xgboost", **kwargs)
 
     param_grid = {
         "learning_rate": [0.01, 0.1, 0.2],
@@ -117,8 +158,8 @@ def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_fol
         estimator=xgb_model,
         param_grid=param_grid,
         scoring="neg_mean_absolute_error",  # or 'neg_mean_squared_error'
-        cv=KFold(n_splits=cv_folds, shuffle=True, random_state=42),
-        verbose=2,
+        cv=KFold(n_splits=cv_folds, shuffle=True, random_state=seed),
+        verbose=1,
         n_jobs=10,
     )
 
@@ -126,10 +167,17 @@ def train_regressor_with_hyperparameter_search(train_feats, train_labels, cv_fol
     grid_search.fit(train_feats, train_labels)
 
     # Output the best parameters and best score
-    print("Best parameters:", grid_search.best_params_)
-    print("Best score:", grid_search.best_score_)
+    logging.debug("Best parameters:", grid_search.best_params_)
+    logging.debug("Best score:", grid_search.best_score_)
 
-    return grid_search.best_estimator_, grid_search.best_estimator_.feature_importances_
+    joblib.dump(grid_search.best_params_, params_file)
+    logging.info(f"Saved best parameters for {y_col} (Fold {fold}) to {params_file}")
+
+    return (
+        grid_search.best_estimator_,
+        grid_search.best_estimator_.feature_importances_,
+        grid_search.best_params_,
+    )
 
 
 def preprocess_data(data):
@@ -207,6 +255,27 @@ def get_args():
         action="store_true",
         help="Whether to perform hyperparameter search",
     )
+    parser.add_argument(
+        "--force_new_search",
+        action="store_true",
+        help="Whether to force a new hyperparameter search rather than using the best loaded model",
+    )
+    parser.add_argument(
+        "--merge_mmlu",
+        action="store_true",
+        help="merge all the mmlu tasks into one when computing results",
+    )
+    parser.add_argument(
+        "--merge_arithmetic",
+        action="store_true",
+        help="merge all the arithmetic tasks into one when computing results",
+    )
+    parser.add_argument(
+        "--log_level",
+        type=str,
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+    )
 
     args = parser.parse_args()
 
@@ -217,27 +286,6 @@ def get_args():
         raise ValueError("Please provide either model_feats or data_feats")
 
     return args
-
-
-def map_importances_to_categories(
-    feature_importances, feature_names, encoder, categorical_columns
-):
-    decoded_importances = pd.Series(0, index=feature_names)
-    for idx, feature in enumerate(feature_names):
-        if feature in categorical_columns:
-            cat_index = categorical_columns.index(feature)
-            # Map each category's importance
-            for i, cat in enumerate(encoder.categories_[cat_index]):
-                # This assumes that each category contributes to a separate element in feature_importances
-                # which might need adjustment depending on how your model handles importances
-                decoded_feature_name = f"{feature}_{cat}"
-                decoded_importances[decoded_feature_name] = feature_importances[
-                    idx * len(encoder.categories_[cat_index]) + i
-                ]
-        else:
-            decoded_importances[feature] = feature_importances[idx]
-
-    return decoded_importances.sort_values(ascending=False)
 
 
 def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
@@ -268,7 +316,7 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
 
     if args.drop_instruction_tuned:
         dataset = dataset[dataset["is_instruction_tuned"] != True]
-
+        dataset = dataset.drop(columns=["is_instruction_tuned"])
     if args.predictor_type == "scaling_laws":
         # drop all but total params and num tokens
         dataset = dataset[
@@ -310,8 +358,94 @@ def feat_transform(dataset: pd.DataFrame):
     return dataset
 
 
+def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
+    k_folds = KFold(n_splits=n_folds, random_state=args.seed, shuffle=True)
+    test_features_list = []
+    all_shap_values = []
+    all_mae = []
+    all_mae_median_baseline = []
+    all_predictions = []
+    all_test_labels = []
+    all_test_indices = []
+    best_params_per_fold = []
+
+    feat_importances = []
+
+    for i, (train_index, test_index) in enumerate(k_folds.split(feats)):
+        # train model, get MAEs
+        train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
+        train_labels, test_labels = (
+            labels.iloc[train_index],
+            labels.iloc[test_index],
+        )
+
+        # Calculate median baseline predictions
+        median_predictions = median_baseline(train_labels, test_feats)
+        mae_median = mean_absolute_error(test_labels, median_predictions)
+        all_mae_median_baseline.append(mae_median)
+
+        if args.hyperparam_search:
+            (
+                model,
+                importances,
+                fold_best_params,
+            ) = train_regressor_with_hyperparameter_search(
+                train_feats,
+                train_labels,
+                y_col,
+                seed=args.seed,
+                force_new_search=args.force_new_search,
+                model_dir=f"./models_{args.predictor_type}",
+                fold=i,
+            )
+            best_params_per_fold.append(fold_best_params)
+        else:
+            model, importances = train_regressor(
+                train_feats,
+                train_labels,
+                regressor=args.regressor,
+                lr=args.lr,
+                max_depth=args.max_depth,
+                n_estimators=args.n_estimators,
+                missing_val=args.missing_val,
+                seed=args.seed,
+            )
+
+        test_feats = preprocess_features(test_feats)
+        predictions = model.predict(test_feats)
+
+        all_predictions.append(predictions)
+        all_test_labels.append(list(test_labels))
+        all_test_indices.append(list(test_index))
+
+        mae = mean_absolute_error(test_labels, predictions)
+        all_mae.append(mae)
+        feat_importances.append(importances)
+
+        if args.regressor == "xgboost":
+            # get shap values
+            explainer = shap.Explainer(model)
+            shap_values = explainer(test_feats)
+            all_shap_values.append(shap_values.values)
+            test_features_list.append(test_feats)
+
+    # NOTE: each item in each of these lists represents results from a fold
+    return {
+        "all_mae": all_mae,
+        "all_mae_median_baseline": all_mae_median_baseline,
+        "all_predictions": all_predictions,
+        "all_test_labels": all_test_labels,
+        "all_test_indices": all_test_indices,
+        "feat_importances": feat_importances,
+        "all_shap_values": all_shap_values,
+        "test_features_list": test_features_list,
+        "best_params_per_fold": best_params_per_fold,
+    }
+
+
 def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
     mae_per_task = []
+    med_baseline_mae_per_task = []  # To store MAE for median baseline
     successful_tasks = []
     mmlu_mae = []
     all_feat_importances = []
@@ -357,7 +491,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             dataset_copy["pretraining_summary:total_tokens_billions"], errors="coerce"
         )
 
-        if len(dataset_copy) <= max(5, args.n_estimators):
+        if len(dataset_copy) <= MIN_SAMPLES:
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
             )
@@ -370,83 +504,46 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         labels = trainset[y_col]
 
         # cross val
-        k_folds = KFold(n_splits=5, random_state=args.seed, shuffle=True)
-        test_features_list = []
-        all_shap_values = []
-        all_mae = []
+        cross_val_results = cross_validation(feats, labels, y_col, args)
+        all_mae = cross_val_results["all_mae"]
+        all_mae_median_baseline = cross_val_results["all_mae_median_baseline"]
+        all_predictions_in_fold = cross_val_results["all_predictions"]
+        all_test_labels = cross_val_results["all_test_labels"]
+        all_test_indices = cross_val_results["all_test_indices"]
+        feat_importances = cross_val_results["feat_importances"]
+        all_shap_values = cross_val_results["all_shap_values"]
+        test_features_list = cross_val_results["test_features_list"]
+
+        # Reconstruct errors using test indices
         task_predictions = {}
         task_scores = {}
         task_absolute_errors = {}
 
-        feat_importances = []
-
-        for train_index, test_index in k_folds.split(feats):
-            # train model, get MAEs
-            train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
-            train_labels, test_labels = (
-                labels.iloc[train_index],
-                labels.iloc[test_index],
-            )
-            if args.hyperparam_search:
-                model, importances = train_regressor_with_hyperparameter_search(
-                    train_feats, train_labels
-                )
-            else:
-                model, importances = train_regressor(
-                    train_feats,
-                    train_labels,
-                    regressor=args.regressor,
-                    lr=args.lr,
-                    max_depth=args.max_depth,
-                    n_estimators=args.n_estimators,
-                    missing_val=args.missing_val,
-                    seed=args.seed,
-                )
-
-            test_feats = preprocess_features(test_feats)
-            predictions = model.predict(test_feats)
-
+        for test_idx, test_preds, test_labels in zip(
+            all_test_indices, all_predictions_in_fold, all_test_labels
+        ):
             task_predictions.update(
-                {
-                    name: pred
-                    for (name, pred) in zip(model_names[test_index], predictions)
-                }
+                {name: pred for (name, pred) in zip(model_names[test_idx], test_preds)}
             )
 
             task_scores.update(
                 {
                     name: score
-                    for (name, score) in zip(model_names[test_index], test_labels)
+                    for (name, score) in zip(model_names[test_idx], test_labels)
                 }
             )
             absolute_errors = {
                 name: ae
                 for (name, ae) in zip(
-                    model_names[test_index], abs(test_labels - predictions)
+                    model_names[test_idx], abs(test_labels - test_preds)
                 )
             }
             task_absolute_errors.update(absolute_errors)
 
-            mae = mean_absolute_error(test_labels, predictions)
-            all_mae.append(mae)
-
-            feat_importances.append(importances)
-
-            if args.regressor == "xgboost":
-                # get shap values
-                explainer = shap.Explainer(model)
-                shap_values = explainer(test_feats)
-                all_shap_values.append(shap_values.values)
-                test_features_list.append(test_feats)
-
-                if any([y_col.startswith(t) for t in mmlu_tasks]):
-                    mmlu_shap_values.append(shap_values.values)
-                    mmlu_test_features.append(test_feats)
-
         mean_importances = np.mean(feat_importances, axis=0)
         importances_series = pd.Series(mean_importances, index=feats.columns)
-        print(f"Feature Importances for task {y_col}: ")
-        print(importances_series)
+        logging.debug(f"Feature Importances for task {y_col}: ")
+        logging.debug(importances_series)
         all_feat_importances.append(importances_series)
 
         all_predictions.append({y_col: task_predictions})
@@ -465,17 +562,25 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             f.write(
                 f"=== Average Mean Absolute Error across folds for task : {np.mean(all_mae)} ===\n"
             )
+            f.write(
+                f"=== Median Baseline MAE across folds : {np.mean(all_mae_median_baseline)} ===\n"
+            )
             f.write("=== Feature Importances: ===\n")
             f.write(importances_series.sort_values(ascending=False).to_string())
             f.write("\n")
 
         mae_per_task.append(np.mean(all_mae))
+        med_baseline_mae_per_task.append(np.mean(all_mae_median_baseline))
+
         if any([y_col.startswith(t) for t in mmlu_tasks]):
             mmlu_mae.extend(all_mae)
 
         successful_tasks.append(y_col)
-        print(
-            f"Average Mean Squared Error across folds for {y_col}: {np.mean(all_mae)}"
+        logging.info(
+            f"Average Mean Absolute Error across folds for {y_col}: {np.mean(all_mae)}"
+        )
+        logging.info(
+            f"Median Baseline MAE across folds for {y_col}: {np.mean(all_mae_median_baseline)}"
         )
 
         if args.regressor == "xgboost":
@@ -494,26 +599,10 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             )
             plt.gcf().clear()
 
-    sorted_tasks_by_mae = sorted(
-        zip(successful_tasks, mae_per_task), key=lambda x: x[1]
-    )
-
-    # Print tasks sorted by MAE
-    for task, mae in sorted_tasks_by_mae:
-        print(f"Task {task} MAE: {mae}")
-
-    best_task_mae = successful_tasks[np.argmin(mae_per_task)]
-    worst_task_mae = successful_tasks[np.argmax(mae_per_task)]
-    print(
-        f"\nMost predictable task by MAE: {best_task_mae} with MAE: {min(mae_per_task)}"
-    )
-    print(
-        f"Least predictable task by MAE: {worst_task_mae} with MAE: {max(mae_per_task)}"
-    )
-
     return (
         successful_tasks,
         mae_per_task,
+        med_baseline_mae_per_task,
         mmlu_mae,
         all_feat_importances,
         mmlu_shap_values,
@@ -602,10 +691,75 @@ def postprocess_results(
     mmlu_test_features,
     all_feat_importances,
 ):
-    if len(mmlu_mae) > 0:
+    if len(mmlu_mae) > 0 and args.merge_mmlu:
         df_results = pd.concat(
             [df_results, pd.DataFrame({"task": ["mmlu"], "mae": [np.mean(mmlu_mae)]})]
         )
+        # delete all the individual mmlu tasks
+        df_results = df_results[~df_results["task"].str.startswith("hendrycksTest-")]
+    if args.merge_arithmetic:
+        df_results = pd.concat(
+            [
+                df_results,
+                pd.DataFrame(
+                    {
+                        "task": ["arithmetic"],
+                        "mae": [
+                            np.mean(
+                                [
+                                    mae
+                                    for task, mae in zip(successful_tasks, mae_per_task)
+                                    if "arithmetic" in task
+                                ]
+                            )
+                        ],
+                    }
+                ),
+            ]
+        )
+        # delete all the individual arithmetic tasks
+        df_results = df_results[~df_results["task"].str.startswith("arithmetic_")]
+    print("Debug information:")
+    print(f"Number of successful tasks: {len(successful_tasks)}")
+    print(f"MAE per task: {mae_per_task}")
+    print(f"Median baseline MAE per task: {med_baseline_mae_per_task}")
+    print(
+        f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}"
+    )
+
+    for task, mae, baseline_mae in zip(
+        successful_tasks, mae_per_task, med_baseline_mae_per_task
+    ):
+        print(f"Task: {task}")
+        print(f"  MAE: {mae}")
+        print(f"  Baseline MAE: {baseline_mae}")
+        print(f"  Improvement: {baseline_mae - mae}")
+
+    print("\nDataFrame contents:")
+    print(df_results)
+    breakpoint()
+    # TODO: wtf why is mae so much smaller now? Take a look...
+    sorted_tasks_by_mae = sorted(
+        zip(successful_tasks, mae_per_task), key=lambda x: x[1]
+    )
+
+    # Print tasks sorted by MAE
+    for task, mae in sorted_tasks_by_mae:
+        logging.info(f"Task {task} MAE: {mae}")
+
+    best_task_mae = successful_tasks[np.argmin(mae_per_task)]
+    worst_task_mae = successful_tasks[np.argmax(mae_per_task)]
+    logging.info(
+        f"\nMost predictable task by MAE: {best_task_mae} with MAE: {min(mae_per_task)}"
+    )
+    logging.info(
+        f"Least predictable task by MAE: {worst_task_mae} with MAE: {max(mae_per_task)}"
+    )
+
+    logging.info(f"Overall Median Baseline MAE: {np.mean(med_baseline_mae_per_task)}")
+
+    # print average MAE
+    logging.info(f"Average MAE: {df_results['mae'].mean()}")
 
     y_cols_joined = ",".join(args.y_cols)
     save_dataframe(
@@ -638,14 +792,15 @@ def postprocess_results(
         keep_index=True,
     )
 
-    print(
+    logging.info(
         f"Mean signed errors and mean absolute errors saved to {os.getcwd()}/performance_prediction/mispredictions/"
     )
 
     importance_df = pd.concat(all_feat_importances, axis=1)
     mean_importances = importance_df.mean(axis=1).sort_values(ascending=False)
-    print(f"Mean Feature Importances overall:")
-    print(mean_importances)
+    logging.info("Mean Feature Importances overall:")
+    logging.info(mean_importances)
+
     save_dataframe(
         mean_importances.reset_index(),
         f"feature_importances_{y_cols_joined}_{args.predictor_type}.csv",
@@ -658,6 +813,9 @@ def postprocess_results(
 
 if __name__ == "__main__":
     args = get_args()
+
+    # set the logger
+    logging.basicConfig(level=args.log_level)
 
     # join the metadata and scores
     dataset = load_data(args)
@@ -701,6 +859,7 @@ if __name__ == "__main__":
     (
         successful_tasks,
         mae_per_task,
+        med_baseline_mae_per_task,
         mmlu_mae,
         all_feat_importances,
         mmlu_shap_values,
@@ -713,11 +872,14 @@ if __name__ == "__main__":
         {
             "task": successful_tasks,
             "mae": mae_per_task,
+            "improvement_over_baseline": list(
+                np.array(mae_per_task) - np.array(med_baseline_mae_per_task)
+            ),
         }
     )
 
-    print("Overall mae: ", df_results["mae"].mean())
-
+    logging.info(f"Overall mae: {df_results['mae'].mean()}")
+    logging.info(f"Median baseline mae: {np.mean(med_baseline_mae_per_task)}")
     postprocess_results(
         args,
         df_results,
