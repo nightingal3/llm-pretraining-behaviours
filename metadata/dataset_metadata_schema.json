@@ -39,8 +39,34 @@
               "features": {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "char_len",
+                    "num_tokens",
+                    "unique_tokens",
+                    "const_parse_const_tree_depth",
+                    "const_parse_num_words_input",
+                    "const_parse_num_sentences_input",
+                    "dep_parse_dist_to_head",
+                    "dep_parse_dist_to_root",
+                    "code_features_dist_to_def",
+                    "code_features_tree_depth"
+                  ]
                 }
+              },
+              "feature_statistics": {
+                "type": "object",
+                "patternProperties": {
+                  "^(char_len|num_tokens|unique_tokens|const_parse_const_tree_depth|const_parse_num_words_input|const_parse_num_sentences_input|dep_parse_dist_to_head|dep_parse_dist_to_root|code_features_dist_to_def|code_features_tree_depth)$": {
+                    "type": "object",
+                    "properties": {
+                      "mean": { "type": "number" },
+                      "std": { "type": "number" }
+                    },
+                    "required": ["mean", "std"]
+                  }
+                },
+                "additionalProperties": false
               }
             },
             "required": ["doc_type", "tokens_billions"]
@@ -81,6 +107,28 @@
         },
         "percentage_english": {
           "type": "number"
+        },
+        "overall_composition": {
+          "type": "object",
+          "patternProperties": {
+            "^.*$": {
+              "type": "number"
+            }
+          }
+        },
+        "overall_feature_statistics": {
+          "type": "object",
+          "patternProperties": {
+            "^(char_len|num_tokens|unique_tokens|const_parse_const_tree_depth|const_parse_num_words_input|const_parse_num_sentences_input|dep_parse_dist_to_head|dep_parse_dist_to_root|code_features_dist_to_def|code_features_tree_depth)$": {
+              "type": "object",
+              "properties": {
+                "mean": { "type": "number" },
+                "std": { "type": "number" }
+              },
+              "required": ["mean", "std"]
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["total_tokens_billions"]
