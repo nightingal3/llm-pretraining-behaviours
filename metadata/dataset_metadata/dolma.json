@@ -30,6 +30,20 @@
         "percentage_reference": 0.0014,
         "percentage_academic_papers": 0.0229,
         "percentage_english": 1.0,
-        "percentage_academic": 2.29
+        "percentage_academic": 2.29,
+        "overall_feature_statistics": {
+            "char_len": {
+                "mean": 3821.06,
+                "std": 18612.44
+            },
+            "num_tokens": {
+                "mean": 1386.11,
+                "std": 10038.41
+            },
+            "unique_tokens": {
+                "mean": 197.53,
+                "std": 217.81
+            }
+        }
     }
 }

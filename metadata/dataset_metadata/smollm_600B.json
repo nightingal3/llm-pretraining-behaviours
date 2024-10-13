@@ -1,0 +1,47 @@
+{
+    "domains": [
+        {
+            "name": "smollm",
+            "doc_type": ["web"],
+            "documents": -1,
+            "data_size_gb": -1.0,
+            "tokens_billions": 600
+        }
+    ],
+    "summary": {
+        "total_tokens_billions": 600,
+        "percentage_web": 0.873,
+        "percentage_books": 0,
+        "percentage_code": 0.198,
+        "percentage_reference": 0.107,
+        "percentage_academic": 0.0,
+        "percentage_english": 1,
+        "overall_feature_statistics": {
+            "char_len": {
+                "mean": 3746.14,
+                "std": 1384.78
+            },
+            "num_tokens": {
+                "mean": 854.93,
+                "std": 315.98
+            },
+            "unique_tokens": {
+                "mean": 473.35,
+                "std": 148.96
+            },
+            "const_parse_const_tree_depth": {
+                "mean": 17.29,
+                "std": 2.92
+            },
+            "const_parse_num_words_input": {
+                "mean": 647.89,
+                "std": 211
+            },
+            "const_parse_num_sentences_input": {
+                "mean": 34.54,
+                "std": 11.9
+            }
+
+        }
+    }
+}

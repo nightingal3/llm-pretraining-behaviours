@@ -12,6 +12,24 @@
         }
     ],
     "summary": {
-        "total_tokens_billions": 1400.0
+        "total_tokens_billions": 1400.0,
+        "overall_feature_statistics": {
+            "char_len": {
+                "mean": 5046.21,
+                "std": 18916.52
+            },
+            "num_tokens": {
+                "mean": 1797.8,
+                "std": 8297.64
+            },
+            "unique_tokens": {
+                "mean": 229.09,
+                "std": 221.68
+            },
+            "code_features_tree_depth": {
+                "mean": 18.42,
+                "std": 20.01
+            }
+        }
     }
 }
