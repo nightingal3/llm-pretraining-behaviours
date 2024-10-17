@@ -36,6 +36,7 @@ books/
 reference/
 ├─ encyclopedic/
 ├─ dictionaries/
+├─ textbooks/
 academic/
 ├─ sciences/
 ├─ humanities/
