@@ -27,6 +27,7 @@ web/
 ├─ news/
 ├─ blogs/
 ├─ forums/
+├─ shopping/
 books/
 ├─ literary/
 │  ├─ fiction/
@@ -35,9 +36,10 @@ books/
 reference/
 ├─ encyclopedic/
 ├─ dictionaries/
-academic_papers/
+academic/
 ├─ sciences/
 ├─ humanities/
+├─ patents/
 code/
 ├─ source_code/
 ├─ documentation/
