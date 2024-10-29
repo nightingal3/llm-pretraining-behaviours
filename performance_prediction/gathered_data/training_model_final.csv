@@ -1,6 +1,6 @@
 id,dimension,num_heads,mlp_ratio,layer_norm_type,positional_embeddings,attention_variant,biases,block_type,activation,sequence_length,batch_instances,batch_tokens,weight_tying,deep_key,safetensors:total,is_instruction_tuned,is_preference_tuned,total_params
 meta-llama/Llama-2-13b-hf,5120,40,2.7,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1000,,FALSE,,13015866880,FALSE,FALSE,13000000000
-meta-llama/Llama-2-70b-chat-hf,8192,64,3.5,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1024,,FALSE,,68976653312,,,68976653312
+meta-llama/Llama-2-70b-chat-hf,8192,64,3.5,rmsnorm,rope,gqa,none,sequential,swiglu,4096,1024,,FALSE,,68976653312,TRUE,TRUE,68976653312
 EleutherAI/pythia-410m-deduped,1024,16,4,,,,,,gelu,2048,,,FALSE,,505997504,,,
 Salesforce/codegen25-7b-multi_P,4096,32,2.6875,,,,,,silu,2048,,,FALSE,,,FALSE,FALSE,
 IEITYuan/Yuan2-2B-hf,2048,32,4,,,,,,silu,8192,,,TRUE,,,TRUE,FALSE,
