@@ -681,6 +681,48 @@ def save_dataframe(
     os.makedirs(directory, exist_ok=True)
     df.to_csv(os.path.join(directory, filename), index=keep_index)
 
+def compile_per_model_predictions(all_predictions, all_scores, successful_tasks):
+    """
+    Compiles predictions and true scores into a per-model format
+    
+    Args:
+        all_predictions (list): List of dictionaries containing predictions for each task
+        all_scores (list): List of dictionaries containing true scores for each task
+        successful_tasks (list): List of task names that were successfully processed
+    
+    Returns:
+        pd.DataFrame: DataFrame with columns [y_col, Model, True, Predicted]
+    """
+    records = []
+    
+    for task, pred_dict, score_dict in zip(successful_tasks, all_predictions, all_scores):
+        predictions = list(pred_dict.values())[0]  
+        true_scores = list(score_dict.values())[0]  
+        
+        for model_name in predictions.keys():
+            record = {
+                'y_col': task,
+                'Model': model_name,
+                'True': true_scores[model_name],
+                'Predicted': predictions[model_name]
+            }
+            records.append(record)
+    
+    return pd.DataFrame(records)
+
+def save_compiled_predictions(df, args, predictor_type):
+    """
+    Save compiled predictions to CSV file
+    """
+    output_dir = "./logs"
+    os.makedirs(output_dir, exist_ok=True)
+    
+    output_file = os.path.join(
+        output_dir, 
+        f'compiled_predictions_{args.metric}_{args.regressor}_{predictor_type}.csv'
+    )
+    df.to_csv(output_file, index=False)
+    logging.info(f"Saved compiled predictions to {output_file}")
 
 def postprocess_results(
     args,
@@ -727,6 +769,7 @@ def postprocess_results(
         f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}"
     )
 
+
     for task, mae, baseline_mae in zip(
         successful_tasks, mae_per_task, med_baseline_mae_per_task
     ):
@@ -737,8 +780,6 @@ def postprocess_results(
 
     print("\nDataFrame contents:")
     print(df_results)
-    breakpoint()
-    # TODO: wtf why is mae so much smaller now? Take a look...
     sorted_tasks_by_mae = sorted(
         zip(successful_tasks, mae_per_task), key=lambda x: x[1]
     )
@@ -809,6 +850,12 @@ def postprocess_results(
     plot_mmlu_shap_values(
         mmlu_shap_values, mmlu_test_features, y_cols_joined, args.predictor_type
     )
+
+    # log individual model performances vs predicted performances for further visualization
+    per_model_df = compile_per_model_predictions(all_predictions, all_scores, successful_tasks)
+    save_compiled_predictions(per_model_df, args, args.predictor_type)
+
+
 
 
 if __name__ == "__main__":
