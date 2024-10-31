@@ -372,12 +372,13 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
     feat_importances = []
 
     for i, (train_index, test_index) in enumerate(k_folds.split(feats)):
-        # train model, get MAEs
         train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
         train_labels, test_labels = (
             labels.iloc[train_index],
             labels.iloc[test_index],
         )
+
+        train_labels = labels.iloc[train_index]
 
         # Calculate median baseline predictions
         median_predictions = median_baseline(train_labels, test_feats)
@@ -462,7 +463,6 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
     for y_col in y_cols:
         if args.new_task_only and "new_task_groups" not in y_col:
             continue
-        # drop rows with missing score values
         if args.predictor_type == "scaling_laws":
             dataset_copy = (
                 dataset.copy()
@@ -491,11 +491,26 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             dataset_copy["pretraining_summary:total_tokens_billions"], errors="coerce"
         )
 
+
         if len(dataset_copy) <= MIN_SAMPLES:
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
             )
             continue
+
+        original_order = dataset_copy.index.copy()
+        
+        trainset = preprocess_data(dataset_copy)
+        
+        # Ensure consistent ordering after preprocessing
+        trainset = trainset.reindex(original_order)
+        
+        feats = trainset.drop(columns=cols_from_results, errors="ignore")
+        labels = trainset[y_col]
+        
+        # Reset index to ensure KFold gets data in same order
+        feats = feats.reset_index(drop=True)
+        labels = labels.reset_index(drop=True)
 
         model_names = dataset_copy["model_name"]
         trainset = preprocess_data(dataset_copy)
@@ -503,7 +518,6 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
 
-        # cross val
         cross_val_results = cross_validation(feats, labels, y_col, args)
         all_mae = cross_val_results["all_mae"]
         all_mae_median_baseline = cross_val_results["all_mae_median_baseline"]
@@ -513,6 +527,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         feat_importances = cross_val_results["feat_importances"]
         all_shap_values = cross_val_results["all_shap_values"]
         test_features_list = cross_val_results["test_features_list"]
+
 
         # Reconstruct errors using test indices
         task_predictions = {}
@@ -862,6 +877,18 @@ def postprocess_results(
     save_compiled_predictions(per_model_df, args, args.predictor_type)
 
 
+def consolidate_total_params(dataset: pd.DataFrame) -> pd.DataFrame:
+    dataset = dataset.copy()
+    if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
+        # fill in total_params with values from safetensors:total as the canonical column
+        dataset["total_params"] = np.where(
+            dataset["total_params"].isna(),
+            dataset["safetensors:total"],
+            dataset["total_params"],
+        )
+        dataset = dataset.drop(columns=["safetensors:total"])
+    return dataset
+
 if __name__ == "__main__":
     args = get_args()
 
@@ -886,25 +913,8 @@ if __name__ == "__main__":
     else:
         y_cols = args.y_cols
 
+    dataset = consolidate_total_params(dataset)
     dataset = process_data(dataset, args)
-
-    if "total_params" not in dataset.columns:
-        dataset["total_params"] = np.where(
-            dataset["safetensors:total"].isna(),
-            dataset["total_params"],
-            dataset["safetensors:total"],
-        )
-        dataset = dataset.drop(columns=["safetensors:total"])
-    if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
-        # fill in total_params with values from safetensors:total as the canonical column
-        dataset["total_params"] = np.where(
-            dataset["total_params"].isna(),
-            dataset["safetensors:total"],
-            dataset["total_params"],
-        )
-        # drop safetensors
-        dataset = dataset.drop(columns=["safetensors:total"])
-
     dataset = feat_transform(dataset)
 
     (
