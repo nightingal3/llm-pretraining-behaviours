@@ -372,12 +372,13 @@ def cross_validation(feats, labels, y_col, args, n_folds: int = 5) -> dict:
     feat_importances = []
 
     for i, (train_index, test_index) in enumerate(k_folds.split(feats)):
-        # train model, get MAEs
         train_feats, test_feats = feats.iloc[train_index], feats.iloc[test_index]
         train_labels, test_labels = (
             labels.iloc[train_index],
             labels.iloc[test_index],
         )
+
+        train_labels = labels.iloc[train_index]
 
         # Calculate median baseline predictions
         median_predictions = median_baseline(train_labels, test_feats)
@@ -462,7 +463,6 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
     for y_col in y_cols:
         if args.new_task_only and "new_task_groups" not in y_col:
             continue
-        # drop rows with missing score values
         if args.predictor_type == "scaling_laws":
             dataset_copy = (
                 dataset.copy()
@@ -497,13 +497,26 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             )
             continue
 
+        original_order = dataset_copy.index.copy()
+
+        trainset = preprocess_data(dataset_copy)
+
+        # Ensure consistent ordering after preprocessing
+        trainset = trainset.reindex(original_order)
+
+        feats = trainset.drop(columns=cols_from_results, errors="ignore")
+        labels = trainset[y_col]
+
+        # Reset index to ensure KFold gets data in same order
+        feats = feats.reset_index(drop=True)
+        labels = labels.reset_index(drop=True)
+
         model_names = dataset_copy["model_name"]
         trainset = preprocess_data(dataset_copy)
 
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
 
-        # cross val
         cross_val_results = cross_validation(feats, labels, y_col, args)
         all_mae = cross_val_results["all_mae"]
         all_mae_median_baseline = cross_val_results["all_mae_median_baseline"]
@@ -682,6 +695,53 @@ def save_dataframe(
     df.to_csv(os.path.join(directory, filename), index=keep_index)
 
 
+def compile_per_model_predictions(all_predictions, all_scores, successful_tasks):
+    """
+    Compiles predictions and true scores into a per-model format
+
+    Args:
+        all_predictions (list): List of dictionaries containing predictions for each task
+        all_scores (list): List of dictionaries containing true scores for each task
+        successful_tasks (list): List of task names that were successfully processed
+
+    Returns:
+        pd.DataFrame: DataFrame with columns [y_col, Model, True, Predicted]
+    """
+    records = []
+
+    for task, pred_dict, score_dict in zip(
+        successful_tasks, all_predictions, all_scores
+    ):
+        predictions = list(pred_dict.values())[0]
+        true_scores = list(score_dict.values())[0]
+
+        for model_name in predictions.keys():
+            record = {
+                "y_col": task,
+                "Model": model_name,
+                "True": true_scores[model_name],
+                "Predicted": predictions[model_name],
+            }
+            records.append(record)
+
+    return pd.DataFrame(records)
+
+
+def save_compiled_predictions(df, args, predictor_type):
+    """
+    Save compiled predictions to CSV file
+    """
+    output_dir = "./logs"
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_file = os.path.join(
+        output_dir,
+        f"compiled_predictions_{args.metric}_{args.regressor}_{predictor_type}.csv",
+    )
+    df.to_csv(output_file, index=False)
+    logging.info(f"Saved compiled predictions to {output_file}")
+
+
 def postprocess_results(
     args,
     df_results,
@@ -737,8 +797,6 @@ def postprocess_results(
 
     print("\nDataFrame contents:")
     print(df_results)
-    breakpoint()
-    # TODO: wtf why is mae so much smaller now? Take a look...
     sorted_tasks_by_mae = sorted(
         zip(successful_tasks, mae_per_task), key=lambda x: x[1]
     )
@@ -810,6 +868,25 @@ def postprocess_results(
         mmlu_shap_values, mmlu_test_features, y_cols_joined, args.predictor_type
     )
 
+    # log individual model performances vs predicted performances for further visualization
+    per_model_df = compile_per_model_predictions(
+        all_predictions, all_scores, successful_tasks
+    )
+    save_compiled_predictions(per_model_df, args, args.predictor_type)
+
+
+def consolidate_total_params(dataset: pd.DataFrame) -> pd.DataFrame:
+    dataset = dataset.copy()
+    if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
+        # fill in total_params with values from safetensors:total as the canonical column
+        dataset["total_params"] = np.where(
+            dataset["total_params"].isna(),
+            dataset["safetensors:total"],
+            dataset["total_params"],
+        )
+        dataset = dataset.drop(columns=["safetensors:total"])
+    return dataset
+
 
 if __name__ == "__main__":
     args = get_args()
@@ -835,25 +912,8 @@ if __name__ == "__main__":
     else:
         y_cols = args.y_cols
 
+    dataset = consolidate_total_params(dataset)
     dataset = process_data(dataset, args)
-
-    if "total_params" not in dataset.columns:
-        dataset["total_params"] = np.where(
-            dataset["safetensors:total"].isna(),
-            dataset["total_params"],
-            dataset["safetensors:total"],
-        )
-        dataset = dataset.drop(columns=["safetensors:total"])
-    if "total_params" in dataset.columns and "safetensors:total" in dataset.columns:
-        # fill in total_params with values from safetensors:total as the canonical column
-        dataset["total_params"] = np.where(
-            dataset["total_params"].isna(),
-            dataset["safetensors:total"],
-            dataset["total_params"],
-        )
-        # drop safetensors
-        dataset = dataset.drop(columns=["safetensors:total"])
-
     dataset = feat_transform(dataset)
 
     (
