@@ -491,7 +491,6 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             dataset_copy["pretraining_summary:total_tokens_billions"], errors="coerce"
         )
 
-
         if len(dataset_copy) <= MIN_SAMPLES:
             warnings.warn(
                 f"Skipping {y_col} as there are not enough samples for training"
@@ -499,15 +498,15 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
             continue
 
         original_order = dataset_copy.index.copy()
-        
+
         trainset = preprocess_data(dataset_copy)
-        
+
         # Ensure consistent ordering after preprocessing
         trainset = trainset.reindex(original_order)
-        
+
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
-        
+
         # Reset index to ensure KFold gets data in same order
         feats = feats.reset_index(drop=True)
         labels = labels.reset_index(drop=True)
@@ -527,7 +526,6 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         feat_importances = cross_val_results["feat_importances"]
         all_shap_values = cross_val_results["all_shap_values"]
         test_features_list = cross_val_results["test_features_list"]
-
 
         # Reconstruct errors using test indices
         task_predictions = {}
@@ -888,6 +886,7 @@ def consolidate_total_params(dataset: pd.DataFrame) -> pd.DataFrame:
         )
         dataset = dataset.drop(columns=["safetensors:total"])
     return dataset
+
 
 if __name__ == "__main__":
     args = get_args()
