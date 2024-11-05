@@ -1,0 +1,4 @@
+id,dimension,num_heads,mlp_ratio,layer_norm_type,positional_embeddings,attention_variant,biases,block_type,activation,sequence_length,batch_instances,batch_tokens,weight_tying,safetensors:total,is_instruction_tuned,is_preference_tuned,total_params
+EleutherAI/pythia-410m,1024,16,4,,,,,,gelu,2048,,,FALSE,505997504,,,
+cerebras/Cerebras-GPT-2.7B,2560,32,4,,learned,,,,,2048,528,,TRUE,,FALSE,FALSE,2700000000
+allenai/OLMo-7B,4096,32,5.375,non-parametric,rope,full,none,sequential,swiglu,2048,2160,,FALSE,6888095744,FALSE,FALSE,

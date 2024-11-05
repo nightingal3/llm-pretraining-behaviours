@@ -1,0 +1,4 @@
+id,pretraining_summary:total_tokens_billions,pretraining_summary:percentage_web,pretraining_summary:percentage_code,pretraining_summary:percentage_books,pretraining_summary:percentage_reference,pretraining_summary:percentage_academic,pretraining_summary:percentage_english,sft_summary:total_tokens_billions
+allenai/OLMo-7B,2460.0,82.0,13.43,0.2,0.14,2.29,100.0,
+EleutherAI/pythia-410m,371.0,91.82,8.18,0.0,0.0,0.0,100.0,
+cerebras/Cerebras-GPT-2.7B,371.0,,,,,,100.0,

@@ -1,0 +1,49 @@
+{
+    "domains": [
+        {
+            "file_pointer": "./c4.json"
+        },
+        {
+            "file_pointer": "./common_crawl.json"
+        },
+        {
+            "file_pointer": "./gutenberg.json"
+        },
+        {
+            "file_pointer": "./pes2o.json"
+        },
+        {
+            "file_pointer": "./reddit.json"
+        },
+        {
+            "file_pointer": "./the_stack.json"
+        },
+        {
+            "file_pointer": "./wikipedia_wikibooks.json"
+        }
+    ],
+    "summary": {
+        "total_tokens_billions": 2460.0,
+        "percentage_web": 0.82,
+        "percentage_code": 0.1343,
+        "percentage_books": 0.002,
+        "percentage_reference": 0.0014,
+        "percentage_academic_papers": 0.0229,
+        "percentage_english": 1.0,
+        "percentage_academic": 2.29,
+        "overall_feature_statistics": {
+            "char_len": {
+                "mean": 3821.06,
+                "std": 18612.44
+            },
+            "num_tokens": {
+                "mean": 1386.11,
+                "std": 10038.41
+            },
+            "unique_tokens": {
+                "mean": 197.53,
+                "std": 217.81
+            }
+        }
+    }
+}
