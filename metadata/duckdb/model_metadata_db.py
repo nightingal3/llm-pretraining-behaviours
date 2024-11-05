@@ -1000,5 +1000,4 @@ if __name__ == "__main__":
     ).df()
     print(scores)
 
-    breakpoint()
     store.save_database("try.duckdb")

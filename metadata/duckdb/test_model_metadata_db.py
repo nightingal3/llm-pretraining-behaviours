@@ -31,7 +31,6 @@ def test_model_import(db, test_paths):
         WHERE id = 'allenai/OLMo-7B'
     """
     ).df()
-    breakpoint()
     assert len(result) == 1
     assert result.iloc[0]["dimension"] == 4096
     assert result.iloc[0]["num_heads"] == 32
@@ -66,7 +65,7 @@ def test_scores_import(db, test_paths):
         """
         SELECT benchmark, setting, accuracy, accuracy_stderr
         FROM evaluation_results
-        WHERE model_id = 'EleutherAI/pythia-410m'
+        WHERE id = 'EleutherAI/pythia-410m'
         AND benchmark = 'arc:challenge'
     """
     ).df()
