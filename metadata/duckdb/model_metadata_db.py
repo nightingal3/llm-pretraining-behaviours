@@ -3,6 +3,8 @@ import json
 import pandas as pd
 from pathlib import Path
 from typing import Optional
+import re
+import os
 
 
 class AnalysisStore:
@@ -11,9 +13,7 @@ class AnalysisStore:
         """Initialize from an existing duckdb file without modifying schema"""
         if not Path(db_path).exists():
             raise FileNotFoundError(f"Database file {db_path} not found")
-
-        # Just connect without creating new schema
-        store = cls.__new__(cls)  # Create instance without calling __init__
+        store = cls.__new__(cls)
         store.con = duckdb.connect(db_path)
         print(f"Loaded existing database from {db_path}")
         return store
@@ -23,10 +23,13 @@ class AnalysisStore:
         self.setup_schema()
 
     def setup_schema(self):
+        self.con.execute("DROP TABLE IF EXISTS model_annotations")
+        self.con.execute("DROP TABLE IF EXISTS dataset_info")
+        self.con.execute("DROP TABLE IF EXISTS evaluation_results")
         self.con.execute(
             """
             -- Manual annotations table
-            CREATE TABLE IF NOT EXISTS model_annotations (
+            CREATE TABLE model_annotations (
                 id VARCHAR PRIMARY KEY,
                 dimension INTEGER,
                 num_heads INTEGER,
@@ -47,19 +50,19 @@ class AnalysisStore:
             );
 
             -- Evaluation results from JSONs
-            CREATE TABLE IF NOT EXISTS evaluation_results (
-                model_id VARCHAR,
+            CREATE TABLE evaluation_results (
+                id VARCHAR,
                 benchmark VARCHAR,
                 setting VARCHAR,
                 accuracy DOUBLE,
                 accuracy_stderr DOUBLE,
                 timestamp TIMESTAMP,
                 metadata JSON,
-                PRIMARY KEY(model_id, benchmark, setting)
+                PRIMARY KEY(id, benchmark, setting)
             );
             
             -- Dataset information
-            CREATE TABLE IF NOT EXISTS dataset_info (
+            CREATE TABLE dataset_info (
                 id VARCHAR PRIMARY KEY,
                 pretraining_summary_total_tokens_billions DOUBLE,
                 pretraining_summary_percentage_web DOUBLE,
@@ -72,6 +75,91 @@ class AnalysisStore:
             );
         """
         )
+
+    def preview_changes(self, temp_db_path: str = ":memory:") -> dict:
+        """Preview changes between current database and a temporary one.
+        Returns a dictionary of changes by table."""
+
+        if not os.path.exists(temp_db_path) or temp_db_path == ":memory:":
+            print("No previous database found. Skipping comparison.")
+            return {}
+
+        temp_con = duckdb.connect(temp_db_path)
+        changes = {}
+        tables = ["model_annotations", "evaluation_results", "dataset_info"]
+
+        for table in tables:
+            # Check if table exists in both databases
+            main_exists = self.con.execute(
+                f"SELECT * FROM information_schema.tables WHERE table_name = '{table}'"
+            ).fetchone()
+            temp_exists = temp_con.execute(
+                f"SELECT * FROM information_schema.tables WHERE table_name = '{table}'"
+            ).fetchone()
+
+            if main_exists and temp_exists:
+                # Find differing rows between the main and temp databases
+                comparison = self.con.execute(
+                    f"""
+                    SELECT * FROM (
+                        SELECT *, 'old' AS source FROM {table}
+                        EXCEPT
+                        SELECT *, 'new' AS source FROM temp_db.{table}
+                    ) AS differences
+                """
+                )
+                changes[table] = comparison.df()
+            elif main_exists:
+                changes[table] = "Table exists only in current database"
+            elif temp_exists:
+                changes[table] = "Table exists only in previous database"
+
+        temp_con.close()
+        return changes
+
+    def save_database(self, output_path: str, preview: bool = True) -> None:
+        """Save the current database to a new file, optionally previewing changes first."""
+
+        if preview:
+            changes = self.preview_changes()
+
+            print("\nDatabase Changes Preview:")
+            print("-------------------------")
+
+            for table, df in changes.items():
+                if df.empty:
+                    print(f"\n{table}: No changes")
+                    continue
+
+                print(f"\n{table}:")
+                print(f"Total changes: {len(df)}")
+
+                # Group by change type
+                changes_by_type = df.groupby("change_type").size()
+                for change_type, count in changes_by_type.items():
+                    print(f"- {change_type}: {count}")
+
+                # Show detailed changes
+                for _, row in df.iterrows():
+                    print(f"\n{row['change_type'].upper()}: {row['id']}")
+                    for col in df.columns:
+                        if col.endswith("_change") and pd.notna(row[col]):
+                            changes = row[col]
+                            col_name = col.replace("_change", "")
+                            print(f"  {col_name}: {changes['old']} -> {changes['new']}")
+
+            # Ask for confirmation
+            response = input("\nDo you want to save these changes? (y/N): ")
+            if response.lower() != "y":
+                print("Save cancelled.")
+                return
+
+        # Perform the save
+        try:
+            self.con.execute(f"EXPORT DATABASE '{output_path}'")
+            print(f"\nDatabase saved successfully to {output_path}")
+        except Exception as e:
+            print(f"Error saving database: {e}")
 
     def import_model_features_from_csv(self, csv_path: str):
         """Import model features with simplified preprocessing in pandas."""
@@ -93,19 +181,11 @@ class AnalysisStore:
         df["safetensors:total"].replace(0, None, inplace=True)
         df["total_params"].replace(0, None, inplace=True)
 
-        breakpoint()
-
         # Merge 'safetensors:total' into 'total_params' if it exists
         df["total_params"] = df["safetensors:total"].combine_first(df["total_params"])
 
         # Drop 'safetensors:total' as it is no longer needed
         df.drop(columns=["safetensors:total"], inplace=True)
-
-        # Debug print to check the preprocessed data
-        print("\nData types before inserting:")
-        print(df.dtypes)
-        print("\nDebug - Values before insert:")
-        print(df[["id", "total_params"]].head())
 
         # Register the DataFrame as a temporary table in DuckDB
         self.con.register("temp_model_data", df)
@@ -117,8 +197,7 @@ class AnalysisStore:
             WHERE id IN ('EleutherAI/pythia-410m', 'cerebras/Cerebras-GPT-2.7B', 'allenai/OLMo-7B')
             """
         ).df()
-        print("\nCheck values in temp table")
-        print(result_df)
+
         # Insert data into the database using the temporary table
         self.con.execute(
             """
@@ -143,22 +222,15 @@ class AnalysisStore:
                 is_preference_tuned = COALESCE(EXCLUDED.is_preference_tuned, model_annotations.is_preference_tuned);
             """
         )
-        # self.con.execute(
-        #     """
-        #     INSERT INTO model_annotations SELECT * FROM temp_model_data;
-        #     """
-        # )
 
-        result_df = self.con.execute(
+        self.con.execute(
             """
             SELECT id, total_params
             FROM model_annotations
             WHERE id IN ('EleutherAI/pythia-410m', 'cerebras/Cerebras-GPT-2.7B', 'allenai/OLMo-7B')
             """
         ).df()
-        print("\nCheck values in DuckDB after insertion:")
-        print(result_df)
-        # Clean up by unregistering the temporary table
+
         self.con.unregister("temp_model_data")
 
         print(f"Imported annotations from {csv_path} successfully.")
@@ -168,9 +240,6 @@ class AnalysisStore:
         print(f"Importing dataset features from {csv_path}")
 
         # First get the actual column names from the CSV
-        df = pd.read_csv(csv_path)
-        print("CSV columns:", df.columns.tolist())
-
         self.con.execute(
             """
             INSERT INTO dataset_info 
@@ -285,9 +354,9 @@ class AnalysisStore:
 
             query = f"""
                 INSERT INTO evaluation_results 
-                (model_id, benchmark, setting, accuracy, accuracy_stderr, metadata, timestamp)
+                (id, benchmark, setting, accuracy, accuracy_stderr, metadata, timestamp)
                 SELECT 
-                    id as model_id,
+                    id as id,
                     ? as benchmark,
                     ? as setting,
                     {f'"{acc_col}"::DOUBLE' if acc_col else 'NULL'} as accuracy,
@@ -295,13 +364,298 @@ class AnalysisStore:
                     {metadata_json} as metadata,
                     CURRENT_TIMESTAMP as timestamp
                 FROM read_csv_auto(?)
-                ON CONFLICT (model_id, benchmark, setting) DO UPDATE SET
+                ON CONFLICT (id, benchmark, setting) DO UPDATE SET
                     accuracy = EXCLUDED.accuracy,
                     accuracy_stderr = EXCLUDED.accuracy_stderr,
                     metadata = EXCLUDED.metadata
             """
 
             self.con.execute(query, [benchmark, setting, csv_path])
+
+    def check_for_conflicts(self) -> pd.DataFrame:
+        """Check for any potential conflicts in evaluation results by examining duplicates."""
+        return self.con.execute(
+            """
+            WITH duplicate_checks AS (
+                SELECT 
+                    id,
+                    benchmark,
+                    setting,
+                    COUNT(*) as occurrence_count,
+                    GROUP_CONCAT(accuracy) as accuracy_values,
+                    GROUP_CONCAT(accuracy_stderr) as stderr_values,
+                    GROUP_CONCAT(timestamp) as timestamps
+                FROM evaluation_results
+                GROUP BY id, benchmark, setting
+                HAVING COUNT(*) > 1
+            )
+            SELECT * FROM duplicate_checks
+            ORDER BY id, benchmark, setting
+        """
+        ).df()
+
+    def safe_import_scores(
+        self, scores_df: pd.DataFrame
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """
+        Safely import scores while checking for conflicts.
+        Returns two DataFrames: successfully imported and conflicts.
+        """
+
+        # First deduplicate the input data
+        def combine_rows(x):
+            non_null = x.dropna()
+            return non_null.iloc[0] if len(non_null) > 0 else x.iloc[0]
+
+        scores_df_dedup = scores_df.groupby("id", as_index=False).agg(
+            {col: combine_rows for col in scores_df.columns}
+        )
+
+        # Get accuracy and stderr columns
+        acc_cols = [
+            col
+            for col in scores_df_dedup.columns
+            if col.endswith("_acc") and not col.endswith("_acc_stderr")
+        ]
+        stderr_cols = [
+            col for col in scores_df_dedup.columns if col.endswith("_acc_stderr")
+        ]
+
+        # Melt accuracy columns
+        melted_acc = pd.melt(
+            scores_df_dedup,
+            id_vars=["id"],
+            value_vars=acc_cols,
+            var_name="benchmark_setting",
+            value_name="accuracy",
+        )
+
+        # Melt stderr columns
+        melted_stderr = pd.melt(
+            scores_df_dedup,
+            id_vars=["id"],
+            value_vars=stderr_cols,
+            var_name="benchmark_setting",
+            value_name="accuracy_stderr",
+        )
+
+        # Clean up stderr benchmark names to match accuracy names
+        melted_stderr["benchmark_setting"] = melted_stderr[
+            "benchmark_setting"
+        ].str.replace("_stderr", "")
+
+        # Merge accuracy and stderr data
+        merged_df = pd.merge(
+            melted_acc, melted_stderr, on=["id", "benchmark_setting"], how="left"
+        )
+
+        # Extract benchmark and setting from benchmark_setting
+        merged_df["setting"] = merged_df["benchmark_setting"].str.extract(
+            r"_(\d+[-]?shot)_acc$", flags=re.IGNORECASE
+        )
+        merged_df["setting"] = merged_df["setting"].fillna("")
+        merged_df["benchmark"] = merged_df["benchmark_setting"].apply(
+            lambda x: x.split("_acc")[0]
+        )
+
+        # Add timestamp and metadata
+        merged_df["timestamp"] = pd.Timestamp.now()
+        merged_df["metadata"] = None
+
+        # Select and reorder columns
+        merged_df = merged_df[
+            [
+                "id",
+                "benchmark",
+                "setting",
+                "accuracy",
+                "accuracy_stderr",
+                "timestamp",
+                "metadata",
+            ]
+        ]
+
+        # Drop rows where accuracy is null
+        merged_df = merged_df.dropna(subset=["accuracy"])
+
+        # Create temporary table for conflict checking
+        self.con.execute("DROP TABLE IF EXISTS temp_scores")
+        self.con.execute(
+            """
+            CREATE TEMP TABLE temp_scores (
+                id VARCHAR,
+                benchmark VARCHAR,
+                setting VARCHAR,
+                accuracy DOUBLE,
+                accuracy_stderr DOUBLE,
+                timestamp TIMESTAMP,
+                metadata JSON
+            )
+        """
+        )
+
+        # Register and insert the processed data
+        self.con.register("new_scores", merged_df)
+        self.con.execute("INSERT INTO temp_scores SELECT * FROM new_scores")
+
+        # Find conflicts and non-conflicts
+        conflicts = self.con.execute(
+            """
+            SELECT 
+                n.id,
+                n.benchmark,
+                n.setting,
+                n.accuracy as new_accuracy,
+                n.accuracy_stderr as new_stderr,
+                n.timestamp as new_timestamp,
+                e.accuracy as existing_accuracy,
+                e.accuracy_stderr as existing_stderr,
+                e.timestamp as existing_timestamp,
+                ABS(n.accuracy - e.accuracy) as accuracy_diff
+            FROM temp_scores n
+            JOIN evaluation_results e 
+                ON n.id = e.id 
+                AND n.benchmark = e.benchmark 
+                AND n.setting = e.setting
+            WHERE n.accuracy IS DISTINCT FROM e.accuracy
+            OR n.accuracy_stderr IS DISTINCT FROM e.accuracy_stderr
+            ORDER BY accuracy_diff DESC
+        """
+        ).df()
+
+        non_conflicts = self.con.execute(
+            """
+            SELECT n.*
+            FROM temp_scores n
+            LEFT JOIN evaluation_results e 
+                ON n.id = e.id
+                AND n.benchmark = e.benchmark 
+                AND n.setting = e.setting
+            WHERE e.id IS NULL
+        """
+        ).df()
+
+        self.con.execute("DROP TABLE IF EXISTS temp_scores")
+        return non_conflicts, conflicts
+
+    def resolve_conflicts(
+        self, conflicts_df: pd.DataFrame, resolution: str = "newer"
+    ) -> None:
+        """
+        Resolve conflicts using specified strategy.
+
+        Parameters:
+        - conflicts_df: DataFrame of conflicts from safe_import_scores
+        - resolution: Strategy to resolve conflicts:
+            - 'newer': Use newer timestamp
+            - 'older': Use older timestamp
+            - 'larger': Use larger accuracy value
+            - 'smaller': Use smaller accuracy value
+        """
+        if resolution not in ["newer", "older", "larger", "smaller"]:
+            raise ValueError("Invalid resolution strategy")
+
+        # Register conflicts dataframe
+        self.con.register("conflicts", conflicts_df)
+
+        # Build resolution query based on strategy
+        if resolution == "newer":
+            condition = "new_timestamp > existing_timestamp"
+        elif resolution == "older":
+            condition = "new_timestamp < existing_timestamp"
+        elif resolution == "larger":
+            condition = "new_accuracy > existing_accuracy"
+        else:  # smaller
+            condition = "new_accuracy < existing_accuracy"
+
+        # Update records based on resolution strategy
+        self.con.execute(
+            f"""
+            UPDATE evaluation_results e
+            SET 
+                accuracy = c.new_accuracy,
+                accuracy_stderr = c.new_stderr,
+                timestamp = c.new_timestamp
+            FROM conflicts c
+            WHERE e.id = c.id 
+                AND e.benchmark = c.benchmark 
+                AND e.setting = c.setting
+                AND {condition}
+        """
+        )
+
+    # Example usage
+    def import_scores_safely(
+        self,
+        scores_df: pd.DataFrame,
+        auto_resolve: bool = False,
+        resolution_strategy: str = "newer",
+    ) -> None:
+        """
+        Import scores with conflict handling.
+
+        Parameters:
+        - scores_df: DataFrame with new scores
+        - auto_resolve: If True, automatically resolve conflicts using resolution_strategy
+        - resolution_strategy: How to resolve conflicts if auto_resolve is True
+        """
+        non_conflicts, conflicts = self.safe_import_scores(scores_df)
+
+        print(f"Found {len(non_conflicts)} new records to import")
+        print(f"Found {len(conflicts)} conflicts")
+
+        if len(conflicts) > 0:
+            print("\nConflicts found:")
+            for _, row in conflicts.iterrows():
+                print(f"\nModel: {row['id']}")
+                print(f"Benchmark: {row['benchmark']}, Setting: {row['setting']}")
+                print(
+                    f"Existing: {row['existing_accuracy']:.4f} ± {row['existing_stderr']:.4f} ({row['existing_timestamp']})"
+                )
+                print(
+                    f"New: {row['new_accuracy']:.4f} ± {row['new_stderr']:.4f} ({row['new_timestamp']})"
+                )
+                print(f"Difference: {row['accuracy_diff']:.4f}")
+
+            if auto_resolve:
+                print(
+                    f"\nAutomatically resolving conflicts using strategy: {resolution_strategy}"
+                )
+                self.resolve_conflicts(conflicts, resolution_strategy)
+            else:
+                response = input(
+                    "\nHow would you like to resolve conflicts?\n"
+                    "1. Use newer values\n"
+                    "2. Use older values\n"
+                    "3. Use larger values\n"
+                    "4. Use smaller values\n"
+                    "5. Skip conflicts\n"
+                    "Enter choice (1-5): "
+                )
+
+                if response == "1":
+                    self.resolve_conflicts(conflicts, "newer")
+                elif response == "2":
+                    self.resolve_conflicts(conflicts, "older")
+                elif response == "3":
+                    self.resolve_conflicts(conflicts, "larger")
+                elif response == "4":
+                    self.resolve_conflicts(conflicts, "smaller")
+                elif response == "5":
+                    print("Skipping conflicts")
+                else:
+                    print("Invalid choice, skipping conflicts")
+
+        # Import non-conflicting records
+        if len(non_conflicts) > 0:
+            self.con.register("non_conflicts", non_conflicts)
+            self.con.execute(
+                """
+                INSERT INTO evaluation_results 
+                SELECT * FROM non_conflicts
+            """
+            )
+            print(f"\nSuccessfully imported {len(non_conflicts)} new records")
 
     def verify_scores(self):
         """Verify score import"""
@@ -310,7 +664,7 @@ class AnalysisStore:
         print(
             self.con.execute(
                 """
-            SELECT model_id, benchmark, setting, accuracy, accuracy_stderr
+            SELECT id, benchmark, setting, accuracy, accuracy_stderr
             FROM evaluation_results
             WHERE accuracy IS NOT NULL
             LIMIT 5
@@ -322,9 +676,9 @@ class AnalysisStore:
         print(
             self.con.execute(
                 """
-            SELECT model_id, benchmark, setting, 
-                   json_extract_string(metadata, '$.brier_score') as brier_score,
-                   json_extract_string(metadata, '$.perplexity') as perplexity
+            SELECT id, benchmark, setting, 
+                json_extract_string(metadata, '$.brier_score') as brier_score,
+                json_extract_string(metadata, '$.perplexity') as perplexity
             FROM evaluation_results
             WHERE metadata IS NOT NULL
             LIMIT 5
@@ -364,7 +718,7 @@ class AnalysisStore:
                 accuracy_stderr,
                 timestamp
             FROM evaluation_results
-            WHERE model_id = ?
+            WHERE id = ?
             ORDER BY benchmark, setting
         """,
             [model_id],
@@ -540,9 +894,9 @@ class AnalysisStore:
         self.con.execute(
             """
             INSERT INTO evaluation_results 
-            (model_id, benchmark, setting, accuracy, accuracy_stderr, metadata, timestamp)
+            (id, benchmark, setting, accuracy, accuracy_stderr, metadata, timestamp)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT (model_id, benchmark, setting) DO UPDATE SET
+            ON CONFLICT (id, benchmark, setting) DO UPDATE SET
                 accuracy = EXCLUDED.accuracy,
                 accuracy_stderr = EXCLUDED.accuracy_stderr,
                 metadata = EXCLUDED.metadata,
@@ -575,7 +929,7 @@ class AnalysisStore:
                 e.accuracy_stderr
             FROM model_annotations m
             LEFT JOIN dataset_info d ON m.id = d.id
-            LEFT JOIN evaluation_results e ON m.id = e.model_id
+            LEFT JOIN evaluation_results e ON m.id = e.id
         """
         ).df()
 
@@ -600,9 +954,18 @@ if __name__ == "__main__":
     store.import_dataset_features_from_csv(
         "./performance_prediction/gathered_data/training_dataset_final_revised.csv"
     )
-    store.import_scores_from_csv(
-        "./performance_prediction/gathered_data/curr_model_scores.csv"
+    print("\nImporting scores...")
+    scores_df = pd.read_csv(
+        "./performance_prediction/gathered_data/model_scores_new.csv"
     )
+
+    store.import_scores_safely(
+        scores_df, auto_resolve=False  # Set to True if you want automatic resolution
+    )
+
+    # Verify the imports
+    print("\nVerifying data...")
+    store.verify_data()
 
     model_id = "EleutherAI/pythia-410m"
     profile = store.get_model_profile(model_id)
@@ -628,7 +991,7 @@ if __name__ == "__main__":
             accuracy,
             accuracy_stderr
         FROM evaluation_results
-        WHERE model_id = ?
+        WHERE id = ?
             AND accuracy IS NOT NULL
             AND accuracy = accuracy
         ORDER BY benchmark, setting
@@ -636,3 +999,6 @@ if __name__ == "__main__":
         [model_id],
     ).df()
     print(scores)
+
+    breakpoint()
+    store.save_database("try.duckdb")
