@@ -10,13 +10,121 @@ import os
 class AnalysisStore:
     @classmethod
     def from_existing(cls, db_path: str):
-        """Initialize from an existing duckdb file without modifying schema"""
-        if not Path(db_path).exists():
-            raise FileNotFoundError(f"Database file {db_path} not found")
+        """Initialize from an existing duckdb directory without modifying schema"""
+        db_path = Path(db_path)
+        
+        # Create a new memory connection first
         store = cls.__new__(cls)
-        store.con = duckdb.connect(db_path)
-        print(f"Loaded existing database from {db_path}")
-        return store
+        store.con = duckdb.connect(':memory:')
+        
+        try:
+            # Import the database into this connection
+            store.con.execute(f"IMPORT DATABASE '{db_path}'")
+            
+            # Verify the import worked
+            tables = store.con.execute("SHOW TABLES").fetchall()
+            print(f"Loaded existing database from {db_path}")
+            print(f"Available tables: {[t[0] for t in tables]}")
+            
+            return store
+            
+        except Exception as e:
+            raise RuntimeError(f"Failed to import database from {db_path}: {e}")
+
+    @staticmethod
+    def transform_to_wide_format(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Transform the long-format database data to wide format for analysis.
+        One row per model, with columns for each benchmark/setting combination.
+        """
+        # First get unique model features and metadata (one row per model)
+        feature_cols = [
+            'id', 'dimension', 'num_heads', 'mlp_ratio', 'layer_norm_type',
+            'positional_embeddings', 'attention_variant', 'biases', 'block_type',
+            'activation', 'sequence_length', 'batch_instances', 'batch_tokens',
+            'weight_tying', 'is_instruction_tuned', 'is_preference_tuned',
+            'total_params', 'pretraining_summary_total_tokens_billions',
+            'pretraining_summary_percentage_web', 'pretraining_summary_percentage_code',
+            'pretraining_summary_percentage_books'
+        ]
+        model_features = df[feature_cols].drop_duplicates('id')
+        
+        # Create benchmark result columns
+        benchmark_data = df[['id', 'benchmark', 'setting', 'accuracy', 'accuracy_stderr']].dropna(subset=['benchmark'])
+        
+        def format_benchmark_name(benchmark: str, suffix: str) -> str:
+            """Format benchmark name without duplicating shot settings"""
+            # Remove any trailing underscores
+            return f"{benchmark}_{suffix}".rstrip('_')
+        
+        # Pivot accuracy scores
+        acc_wide = benchmark_data.pivot(
+            index='id',
+            columns='benchmark',
+            values='accuracy'
+        )
+
+        acc_wide.columns = [format_benchmark_name(b, 'acc') for b in acc_wide.columns]
+        
+        # Pivot stderr values
+        stderr_wide = benchmark_data.pivot(
+            index='id',
+            columns='benchmark',
+            values='accuracy_stderr'
+        )
+        stderr_wide.columns = [format_benchmark_name(b, 'acc_stderr') for b in stderr_wide.columns]
+        
+        # Combine all parts
+        result = pd.merge(
+            model_features,
+            acc_wide.reset_index(),
+            on='id',
+            how='left'
+        )
+        result = pd.merge(
+            result,
+            stderr_wide.reset_index(),
+            on='id',
+            how='left'
+        )
+        
+        # Rename id to model_name to match original format
+        result = result.rename(columns={'id': 'model_name'})
+        
+        return result
+
+    def get_analysis_data(self, format: str = 'long') -> pd.DataFrame:
+        """
+        Get joined data for analysis.
+        
+        Args:
+            format: Either 'long' (default) or 'wide' format
+            
+        Returns:
+            DataFrame with all model features and evaluation results
+        """
+        df = self.con.execute(
+            """
+            SELECT 
+                m.*,
+                d.pretraining_summary_total_tokens_billions,
+                d.pretraining_summary_percentage_web,
+                d.pretraining_summary_percentage_code,
+                d.pretraining_summary_percentage_books,
+                e.benchmark,
+                e.setting,
+                e.accuracy,
+                e.accuracy_stderr
+            FROM model_annotations m
+            LEFT JOIN dataset_info d ON m.id = d.id
+            LEFT JOIN evaluation_results e ON m.id = e.id
+        """
+        ).df()
+        
+        if format == 'wide':
+            return self.transform_to_wide_format(df)
+        return df
+
 
     def __init__(self, db_path="analysis_store.duckdb", create_new=False):
         self.con = duckdb.connect(db_path)
@@ -156,6 +264,22 @@ class AnalysisStore:
 
         # Perform the save
         try:
+            # drop temporary data - can cause issues importing
+            temp_names = [
+                "temp_model_data",
+                "new_scores", 
+                "non_conflicts",
+                "temp_scores",
+                "conflicts"
+            ]
+            
+            for name in temp_names:
+                try:
+                    self.con.unregister(name)
+                    print(f"Unregistered {name}")
+                except:
+                    pass 
+
             self.con.execute(f"EXPORT DATABASE '{output_path}'")
             print(f"\nDatabase saved successfully to {output_path}")
         except Exception as e:
@@ -913,26 +1037,6 @@ class AnalysisStore:
             ],
         )
 
-    def get_analysis_data(self) -> pd.DataFrame:
-        """Get joined data for analysis"""
-        return self.con.execute(
-            """
-            SELECT 
-                m.*,
-                d.pretraining_summary_total_tokens_billions,
-                d.pretraining_summary_percentage_web,
-                d.pretraining_summary_percentage_code,
-                d.pretraining_summary_percentage_books,
-                e.benchmark,
-                e.setting,
-                e.accuracy,
-                e.accuracy_stderr
-            FROM model_annotations m
-            LEFT JOIN dataset_info d ON m.id = d.id
-            LEFT JOIN evaluation_results e ON m.id = e.id
-        """
-        ).df()
-
     def verify_data(self):
         """Print data verification"""
         print("\nData Verification:")
@@ -956,7 +1060,7 @@ if __name__ == "__main__":
     )
     print("\nImporting scores...")
     scores_df = pd.read_csv(
-        "./performance_prediction/gathered_data/model_scores_new.csv"
+        "./performance_prediction/gathered_data/curr_model_scores.csv"
     )
 
     store.import_scores_safely(
@@ -999,5 +1103,4 @@ if __name__ == "__main__":
         [model_id],
     ).df()
     print(scores)
-
-    store.save_database("try.duckdb")
+    store.save_database("./metadata/duckdb/try.duckdb")
