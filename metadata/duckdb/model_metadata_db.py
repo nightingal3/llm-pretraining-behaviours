@@ -93,7 +93,7 @@ class AnalysisStore:
         result = pd.merge(result, stderr_wide.reset_index(), on="id", how="left")
 
         # Rename id to model_name to match original format
-        result = result.rename(columns={"id": "model_name"})
+        #result = result.rename(columns={"id": "model_name"})
 
         return result
 
