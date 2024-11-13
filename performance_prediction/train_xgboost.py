@@ -193,7 +193,7 @@ def preprocess_data(data):
     columns_to_convert_in_data = [c for c in columns_to_convert if c in data.columns]
 
     data = pd.get_dummies(data, columns=columns_to_convert_in_data)
-    data = data.drop(["model_name"], axis=1)
+    data = data.drop(["id"], axis=1)
     return data
 
 
@@ -324,7 +324,7 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
             [
                 "total_params",
                 "pretraining_summary_total_tokens_billions",
-                "model_name",
+                "id",
             ]
             + list(cols_from_results)
         ]
@@ -511,11 +511,12 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         feats = feats.reset_index(drop=True)
         labels = labels.reset_index(drop=True)
 
-        model_names = dataset_copy["model_name"]
+        model_names = dataset_copy["id"]
         trainset = preprocess_data(dataset_copy)
 
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
+
 
         cross_val_results = cross_validation(feats, labels, y_col, args)
         all_mae = cross_val_results["all_mae"]
@@ -779,13 +780,7 @@ def postprocess_results(
         )
         # delete all the individual arithmetic tasks
         df_results = df_results[~df_results["task"].str.startswith("arithmetic_")]
-    print("Debug information:")
-    print(f"Number of successful tasks: {len(successful_tasks)}")
-    print(f"MAE per task: {mae_per_task}")
-    print(f"Median baseline MAE per task: {med_baseline_mae_per_task}")
-    print(
-        f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}"
-    )
+    
 
     for task, mae, baseline_mae in zip(
         successful_tasks, mae_per_task, med_baseline_mae_per_task
@@ -902,15 +897,17 @@ if __name__ == "__main__":
     with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
         mmlu_tasks = yaml.safe_load(f)["task"]
 
-    # training_scores = pd.read_csv(args.train_labels)
+    if not args.db_path:
+        training_scores = pd.read_csv(args.train_labels)
 
-    # cols_from_results = set(training_scores.columns) - {"model_name", "id"}
-
-    cols_from_results = [
-        col
-        for col in dataset.columns
-        if col.endswith(f"_{args.metric}") or col.endswith(f"_{args.metric}_stderr")
-    ]
+        cols_from_results = set(training_scores.columns) - {"model_name", "id"}
+    else:
+        # the suffixes are cleaner in the DB
+        metric_suffixes = ['_acc', '_brier_score', '_perplexity', '_stderr', '_norm']
+        cols_from_results = [
+            col for col in dataset.columns 
+            if any(col.endswith(suffix) for suffix in metric_suffixes)
+        ]
 
     if args.y_cols == ["all"]:
         y_cols = [t for t in list(cols_from_results) if t.endswith(f"_{args.metric}")]
