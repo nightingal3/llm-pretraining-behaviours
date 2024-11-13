@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Optional
 import re
 import os
+from datetime import datetime
 
 
 class AnalysisStore:
@@ -1106,4 +1107,5 @@ if __name__ == "__main__":
         [model_id],
     ).df()
     print(scores)
-    store.save_database("./metadata/duckdb/try.duckdb")
+    date_str = datetime.now().strftime('%Y_%m_%d')
+    store.save_database(f"./metadata/duckdb/{date_str}.duckdb")
