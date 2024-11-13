@@ -200,11 +200,7 @@ def preprocess_data(data):
 def get_args():
     parser = argparse.ArgumentParser()
     add_common_args(parser)
-    parser.add_argument(
-        "--db_path",
-        type=str,
-        help="Path to DuckDB database"
-    )
+    parser.add_argument("--db_path", type=str, help="Path to DuckDB database")
     parser.add_argument(
         "--regressor",
         type=str,
@@ -898,7 +894,6 @@ if __name__ == "__main__":
     # set the logger
     logging.basicConfig(level=args.log_level)
 
-
     dataset = load_data(args)
 
     warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
@@ -911,7 +906,11 @@ if __name__ == "__main__":
 
     # cols_from_results = set(training_scores.columns) - {"model_name", "id"}
 
-    cols_from_results = [col for col in dataset.columns if col.endswith(f"_{args.metric}") or col.endswith(f"_{args.metric}_stderr")]
+    cols_from_results = [
+        col
+        for col in dataset.columns
+        if col.endswith(f"_{args.metric}") or col.endswith(f"_{args.metric}_stderr")
+    ]
 
     if args.y_cols == ["all"]:
         y_cols = [t for t in list(cols_from_results) if t.endswith(f"_{args.metric}")]

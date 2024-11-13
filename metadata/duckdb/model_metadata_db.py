@@ -12,22 +12,22 @@ class AnalysisStore:
     def from_existing(cls, db_path: str):
         """Initialize from an existing duckdb directory without modifying schema"""
         db_path = Path(db_path)
-        
+
         # Create a new memory connection first
         store = cls.__new__(cls)
-        store.con = duckdb.connect(':memory:')
-        
+        store.con = duckdb.connect(":memory:")
+
         try:
             # Import the database into this connection
             store.con.execute(f"IMPORT DATABASE '{db_path}'")
-            
+
             # Verify the import worked
             tables = store.con.execute("SHOW TABLES").fetchall()
             print(f"Loaded existing database from {db_path}")
             print(f"Available tables: {[t[0] for t in tables]}")
-            
+
             return store
-            
+
         except Exception as e:
             raise RuntimeError(f"Failed to import database from {db_path}: {e}")
 
@@ -39,67 +39,71 @@ class AnalysisStore:
         """
         # First get unique model features and metadata (one row per model)
         feature_cols = [
-            'id', 'dimension', 'num_heads', 'mlp_ratio', 'layer_norm_type',
-            'positional_embeddings', 'attention_variant', 'biases', 'block_type',
-            'activation', 'sequence_length', 'batch_instances', 'batch_tokens',
-            'weight_tying', 'is_instruction_tuned', 'is_preference_tuned',
-            'total_params', 'pretraining_summary_total_tokens_billions',
-            'pretraining_summary_percentage_web', 'pretraining_summary_percentage_code',
-            'pretraining_summary_percentage_books'
+            "id",
+            "dimension",
+            "num_heads",
+            "mlp_ratio",
+            "layer_norm_type",
+            "positional_embeddings",
+            "attention_variant",
+            "biases",
+            "block_type",
+            "activation",
+            "sequence_length",
+            "batch_instances",
+            "batch_tokens",
+            "weight_tying",
+            "is_instruction_tuned",
+            "is_preference_tuned",
+            "total_params",
+            "pretraining_summary_total_tokens_billions",
+            "pretraining_summary_percentage_web",
+            "pretraining_summary_percentage_code",
+            "pretraining_summary_percentage_books",
         ]
-        model_features = df[feature_cols].drop_duplicates('id')
-        
+        model_features = df[feature_cols].drop_duplicates("id")
+
         # Create benchmark result columns
-        benchmark_data = df[['id', 'benchmark', 'setting', 'accuracy', 'accuracy_stderr']].dropna(subset=['benchmark'])
-        
+        benchmark_data = df[
+            ["id", "benchmark", "setting", "accuracy", "accuracy_stderr"]
+        ].dropna(subset=["benchmark"])
+
         def format_benchmark_name(benchmark: str, suffix: str) -> str:
             """Format benchmark name without duplicating shot settings"""
             # Remove any trailing underscores
-            return f"{benchmark}_{suffix}".rstrip('_')
-        
+            return f"{benchmark}_{suffix}".rstrip("_")
+
         # Pivot accuracy scores
         acc_wide = benchmark_data.pivot(
-            index='id',
-            columns='benchmark',
-            values='accuracy'
+            index="id", columns="benchmark", values="accuracy"
         )
 
-        acc_wide.columns = [format_benchmark_name(b, 'acc') for b in acc_wide.columns]
-        
+        acc_wide.columns = [format_benchmark_name(b, "acc") for b in acc_wide.columns]
+
         # Pivot stderr values
         stderr_wide = benchmark_data.pivot(
-            index='id',
-            columns='benchmark',
-            values='accuracy_stderr'
+            index="id", columns="benchmark", values="accuracy_stderr"
         )
-        stderr_wide.columns = [format_benchmark_name(b, 'acc_stderr') for b in stderr_wide.columns]
-        
+        stderr_wide.columns = [
+            format_benchmark_name(b, "acc_stderr") for b in stderr_wide.columns
+        ]
+
         # Combine all parts
-        result = pd.merge(
-            model_features,
-            acc_wide.reset_index(),
-            on='id',
-            how='left'
-        )
-        result = pd.merge(
-            result,
-            stderr_wide.reset_index(),
-            on='id',
-            how='left'
-        )
-        
+        result = pd.merge(model_features, acc_wide.reset_index(), on="id", how="left")
+        result = pd.merge(result, stderr_wide.reset_index(), on="id", how="left")
+
         # Rename id to model_name to match original format
-        result = result.rename(columns={'id': 'model_name'})
-        
+        result = result.rename(columns={"id": "model_name"})
+
         return result
 
-    def get_analysis_data(self, format: str = 'long') -> pd.DataFrame:
+    def get_analysis_data(self, format: str = "long") -> pd.DataFrame:
         """
         Get joined data for analysis.
-        
+
         Args:
             format: Either 'long' (default) or 'wide' format
-            
+
         Returns:
             DataFrame with all model features and evaluation results
         """
@@ -120,11 +124,10 @@ class AnalysisStore:
             LEFT JOIN evaluation_results e ON m.id = e.id
         """
         ).df()
-        
-        if format == 'wide':
+
+        if format == "wide":
             return self.transform_to_wide_format(df)
         return df
-
 
     def __init__(self, db_path="analysis_store.duckdb", create_new=False):
         self.con = duckdb.connect(db_path)
@@ -267,18 +270,18 @@ class AnalysisStore:
             # drop temporary data - can cause issues importing
             temp_names = [
                 "temp_model_data",
-                "new_scores", 
+                "new_scores",
                 "non_conflicts",
                 "temp_scores",
-                "conflicts"
+                "conflicts",
             ]
-            
+
             for name in temp_names:
                 try:
                     self.con.unregister(name)
                     print(f"Unregistered {name}")
                 except:
-                    pass 
+                    pass
 
             self.con.execute(f"EXPORT DATABASE '{output_path}'")
             print(f"\nDatabase saved successfully to {output_path}")

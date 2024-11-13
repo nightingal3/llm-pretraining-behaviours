@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-        
+
 from metadata.duckdb.model_metadata_db import AnalysisStore
 
 
@@ -51,11 +51,11 @@ def add_common_args(parser: argparse.ArgumentParser):
 
 def load_data(args: argparse.Namespace):
     if args.db_path:
-        print("Loading from DB...")        
+        print("Loading from DB...")
         store = AnalysisStore.from_existing(args.db_path)
-        
+
         dataset = store.get_analysis_data(format="wide")
-        
+
         store.con.close()
     else:
         print("Loading from CSV...")
@@ -86,9 +86,7 @@ def load_data(args: argparse.Namespace):
                 merged_rows.append(merged_row)
 
             # Remove original duplicates and add the merged rows
-            training_scores = training_scores.drop_duplicates(
-                subset=["id"], keep=False
-            )
+            training_scores = training_scores.drop_duplicates(subset=["id"], keep=False)
             merged_df = pd.DataFrame(merged_rows)
             training_scores = pd.concat([training_scores, merged_df], ignore_index=True)
 
