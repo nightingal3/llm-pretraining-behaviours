@@ -517,7 +517,6 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
         labels = trainset[y_col]
 
-
         cross_val_results = cross_validation(feats, labels, y_col, args)
         all_mae = cross_val_results["all_mae"]
         all_mae_median_baseline = cross_val_results["all_mae_median_baseline"]
@@ -780,7 +779,6 @@ def postprocess_results(
         )
         # delete all the individual arithmetic tasks
         df_results = df_results[~df_results["task"].str.startswith("arithmetic_")]
-    
 
     for task, mae, baseline_mae in zip(
         successful_tasks, mae_per_task, med_baseline_mae_per_task
@@ -903,9 +901,10 @@ if __name__ == "__main__":
         cols_from_results = set(training_scores.columns) - {"model_name", "id"}
     else:
         # the suffixes are cleaner in the DB
-        metric_suffixes = ['_acc', '_brier_score', '_perplexity', '_stderr', '_norm']
+        metric_suffixes = ["_acc", "_brier_score", "_perplexity", "_stderr", "_norm"]
         cols_from_results = [
-            col for col in dataset.columns 
+            col
+            for col in dataset.columns
             if any(col.endswith(suffix) for suffix in metric_suffixes)
         ]
 

@@ -94,7 +94,7 @@ class AnalysisStore:
         result = pd.merge(result, stderr_wide.reset_index(), on="id", how="left")
 
         # Rename id to model_name to match original format
-        #result = result.rename(columns={"id": "model_name"})
+        # result = result.rename(columns={"id": "model_name"})
 
         return result
 
@@ -1107,5 +1107,5 @@ if __name__ == "__main__":
         [model_id],
     ).df()
     print(scores)
-    date_str = datetime.now().strftime('%Y_%m_%d')
+    date_str = datetime.now().strftime("%Y_%m_%d")
     store.save_database(f"./metadata/duckdb/{date_str}.duckdb")
