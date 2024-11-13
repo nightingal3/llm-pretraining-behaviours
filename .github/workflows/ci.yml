@@ -23,6 +23,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pandas
+          pip install duckdb
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements-test.txt
       - name: List installed packages
