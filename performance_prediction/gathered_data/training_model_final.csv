@@ -41,7 +41,6 @@ jb723/cross_lingual_epoch2,4096,32,2.6875,rmsnorm,rope,gqa,none,sequential,swigl
 mistralai/Mixtral-8x7B-v0.1,4096,32,3.5,rmsnorm,rope,gqa,,,swiglu,32768,,,FALSE,46702792704,FALSE,FALSE,
 Salesforce/codegen-6B-mono,4096,16,,,,,,,,2048,,,FALSE,,FALSE,FALSE,6000000000
 Salesforce/codegen-6B-multi,4096,16,,,,,,,,2048,,,FALSE,,FALSE,FALSE,6000000000
-01-ai/Yi-34B,7168,56,2.857142857,,,,,,silu,4096,,,FALSE,34388917248,,,
 Salesforce/codegen25-7b-instruct_P,4096,32,2.6875,,,,,,silu,2048,,,FALSE,,TRUE,FALSE,
 IEITYuan/Yuan2-51B-hf,8192,64,4,,,,,,silu,4096,,,FALSE,,TRUE,FALSE,
 EleutherAI/pythia-70m,512,8,4,,,,,,gelu,2048,,,FALSE,95592496,,,
