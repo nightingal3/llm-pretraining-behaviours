@@ -193,13 +193,14 @@ def preprocess_data(data):
     columns_to_convert_in_data = [c for c in columns_to_convert if c in data.columns]
 
     data = pd.get_dummies(data, columns=columns_to_convert_in_data)
-    data = data.drop(["model_name", "id"], axis=1)
+    data = data.drop(["id"], axis=1)
     return data
 
 
 def get_args():
     parser = argparse.ArgumentParser()
     add_common_args(parser)
+    parser.add_argument("--db_path", type=str, help="Path to DuckDB database")
     parser.add_argument(
         "--regressor",
         type=str,
@@ -322,8 +323,7 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
         dataset = dataset[
             [
                 "total_params",
-                "pretraining_summary:total_tokens_billions",
-                "model_name",
+                "pretraining_summary_total_tokens_billions",
                 "id",
             ]
             + list(cols_from_results)
@@ -343,17 +343,17 @@ def process_data(dataset: pd.DataFrame, args: argparse.Namespace):
 
 
 def feat_transform(dataset: pd.DataFrame):
-    # transform total_params and pretraining_summary:total_tokens_billions to log scale
+    # transform total_params and pretraining_summary_total_tokens_billions to log scale
     (
         dataset["total_params"],
-        dataset["pretraining_summary:total_tokens_billions"],
+        dataset["pretraining_summary_total_tokens_billions"],
     ) = pd.to_numeric(dataset["total_params"], errors="coerce"), pd.to_numeric(
-        dataset["pretraining_summary:total_tokens_billions"], errors="coerce"
+        dataset["pretraining_summary_total_tokens_billions"], errors="coerce"
     )
 
     dataset["total_params"] = np.log(dataset["total_params"])
-    dataset["pretraining_summary:total_tokens_billions"] = np.log(
-        dataset["pretraining_summary:total_tokens_billions"]
+    dataset["pretraining_summary_total_tokens_billions"] = np.log(
+        dataset["pretraining_summary_total_tokens_billions"]
     )
     return dataset
 
@@ -457,7 +457,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
 
     scaling_laws_features = [
         "total_params",
-        "pretraining_summary:total_tokens_billions",
+        "pretraining_summary_total_tokens_billions",
     ]
 
     for y_col in y_cols:
@@ -487,8 +487,8 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         dataset_copy["total_params"] = pd.to_numeric(
             dataset_copy["total_params"], errors="coerce"
         )
-        dataset_copy["pretraining_summary:total_tokens_billions"] = pd.to_numeric(
-            dataset_copy["pretraining_summary:total_tokens_billions"], errors="coerce"
+        dataset_copy["pretraining_summary_total_tokens_billions"] = pd.to_numeric(
+            dataset_copy["pretraining_summary_total_tokens_billions"], errors="coerce"
         )
 
         if len(dataset_copy) <= MIN_SAMPLES:
@@ -511,7 +511,7 @@ def fit_predictors_on_datasets(args: argparse.Namespace, dataset: pd.DataFrame):
         feats = feats.reset_index(drop=True)
         labels = labels.reset_index(drop=True)
 
-        model_names = dataset_copy["model_name"]
+        model_names = dataset_copy["id"]
         trainset = preprocess_data(dataset_copy)
 
         feats = trainset.drop(columns=cols_from_results, errors="ignore")
@@ -779,13 +779,6 @@ def postprocess_results(
         )
         # delete all the individual arithmetic tasks
         df_results = df_results[~df_results["task"].str.startswith("arithmetic_")]
-    print("Debug information:")
-    print(f"Number of successful tasks: {len(successful_tasks)}")
-    print(f"MAE per task: {mae_per_task}")
-    print(f"Median baseline MAE per task: {med_baseline_mae_per_task}")
-    print(
-        f"Improvement over baseline: {list(np.array(mae_per_task) - np.array(med_baseline_mae_per_task))}"
-    )
 
     for task, mae, baseline_mae in zip(
         successful_tasks, mae_per_task, med_baseline_mae_per_task
@@ -894,7 +887,6 @@ if __name__ == "__main__":
     # set the logger
     logging.basicConfig(level=args.log_level)
 
-    # join the metadata and scores
     dataset = load_data(args)
 
     warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
@@ -903,9 +895,18 @@ if __name__ == "__main__":
     with open("./eval_task_groups/mmlu_deprecated.yaml", "r") as f:
         mmlu_tasks = yaml.safe_load(f)["task"]
 
-    training_scores = pd.read_csv(args.train_labels)
+    if not args.db_path:
+        training_scores = pd.read_csv(args.train_labels)
 
-    cols_from_results = set(training_scores.columns) - {"model_name", "id"}
+        cols_from_results = set(training_scores.columns) - {"model_name", "id"}
+    else:
+        # the suffixes are cleaner in the DB
+        metric_suffixes = ["_acc", "_brier_score", "_perplexity", "_stderr", "_norm"]
+        cols_from_results = [
+            col
+            for col in dataset.columns
+            if any(col.endswith(suffix) for suffix in metric_suffixes)
+        ]
 
     if args.y_cols == ["all"]:
         y_cols = [t for t in list(cols_from_results) if t.endswith(f"_{args.metric}")]

@@ -1,0 +1,22 @@
+{
+    "domains": [
+        {
+            "name": "the_pile",
+            "doc_type": [
+                "web"
+            ],
+            "documents": 211043181,
+            "data_size_gb": 825.18,
+            "tokens_billions": 288
+        }
+    ],
+    "summary": {
+        "total_tokens_billions": 371.0,
+        "percentage_english": 100.0,
+        "percentage_web": 91.82,
+        "percentage_code": 8.18,
+        "percentage_books": 0.0,
+        "percentage_reference": 0.0,
+        "percentage_academic": 0.0
+    }
+}

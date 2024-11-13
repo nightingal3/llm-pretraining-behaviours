@@ -1,4 +1,4 @@
-id,pretraining_summary_total_tokens_billions,pretraining_summary_percentage_web,pretraining_summary_percentage_code,pretraining_summary_percentage_books,pretraining_summary_percentage_reference,pretraining_summary_percentage_academic,pretraining_summary_percentage_english,sft_summary:total_tokens_billions
+id,pretraining_summary_total_tokens_billions,pretraining_summary_percentage_web,pretraining_summary_percentage_code,pretraining_summary_percentage_books,pretraining_summary_percentage_reference,pretraining_summary_percentage_academic,pretraining_summary_percentage_english,metadata
 AbacusResearch/Jallabi-34B,3100.0,80.83,8.53,2.69,1.09,4.87,75.0,
 aisingapore/sea-lion-7b,980.0,80.52,19.48,0.0,0.0,3.12,72.28,
 aisingapore/sea-lion-7b-instruct,,,,,,,,
