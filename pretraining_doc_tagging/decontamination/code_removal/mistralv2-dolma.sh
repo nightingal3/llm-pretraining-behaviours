@@ -21,7 +21,7 @@ fi
 
 set -euo pipefail
 
-CSV=/data/tir/projects/tir7/user_data/ssingha2/llm-pretraining-behaviours/dolma_data_processing/decontamination/code_removal/files.csv
+CSV=/data/tir/projects/tir7/user_data/ssingha2/llm-pretraining-behaviours/pretraining_doc_tagging/decontamination/code_removal/files.csv
 
 # Calculate the line number this job should process
 LINENUM=$(($SLURM_ARRAY_TASK_ID + 0))
@@ -52,5 +52,5 @@ echo "Total lines in $input_file: $line_count"
 
 for (( i=0; i<=line_count; i+=1000 )); do
     echo "Processing chunk starting at line: $i"
-    python3 /data/tir/projects/tir7/user_data/ssingha2/llm-pretraining-behaviours/dolma_data_processing/decontamination/coderemoval/Mistralv2-dolma.py  --input "$input_file" --output "$output_file" --idx $i
+    python3 /data/tir/projects/tir7/user_data/ssingha2/llm-pretraining-behaviours/pretraining_doc_tagging/decontamination/coderemoval/Mistralv2-dolma.py  --input "$input_file" --output "$output_file" --idx $i
 done

@@ -30,7 +30,7 @@ echo "==== END INFO ==="
 
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate towerllm-env
-cd dolma_data_processing
+cd pretraining_doc_tagging
 python get_dolma_features.py \
     --feature $feature \
     --input $input_file \
