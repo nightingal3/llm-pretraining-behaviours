@@ -29,31 +29,66 @@ from tree_sitter_languages import get_language, get_parser
 from calc_feature_utils import *
 import calc_parse_feature_utils
 from code_features.ast_features import get_features as get_code_features
-# Existing feature definitions
-feature_dict_schema_const = StructType([
-    StructField("words", ArrayType(StringType())),
-    StructField("const_word_depth", ArrayType(IntegerType())),
-    StructField("const_tree_depth", ArrayType(IntegerType())),
-    StructField("upos_label", ArrayType(StringType())),
-    StructField("xpos_label", ArrayType(StringType())),
-    StructField("num_words_sentence", ArrayType(IntegerType())),
-    StructField("num_words_input", ArrayType(IntegerType())),
-    StructField("num_sentences_input", ArrayType(IntegerType())),
-])
+from hf_classifier import TextClassifierHf
 
-feature_dict_schema_deps = StructType([
-    StructField("dist_to_head", ArrayType(IntegerType())),
-    StructField("dist_to_root", ArrayType(IntegerType())),
-])
+feature_dict_schema_classifier = StructType(
+    [
+        StructField("raw_score", ArrayType(IntegerType())),
+        StructField("int_score", ArrayType(IntegerType())),
+    ]
+)
+
+
+def register_classifier(name: str, model_name: str):
+    """Add a classifier to the feature registry"""
+    classifier = TextClassifierHf(model_name)
+
+    def classifier_fn(texts):
+        return classifier.predict_batch([texts])[0]
+
+    feature_registry[name] = {
+        "tagging_fn": classifier_fn,
+        "need_tokenize": False,
+        "need_parse": False,
+        "need_code_parse": False,
+        "need_raw_text": True,
+        "dtype": feature_dict_schema_classifier,
+    }
+
+
+register_classifier("edu_classifier", "HuggingFaceTB/fineweb-edu-classifier")
+
+# Existing feature definitions
+feature_dict_schema_const = StructType(
+    [
+        StructField("words", ArrayType(StringType())),
+        StructField("const_word_depth", ArrayType(IntegerType())),
+        StructField("const_tree_depth", ArrayType(IntegerType())),
+        StructField("upos_label", ArrayType(StringType())),
+        StructField("xpos_label", ArrayType(StringType())),
+        StructField("num_words_sentence", ArrayType(IntegerType())),
+        StructField("num_words_input", ArrayType(IntegerType())),
+        StructField("num_sentences_input", ArrayType(IntegerType())),
+    ]
+)
+
+feature_dict_schema_deps = StructType(
+    [
+        StructField("dist_to_head", ArrayType(IntegerType())),
+        StructField("dist_to_root", ArrayType(IntegerType())),
+    ]
+)
 
 # New schema for code features
-feature_dict_schema_code = StructType([
-    StructField("node_depth", ArrayType(IntegerType())),
-    StructField("tree_depth", ArrayType(IntegerType())),
-    StructField("dist_to_def", ArrayType(IntegerType())),
-    StructField("node_type", ArrayType(IntegerType())),
-    StructField("num_nodes_input", ArrayType(IntegerType())),
-])
+feature_dict_schema_code = StructType(
+    [
+        StructField("node_depth", ArrayType(IntegerType())),
+        StructField("tree_depth", ArrayType(IntegerType())),
+        StructField("dist_to_def", ArrayType(IntegerType())),
+        StructField("node_type", ArrayType(IntegerType())),
+        StructField("num_nodes_input", ArrayType(IntegerType())),
+    ]
+)
 
 # Updated feature registry
 feature_registry = {
@@ -107,6 +142,7 @@ stanza_pipeline = defaultdict(lambda: None)
 stanza_langdetect_pipeline = None
 tree_sitter_parsers = {}
 
+
 def get_tree_sitter_parser(lang_name):
     if lang_name not in tree_sitter_parsers:
         try:
@@ -118,8 +154,10 @@ def get_tree_sitter_parser(lang_name):
             return None, None
     return tree_sitter_parsers[lang_name]
 
+
 def feat_dict_to_row(feat_dict: dict) -> pyspark.sql.Row:
     return pyspark.sql.Row(**feat_dict)
+
 
 def parse_features_udf_wrapper(
     feature_fn: Callable, stanza_args: str, schema: StructType
@@ -139,16 +177,18 @@ def parse_features_udf_wrapper(
 
     return pyspark.sql.functions.udf(parse_features_udf, schema)
 
+
 def code_features_udf_wrapper(schema: StructType) -> pyspark.sql.functions.udf:
     def code_features_udf(code: str, lang_name: str) -> pyspark.sql.Row:
         parser, lang = get_tree_sitter_parser(lang_name)
         if parser is None or lang is None:
             return feat_dict_to_row({k: [] for k in schema.fieldNames()})
-        
+
         feature_dict = get_features(code, lang, parser)
         return feat_dict_to_row(feature_dict)
 
     return pyspark.sql.functions.udf(code_features_udf, schema)
+
 
 def detect_lang(text: str) -> str:
     global stanza_langdetect_pipeline
@@ -158,6 +198,7 @@ def detect_lang(text: str) -> str:
         )
     return stanza_langdetect_pipeline(text).lang[:2]
 
+
 def process_with_pandas(
     feature: str,
     df: pd.DataFrame,
@@ -166,52 +207,57 @@ def process_with_pandas(
     needs_parse: bool,
     needs_code_parse: bool,
     dtype,
-    stanza_args: str = None
+    stanza_args: str = None,
 ) -> pd.DataFrame:
     """Process features using pandas for smaller files."""
-    if 'id' not in df.columns:
+    if "id" not in df.columns:
         logging.info("ID column not found, generating synthetic IDs.")
-        df['id'] = range(len(df))
+        df["id"] = range(len(df))
 
-    if 'content' in df.columns and 'text' not in df.columns:
-        df = df.rename(columns={'content': 'text'})
+    if "content" in df.columns and "text" not in df.columns:
+        df = df.rename(columns={"content": "text"})
 
     # Handle tokenization
     if feature_registry[feature]["need_tokenize"]:
         logging.info("Tokenizing...")
-        df['token_ids'] = df['text'].apply(lambda x: tokenizer(x, add_special_tokens=False)['input_ids'])
+        df["token_ids"] = df["text"].apply(
+            lambda x: tokenizer(x, add_special_tokens=False)["input_ids"]
+        )
     else:
-        df['token_ids'] = df['text']
+        df["token_ids"] = df["text"]
 
     # Process features
     if needs_parse:
         logging.info("Detecting languages...")
+
         def get_lang(text):
             return detect_lang(text)
-        df['lang'] = df['text'].apply(get_lang)
-        
+
+        df["lang"] = df["text"].apply(get_lang)
+
         logging.info("Calculating parse features...")
+
         def process_row(row):
-            return feature_fn(row['text'], stanza_pipeline[row['lang']])
+            return feature_fn(row["text"], stanza_pipeline[row["lang"]])
+
         features = [process_row(row) for _, row in tqdm(df.iterrows())]
     elif needs_code_parse:
         logging.info("Calculating code features...")
+
         def process_code_row(row):
-            parser, lang = get_tree_sitter_parser(row['lang'])
+            parser, lang = get_tree_sitter_parser(row["lang"])
             if parser is None or lang is None:
                 return {k: [] for k in dtype.fieldNames()}
-            return get_features(row['text'], lang, parser)
+            return get_features(row["text"], lang, parser)
+
         features = [process_code_row(row) for _, row in tqdm(df.iterrows())]
     else:
         logging.info("Calculating features...")
-        features = [feature_fn(tokens) for tokens in tqdm(df['token_ids'])]
+        features = [feature_fn(tokens) for tokens in tqdm(df["token_ids"])]
 
     # Convert features to DataFrame
-    feature_df = pd.DataFrame({
-        'id': df['id'],
-        feature: features
-    })
-    
+    feature_df = pd.DataFrame({"id": df["id"], feature: features})
+
     return feature_df
 
 
@@ -238,12 +284,12 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         else f"{feature}.parquet"
     )
 
-    input_file_size = os.path.getsize(input_filepath) / (1024 ** 3)
+    input_file_size = os.path.getsize(input_filepath) / (1024**3)
     if input_file_size <= SIZE_THRESHOLD_GB:
         logging.info(f"File size is < {SIZE_THRESHOLD_GB}GB, using pandas to process")
-        if input_filepath.endswith('.jsonl'):
+        if input_filepath.endswith(".jsonl"):
             df = pd.read_json(input_filepath, lines=True, nrows=limit)
-        elif input_filepath.endswith('.jsonl.zst'):
+        elif input_filepath.endswith(".jsonl.zst"):
             df = read_jsonl_zst_pandas(input_filepath, limit)
         else:
             df = pd.read_parquet(input_filepath, nrows=limit)
@@ -257,13 +303,13 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             needs_parse=needs_parse,
             needs_code_parse=needs_code_parse,
             dtype=dtype,
-            stanza_args=stanza_args
+            stanza_args=stanza_args,
         )
-        
+
         # print some stats about the feature
         logging.info(f"Feature {feature} stats:")
         stats = feature_df[feature].apply(pd.Series).describe().T
-        stats = stats[['mean', 'std', 'min', 'max']]
+        stats = stats[["mean", "std", "min", "max"]]
         stats = stats.applymap(lambda x: f"{x:.2f}")
         logging.info(stats)
         # Save output
@@ -279,7 +325,9 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         broadcast_tokenizer = spark.sparkContext.broadcast(tokenizer)
 
         def tokenize(text: str) -> list[int]:
-            return broadcast_tokenizer.value(text, add_special_tokens=False)["input_ids"]
+            return broadcast_tokenizer.value(text, add_special_tokens=False)[
+                "input_ids"
+            ]
 
         tokenize_udf = pyspark.sql.functions.udf(
             tokenize, pyspark.sql.types.ArrayType(pyspark.sql.types.IntegerType())
@@ -300,9 +348,9 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             df = df.limit(limit)
         df.cache()
 
-        if 'id' not in df.columns:
+        if "id" not in df.columns:
             logging.info("ID column not found, generating synthetic IDs.")
-            df = df.withColumn('id', F.monotonically_increasing_id())
+            df = df.withColumn("id", F.monotonically_increasing_id())
 
         if do_tokenize:
             logging.info("Tokenizing...")
@@ -331,7 +379,7 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             df = df.withColumn(feature, feature_udf("token_ids"))
 
         feature_df = df.select("id", feature)
-        
+
         # print some stats about the feature
         logging.info(f"Feature {feature} stats:")
         stats = feature_df.select(
@@ -346,12 +394,15 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         feature_df.write.parquet(output_filepath, mode="overwrite")
         logging.info(f"Saved feature {feature} to {output_filepath}")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--feature", choices=list(feature_registry.keys()), required=True
     )
-    parser.add_argument("--input", help="Input file (arrow, jsonl, jsonl.zst)", type=str, required=True)
+    parser.add_argument(
+        "--input", help="Input file (arrow, jsonl, jsonl.zst)", type=str, required=True
+    )
     parser.add_argument("--output", help="Output file (arrow)", type=str)
     parser.add_argument("--limit", help="Limit the number of rows to process", type=int)
     logging.basicConfig(level=logging.INFO)
