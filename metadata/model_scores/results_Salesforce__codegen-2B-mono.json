@@ -1,6 +1,6 @@
 {
     "model_name": "Salesforce/codegen-2B-mono",
-    "last_updated": "2024-06-25 14:39:48.953176",
+    "last_updated": "2024-12-04 11:22:50.987258",
     "results": {
         "harness": {
             "minerva_math_precalc": {
@@ -104,9 +104,9 @@
                 "timestamp": "2024-06-13T22-00-20.177288"
             },
             "gsm8k": {
-                "exact_match": 0.021986353297952996,
-                "exact_match_stderr": 0.004039162758110052,
-                "timestamp": "2024-06-13T22-00-20.177288"
+                "exact_match": 0.02577710386656558,
+                "exact_match_stderr": 0.004365042953621819,
+                "timestamp": "2024-11-21T16-44-08.247361"
             },
             "anli_r2": {
                 "brier_score": 0.7685841435173599,
@@ -226,6 +226,347 @@
                 "acc": 0.2109450805356103,
                 "acc_stderr": 0.005683951840704778,
                 "timestamp": "2024-06-13T22-10-06.475630"
+            },
+            "mmlu_world_religions": {
+                "acc": 0.2631578947368421,
+                "acc_stderr": 0.033773102522091945,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_formal_logic": {
+                "acc": 0.2857142857142857,
+                "acc_stderr": 0.04040610178208841,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_prehistory": {
+                "acc": 0.23148148148148148,
+                "acc_stderr": 0.02346842983245115,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_moral_scenarios": {
+                "acc": 0.2446927374301676,
+                "acc_stderr": 0.014378169884098436,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_world_history": {
+                "acc": 0.26582278481012656,
+                "acc_stderr": 0.028756799629658335,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_moral_disputes": {
+                "acc": 0.22254335260115607,
+                "acc_stderr": 0.02239421566194282,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_professional_law": {
+                "acc": 0.2438070404172099,
+                "acc_stderr": 0.010966507972178475,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_logical_fallacies": {
+                "acc": 0.26993865030674846,
+                "acc_stderr": 0.034878251684978906,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_us_history": {
+                "acc": 0.20588235294117646,
+                "acc_stderr": 0.02837944945158868,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_philosophy": {
+                "acc": 0.2861736334405145,
+                "acc_stderr": 0.025670259242188936,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_jurisprudence": {
+                "acc": 0.2222222222222222,
+                "acc_stderr": 0.040191074725573483,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_international_law": {
+                "acc": 0.3305785123966942,
+                "acc_stderr": 0.04294340845212095,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_european_history": {
+                "acc": 0.23030303030303031,
+                "acc_stderr": 0.0328766675860349,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_government_and_politics": {
+                "acc": 0.31088082901554404,
+                "acc_stderr": 0.03340361906276585,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_microeconomics": {
+                "acc": 0.2689075630252101,
+                "acc_stderr": 0.028801392193631276,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_geography": {
+                "acc": 0.2828282828282828,
+                "acc_stderr": 0.032087795587867514,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_psychology": {
+                "acc": 0.24770642201834864,
+                "acc_stderr": 0.018508143602547805,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_public_relations": {
+                "acc": 0.2545454545454545,
+                "acc_stderr": 0.041723430387053825,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_us_foreign_policy": {
+                "acc": 0.25,
+                "acc_stderr": 0.04351941398892446,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_sociology": {
+                "acc": 0.26865671641791045,
+                "acc_stderr": 0.031343283582089536,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_macroeconomics": {
+                "acc": 0.3384615384615385,
+                "acc_stderr": 0.023991500500313036,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_security_studies": {
+                "acc": 0.3551020408163265,
+                "acc_stderr": 0.030635655150387634,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_professional_psychology": {
+                "acc": 0.2679738562091503,
+                "acc_stderr": 0.017917974069594726,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_human_sexuality": {
+                "acc": 0.24427480916030533,
+                "acc_stderr": 0.03768335959728744,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_econometrics": {
+                "acc": 0.23684210526315788,
+                "acc_stderr": 0.03999423879281336,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_miscellaneous": {
+                "acc": 0.2247765006385696,
+                "acc_stderr": 0.01492744710193716,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_marketing": {
+                "acc": 0.3034188034188034,
+                "acc_stderr": 0.030118210106942645,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_management": {
+                "acc": 0.33980582524271846,
+                "acc_stderr": 0.046897659372781335,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_nutrition": {
+                "acc": 0.2777777777777778,
+                "acc_stderr": 0.02564686309713792,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_medical_genetics": {
+                "acc": 0.28,
+                "acc_stderr": 0.04512608598542127,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_human_aging": {
+                "acc": 0.17488789237668162,
+                "acc_stderr": 0.02549528462644497,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_professional_medicine": {
+                "acc": 0.4375,
+                "acc_stderr": 0.030134614954403924,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_college_medicine": {
+                "acc": 0.2543352601156069,
+                "acc_stderr": 0.0332055644308557,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_business_ethics": {
+                "acc": 0.28,
+                "acc_stderr": 0.045126085985421276,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_clinical_knowledge": {
+                "acc": 0.2792452830188679,
+                "acc_stderr": 0.027611163402399715,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_global_facts": {
+                "acc": 0.17,
+                "acc_stderr": 0.0377525168068637,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_virology": {
+                "acc": 0.27710843373493976,
+                "acc_stderr": 0.034843315926805875,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_professional_accounting": {
+                "acc": 0.2695035460992908,
+                "acc_stderr": 0.026469036818590627,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_college_physics": {
+                "acc": 0.17647058823529413,
+                "acc_stderr": 0.0379328118530781,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_physics": {
+                "acc": 0.3443708609271523,
+                "acc_stderr": 0.038796870240733264,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_biology": {
+                "acc": 0.1870967741935484,
+                "acc_stderr": 0.022185710092252255,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_college_biology": {
+                "acc": 0.2708333333333333,
+                "acc_stderr": 0.03716177437566017,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_anatomy": {
+                "acc": 0.24444444444444444,
+                "acc_stderr": 0.037125378336148665,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_college_chemistry": {
+                "acc": 0.29,
+                "acc_stderr": 0.04560480215720685,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_computer_security": {
+                "acc": 0.21,
+                "acc_stderr": 0.040936018074033256,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_college_computer_science": {
+                "acc": 0.39,
+                "acc_stderr": 0.04902071300001974,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_astronomy": {
+                "acc": 0.2565789473684211,
+                "acc_stderr": 0.035541803680256896,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_college_mathematics": {
+                "acc": 0.31,
+                "acc_stderr": 0.04648231987117316,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_conceptual_physics": {
+                "acc": 0.2936170212765957,
+                "acc_stderr": 0.029771642712491227,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_abstract_algebra": {
+                "acc": 0.29,
+                "acc_stderr": 0.04560480215720683,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_computer_science": {
+                "acc": 0.25,
+                "acc_stderr": 0.04351941398892446,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_machine_learning": {
+                "acc": 0.19642857142857142,
+                "acc_stderr": 0.03770970049347018,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_chemistry": {
+                "acc": 0.270935960591133,
+                "acc_stderr": 0.031270907132976984,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_statistics": {
+                "acc": 0.36574074074074076,
+                "acc_stderr": 0.03284738857647207,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_elementary_mathematics": {
+                "acc": 0.25132275132275134,
+                "acc_stderr": 0.022340482339643898,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_electrical_engineering": {
+                "acc": 0.25517241379310346,
+                "acc_stderr": 0.03632984052707842,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "mmlu_high_school_mathematics": {
+                "acc": 0.25925925925925924,
+                "acc_stderr": 0.026719240783712173,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "arc_challenge": {
+                "acc": 0.19197952218430034,
+                "acc_stderr": 0.011509598906598107,
+                "acc_norm": 0.23293515358361774,
+                "acc_norm_stderr": 0.012352507042617387,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "hellaswag": {
+                "acc": 0.3044214299940251,
+                "acc_stderr": 0.0045922151182952635,
+                "acc_norm": 0.3430591515634336,
+                "acc_norm_stderr": 0.004737608340163424,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "truthfulqa_mc2": {
+                "acc": 0.4489096881754911,
+                "acc_stderr": 0.01542412879319777,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "truthfulqa_gen": {
+                "bleu_max": 16.04577191970097,
+                "bleu_max_stderr": 0.5552162891689132,
+                "bleu_acc": 0.37209302325581395,
+                "bleu_acc_stderr": 0.016921090118814045,
+                "bleu_diff": -2.0090839666050755,
+                "bleu_diff_stderr": 0.52202727913542,
+                "rouge1_max": 34.93723491168912,
+                "rouge1_max_stderr": 0.8615146874033828,
+                "rouge1_acc": 0.2962056303549572,
+                "rouge1_acc_stderr": 0.015983595101811385,
+                "rouge1_diff": -5.533004957393886,
+                "rouge1_diff_stderr": 0.7883741299337192,
+                "rouge2_max": 18.30765799283543,
+                "rouge2_max_stderr": 0.8421305079189312,
+                "rouge2_acc": 0.16523867809057527,
+                "rouge2_acc_stderr": 0.01300145435649922,
+                "rouge2_diff": -5.205693990711149,
+                "rouge2_diff_stderr": 0.7125780222110801,
+                "rougeL_max": 32.32955226819275,
+                "rougeL_max_stderr": 0.8369096403695482,
+                "rougeL_acc": 0.3047735618115055,
+                "rougeL_acc_stderr": 0.01611412415688243,
+                "rougeL_diff": -5.442950391491437,
+                "rougeL_diff_stderr": 0.7788716099947031,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "truthfulqa_mc1": {
+                "acc": 0.2582619339045288,
+                "acc_stderr": 0.01532182168847618,
+                "timestamp": "2024-11-21T16-44-08.247361"
+            },
+            "winogrande": {
+                "acc": 0.5122336227308603,
+                "acc_stderr": 0.01404827882040562,
+                "timestamp": "2024-11-21T16-44-08.247361"
             }
         }
     }
