@@ -551,228 +551,293 @@
                 }
             },
             "gsm8k": {
-                "exact_match": 0.07505686125852919,
-                "exact_match_stderr": 0.007257633145486642,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.07505686125852919,
+                    "acc_stderr": 0.007257633145486642,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_precalc": {
-                "exact_match": 0.016483516483516484,
-                "exact_match_stderr": 0.005454029764766741,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.016483516483516484,
+                    "acc_stderr": 0.005454029764766741,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_prealgebra": {
-                "exact_match": 0.03673938002296211,
-                "exact_match_stderr": 0.006377907088210899,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.03673938002296211,
+                    "acc_stderr": 0.006377907088210899,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_num_theory": {
-                "exact_match": 0.007407407407407408,
-                "exact_match_stderr": 0.0036933821684372575,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.007407407407407408,
+                    "acc_stderr": 0.0036933821684372575,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_intermediate_algebra": {
-                "exact_match": 0.015503875968992248,
-                "exact_match_stderr": 0.004113617238360444,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.015503875968992248,
+                    "acc_stderr": 0.004113617238360444,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_geometry": {
-                "exact_match": 0.010438413361169102,
-                "exact_match_stderr": 0.0046486271171846455,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.010438413361169102,
+                    "acc_stderr": 0.0046486271171846455,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_counting_and_prob": {
-                "exact_match": 0.02109704641350211,
-                "exact_match_stderr": 0.0066076963656265374,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.02109704641350211,
+                    "acc_stderr": 0.0066076963656265374,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "minerva_math_algebra": {
-                "exact_match": 0.019376579612468407,
-                "exact_match_stderr": 0.0040026474981053545,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.019376579612468407,
+                    "acc_stderr": 0.0040026474981053545,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "fld_default": {
-                "exact_match": 0.0,
-                "exact_match_stderr": 0.0,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "0-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "fld_star": {
-                "exact_match": 0.0,
-                "exact_match_stderr": 0.0,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "0-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_3da": {
-                "acc": 0.2185,
-                "acc_stderr": 0.009242379877114725,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.2185,
+                    "acc_stderr": 0.009242379877114725,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_3ds": {
-                "acc": 0.646,
-                "acc_stderr": 0.010695756149043483,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.646,
+                    "acc_stderr": 0.010695756149043483,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_4da": {
-                "acc": 0.0085,
-                "acc_stderr": 0.002053285901060994,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.0085,
+                    "acc_stderr": 0.002053285901060994,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_2ds": {
-                "acc": 0.6345,
-                "acc_stderr": 0.010770927603540937,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.6345,
+                    "acc_stderr": 0.010770927603540937,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_5ds": {
-                "acc": 0.056,
-                "acc_stderr": 0.005142491867889066,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.056,
+                    "acc_stderr": 0.005142491867889066,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_5da": {
-                "acc": 0.0025,
-                "acc_stderr": 0.0011169148353275223,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.0025,
+                    "acc_stderr": 0.0011169148353275223,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_1dc": {
-                "acc": 0.053,
-                "acc_stderr": 0.0050107937521926766,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.053,
+                    "acc_stderr": 0.0050107937521926766,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_4ds": {
-                "acc": 0.1425,
-                "acc_stderr": 0.007818403847292692,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.1425,
+                    "acc_stderr": 0.007818403847292692,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_2dm": {
-                "acc": 0.2425,
-                "acc_stderr": 0.00958607434827748,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.2425,
+                    "acc_stderr": 0.00958607434827748,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "arithmetic_2da": {
-                "acc": 0.716,
-                "acc_stderr": 0.010085775202269415,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.716,
+                    "acc_stderr": 0.010085775202269415,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "gsm8k_cot": {
-                "exact_match": 0.08946171341925702,
-                "exact_match_stderr": 0.00786158304993971,
-                "timestamp": "2024-06-07T14-05-19.237175"
+                "5-shot": {
+                    "acc": 0.08946171341925702,
+                    "acc_stderr": 0.00786158304993971,
+                    "timestamp": "2024-06-07T14-05-19.237175"
+                }
             },
             "anli_r2": {
-                "brier_score": 0.8665276269305205,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.8665276269305205,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "anli_r3": {
-                "brier_score": 0.8318243198290138,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.8318243198290138,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "anli_r1": {
-                "brier_score": 0.8939690888764009,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.8939690888764009,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_eu": {
-                "brier_score": 1.0427344013967832,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.0427344013967832,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_vi": {
-                "brier_score": 1.0487135581024136,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.0487135581024136,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_ru": {
-                "brier_score": 0.8221328820374796,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.8221328820374796,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_zh": {
-                "brier_score": 1.0244308666680741,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.0244308666680741,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_tr": {
-                "brier_score": 0.9970781849876954,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.9970781849876954,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_fr": {
-                "brier_score": 0.7436567906026784,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.7436567906026784,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_en": {
-                "brier_score": 0.6425702304442446,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.6425702304442446,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_ur": {
-                "brier_score": 1.3117764974375834,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.3117764974375834,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_ar": {
-                "brier_score": 1.2508515010911752,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.2508515010911752,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_de": {
-                "brier_score": 0.8387305217972838,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.8387305217972838,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_hi": {
-                "brier_score": 1.1022494172288069,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.1022494172288069,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_es": {
-                "brier_score": 0.8133629952055023,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.8133629952055023,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_bg": {
-                "brier_score": 0.9484830535778097,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.9484830535778097,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_sw": {
-                "brier_score": 1.0888680824673866,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.0888680824673866,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_el": {
-                "brier_score": 0.9888240024756009,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.9888240024756009,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "xnli_th": {
-                "brier_score": 0.9812608603086016,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 0.9812608603086016,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "logiqa2": {
-                "brier_score": 1.059925394028478,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "0-shot": {
+                    "brier_score": 1.059925394028478,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "mathqa": {
-                "brier_score": 0.9414128848103127,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T14-16-36.587884"
+                "5-shot": {
+                    "brier_score": 0.9414128848103127,
+                    "timestamp": "2024-06-07T14-16-36.587884"
+                }
             },
             "lambada_standard": {
-                "perplexity": 4.213587010663793,
-                "perplexity_stderr": 0.0909206003026987,
-                "acc": 0.6557345235784979,
-                "acc_stderr": 0.006619464143312433,
-                "timestamp": "2024-06-07T14-17-55.951174"
+                "0-shot": {
+                    "perplexity": 4.213587010663793,
+                    "perplexity_stderr": 0.0909206003026987,
+                    "acc": 0.6557345235784979,
+                    "acc_stderr": 0.006619464143312433,
+                    "timestamp": "2024-06-07T14-17-55.951174"
+                }
             },
             "lambada_openai": {
-                "perplexity": 3.391177573570244,
-                "perplexity_stderr": 0.07192541543832812,
-                "acc": 0.7269551717446148,
-                "acc_stderr": 0.006207016010291535,
-                "timestamp": "2024-06-07T14-17-55.951174"
+                "0-shot": {
+                    "perplexity": 3.391177573570244,
+                    "perplexity_stderr": 0.07192541543832812,
+                    "acc": 0.7269551717446148,
+                    "acc_stderr": 0.006207016010291535,
+                    "timestamp": "2024-06-07T14-17-55.951174"
+                }
             }
         }
     }

@@ -1,7 +1,5 @@
 {
     "model_name": "LLM360/CrystalCoder",
     "last_updated": null,
-    "results": {
-        "harness": {}
-    }
+    "results": {}
 }

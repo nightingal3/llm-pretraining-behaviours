@@ -166,11 +166,10 @@ class AnalysisStore:
                 id VARCHAR,
                 benchmark VARCHAR,
                 setting VARCHAR,
-                accuracy DOUBLE,
-                accuracy_stderr DOUBLE,
-                timestamp TIMESTAMP,
-                metadata JSON,
-                PRIMARY KEY(id, benchmark, setting)
+                metric VARCHAR,
+                metric_value DOUBLE,
+                metric_stderr DOUBLE,
+                PRIMARY KEY(id, benchmark, setting, metric)
             );
             
             -- Dataset information
@@ -371,17 +370,7 @@ class AnalysisStore:
         self.con.execute(
             """
             INSERT INTO dataset_info 
-            SELECT 
-                id,
-                "pretraining_summary:total_tokens_billions" as pretraining_summary_total_tokens_billions,
-                "pretraining_summary:percentage_web" as pretraining_summary_percentage_web,
-                "pretraining_summary:percentage_code" as pretraining_summary_percentage_code,
-                "pretraining_summary:percentage_books" as pretraining_summary_percentage_books,
-                "pretraining_summary:percentage_reference" as pretraining_summary_percentage_reference,
-                "pretraining_summary:percentage_academic" as pretraining_summary_percentage_academic,
-                "pretraining_summary:percentage_english" as pretraining_summary_percentage_english,
-                NULL as metadata
-            FROM read_csv_auto(?)
+            SELECT * FROM read_csv_auto(?)
             ON CONFLICT (id) DO UPDATE SET
                 pretraining_summary_total_tokens_billions = EXCLUDED.pretraining_summary_total_tokens_billions,
                 pretraining_summary_percentage_web = EXCLUDED.pretraining_summary_percentage_web,
@@ -390,7 +379,7 @@ class AnalysisStore:
                 pretraining_summary_percentage_reference = EXCLUDED.pretraining_summary_percentage_reference,
                 pretraining_summary_percentage_academic = EXCLUDED.pretraining_summary_percentage_academic,
                 pretraining_summary_percentage_english = EXCLUDED.pretraining_summary_percentage_english
-        """,
+            """,
             [csv_path],
         )
 
@@ -842,9 +831,9 @@ class AnalysisStore:
             SELECT 
                 benchmark,
                 setting,
-                accuracy,
-                accuracy_stderr,
-                timestamp
+                metric,
+                metric_value,
+                metric_stderr
             FROM evaluation_results
             WHERE id = ?
             ORDER BY benchmark, setting
@@ -858,17 +847,14 @@ class AnalysisStore:
             "benchmark_scores": benchmark_scores,
         }
 
-    def import_scores_from_json_dir(
-        self, json_dir: str, benchmark_defaults: dict = None
-    ):
-        """Import scores with flexible metric handling
+    def _standardize_model_id(self, model_id: str) -> str:
+        """Standardize model ID to use '/' instead of '__'"""
+        return model_id.replace('__', '/')
 
-        Handles different metric types and naming conventions:
-        - accuracy: acc, exact_match, etc.
-        - perplexity: perplexity, ppl
-        - brier score: brier_score
-        etc.
-        """
+    def import_scores_from_json_dir(
+    self, json_dir: str, benchmark_defaults: dict = None
+    ):
+        """Import scores with flexible metric handling"""
         json_dir = Path(json_dir)
         print(f"Importing scores from {json_dir}")
 
@@ -893,8 +879,22 @@ class AnalysisStore:
         STDERR_SUFFIXES = ["_stderr", "_std", "_stddev", "_error"]
 
         benchmark_defaults = benchmark_defaults or {
-            "minerva": "5-shot",
-            "gsm": "5-shot",
+            'arc_challenge': '25-shot',
+            'hellaswag': '10-shot',
+            'mmlu': '5-shot',
+            'truthfulqa': '0-shot',
+            'winogrande': '5-shot',
+            'lambada': '0-shot',
+            'drop': '3-shot',
+            'gsm8k': '5-shot',
+            'arithmetic': '5-shot',
+            'minerva': '5-shot',
+            'mathqa': '5-shot',
+            'xnli': '0-shot',
+            'anli': '0-shot',
+            'logiqa2': '0-shot',
+            'fld': '0-shot',
+            'asdiv': '5-shot'
         }
 
         imported = 0
@@ -904,12 +904,14 @@ class AnalysisStore:
         def extract_metrics(data: dict) -> dict:
             """Extract all metrics and their stderr from data"""
             metrics = {}
-
-            # Find all metrics and their stderr
             for key, value in data.items():
                 # Skip timestamp and other non-metric fields
-                if key == "timestamp" or not isinstance(value, (int, float)):
+                if key == "timestamp" or not isinstance(value, (int, float, str)):
                     continue
+
+                # Convert string numbers to float
+                if isinstance(value, str) and value.replace('.', '').isdigit():
+                    value = float(value)
 
                 # Check if this is a stderr value
                 is_stderr = any(suffix in key for suffix in STDERR_SUFFIXES)
@@ -924,7 +926,10 @@ class AnalysisStore:
                 for suffix in STDERR_SUFFIXES:
                     stderr_key = f"{key}{suffix}"
                     if stderr_key in data:
-                        stderr_value = data[stderr_key]
+                        stderr_val = data[stderr_key]
+                        if isinstance(stderr_val, str) and stderr_val.replace('.', '').isdigit():
+                            stderr_val = float(stderr_val)
+                        stderr_value = stderr_val
                         break
 
                 metrics[metric_name] = {"value": value, "stderr": stderr_value}
@@ -936,59 +941,106 @@ class AnalysisStore:
                 with open(json_path) as f:
                     data = json.load(f)
 
-                model_id = data.get("model_name")
+                # called model name or id
+                model_id = data.get("model_name") or data.get("id")
                 if not model_id:
                     print(f"Skipping {json_path.name} - no model_name found")
                     skipped += 1
                     continue
 
+                model_id = self._standardize_model_id(model_id)
+
                 results = data.get("results", {})
+                
+                # Handle harness section separately
+                if "harness" in results:
+                    harness_results = results.pop("harness")
+                    for benchmark, content in harness_results.items():
+                        if isinstance(content, dict):
+                            # Check if it has shot settings
+                            if any("shot" in setting for setting in content.keys()):
+                                # New format with explicit shot settings
+                                for setting, metrics_data in content.items():
+                                    if "shot" not in setting:
+                                        continue
+                                    metrics = extract_metrics(metrics_data)
+                                    timestamp = metrics_data.get("timestamp")
+                                    self._insert_score(
+                                        model_id=model_id,
+                                        benchmark=benchmark,
+                                        setting=setting,
+                                        metrics=metrics,
+                                        timestamp=timestamp,
+                                    )
+                                    imported += 1
+                            else:
+                                # Need to add shot setting
+                                default_setting = None
+                                for prefix, setting in benchmark_defaults.items():
+                                    if benchmark.startswith(prefix):
+                                        default_setting = setting
+                                        break
+                                
+                                # Special case for minerva_math benchmarks
+                                if benchmark.startswith('minerva_math'):
+                                    default_setting = '5-shot'
+                                
+                                if not default_setting:
+                                    print(f"Skipping {benchmark} - no default shot setting found")
+                                    skipped += 1
+                                    continue
+
+                                metrics = extract_metrics(content)
+                                timestamp = content.get("timestamp")
+                                breakpoint()
+                                self._insert_score(
+                                    model_id=model_id,
+                                    benchmark=benchmark,
+                                    setting=default_setting,
+                                    metrics=metrics,
+                                    timestamp=timestamp,
+                                )
+                                imported += 1
+
+                # Handle non-harness results
                 for benchmark, content in results.items():
-                    if isinstance(content, dict) and any(
-                        "shot" in setting for setting in content.keys()
-                    ):
-                        # New format with explicit shot settings
-                        for setting, metrics_data in content.items():
-                            if "shot" not in setting:
+                    if isinstance(content, dict):
+                        if any("shot" in setting for setting in content.keys()):
+                            for setting, metrics_data in content.items():
+                                if "shot" not in setting:
+                                    continue
+                                metrics = extract_metrics(metrics_data)
+                                timestamp = metrics_data.get("timestamp")
+                                self._insert_score(
+                                    model_id=model_id,
+                                    benchmark=benchmark,
+                                    setting=setting,
+                                    metrics=metrics,
+                                    timestamp=timestamp,
+                                )
+                                imported += 1
+                        else:
+                            default_setting = None
+                            for prefix, setting in benchmark_defaults.items():
+                                if benchmark.startswith(prefix):
+                                    default_setting = setting
+                                    break
+
+                            if not default_setting:
+                                print(f"Skipping {benchmark} - no default shot setting found")
+                                skipped += 1
                                 continue
 
-                            metrics = extract_metrics(metrics_data)
-                            timestamp = metrics_data.get("timestamp")
-
+                            metrics = extract_metrics(content)
+                            timestamp = content.get("timestamp")
                             self._insert_score(
                                 model_id=model_id,
                                 benchmark=benchmark,
-                                setting=setting,
+                                setting=default_setting,
                                 metrics=metrics,
                                 timestamp=timestamp,
                             )
                             imported += 1
-                    else:
-                        # Old format without shot settings
-                        default_setting = None
-                        for prefix, setting in benchmark_defaults.items():
-                            if benchmark.startswith(prefix):
-                                default_setting = setting
-                                break
-
-                        if not default_setting:
-                            print(
-                                f"Skipping {benchmark} - no default shot setting found"
-                            )
-                            skipped += 1
-                            continue
-
-                        metrics = extract_metrics(content)
-                        timestamp = content.get("timestamp")
-
-                        self._insert_score(
-                            model_id=model_id,
-                            benchmark=benchmark,
-                            setting=default_setting,
-                            metrics=metrics,
-                            timestamp=timestamp,
-                        )
-                        imported += 1
 
                 print(f"Imported scores for {model_id}")
 
@@ -1000,46 +1052,220 @@ class AnalysisStore:
         print(f"Imported {imported} scores")
         print(f"Skipped {skipped} items")
         print(f"Encountered {errors} errors")
+    # def import_scores_from_json_dir(
+    #     self, json_dir: str, benchmark_defaults: dict = None
+    # ):
+    #     """Import scores with flexible metric handling
 
+    #     Handles different metric types and naming conventions:
+    #     - accuracy: acc, exact_match, etc.
+    #     - perplexity: perplexity, ppl
+    #     - brier score: brier_score
+    #     etc.
+    #     """
+    #     json_dir = Path(json_dir)
+    #     print(f"Importing scores from {json_dir}")
+
+    #     # Map known metric aliases
+    #     METRIC_MAPPING = {
+    #         # Accuracy metrics
+    #         "acc": "accuracy",
+    #         "exact_match": "accuracy",
+    #         "accuracy": "accuracy",
+    #         # Perplexity metrics
+    #         "perplexity": "perplexity",
+    #         "ppl": "perplexity",
+    #         # Other metrics
+    #         "brier_score": "brier_score",
+    #         "f1": "f1",
+    #         "rouge1": "rouge1",
+    #         "rouge2": "rouge2",
+    #         "rougeL": "rougeL",
+    #     }
+
+    #     # Map stderr suffixes
+    #     STDERR_SUFFIXES = ["_stderr", "_std", "_stddev", "_error"]
+
+    #     benchmark_defaults = benchmark_defaults or {
+    #         "minerva": "5-shot",
+    #         "gsm": "5-shot",
+    #     }
+
+    #     imported = 0
+    #     skipped = 0
+    #     errors = 0
+
+    #     def extract_metrics(data: dict) -> dict:
+    #         """Extract all metrics and their stderr from data"""
+    #         metrics = {}
+
+    #         # Find all metrics and their stderr
+    #         for key, value in data.items():
+    #             # Skip timestamp and other non-metric fields
+    #             if key == "timestamp" or not isinstance(value, (int, float)):
+    #                 continue
+
+    #             # Check if this is a stderr value
+    #             is_stderr = any(suffix in key for suffix in STDERR_SUFFIXES)
+    #             if is_stderr:
+    #                 continue
+
+    #             # Get base metric name
+    #             metric_name = METRIC_MAPPING.get(key, key)
+
+    #             # Find corresponding stderr if exists
+    #             stderr_value = None
+    #             for suffix in STDERR_SUFFIXES:
+    #                 stderr_key = f"{key}{suffix}"
+    #                 if stderr_key in data:
+    #                     stderr_value = data[stderr_key]
+    #                     break
+
+    #             metrics[metric_name] = {"value": value, "stderr": stderr_value}
+
+    #         return metrics
+
+    #     for json_path in json_dir.glob("*.json"):
+    #         try:
+    #             with open(json_path) as f:
+    #                 data = json.load(f)
+
+    #             model_id = data.get("model_name")
+    #             if not model_id:
+    #                 print(f"Skipping {json_path.name} - no model_name found")
+    #                 skipped += 1
+    #                 continue
+
+    #             results = data.get("results", {})
+    #             for benchmark, content in results.items():
+    #                 if isinstance(content, dict) and any(
+    #                     "shot" in setting for setting in content.keys()
+    #                 ):
+    #                     # New format with explicit shot settings
+    #                     for setting, metrics_data in content.items():
+    #                         if "shot" not in setting:
+    #                             continue
+
+    #                         metrics = extract_metrics(metrics_data)
+    #                         timestamp = metrics_data.get("timestamp")
+
+    #                         self._insert_score(
+    #                             model_id=model_id,
+    #                             benchmark=benchmark,
+    #                             setting=setting,
+    #                             metrics=metrics,
+    #                             timestamp=timestamp,
+    #                         )
+    #                         imported += 1
+    #                 else:
+    #                     # Old format without shot settings
+    #                     default_setting = None
+    #                     for prefix, setting in benchmark_defaults.items():
+    #                         if benchmark.startswith(prefix):
+    #                             default_setting = setting
+    #                             break
+
+    #                     if not default_setting:
+    #                         print(
+    #                             f"Skipping {benchmark} - no default shot setting found"
+    #                         )
+    #                         skipped += 1
+    #                         continue
+
+    #                     metrics = extract_metrics(content)
+    #                     timestamp = content.get("timestamp")
+
+    #                     self._insert_score(
+    #                         model_id=model_id,
+    #                         benchmark=benchmark,
+    #                         setting=default_setting,
+    #                         metrics=metrics,
+    #                         timestamp=timestamp,
+    #                     )
+    #                     imported += 1
+
+    #             print(f"Imported scores for {model_id}")
+
+    #         except Exception as e:
+    #             print(f"Error processing {json_path.name}: {e}")
+    #             errors += 1
+
+    #     print(f"\nImport summary:")
+    #     print(f"Imported {imported} scores")
+    #     print(f"Skipped {skipped} items")
+    #     print(f"Encountered {errors} errors")
     def _insert_score(
         self,
         model_id: str,
         benchmark: str,
         setting: str,
         metrics: dict,
-        timestamp: str = None,
+        timestamp: str = None,  # Keep param to avoid changing interface
     ):
         """Insert score with multiple metrics into database"""
-        # Extract primary accuracy metric if exists
-        accuracy = metrics.get("accuracy", {}).get("value")
-        accuracy_stderr = metrics.get("accuracy", {}).get("stderr")
+        # Convert metrics from {metric_name: {value: x, stderr: y}} 
+        # to list of (metric_name, value, stderr)
+        for metric_name, values in metrics.items():
+            value = values.get("value")
+            stderr = values.get("stderr")
+            
+            self.con.execute(
+                """
+                INSERT INTO evaluation_results 
+                (id, benchmark, setting, metric, metric_value, metric_stderr)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT (id, benchmark, setting, metric) DO UPDATE SET
+                    metric_value = EXCLUDED.metric_value,
+                    metric_stderr = EXCLUDED.metric_stderr
+            """,
+                [
+                    model_id,
+                    benchmark,
+                    setting,
+                    metric_name,
+                    value,
+                    stderr,
+                ],
+            )
+    # def _insert_score(
+    #     self,
+    #     model_id: str,
+    #     benchmark: str,
+    #     setting: str,
+    #     metrics: dict,
+    #     timestamp: str = None,
+    # ):
+    #     """Insert score with multiple metrics into database"""
+    #     # Extract primary accuracy metric if exists
+    #     accuracy = metrics.get("accuracy", {}).get("value")
+    #     accuracy_stderr = metrics.get("accuracy", {}).get("stderr")
 
-        # Store all other metrics in metadata
-        metadata = {
-            metric: values for metric, values in metrics.items() if metric != "accuracy"
-        }
+    #     # Store all other metrics in metadata
+    #     metadata = {
+    #         metric: values for metric, values in metrics.items() if metric != "accuracy"
+    #     }
 
-        self.con.execute(
-            """
-            INSERT INTO evaluation_results 
-            (id, benchmark, setting, accuracy, accuracy_stderr, metadata, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT (id, benchmark, setting) DO UPDATE SET
-                accuracy = EXCLUDED.accuracy,
-                accuracy_stderr = EXCLUDED.accuracy_stderr,
-                metadata = EXCLUDED.metadata,
-                timestamp = EXCLUDED.timestamp
-        """,
-            [
-                model_id,
-                benchmark,
-                setting,
-                accuracy,
-                accuracy_stderr,
-                json.dumps(metadata) if metadata else None,
-                timestamp,
-            ],
-        )
+    #     self.con.execute(
+    #         """
+    #         INSERT INTO evaluation_results 
+    #         (id, benchmark, setting, accuracy, accuracy_stderr, metadata, timestamp)
+    #         VALUES (?, ?, ?, ?, ?, ?, ?)
+    #         ON CONFLICT (id, benchmark, setting) DO UPDATE SET
+    #             accuracy = EXCLUDED.accuracy,
+    #             accuracy_stderr = EXCLUDED.accuracy_stderr,
+    #             metadata = EXCLUDED.metadata,
+    #             timestamp = EXCLUDED.timestamp
+    #     """,
+    #         [
+    #             model_id,
+    #             benchmark,
+    #             setting,
+    #             accuracy,
+    #             accuracy_stderr,
+    #             json.dumps(metadata) if metadata else None,
+    #             timestamp,
+    #         ],
+    #     )
 
     def verify_data(self):
         """Print data verification"""
@@ -1063,12 +1289,15 @@ if __name__ == "__main__":
         "./performance_prediction/gathered_data/training_dataset_final_revised.csv"
     )
     print("\nImporting scores...")
-    scores_df = pd.read_csv(
-        "./performance_prediction/gathered_data/curr_model_scores.csv"
-    )
+    # scores_df = pd.read_csv(
+    #     "./performance_prediction/gathered_data/curr_model_scores.csv"
+    # )
 
-    store.import_scores_safely(
-        scores_df, auto_resolve=False  # Set to True if you want automatic resolution
+    # store.import_scores_safely(
+    #     scores_df, auto_resolve=False  # Set to True if you want automatic resolution
+    # )
+    store.import_scores_from_json_dir(
+        "/data/tir/projects/tir6/general/mengyan3/tower-llm-training/metadata/model_scores",
     )
 
     # Verify the imports
@@ -1096,12 +1325,13 @@ if __name__ == "__main__":
         SELECT 
             benchmark,
             setting,
-            accuracy,
-            accuracy_stderr
+            metric,
+            metric_value,
+            metric_stderr
         FROM evaluation_results
         WHERE id = ?
-            AND accuracy IS NOT NULL
-            AND accuracy = accuracy
+            AND metric_value IS NOT NULL
+            AND metric_value = metric_value
         ORDER BY benchmark, setting
     """,
         [model_id],

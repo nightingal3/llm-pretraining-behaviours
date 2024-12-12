@@ -4,119 +4,108 @@
     "results": {
         "harness": {
             "xnli": {
-                "x-shot": {
+                "0-shot": {
                     "acc": "0.3520",
                     "acc_stderr": "0.0255",
                     "timestamp": "2024-04-23 21:49:49.030729"
                 }
             },
             "mathqa": {
-                "x-shot": {
+                "5-shot": {
                     "acc": "0.2191",
                     "acc_stderr": "0.0076",
                     "timestamp": "2024-04-23 21:51:14.731508"
                 }
             },
             "minerva_math_algebra": {
-                "x-shot": {
-                    "exact_match": "0.0084",
-                    "acc_stderr": "0.0027",
+                "5-shot": {
+                    "acc": "0.0084",
                     "timestamp": "2024-04-23 21:57:37.539983"
                 }
             },
             "arithmetic": {
-                "x-shot": {
+                "5-shot": {
                     "acc": "0.0086",
                     "acc_stderr": "0.0089",
                     "timestamp": "2024-04-23 21:58:45.522031"
                 }
             },
             "minerva_math_precalc": {
-                "x-shot": {
-                    "exact_match": "0.0165",
-                    "acc_stderr": "0.0055",
+                "5-shot": {
+                    "acc": "0.0165",
                     "timestamp": "2024-04-23 22:02:19.077865"
                 }
             },
             "fld": {
-                "x-shot": {
-                    "exact_match": "0",
-                    "acc_stderr": "0",
+                "0-shot": {
+                    "acc": "0",
                     "timestamp": "2024-04-23 22:34:34.740291"
                 }
             },
             "minerva_math_geometry": {
-                "x-shot": {
-                    "exact_match": "0.0063",
-                    "acc_stderr": "0.0036",
+                "5-shot": {
+                    "acc": "0.0063",
                     "timestamp": "2024-04-23 22:38:04.524572"
                 }
             },
             "asdiv": {
-                "x-shot": {
+                "5-shot": {
                     "acc": "0.0056",
                     "acc_stderr": "0.0016",
                     "timestamp": "2024-04-23 22:38:34.019076"
                 }
             },
             "minerva_math_num_theory": {
-                "x-shot": {
-                    "exact_match": "0.0093",
-                    "acc_stderr": "0.0041",
+                "5-shot": {
+                    "acc": "0.0093",
                     "timestamp": "2024-04-23 22:41:56.072398"
                 }
             },
             "gsm8k": {
-                "x-shot": {
-                    "exact_match": "0.0144",
-                    "acc_stderr": "0.0033",
+                "5-shot": {
+                    "acc": "0.0144",
                     "timestamp": "2024-04-23 22:51:17.358283"
                 }
             },
             "minerva_math_prealgebra": {
-                "x-shot": {
-                    "exact_match": "0.0138",
-                    "acc_stderr": "0.004",
+                "5-shot": {
+                    "acc": "0.0138",
                     "timestamp": "2024-04-23 22:56:29.278010"
                 }
             },
             "minerva_math_intermediate_algebra": {
-                "x-shot": {
-                    "exact_match": "0.0133",
-                    "acc_stderr": "0.0038",
+                "5-shot": {
+                    "acc": "0.0133",
                     "timestamp": "2024-04-23 23:01:47.375239"
                 }
             },
             "anli": {
-                "x-shot": {
+                "0-shot": {
                     "acc": "0.3337",
                     "acc_stderr": "0.0145",
                     "timestamp": "2024-04-23 23:04:23.902269"
                 }
             },
             "gsm8k_cot": {
-                "x-shot": {
-                    "exact_match": "0.0053",
-                    "acc_stderr": "0.002",
+                "5-shot": {
+                    "acc": "0.0053",
                     "timestamp": "2024-04-23 23:12:35.673102"
                 }
             },
             "minerva_math_counting_and_prob": {
-                "x-shot": {
-                    "exact_match": "0.0063",
-                    "acc_stderr": "0.0036",
+                "5-shot": {
+                    "acc": "0.0063",
                     "timestamp": "2024-04-23 23:15:56.226745"
                 }
             },
             "minerva_math": {
-                "x-shot": {
-                    "exact_match": "0.0108",
-                    "acc_stderr": "0.0047",
+                "5-shot": {
+                    "acc": "0.0108",
                     "timestamp": "2024-04-23 23:41:52.085876"
                 }
             },
             "logiqa2": {
-                "x-shot": {
+                "0-shot": {
                     "acc": "0.2392",
                     "acc_stderr": "0.0108",
                     "timestamp": "2024-04-23 23:46:48.163321"

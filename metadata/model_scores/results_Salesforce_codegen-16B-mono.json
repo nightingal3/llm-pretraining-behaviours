@@ -1,7 +1,5 @@
 {
     "model_name": "Salesforce/codegen-16B-mono",
     "last_updated": null,
-    "results": {
-        "harness": {}
-    }
+    "results": {}
 }

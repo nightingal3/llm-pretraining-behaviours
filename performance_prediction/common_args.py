@@ -45,7 +45,7 @@ def add_common_args(parser: argparse.ArgumentParser):
         "--new_task_only", action="store_true", help="only keep new tasks"
     )
     parser.add_argument(
-        "--metric", default="acc", choices=["acc", "brier_score", "perplexity"]
+        "--metric", default="acc", choices=["acc", "accuracy", "brier_score", "perplexity"]
     )
 
 

@@ -1,7 +1,5 @@
 {
     "model_name": "Deci/DeciCoder-6B",
     "last_updated": null,
-    "results": {
-        "harness": {}
-    }
+    "results": {}
 }

@@ -1,7 +1,5 @@
 {
     "model_name": "EleutherAI/pile-t5-large",
     "last_updated": null,
-    "results": {
-        "harness": {}
-    }
+    "results": {}
 }

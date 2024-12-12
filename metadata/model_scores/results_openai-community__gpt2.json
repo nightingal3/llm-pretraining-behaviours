@@ -551,228 +551,289 @@
                 }
             },
             "gsm8k": {
-                "exact_match": 0.016679302501895376,
-                "exact_match_stderr": 0.0035275958887224265,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.016679302501895376,
+                    "acc_stderr": 0.0035275958887224265,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_precalc": {
-                "exact_match": 0.007326007326007326,
-                "exact_match_stderr": 0.0036529080893830334,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.007326007326007326,
+                    "acc_stderr": 0.0036529080893830334,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_prealgebra": {
-                "exact_match": 0.01722158438576349,
-                "exact_match_stderr": 0.004410671674161436,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.01722158438576349,
+                    "acc_stderr": 0.004410671674161436,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_num_theory": {
-                "exact_match": 0.003703703703703704,
-                "exact_match_stderr": 0.0026164834572311862,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.003703703703703704,
+                    "acc_stderr": 0.0026164834572311862,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_intermediate_algebra": {
-                "exact_match": 0.005537098560354375,
-                "exact_match_stderr": 0.0024707690436948444,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.005537098560354375,
+                    "acc_stderr": 0.0024707690436948444,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_geometry": {
-                "exact_match": 0.0041753653444676405,
-                "exact_match_stderr": 0.0029493392170756513,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0041753653444676405,
+                    "acc_stderr": 0.0029493392170756513,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_counting_and_prob": {
-                "exact_match": 0.012658227848101266,
-                "exact_match_stderr": 0.005140313889578848,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.012658227848101266,
+                    "acc_stderr": 0.005140313889578848,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "minerva_math_algebra": {
-                "exact_match": 0.016849199663016005,
-                "exact_match_stderr": 0.003737294849759706,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.016849199663016005,
+                    "acc_stderr": 0.003737294849759706,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "fld_default": {
-                "exact_match": 0.0,
-                "exact_match_stderr": 0.0,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "0-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "fld_star": {
-                "exact_match": 0.0,
-                "exact_match_stderr": 0.0,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "0-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_3da": {
-                "acc": 0.001,
-                "acc_stderr": 0.0007069298939339458,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.001,
+                    "acc_stderr": 0.0007069298939339458,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_3ds": {
-                "acc": 0.0015,
-                "acc_stderr": 0.0008655920660521539,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0015,
+                    "acc_stderr": 0.0008655920660521539,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_4da": {
-                "acc": 0.0005,
-                "acc_stderr": 0.0005000000000000151,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0005,
+                    "acc_stderr": 0.0005000000000000151,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_2ds": {
-                "acc": 0.0075,
-                "acc_stderr": 0.0019296986470519848,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0075,
+                    "acc_stderr": 0.0019296986470519848,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_5ds": {
-                "acc": 0.0,
-                "acc_stderr": 0.0,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_5da": {
-                "acc": 0.0,
-                "acc_stderr": 0.0,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_1dc": {
-                "acc": 0.0,
-                "acc_stderr": 0.0,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_4ds": {
-                "acc": 0.0,
-                "acc_stderr": 0.0,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_2dm": {
-                "acc": 0.0125,
-                "acc_stderr": 0.0024849471787626726,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0125,
+                    "acc_stderr": 0.0024849471787626726,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "arithmetic_2da": {
-                "acc": 0.0035,
-                "acc_stderr": 0.0013208888574315748,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.0035,
+                    "acc_stderr": 0.0013208888574315748,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "gsm8k_cot": {
-                "exact_match": 0.02122820318423048,
-                "exact_match_stderr": 0.003970449129848636,
-                "timestamp": "2024-06-07T10-20-41.543861"
+                "5-shot": {
+                    "acc": 0.02122820318423048,
+                    "acc_stderr": 0.003970449129848636,
+                    "timestamp": "2024-06-07T10-20-41.543861"
+                }
             },
             "anli_r2": {
-                "brier_score": 0.8430078263586929,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.8430078263586929,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "anli_r3": {
-                "brier_score": 0.8013382623470885,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.8013382623470885,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "anli_r1": {
-                "brier_score": 0.8498025055736901,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.8498025055736901,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_eu": {
-                "brier_score": 0.9535989536207443,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.9535989536207443,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_vi": {
-                "brier_score": 1.0211886040569071,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.0211886040569071,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_ru": {
-                "brier_score": 0.7731589865372022,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.7731589865372022,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_zh": {
-                "brier_score": 0.9057661094866232,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.9057661094866232,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_tr": {
-                "brier_score": 1.2240303777002093,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.2240303777002093,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_fr": {
-                "brier_score": 1.0840384510822554,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.0840384510822554,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_en": {
-                "brier_score": 0.7392875401126219,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.7392875401126219,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_ur": {
-                "brier_score": 1.230167174519266,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.230167174519266,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_ar": {
-                "brier_score": 0.8911067783116383,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.8911067783116383,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_de": {
-                "brier_score": 0.9368314062777842,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.9368314062777842,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_hi": {
-                "brier_score": 1.019823037820243,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.019823037820243,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_es": {
-                "brier_score": 1.190947162499289,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.190947162499289,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_bg": {
-                "brier_score": 0.8735272166946944,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 0.8735272166946944,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_sw": {
-                "brier_score": 1.0233152940648171,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.0233152940648171,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_el": {
-                "brier_score": 1.26573102048963,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.26573102048963,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "xnli_th": {
-                "brier_score": 1.0943639845839195,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.0943639845839195,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "logiqa2": {
-                "brier_score": 1.1036405901271378,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "0-shot": {
+                    "brier_score": 1.1036405901271378,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "mathqa": {
-                "brier_score": 1.03887777935678,
-                "brier_score_stderr": "N/A",
-                "timestamp": "2024-06-07T10-25-29.426859"
+                "5-shot": {
+                    "brier_score": 1.03887777935678,
+                    "timestamp": "2024-06-07T10-25-29.426859"
+                }
             },
             "lambada_standard": {
-                "perplexity": 93.73017204246435,
-                "perplexity_stderr": 3.812055170694076,
-                "acc": 0.25965457015330873,
-                "acc_stderr": 0.0061083970427305056,
-                "timestamp": "2024-06-07T10-26-26.121064"
+                "0-shot": {
+                    "perplexity": 93.73017204246435,
+                    "perplexity_stderr": 3.812055170694076,
+                    "acc": 0.25965457015330873,
+                    "acc_stderr": 0.0061083970427305056,
+                    "timestamp": "2024-06-07T10-26-26.121064"
+                }
             },
             "lambada_openai": {
-                "perplexity": 40.05542696796472,
-                "perplexity_stderr": 1.4840536659360848,
-                "acc": 0.32563555210556955,
-                "acc_stderr": 0.006528678957835457,
-                "timestamp": "2024-06-07T10-26-26.121064"
+                "0-shot": {
+                    "perplexity": 40.05542696796472,
+                    "perplexity_stderr": 1.4840536659360848,
+                    "acc": 0.32563555210556955,
+                    "acc_stderr": 0.006528678957835457,
+                    "timestamp": "2024-06-07T10-26-26.121064"
+                }
             }
         }
     }
