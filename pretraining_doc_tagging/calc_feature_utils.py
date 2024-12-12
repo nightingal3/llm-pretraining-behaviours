@@ -4,7 +4,6 @@
 # 2. Number of tokens
 # 3. Lexical diversity (avg rank of ngrams within the sequence)
 ## Word/token level 
-# TODO: ask Graham about this as well?
 # 3. Number of unique tokens
 # 4. Ngram frequency of this token
 # 5. Position in sequence
@@ -38,3 +37,15 @@ def get_position_in_sequence(tokenized_input: list[int]) -> list[int]:
 
 def get_num_times_token_appears(tokenized_input: list[int], token: int) -> int:
     return tokenized_input.count(token)
+
+def get_ttr(tokenized_input: list[int]) -> float:
+    return len(set(tokenized_input)) / len(tokenized_input)
+
+
+def get_content_function_ratio(pos_tags: list[str]) -> float:
+    """Compute ratio of content words to total words"""
+    content_tags = {'NOUN', 'VERB', 'ADJ', 'ADV'}
+    if not pos_tags:
+        return 0.0
+    content_words = sum(1 for tag in pos_tags if tag in content_tags)
+    return content_words / len(pos_tags)

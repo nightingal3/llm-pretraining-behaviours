@@ -110,6 +110,12 @@ feature_registry = {
         "need_parse": False,
         "dtype": IntegerType(),
     },
+    "ttr": {
+        "tagging_fn": get_ttr,
+        "need_tokenize": True,
+        "need_parse": False,
+        "dtype": FloatType(),
+    },
     "seq_ind_tok": {
         "tagging_fn": get_position_in_sequence,
         "need_tokenize": True,
@@ -135,6 +141,12 @@ feature_registry = {
         "need_code_parse": True,
         "dtype": feature_dict_schema_code,
     },
+    "content_function_ratio": {
+        "tagging_fn": get_content_function_ratio,
+        "need_tokenize": False,
+        "need_parse": True,
+        "dtype": FloatType(),
+    }
 }
 
 # Global variables
@@ -273,6 +285,8 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         "tokenize,pos,constituency"
         if feature == "const_parse"
         else "tokenize,pos,depparse"
+        if feature == "dep_parse"
+        else "tokenize,pos"
     )
 
     tokenizer = AutoTokenizer.from_pretrained(
