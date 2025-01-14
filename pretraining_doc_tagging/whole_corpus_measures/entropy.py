@@ -96,7 +96,7 @@ def preproc_chunk(chunk: List[List], preproc_fn: Callable):
 
 def compute_entropy_counts(
     doc_tokens: List[List], n: int = 1
-) -> Tuple[dict, dict, float]:
+) -> dict:
     """
     Compute entropy over next-word distribution given counts in the corpus
     """
@@ -116,16 +116,26 @@ def compute_entropy_counts(
             next_token = tokens[i + n]
             next_token_counts[curr_ngram][next_token] += 1
             context_counts[curr_ngram] += 1
-
+    # if multiprocessing.current_process().name == 'MainProcess':
+    #     breakpoint()
+    # else:
+    #     time.sleep(3600)  # Sleep for an hour or until you Ctrl-C
     entropy_vals = {}
     weighted_entropy_sum = 0
     print("Calculating entropy over next tokens...")
+    total_contexts = sum(context_counts.values())
     entropy_vals, weighted_entropy_sum = compute_entropy_parallel_with_chunking(
         next_token_counts, context_counts
     )
     print("Num seqs skipped: ", num_skipped)
 
-    return entropy_vals, next_token_counts, weighted_entropy_sum
+    return {
+        "entropy_by_ngram": entropy_vals,
+        "total_contexts": total_contexts,
+        "weighted_entropy": weighted_entropy_sum,
+        "context_counts": context_counts,
+        "next_token_counts": next_token_counts,
+    }
 
 
 def init_model_hf(
@@ -379,11 +389,12 @@ def analyze_entropy(
             iterable, tokenize=method_type == "counts", remove_punct=args.remove_punct
         )
         if method_type == "counts":
-            (
-                entropy_by_ngram,
-                next_token_counts,
-                weighted_avg_entropy,
-            ) = compute_entropy_counts(all_words, n=args.ngram)
+            entropy_results = compute_entropy_counts(all_words, n=args.ngram)
+            entropy_by_ngram = entropy_results["entropy_by_ngram"]
+            total_contexts = entropy_results["total_contexts"]
+            weighted_entropy = entropy_results["weighted_entropy"]
+            context_counts = entropy_results["context_counts"]
+            next_token_counts = entropy_results["next_token_counts"]
         else:
             (
                 entropy_by_ngram,
@@ -436,14 +447,22 @@ def main():
         df = df.head(args.num_docs)
 
     # Preprocess texts
+    if args.text_column == "resps": 
+        # custom resp format, handle separately
+        df['text'] = df['resps'].apply(lambda x: x[0][0] if x and x[0] else '')
+        args.text_column = 'text'
+
     texts = df[args.text_column].tolist()
     tokenized_texts = preproc_parallel(texts)
 
     # Compute corpus-level entropy
-    entropy_by_ngram, context_counts, total_contexts = compute_entropy_counts(
+    entropy_results = compute_entropy_counts(
         tokenized_texts, 
         n=args.ngram
     )
+    entropy_by_ngram = entropy_results["entropy_by_ngram"]
+    context_counts = entropy_results["context_counts"]
+    total_contexts = entropy_results["total_contexts"]
 
     # Compute document-level stats
     doc_features = []
