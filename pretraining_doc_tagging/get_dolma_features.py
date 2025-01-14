@@ -15,6 +15,7 @@ from pyspark.sql.types import (
     ArrayType,
     IntegerType,
     StringType,
+    FloatType,
 )
 import pyspark.sql.functions as F
 import pandas as pd
@@ -31,34 +32,7 @@ import calc_parse_feature_utils
 from code_features.ast_features import get_features as get_code_features
 from hf_classifier import TextClassifierHf
 
-feature_dict_schema_classifier = StructType(
-    [
-        StructField("raw_score", ArrayType(IntegerType())),
-        StructField("int_score", ArrayType(IntegerType())),
-    ]
-)
-
-
-def register_classifier(name: str, model_name: str):
-    """Add a classifier to the feature registry"""
-    classifier = TextClassifierHf(model_name)
-
-    def classifier_fn(texts):
-        return classifier.predict_batch([texts])[0]
-
-    feature_registry[name] = {
-        "tagging_fn": classifier_fn,
-        "need_tokenize": False,
-        "need_parse": False,
-        "need_code_parse": False,
-        "need_raw_text": True,
-        "dtype": feature_dict_schema_classifier,
-    }
-
-
-register_classifier("edu_classifier", "HuggingFaceTB/fineweb-edu-classifier")
-
-# Existing feature definitions
+# Define all schema structures first
 feature_dict_schema_const = StructType(
     [
         StructField("words", ArrayType(StringType())),
@@ -79,7 +53,6 @@ feature_dict_schema_deps = StructType(
     ]
 )
 
-# New schema for code features
 feature_dict_schema_code = StructType(
     [
         StructField("node_depth", ArrayType(IntegerType())),
@@ -90,7 +63,14 @@ feature_dict_schema_code = StructType(
     ]
 )
 
-# Updated feature registry
+feature_dict_schema_classifier = StructType(
+    [
+        StructField("raw_score", ArrayType(IntegerType())),
+        StructField("int_score", ArrayType(IntegerType())),
+    ]
+)
+
+# Feature registry definition
 feature_registry = {
     "num_tokens": {
         "tagging_fn": get_num_tokens,
@@ -142,12 +122,63 @@ feature_registry = {
         "dtype": feature_dict_schema_code,
     },
     "content_function_ratio": {
-        "tagging_fn": get_content_function_ratio,
+        "tagging_fn": calc_parse_feature_utils.get_content_function_ratio,
         "need_tokenize": False,
         "need_parse": True,
         "dtype": FloatType(),
     }
 }
+
+def register_classifier(name: str, model_name: str):
+    """Add a classifier to the feature registry"""
+    classifier = TextClassifierHf(model_name)
+
+    def classifier_fn(texts):
+        return classifier.predict_batch([texts])[0]
+
+    feature_registry[name] = {
+        "tagging_fn": classifier_fn,
+        "need_tokenize": False,
+        "need_parse": False,
+        "need_code_parse": False,
+        "need_raw_text": True,
+        "dtype": feature_dict_schema_classifier,
+    }
+
+register_classifier("edu_classifier", "HuggingFaceTB/fineweb-edu-classifier")
+
+# Existing feature definitions
+feature_dict_schema_const = StructType(
+    [
+        StructField("words", ArrayType(StringType())),
+        StructField("const_word_depth", ArrayType(IntegerType())),
+        StructField("const_tree_depth", ArrayType(IntegerType())),
+        StructField("upos_label", ArrayType(StringType())),
+        StructField("xpos_label", ArrayType(StringType())),
+        StructField("num_words_sentence", ArrayType(IntegerType())),
+        StructField("num_words_input", ArrayType(IntegerType())),
+        StructField("num_sentences_input", ArrayType(IntegerType())),
+    ]
+)
+
+feature_dict_schema_deps = StructType(
+    [
+        StructField("dist_to_head", ArrayType(IntegerType())),
+        StructField("dist_to_root", ArrayType(IntegerType())),
+    ]
+)
+
+# New schema for code features
+feature_dict_schema_code = StructType(
+    [
+        StructField("node_depth", ArrayType(IntegerType())),
+        StructField("tree_depth", ArrayType(IntegerType())),
+        StructField("dist_to_def", ArrayType(IntegerType())),
+        StructField("node_type", ArrayType(IntegerType())),
+        StructField("num_nodes_input", ArrayType(IntegerType())),
+    ]
+)
+
 
 # Global variables
 stanza_pipeline = defaultdict(lambda: None)
@@ -242,15 +273,41 @@ def process_with_pandas(
     if needs_parse:
         logging.info("Detecting languages...")
 
-        def get_lang(text):
-            return detect_lang(text)
+        def get_lang(text, default_lang: str = "en"):
+            if not text:
+                return default_lang
+            text = text.strip()
+            try:
+                return detect_lang(text)
+            except:
+                return default_lang
 
         df["lang"] = df["text"].apply(get_lang)
 
         logging.info("Calculating parse features...")
 
         def process_row(row):
-            return feature_fn(row["text"], stanza_pipeline[row["lang"]])
+            try:
+                parser = stanza_pipeline[row["lang"]]
+                if parser is None:
+                    # initialize stanza pipeline
+                    try:
+                        stanza_pipeline[row["lang"]] = stanza.Pipeline(
+                            lang=row["lang"], processors=stanza_args
+                        )
+                    except ValueError as e:
+                        # Language not supported - return empty features
+                        logging.warning(f"Unsupported language {row['lang']}, skipping")
+                        return {k: [] for k in feature_dict_schema_const.fieldNames()} if feature == "const_parse" else \
+                            {k: [] for k in feature_dict_schema_deps.fieldNames()}
+                
+                # Use existing pipeline
+                return feature_fn(row["text"], stanza_pipeline[row["lang"]])
+            except Exception as e:
+                logging.warning(f"Error processing row with language {row['lang']}: {str(e)}")
+                return {k: [] for k in feature_dict_schema_const.fieldNames()} if feature == "const_parse" else \
+                    {k: [] for k in feature_dict_schema_deps.fieldNames()}
+                    
 
         features = [process_row(row) for _, row in tqdm(df.iterrows())]
     elif needs_code_parse:
@@ -284,7 +341,7 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
     stanza_args = (
         "tokenize,pos,constituency"
         if feature == "const_parse"
-        else "tokenize,pos,depparse"
+        else "tokenize,lemma,pos,depparse"
         if feature == "dep_parse"
         else "tokenize,pos"
     )
@@ -303,8 +360,10 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         logging.info(f"File size is < {SIZE_THRESHOLD_GB}GB, using pandas to process")
         if input_filepath.endswith(".jsonl"):
             df = pd.read_json(input_filepath, lines=True, nrows=limit)
+            df['text'] = df['resps'].apply(lambda x: x[0][0] if x and x[0] else '')
         elif input_filepath.endswith(".jsonl.zst"):
             df = read_jsonl_zst_pandas(input_filepath, limit)
+            df['text'] = df['resps'].apply(lambda x: x[0][0] if x and x[0] else '')
         else:
             df = pd.read_parquet(input_filepath, nrows=limit)
 
@@ -319,14 +378,17 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             dtype=dtype,
             stanza_args=stanza_args,
         )
-
-        # print some stats about the feature
-        logging.info(f"Feature {feature} stats:")
-        stats = feature_df[feature].apply(pd.Series).describe().T
-        stats = stats[["mean", "std", "min", "max"]]
-        stats = stats.applymap(lambda x: f"{x:.2f}")
-        logging.info(stats)
+        
+        if not feature in ["const_parse", "dep_parse", "code_features"]:
+            # print some stats about the feature
+            logging.info(f"Feature {feature} stats:")
+            stats = feature_df[feature].apply(pd.Series).describe().T
+            stats = stats[["mean", "std", "min", "max"]]
+            stats = stats.applymap(lambda x: f"{x:.2f}")
+            logging.info(stats)
         # Save output
+        
+        os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
         feature_df.to_parquet(output_filepath)
         logging.info(f"Saved feature {feature} to {output_filepath}")
     else:
@@ -350,8 +412,10 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         logging.info(f"Reading {input_filepath}...")
         if input_filepath.endswith(".jsonl"):
             df = spark.read.json(input_filepath)
+            df = df.withColumn('text', F.col('resps')[0][0])
         elif input_filepath.endswith(".jsonl.zst"):
             df = read_jsonl_zst(spark, input_filepath)
+            df = df.withColumn('text', F.col('resps')[0][0])
         else:
             df = spark.read.parquet(input_filepath)
 
@@ -394,17 +458,20 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
 
         feature_df = df.select("id", feature)
 
-        # print some stats about the feature
-        logging.info(f"Feature {feature} stats:")
-        stats = feature_df.select(
-            F.format_number(F.avg(F.col(feature)), 3).alias("mean"),
-            F.format_number(F.stddev(F.col(feature)), 2).alias("stddev"),
-            F.min(F.col(feature)).alias("min"),
-            F.max(F.col(feature)).alias("max"),
-        )
+        if not feature in ["const_parse", "dep_parse", "code_features"]:
+            # print some stats about the feature
+            logging.info(f"Feature {feature} stats:")
+            stats = feature_df.select(
+                F.format_number(F.avg(F.col(feature)), 3).alias("mean"),
+                F.format_number(F.stddev(F.col(feature)), 2).alias("stddev"),
+                F.min(F.col(feature)).alias("min"),
+                F.max(F.col(feature)).alias("max"),
+            )
 
-        stats.show()
+            stats.show()
 
+        # mkdir -p output_filepath
+        os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
         feature_df.write.parquet(output_filepath, mode="overwrite")
         logging.info(f"Saved feature {feature} to {output_filepath}")
 
