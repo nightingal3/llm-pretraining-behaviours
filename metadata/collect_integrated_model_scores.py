@@ -87,7 +87,6 @@ def evaluate_with_harness(
 
 
 def parse_harness_group_results(results: str, tasks: list[str]) -> dict[str, Any]:
-
     lines = results.split("\n")
     task_data = defaultdict(dict)
 
@@ -195,8 +194,10 @@ def integrated_eval(
     """
     Evaluate a model on a set of tasks in eval harness + any additional tasks found in the open llm leaderboard on huggingface.
     """
-    assert not (eval_harness_only and leaderboard_only), "Cannot use both eval_harness_only and leaderboard_only"
-    
+    assert not (
+        eval_harness_only and leaderboard_only
+    ), "Cannot use both eval_harness_only and leaderboard_only"
+
     if leaderboard_only:
         # Only collect scores from the leaderboard
         model_scores, json_path = collect_model_scores_hf(
@@ -269,7 +270,9 @@ def _integrated_eval(
     """
     Evaluate a model on a set of tasks in eval harness + any additional tasks found in the open llm leaderboard on huggingface.
     """
-    assert not (eval_harness_only and leaderboard_only), "Cannot use both eval_harness_only and leaderboard_only"
+    assert not (
+        eval_harness_only and leaderboard_only
+    ), "Cannot use both eval_harness_only and leaderboard_only"
     if not eval_harness_only:
         # Collect the model scores
         model_scores, json_path = collect_model_scores_hf(
@@ -294,7 +297,6 @@ def _integrated_eval(
     model_scores["results"]["harness"].update(new_results)
 
     if os.path.exists(json_path):
-
         if overwrite:
             # overwrite the json file
             with open(json_path, "w") as f:
@@ -357,7 +359,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--leaderboard_only",
         action="store_true",
-        help="Whether to only evaluate the model on the tasks in the open llm leaderboard"
+        help="Whether to only evaluate the model on the tasks in the open llm leaderboard",
     )
     parser.add_argument(
         "--include_path",
@@ -387,4 +389,3 @@ if __name__ == "__main__":
         args.include_path,
         args.results_path,
     )
- 

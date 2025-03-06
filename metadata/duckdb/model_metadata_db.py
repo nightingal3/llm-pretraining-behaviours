@@ -8,6 +8,7 @@ import os
 from datetime import datetime
 import glob
 
+
 class AnalysisStore:
     # Map known metric aliases
     METRIC_MAPPING = {
@@ -24,30 +25,37 @@ class AnalysisStore:
         "rouge1": "rouge1",
         "rouge2": "rouge2",
         "rougeL": "rougeL",
-        "pass@1,create_test": "accuracy", # humaneval
-        "exact_match": "accuracy", # we use strict match only
+        "pass@1,create_test": "accuracy",  # humaneval
+        "exact_match": "accuracy",  # we use strict match only
     }
 
     # Map stderr suffixes
-    STDERR_SUFFIXES = ["_stderr", "_std", "_stddev", "_error", "_stderr,none", "_stderr,strict-match"]
+    STDERR_SUFFIXES = [
+        "_stderr",
+        "_std",
+        "_stddev",
+        "_error",
+        "_stderr,none",
+        "_stderr,strict-match",
+    ]
 
     BENCHMARK_DEFAULTS = {
-        'arc_challenge': '25-shot',
-        'hellaswag': '10-shot',
-        'mmlu': '5-shot',
-        'truthfulqa': '0-shot',
-        'winogrande': '5-shot',
-        'lambada': '0-shot',
-        'drop': '3-shot',
-        'gsm8k': '5-shot',
-        'arithmetic': '5-shot',
-        'minerva': '5-shot',
-        'mathqa': '0-shot',
-        'xnli': '0-shot',
-        'anli': '0-shot',
-        'logiqa2': '0-shot',
-        'fld': '0-shot',
-        'asdiv': '5-shot'
+        "arc_challenge": "25-shot",
+        "hellaswag": "10-shot",
+        "mmlu": "5-shot",
+        "truthfulqa": "0-shot",
+        "winogrande": "5-shot",
+        "lambada": "0-shot",
+        "drop": "3-shot",
+        "gsm8k": "5-shot",
+        "arithmetic": "5-shot",
+        "minerva": "5-shot",
+        "mathqa": "0-shot",
+        "xnli": "0-shot",
+        "anli": "0-shot",
+        "logiqa2": "0-shot",
+        "fld": "0-shot",
+        "asdiv": "5-shot",
     }
 
     @classmethod
@@ -72,12 +80,15 @@ class AnalysisStore:
 
         except Exception as e:
             raise RuntimeError(f"Failed to import database from {db_path}: {e}")
-    
+
     @classmethod
     def extract_metrics(cls, data: dict, exclude_keys: List = []) -> dict:
         """Extract all metrics and their stderr from data"""
         # First clean up all keys by removing ",none" suffix
-        cleaned_data = {k.replace(",none", "").replace(",strict-match", ""): v for k, v in data.items()}
+        cleaned_data = {
+            k.replace(",none", "").replace(",strict-match", ""): v
+            for k, v in data.items()
+        }
         # remove flexible extract
         cleaned_data = {k: v for k, v in cleaned_data.items() if "flexible" not in k}
 
@@ -90,7 +101,7 @@ class AnalysisStore:
                 continue
 
             # Convert string numbers to float
-            if isinstance(value, str) and value.replace('.', '').isdigit():
+            if isinstance(value, str) and value.replace(".", "").isdigit():
                 value = float(value)
 
             # Check if this is a stderr value
@@ -107,13 +118,16 @@ class AnalysisStore:
                 stderr_key = f"{key}{suffix}"
                 if stderr_key in cleaned_data:
                     stderr_val = cleaned_data[stderr_key]
-                    if isinstance(stderr_val, str) and stderr_val.replace('.', '').isdigit():
+                    if (
+                        isinstance(stderr_val, str)
+                        and stderr_val.replace(".", "").isdigit()
+                    ):
                         stderr_val = float(stderr_val)
                     stderr_value = stderr_val
                     break
 
             metrics[metric_name] = {"value": value, "stderr": stderr_value}
-    
+
         return metrics
 
     @classmethod
@@ -128,7 +142,7 @@ class AnalysisStore:
                 continue
 
             # Convert string numbers to float
-            if isinstance(value, str) and value.replace('.', '').isdigit():
+            if isinstance(value, str) and value.replace(".", "").isdigit():
                 value = float(value)
 
             # Check if this is a stderr value
@@ -145,7 +159,10 @@ class AnalysisStore:
                 stderr_key = f"{key}{suffix}"
                 if stderr_key in data:
                     stderr_val = data[stderr_key]
-                    if isinstance(stderr_val, str) and stderr_val.replace('.', '').isdigit():
+                    if (
+                        isinstance(stderr_val, str)
+                        and stderr_val.replace(".", "").isdigit()
+                    ):
                         stderr_val = float(stderr_val)
                     stderr_value = stderr_val
                     break
@@ -982,9 +999,11 @@ class AnalysisStore:
 
     def _standardize_model_id(self, model_id: str) -> str:
         """Standardize model ID to use '/' instead of '__'"""
-        return model_id.replace('__', '/')
-    
-    def import_scores_from_lm_eval_json(self, json_path: str, excludes: List[str] = [], alternate_name_map: dict = {}):
+        return model_id.replace("__", "/")
+
+    def import_scores_from_lm_eval_json(
+        self, json_path: str, excludes: List[str] = [], alternate_name_map: dict = {}
+    ):
         """Import from lm-eval output format (different from our score format)"""
         with open(json_path) as f:
             data = json.load(f)
@@ -993,7 +1012,6 @@ class AnalysisStore:
         assert model_name, "Model name not found in JSON"
         model_name = alternate_name_map.get(model_name, model_name)
 
-
         all_results = data.get("results")
 
         imported = 0
@@ -1001,7 +1019,7 @@ class AnalysisStore:
         errors = 0
         for benchmark in all_results:
             if benchmark in excludes:
-                continue # to skip aggregates and other non-benchmarks
+                continue  # to skip aggregates and other non-benchmarks
             try:
                 setting = data.get("configs").get(benchmark).get("num_fewshot")
                 setting = f"{setting}-shot" if setting else "0-shot"
@@ -1017,24 +1035,25 @@ class AnalysisStore:
                     except (ValueError, TypeError):
                         cleaned_metrics[k] = v
 
-                metrics = AnalysisStore.extract_metrics(cleaned_metrics, exclude_keys=["alias"])
+                metrics = AnalysisStore.extract_metrics(
+                    cleaned_metrics, exclude_keys=["alias"]
+                )
                 self._insert_score(
                     model_id=model_name,
                     benchmark=benchmark,
                     setting=setting,
-                    metrics=metrics
+                    metrics=metrics,
                 )
                 imported += 1
             except Exception as e:
                 print(f"Error processing {benchmark}: {e}")
                 errors += 1
-        
+
         print(f"\nImport summary:")
         print(f"Imported {imported} scores")
         print(f"Skipped {skipped} items")
         print(f"Encountered {errors} errors")
 
-        
     def import_scores_from_json_dir(
         self, json_dir: str, benchmark_defaults: dict = None
     ):
@@ -1048,7 +1067,11 @@ class AnalysisStore:
         """
         json_dir = Path(json_dir)
         print(f"Importing scores from {json_dir}")
-        benchmark_defaults = self.BENCHMARK_DEFAULTS if benchmark_defaults is None else benchmark_defaults
+        benchmark_defaults = (
+            self.BENCHMARK_DEFAULTS
+            if benchmark_defaults is None
+            else benchmark_defaults
+        )
 
         imported = 0
         skipped = 0
@@ -1066,7 +1089,7 @@ class AnalysisStore:
                     continue
 
                 results = data.get("results", {})
-                
+
                 # Handle harness section separately
                 if "harness" in results:
                     harness_results = results.pop("harness")
@@ -1095,13 +1118,15 @@ class AnalysisStore:
                                     if benchmark.startswith(prefix):
                                         default_setting = setting
                                         break
-                                
+
                                 # Special case for minerva_math benchmarks
-                                if benchmark.startswith('minerva_math'):
-                                    default_setting = '5-shot'
-                                
+                                if benchmark.startswith("minerva_math"):
+                                    default_setting = "5-shot"
+
                                 if not default_setting:
-                                    print(f"Skipping {benchmark} - no default shot setting found")
+                                    print(
+                                        f"Skipping {benchmark} - no default shot setting found"
+                                    )
                                     skipped += 1
                                     continue
 
@@ -1174,7 +1199,7 @@ class AnalysisStore:
         print(f"Imported {imported} scores")
         print(f"Skipped {skipped} items")
         print(f"Encountered {errors} errors")
-    
+
     def _insert_score(
         self,
         model_id: str,
@@ -1184,12 +1209,12 @@ class AnalysisStore:
         timestamp: str = None,
     ):
         """Insert score with multiple metrics into database"""
-        # Convert metrics from {metric_name: {value: x, stderr: y}} 
+        # Convert metrics from {metric_name: {value: x, stderr: y}}
         # to list of (metric_name, value, stderr)
         for metric_name, values in metrics.items():
             value = values.get("value")
             stderr = values.get("stderr")
-            
+
             self.con.execute(
                 """
                 INSERT INTO evaluation_results 
@@ -1208,7 +1233,7 @@ class AnalysisStore:
                     stderr,
                 ],
             )
-    
+
     def verify_data(self):
         """Print data verification"""
         print("\nData Verification:")
@@ -1219,11 +1244,13 @@ class AnalysisStore:
             print(self.con.execute(f"SELECT * FROM {table} LIMIT 3").df())
 
 
-def load_table_from_db(db_path: str, table_to_load: str, metric: Optional[str] = None) -> pd.DataFrame:
+def load_table_from_db(
+    db_path: str, table_to_load: str, metric: Optional[str] = None
+) -> pd.DataFrame:
     """Load and join data from DuckDB database"""
-    
+
     store = AnalysisStore.from_existing(db_path)
-    
+
     if table_to_load == "model":
         query = """
             SELECT * FROM model_annotations
@@ -1243,59 +1270,74 @@ def load_table_from_db(db_path: str, table_to_load: str, metric: Optional[str] =
                 SELECT * FROM evaluation_results
             """
     else:
-        raise ValueError("Invalid table_to_load value. Choose from 'model', 'dataset', 'evaluation'")
-    
+        raise ValueError(
+            "Invalid table_to_load value. Choose from 'model', 'dataset', 'evaluation'"
+        )
+
     df = store.con.execute(query, [metric]).df()
     store.con.close()
     return df
-        
-def update_specific_columns(store, csv_path, columns_to_update, table="model_annotations"):
+
+
+def update_specific_columns(
+    store, csv_path, columns_to_update, table="model_annotations"
+):
     """Update only specific columns from CSV while preserving other data"""
     df = pd.read_csv(csv_path)
-    
+
     # Keep only columns we want to update plus 'id'
-    columns_to_keep = ['id'] + columns_to_update
+    columns_to_keep = ["id"] + columns_to_update
     df = df[columns_to_keep]
-    
+
     # Register temporary table with exact schema
-    store.con.execute("""
+    store.con.execute(
+        """
         CREATE TEMP TABLE IF NOT EXISTS temp_model_data (
             id VARCHAR,
             {}
         )
-    """.format(','.join(f"{col} VARCHAR" for col in columns_to_update)))
-    
+    """.format(
+            ",".join(f"{col} VARCHAR" for col in columns_to_update)
+        )
+    )
+
     store.con.register("temp_df", df)
     store.con.execute("INSERT INTO temp_model_data SELECT * FROM temp_df")
-    
+
     # Build dynamic UPDATE query
-    update_cols = [f"{col} = COALESCE(EXCLUDED.{col}, {table}.{col})" 
-                  for col in columns_to_update]
+    update_cols = [
+        f"{col} = COALESCE(EXCLUDED.{col}, {table}.{col})" for col in columns_to_update
+    ]
     update_stmt = ", ".join(update_cols)
-    
+
     # Execute update
-    store.con.execute(f"""
+    store.con.execute(
+        f"""
         INSERT INTO {table} ({','.join(columns_to_keep)})
         SELECT * FROM temp_model_data
         ON CONFLICT (id) DO UPDATE SET
             {update_stmt}
-    """)
-    
+    """
+    )
+
     # Cleanup
     store.con.execute("DROP TABLE IF EXISTS temp_model_data")
     store.con.unregister("temp_df")
 
+
 # Example usage
 if __name__ == "__main__":
     # store = AnalysisStore()
-    store = AnalysisStore.from_existing("/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2025_01_26.duckdb")
-    #update_specific_columns(store, "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/updated_data_1_24.csv", ["dimension", "num_heads", "mlp_ratio", "sequence_length"], table="model_annotations")
-    #update_specific_columns(store, "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/updated_data_1_24_2.csv", ["pretraining_summary_total_tokens_billions", "pretraining_summary_percentage_web", "pretraining_summary_percentage_code", "pretraining_summary_percentage_books", "pretraining_summary_percentage_reference", "pretraining_summary_percentage_academic", "pretraining_summary_percentage_english"], table="dataset_info")
-    #date_str = datetime.now().strftime("%Y_%m_%d")
-    #store.save_database(f"/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/{date_str}.duckdb")
+    store = AnalysisStore.from_existing(
+        "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2025_01_26.duckdb"
+    )
+    # update_specific_columns(store, "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/updated_data_1_24.csv", ["dimension", "num_heads", "mlp_ratio", "sequence_length"], table="model_annotations")
+    # update_specific_columns(store, "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/updated_data_1_24_2.csv", ["pretraining_summary_total_tokens_billions", "pretraining_summary_percentage_web", "pretraining_summary_percentage_code", "pretraining_summary_percentage_books", "pretraining_summary_percentage_reference", "pretraining_summary_percentage_academic", "pretraining_summary_percentage_english"], table="dataset_info")
+    # date_str = datetime.now().strftime("%Y_%m_%d")
+    # store.save_database(f"/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/{date_str}.duckdb")
 
-    #test_json = "/data/tir/projects/tir5/users/mengyan3/lm_eval_outputs/mmlu/mmlu_Salesforce/codegen-350M-multi.json/Salesforce__codegen-350M-multi/results_2025-01-21T00-01-38.841414.json"
-    #store.import_scores_from_lm_eval_json(test_json, ["mmlu"])
+    # test_json = "/data/tir/projects/tir5/users/mengyan3/lm_eval_outputs/mmlu/mmlu_Salesforce/codegen-350M-multi.json/Salesforce__codegen-350M-multi/results_2025-01-21T00-01-38.841414.json"
+    # store.import_scores_from_lm_eval_json(test_json, ["mmlu"])
     base_dir = "/data/tir/projects/tir5/users/mengyan3/lm_eval_outputs/lambada"
     json_files = glob.glob(f"{base_dir}/**/*.json", recursive=True)
 
@@ -1304,9 +1346,9 @@ if __name__ == "__main__":
         # Skip temp/backup files
         if "temp" in json_path or "backup" in json_path:
             continue
-        
+
         try:
-            store.import_scores_from_lm_eval_json(json_path, excludes=[]) 
+            store.import_scores_from_lm_eval_json(json_path, excludes=[])
             total_imported += 1
         except Exception as e:
             print(f"Error importing {json_path}: {e}")
@@ -1315,7 +1357,9 @@ if __name__ == "__main__":
 
     breakpoint()
     date_str = datetime.now().strftime("%Y_%m_%d")
-    store.save_database(f"/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/{date_str}.duckdb")
+    store.save_database(
+        f"/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/{date_str}.duckdb"
+    )
     # # Import manual annotations
     # store.import_model_features_from_csv(
     #     "./performance_prediction/gathered_data/training_model_final.csv"
@@ -1357,7 +1401,7 @@ if __name__ == "__main__":
     # print(f"\nScores for {model_id}:")
     # scores = store.con.execute(
     #     """
-    #     SELECT 
+    #     SELECT
     #         benchmark,
     #         setting,
     #         metric,
