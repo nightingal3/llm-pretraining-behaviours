@@ -1,9 +1,0 @@
-{
-  "mean_error":{
-    "AbacusResearch\/Jallabi-34B":-0.3826767341,
-    "allenai\/tulu-2-dpo-70b":-0.2271692905,
-    "Qwen\/Qwen-7B":-0.1736733553,
-    "mistralai\/Mixtral-8x7B-v0.1":-0.1500564514,
-    "meta-llama\/Llama-2-70b-hf":-0.1193263647
-  }
-}

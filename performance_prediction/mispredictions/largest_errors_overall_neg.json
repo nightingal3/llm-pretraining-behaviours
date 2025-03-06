@@ -1,9 +1,0 @@
-{
-  "mean_error":{
-    "meta-llama\/Meta-Llama-3-70B":-0.2998536169,
-    "AbacusResearch\/Jallabi-34B":-0.210075773,
-    "01-ai\/Yi-34B":-0.2048100792,
-    "Qwen\/Qwen-7B":-0.1793428562,
-    "meta-llama\/Meta-Llama-3-8B-Instruct":-0.1351859464
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "mean_error":{
-    "openai-community\/gpt2":0.1440973376,
-    "kevin009\/flyingllama-v2":0.1587694655,
-    "jb723\/cross_lingual_epoch2":0.1974633349,
-    "kevin009\/babyllama-v0.6":0.2159567838,
-    "playdev7\/theseed-v0.3":0.331020221
-  }
-}
