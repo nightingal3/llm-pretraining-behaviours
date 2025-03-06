@@ -1,0 +1,3 @@
+COPY dataset_info FROM '/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2025_03_03.duckdb/dataset_info.csv' (FORMAT 'csv', force_not_null 'id', quote '"', delimiter ',', header 1);
+COPY evaluation_results FROM '/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2025_03_03.duckdb/evaluation_results.csv' (FORMAT 'csv', force_not_null ('id', 'benchmark', 'setting', 'metric'), quote '"', delimiter ',', header 1);
+COPY model_annotations FROM '/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2025_03_03.duckdb/model_annotations.csv' (FORMAT 'csv', force_not_null 'id', quote '"', delimiter ',', header 1);

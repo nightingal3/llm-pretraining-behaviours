@@ -107,15 +107,18 @@ def convert_results_format(results_json: dict) -> dict:
     return results_clean
 
 
-def get_model_scores(model_name: str) -> dict:
-    openllm_url = "https://huggingface.co/datasets/open-llm-leaderboard/results"
+def _get_model_scores(model_name: str, path_to_eval_dir: str) -> dict:
+    openllm_url = "https://huggingface.co/datasets/open-llm-leaderboard-old/results"
     openllm_prefix = "open-llm-leaderboard-results"
     # Note: this repository contains all results on the openLLM leaderboard but it's not working currently (not loadable):
     # https://huggingface.co/datasets/open-llm-leaderboard/results
     # workaround: download it manually and get results from the local directory
-    dir_is_found = any(
-        d.startswith(openllm_prefix) for d in os.listdir(".") if os.path.isdir(d)
-    )
+
+    
+    if not path_to_eval_dir or not os.path.exists(path_to_eval_dir):
+        dir_is_found = any(
+            d.startswith(openllm_prefix) for d in os.listdir(".") if os.path.isdir(d)
+        )
     if not dir_is_found:
         print("Local results repo not found, cloning...")
         subprocess.run(["git", "clone", openllm_url, openllm_prefix], check=True)
@@ -147,8 +150,49 @@ def get_model_scores(model_name: str) -> dict:
         "results": {"harness": {}},
     }
 
+def get_model_scores(model_name: str, path_to_eval_dir: str) -> dict:
+    """
+    Get model scores from a specific evaluation directory.
+    
+    Args:
+        model_name: Name of the model to search for
+        path_to_eval_dir: Path to directory containing evaluation results
+        
+    Returns:
+        Dictionary containing the model's evaluation results
+    """
+    if not path_to_eval_dir or not os.path.exists(path_to_eval_dir):
+        print(f"Evaluation directory not found: {path_to_eval_dir}")
+        return {
+            "model_name": model_name,
+            "last_updated": None,
+            "results": {"harness": {}},
+        }
 
-def main(model_name: str, output_dir: str, overwrite: bool) -> tuple[dict, str]:
+    # Walk through the evaluation directory
+    for root, _, files in os.walk(path_to_eval_dir):
+        path_parts = root.split(os.sep)
+        if len(path_parts) < 2:
+            continue
+
+        # Search for either the full name or just the model name in the path
+        # e.g., "meta-llama/Llama-2-7b" or just "Llama-2-7b"
+        if (path_parts[-1] == model_name or 
+            os.path.join(path_parts[-2], path_parts[-1]) == model_name):
+            
+            # Found the model directory, merge all results
+            merged_results = merge_all_json_results(root)
+            results_clean = convert_results_format(merged_results)
+            return results_clean
+
+    print(f"No results found for model: {model_name}")
+    return {
+        "model_name": model_name,
+        "last_updated": None,
+        "results": {"harness": {}},
+    }
+
+def main(model_name: str, output_dir: str, overwrite: bool, llm_leaderboard_dir: str) -> tuple[dict, str]:
     output_file = os.path.join(
         output_dir, f"results_{model_name.replace('/', '_')}.json"
     )
@@ -159,7 +203,7 @@ def main(model_name: str, output_dir: str, overwrite: bool) -> tuple[dict, str]:
         )
         return
 
-    model_scores = get_model_scores(model_name)
+    model_scores = get_model_scores(model_name, llm_leaderboard_dir)
 
     if model_scores == None:
         print(f"No results found for {model_name}")
@@ -187,10 +231,15 @@ if __name__ == "__main__":
         default="model_scores",
     )
     parser.add_argument(
+        "--llm_leaderboard_dir",
+        type=str,
+        help="The directory containing the LLM leaderboard results.",
+    )
+    parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Whether to overwrite the metadata file if it already exists.",
     )
     parser.add_argument
     args = parser.parse_args()
-    main(args.model_name, args.output_dir, args.overwrite)
+    main(args.model_name, args.output_dir, args.overwrite, args.llm_leaderboard_dir)

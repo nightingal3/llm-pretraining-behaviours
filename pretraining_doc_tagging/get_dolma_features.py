@@ -238,7 +238,38 @@ def process_with_pandas(
         logging.info("Calculating parse features...")
 
         def process_row(row):
-            return feature_fn(row["text"], stanza_pipeline[row["lang"]])
+            try:
+                parser = stanza_pipeline[row["lang"]]
+                if parser is None:
+                    # initialize stanza pipeline
+                    try:
+                        stanza_pipeline[row["lang"]] = stanza.Pipeline(
+                            lang=row["lang"], processors=stanza_args
+                        )
+                    except ValueError as e:
+                        # Language not supported - return empty features
+                        logging.warning(f"Unsupported language {row['lang']}, skipping")
+                        if feature == "content_function_ratio":
+                            return 0.0
+                        return (
+                            {k: [] for k in feature_dict_schema_const.fieldNames()}
+                            if feature == "const_parse"
+                            else {k: [] for k in feature_dict_schema_deps.fieldNames()}
+                        )
+
+                # Use existing pipeline
+                return feature_fn(row["text"], stanza_pipeline[row["lang"]])
+            except Exception as e:
+                logging.warning(
+                    f"Error processing row with language {row['lang']}: {str(e)}"
+                )
+                if feature == "content_function_ratio":
+                    return 0.0
+                return (
+                    {k: [] for k in feature_dict_schema_const.fieldNames()}
+                    if feature == "const_parse"
+                    else {k: [] for k in feature_dict_schema_deps.fieldNames()}
+                )
 
         features = [process_row(row) for _, row in tqdm(df.iterrows())]
     elif needs_code_parse:
@@ -305,13 +336,13 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             dtype=dtype,
             stanza_args=stanza_args,
         )
-
-        # print some stats about the feature
-        logging.info(f"Feature {feature} stats:")
-        stats = feature_df[feature].apply(pd.Series).describe().T
-        stats = stats[["mean", "std", "min", "max"]]
-        stats = stats.applymap(lambda x: f"{x:.2f}")
-        logging.info(stats)
+        if not feature in ["const_parse", "dep_parse", "code_features"]:
+            # print some stats about the feature
+            logging.info(f"Feature {feature} stats:")
+            stats = feature_df[feature].apply(pd.Series).describe().T
+            stats = stats[["mean", "std", "min", "max"]]
+            stats = stats.applymap(lambda x: f"{x:.2f}")
+            logging.info(stats)
         # Save output
         feature_df.to_parquet(output_filepath)
         logging.info(f"Saved feature {feature} to {output_filepath}")
@@ -379,15 +410,15 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             df = df.withColumn(feature, feature_udf("token_ids"))
 
         feature_df = df.select("id", feature)
-
-        # print some stats about the feature
-        logging.info(f"Feature {feature} stats:")
-        stats = feature_df.select(
-            F.format_number(F.avg(F.col(feature)), 3).alias("mean"),
-            F.format_number(F.stddev(F.col(feature)), 2).alias("stddev"),
-            F.min(F.col(feature)).alias("min"),
-            F.max(F.col(feature)).alias("max"),
-        )
+        if not feature in ["const_parse", "dep_parse", "code_features"]:
+            # print some stats about the feature
+            logging.info(f"Feature {feature} stats:")
+            stats = feature_df.select(
+                F.format_number(F.avg(F.col(feature)), 3).alias("mean"),
+                F.format_number(F.stddev(F.col(feature)), 2).alias("stddev"),
+                F.min(F.col(feature)).alias("min"),
+                F.max(F.col(feature)).alias("max"),
+            )
 
         stats.show()
 

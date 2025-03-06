@@ -12,7 +12,6 @@ import sys
 
 
 if __name__ == "__main__":
-
     logging.basicConfig(level=logging.INFO)
 
     # Define the command-line arguments
@@ -70,7 +69,6 @@ if __name__ == "__main__":
             for model_name in os.listdir(user_path):
                 model_path = os.path.join(user_path, model_name)
                 if os.path.isdir(model_path):
-
                     model_name = f"{user_name}/{model_name}"
 
                     # Define the metadata JSON file name

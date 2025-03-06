@@ -87,7 +87,6 @@ def evaluate_with_harness(
 
 
 def parse_harness_group_results(results: str, tasks: list[str]) -> dict[str, Any]:
-
     lines = results.split("\n")
     task_data = defaultdict(dict)
 
@@ -188,13 +187,92 @@ def integrated_eval(
     overwrite: bool = False,
     update: bool = False,
     eval_harness_only: bool = False,
+    leaderboard_only: bool = False,
     include_path: str = "./eval_task_groups",
     results_path: str = None,
 ) -> None:
     """
     Evaluate a model on a set of tasks in eval harness + any additional tasks found in the open llm leaderboard on huggingface.
     """
+    assert not (
+        eval_harness_only and leaderboard_only
+    ), "Cannot use both eval_harness_only and leaderboard_only"
 
+    if leaderboard_only:
+        # Only collect scores from the leaderboard
+        model_scores, json_path = collect_model_scores_hf(
+            model_name, output_filename, overwrite
+        )
+        with open(json_path, "w") as f:
+            json.dump(model_scores, f, indent=4)
+        print(f"Leaderboard scores for '{model_name}' saved to {json_path}")
+        return
+
+    if not eval_harness_only:
+        # Collect the model scores
+        model_scores, json_path = collect_model_scores_hf(
+            model_name, output_filename, overwrite
+        )
+    else:
+        model_scores = {"model_name": model_name, "results": {"harness": {}}}
+        json_path = os.path.join(
+            output_filename, f"results_{model_name.replace('/', '__')}.json"
+        )
+
+    if results_path:
+        new_results = parse_harness_group_json_files(os.path.abspath(results_path))
+    else:
+        # Evaluate the model on the tasks
+        new_results = evaluate_with_harness(
+            model_name, task_name, output_filename, include_path
+        )
+
+    # Update the model scores with the new results
+    model_scores["results"]["harness"].update(new_results)
+
+    if os.path.exists(json_path):
+        if overwrite:
+            # overwrite the json file
+            with open(json_path, "w") as f:
+                json.dump(model_scores, f, indent=4)
+        elif update:
+            # update the json file
+            with open(json_path, "r") as f:
+                old_model_scores = json.load(f)
+
+            old_model_scores["results"]["harness"].update(new_results)
+            old_model_scores["last_updated"] = str(datetime.now())
+
+            with open(json_path, "w") as f:
+                json.dump(old_model_scores, f, indent=4)
+    else:
+        new_model_scores = {
+            "model_name": model_name,
+            "last_updated": str(datetime.now()),
+            **model_scores,
+        }
+        with open(json_path, "w") as f:
+            json.dump(new_model_scores, f, indent=4)
+
+    print(f"Scores for '{model_name}' saved to {json_path}")
+
+
+def _integrated_eval(
+    model_name: str,
+    task_name: str,
+    output_filename: str,
+    overwrite: bool = False,
+    update: bool = False,
+    eval_harness_only: bool = False,
+    include_path: str = "./eval_task_groups",
+    results_path: str = None,
+) -> None:
+    """
+    Evaluate a model on a set of tasks in eval harness + any additional tasks found in the open llm leaderboard on huggingface.
+    """
+    assert not (
+        eval_harness_only and leaderboard_only
+    ), "Cannot use both eval_harness_only and leaderboard_only"
     if not eval_harness_only:
         # Collect the model scores
         model_scores, json_path = collect_model_scores_hf(
@@ -219,7 +297,6 @@ def integrated_eval(
     model_scores["results"]["harness"].update(new_results)
 
     if os.path.exists(json_path):
-
         if overwrite:
             # overwrite the json file
             with open(json_path, "w") as f:
@@ -280,6 +357,11 @@ if __name__ == "__main__":
         help="Whether to only evaluate the model on the tasks in the eval harness",
     )
     parser.add_argument(
+        "--leaderboard_only",
+        action="store_true",
+        help="Whether to only evaluate the model on the tasks in the open llm leaderboard",
+    )
+    parser.add_argument(
         "--include_path",
         type=str,
         help="Include the task yamls in this directory as well when looking for tasks",
@@ -303,6 +385,7 @@ if __name__ == "__main__":
         args.overwrite,
         args.update,
         args.eval_harness_only,
+        args.leaderboard_only,
         args.include_path,
         args.results_path,
     )

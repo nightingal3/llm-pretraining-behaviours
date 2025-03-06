@@ -205,7 +205,6 @@ def main():
         output_filename = "./dataset_metadata/" + output_filename
 
     while True:
-
         entry_option = input(
             "[STEP 1] How do you want to enter the metadata? We can either\n(1) pull from huggingface hub by dataset name, \n(2) reference an existing file under dataset_metadata,\n(3) enter a new dataset manually.\nPlease enter 1, 2, or 3 for these options.\nIf you're not sure, enter 3 and enter the metadata manually. Enter 'stop' to finish.\nYour choice: "
         ).lower()

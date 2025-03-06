@@ -241,11 +241,11 @@ if __name__ == "__main__":
         )
 
         # save
-        Path("./performance_prediction/figures/mean_errs_revised/data").mkdir(
+        Path("./performance_prediction/figures/mean_errs_revised_1_16/data").mkdir(
             parents=True, exist_ok=True
         )
         final_chart.save(
-            f"./performance_prediction/figures/mean_errs_revised/data/mean_error_vs_{data_feat}.pdf"
+            f"./performance_prediction/figures/mean_errs_revised_1_16/data/mean_error_vs_{data_feat}.pdf"
         )
 
     numeric_features = [
