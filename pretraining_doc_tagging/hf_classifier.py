@@ -46,4 +46,3 @@ class TextClassifierHf:
             results.extend(batch_results)
 
         return results
-

@@ -4,8 +4,9 @@ import glob
 import os
 import re
 import tqdm
+
 # Read in the CSV file
-df = pd.read_csv('./all_models_feature_stats_3_03.csv')
+df = pd.read_csv("./all_models_feature_stats_3_03.csv")
 
 # Define keywords to look for
 keywords = {
@@ -13,7 +14,7 @@ keywords = {
     "imperative_verbs": r"\b(Do|Make|Consider|Take|Use|Ensure|Check|Build|Apply|Run|Create|Find|Go|Try|Turn|Start|Stop|Put|Keep|Leave|Get|Move)\b",
     "conjunctions": r"\b(and|but|or|so|because|although|however|therefore|yet)\b",
     "instructions_words": r"(Question:|Answer:|Instruction:|User:|Assistant:|Q:|A:)",
-    "numbers": r"\b\d+\b|\b\d+\.\d+\b|\b\d+%\b"  # Matches whole numbers, decimals, and percentages
+    "numbers": r"\b\d+\b|\b\d+\.\d+\b|\b\d+%\b",  # Matches whole numbers, decimals, and percentages
 }
 
 # Initialize results dictionary
@@ -24,7 +25,9 @@ for id_val in tqdm.tqdm(df["id"]):
     # Construct paths with preference order
     corrected_path = f"/data/tir/projects/tir5/users/mengyan3/freegens_all_corrected/{id_val}/filtered/filtered_samples_generate_only_*.jsonl"
     original_path = f"/data/tir/projects/tir5/users/mengyan3/freegens_all/{id_val}/*/filtered/filtered_samples_generate_only_*.jsonl"
-    unfiltered_path = f"/data/tir/projects/tir5/users/mengyan3/freegens_all/{id_val}/*/*.jsonl"
+    unfiltered_path = (
+        f"/data/tir/projects/tir5/users/mengyan3/freegens_all/{id_val}/*/*.jsonl"
+    )
 
     # Try to use the corrected path first
     files = glob.glob(corrected_path)
@@ -39,7 +42,7 @@ for id_val in tqdm.tqdm(df["id"]):
 
     # Use only the first found file
     filepath = files[0]
-    
+
     # Initialize counters
     keyword_counts = {k: 0 for k in keywords}
     total_chars = 0
@@ -57,7 +60,9 @@ for id_val in tqdm.tqdm(df["id"]):
 
                     # Count keywords
                     for keyword, pattern in keywords.items():
-                        keyword_counts[keyword] += len(re.findall(pattern, response, re.IGNORECASE))
+                        keyword_counts[keyword] += len(
+                            re.findall(pattern, response, re.IGNORECASE)
+                        )
 
                 except (json.JSONDecodeError, KeyError, IndexError) as e:
                     print(f"Error processing line in {filepath}: {e}")
