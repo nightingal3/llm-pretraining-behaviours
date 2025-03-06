@@ -1,30 +1,27 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
+from performance_predict_from_db import load_data_from_db
 
-all_preds_df = pd.read_csv("./logs/compiled_predictions_acc_xgboost_all.csv")
-sl_preds_df = pd.read_csv("./logs/compiled_predictions_acc_xgboost_scaling_laws.csv")
-model_info_df = pd.read_csv(
-    "/data/tir/projects/tir6/general/mengyan3/tower-llm-training/performance_prediction/gathered_data/training_model_final.csv"
-)
+all_preds_df = pd.read_csv("/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/per_model_predictions_xgboost_all_accuracy.csv")
+sl_preds_df = pd.read_csv("/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/per_model_predictions_xgboost_scaling_laws_accuracy.csv")
 
-model_info_df["total_params"] = np.where(
-    model_info_df["total_params"].isna(),
-    model_info_df["safetensors:total"],
-    model_info_df["total_params"],
-)
+db_path = "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2024_12_05.duckdb"
+model_info_df = load_data_from_db(db_path, "all", "accuracy")
+model_info_df = model_info_df.drop_duplicates(subset=["id"])
+
 df_merged = all_preds_df.merge(
     sl_preds_df, on=["y_col", "Model"], suffixes=("_all", "_sl")
 )
 df_merged = df_merged.merge(model_info_df, left_on="Model", right_on="id")
-df_merged = df_merged.sort_values(by="total_params")
+df_merged = df_merged.sort_values(by="True_all")
 
 all_tasks = df_merged["y_col"].unique()
 all_tasks = [
     task for task in all_tasks if "hendrycks" not in task and "arithmetic" not in task
 ]
 all_tasks.extend(["mmlu", "arithmetic"])
-assert df_merged["True_all"].equals(df_merged["True_sl"])
 
 bar_width = 0.25
 for task in all_tasks:
@@ -58,7 +55,7 @@ for task in all_tasks:
             )
             .reset_index()
         )
-        df_task_grouped.sort_values(by="total_params", inplace=True)
+        df_task_grouped.sort_values(by="True_all", inplace=True)
 
     else:  # No aggregation for other tasks
         df_task_grouped = df_merged[df_merged["y_col"] == task]
@@ -111,4 +108,9 @@ for task in all_tasks:
 
     # Show or save the plot
     plt.tight_layout()
-    plt.savefig(f"./preds_and_true_perf_acc/predictions_{task}.png")
+    # mkdir -p
+    Path(f"./preds_and_true_perf_acc_from_db").mkdir(
+        parents=True, exist_ok=True
+    )
+    plt.savefig(f"./preds_and_true_perf_acc_from_db/predictions_{task}.png")
+    plt.close()
