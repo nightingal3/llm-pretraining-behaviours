@@ -413,17 +413,6 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
             df = df.withColumn(feature, feature_udf("token_ids"))
 
         feature_df = df.select("id", feature)
-<<<<<<< Updated upstream
-
-        # print some stats about the feature
-        logging.info(f"Feature {feature} stats:")
-        stats = feature_df.select(
-            F.format_number(F.avg(F.col(feature)), 3).alias("mean"),
-            F.format_number(F.stddev(F.col(feature)), 2).alias("stddev"),
-            F.min(F.col(feature)).alias("min"),
-            F.max(F.col(feature)).alias("max"),
-        )
-=======
         if not feature in ["const_parse", "dep_parse", "code_features"]:
             # print some stats about the feature
             logging.info(f"Feature {feature} stats:")
@@ -433,7 +422,6 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
                 F.min(F.col(feature)).alias("min"),
                 F.max(F.col(feature)).alias("max"),
             )
->>>>>>> Stashed changes
 
         stats.show()
 
