@@ -1,1 +1,0 @@
-sbatch /data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/train_model_arr.sh /data/tir/projects/tir6/general/mengyan3/tower-llm-training/slurm_orchestrator_files/experiment_files/train.csv
