@@ -4,14 +4,15 @@ import glob
 import os
 import re
 import tqdm
+
 # Read in the CSV file
-df = pd.read_csv('all_models_feature_stats_2_03.csv')
+df = pd.read_csv("all_models_feature_stats_2_03.csv")
 
 # Define keywords to look for
 keywords = {
-    'questions_words': r"\b(How|What|Why|When|Where|Who|Which|Whose)\b",
+    "questions_words": r"\b(How|What|Why|When|Where|Who|Which|Whose)\b",
     "imperative_words": r"\b(Do|Make|Consider|Take|Use|Ensure|Check|Build|Apply|Run|Create|Find|Go|Try|Turn|Start|Stop|Put|Keep|Leave|Get|Move)\b",
-    "instructions_words": r"(Question:|Answer:|\([A-Za-z0-9]+\)|Instruction:|User:|Assistant:|Q:|A:)"
+    "instructions_words": r"(Question:|Answer:|\([A-Za-z0-9]+\)|Instruction:|User:|Assistant:|Q:|A:)",
 }
 
 # Initialize results dictionary
@@ -34,7 +35,7 @@ for id_val in tqdm.tqdm(df["id"]):
 
     # Use only the first found file
     filepath = files[0]
-    
+
     # Initialize counters
     keyword_counts = {k: 0 for k in keywords}
     total_chars = 0
@@ -52,7 +53,9 @@ for id_val in tqdm.tqdm(df["id"]):
 
                     # Count keywords
                     for keyword, pattern in keywords.items():
-                        keyword_counts[keyword] += len(re.findall(pattern, response, re.IGNORECASE))
+                        keyword_counts[keyword] += len(
+                            re.findall(pattern, response, re.IGNORECASE)
+                        )
 
                 except (json.JSONDecodeError, KeyError, IndexError) as e:
                     print(f"Error processing line in {filepath}: {e}")

@@ -3,15 +3,18 @@ import matplotlib.cm as cm
 import pandas as pd
 from matplotlib.patches import Patch
 
-def plot_feature_importances(df, feature_groups, title="Overall Feature Importance by Category"):
+
+def plot_feature_importances(
+    df, feature_groups, title="Overall Feature Importance by Category"
+):
     """
     Generates a horizontal bar chart of feature importances, grouped by category.
-    
+
     Args:
         df (pd.DataFrame): DataFrame containing feature importance values.
         feature_groups (dict): Dictionary mapping feature names to their respective category.
         title (str): Title of the plot.
-    
+
     Returns:
         None (Displays the plot).
     """
@@ -23,7 +26,9 @@ def plot_feature_importances(df, feature_groups, title="Overall Feature Importan
     merged_value = sum(mean_importances.get(f, 0) for f in scaling_law_features)
 
     # Drop the individual features and add the merged one under a new name
-    mean_importances = mean_importances.drop(index=[f for f in scaling_law_features if f in mean_importances])
+    mean_importances = mean_importances.drop(
+        index=[f for f in scaling_law_features if f in mean_importances]
+    )
     mean_importances["total_params (+ seq_length + dimension)"] = merged_value
 
     # Sort after merging
@@ -35,7 +40,7 @@ def plot_feature_importances(df, feature_groups, title="Overall Feature Importan
         "Scaling Laws": set2_colors[0],  # Soft Green
         "Model Architecture": set2_colors[1],  # Soft Orange
         "Data": set2_colors[2],  # Soft Blue
-        "Other": "#bdbdbd"  # Gray for unclassified features
+        "Other": "#bdbdbd",  # Gray for unclassified features
     }
 
     # Explicitly map features to Scaling Laws (since they got dropped in previous versions)
@@ -46,7 +51,10 @@ def plot_feature_importances(df, feature_groups, title="Overall Feature Importan
 
     # Assign colors based on feature categories, ensuring Scaling Laws stays green
     bar_colors = [
-        category_colors.get(feature_category_mapping.get(feat, feature_groups.get(feat, "Other")), "#bdbdbd") 
+        category_colors.get(
+            feature_category_mapping.get(feat, feature_groups.get(feat, "Other")),
+            "#bdbdbd",
+        )
         for feat in mean_importances.index
     ]
 
@@ -60,8 +68,17 @@ def plot_feature_importances(df, feature_groups, title="Overall Feature Importan
     plt.yticks(fontsize=20)
 
     # Create a legend using the Set2 color scheme, ensuring Scaling Laws is included
-    legend_patches = [Patch(color=color, label=category) for category, color in category_colors.items() if category in feature_groups.values() or category == "Scaling Laws"]
-    plt.legend(handles=legend_patches, title="Feature Categories", fontsize=16, title_fontsize=18)
+    legend_patches = [
+        Patch(color=color, label=category)
+        for category, color in category_colors.items()
+        if category in feature_groups.values() or category == "Scaling Laws"
+    ]
+    plt.legend(
+        handles=legend_patches,
+        title="Feature Categories",
+        fontsize=16,
+        title_fontsize=18,
+    )
 
     plt.gca().invert_yaxis()  # Invert y-axis for better readability
     plt.tight_layout()
@@ -72,26 +89,27 @@ def plot_feature_importances(df, feature_groups, title="Overall Feature Importan
 
     plt.show()
 
+
 # Load DataFrame
-df = pd.read_csv("/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/feature_importance_xgboost_all_accuracy_freegens_False.csv")
+df = pd.read_csv(
+    "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/feature_importance_xgboost_all_accuracy_freegens_False.csv"
+)
 
 # Define feature categories (excluding sequence_length, dimension, and total_params since they are merged)
 feature_groups = {
     "Scaling Laws": "Scaling Laws",
-    
     "activation": "Model Architecture",
     "attention_variant": "Model Architecture",
     "biases": "Model Architecture",
     "mlp_ratio": "Model Architecture",
     "num_heads": "Model Architecture",
     "positional_embeddings": "Model Architecture",
-
     "pretraining_summary_percentage_academic": "Data",
     "pretraining_summary_percentage_books": "Data",
     "pretraining_summary_percentage_code": "Data",
     "pretraining_summary_percentage_english": "Data",
     "pretraining_summary_percentage_reference": "Data",
-    "pretraining_summary_percentage_web": "Data"
+    "pretraining_summary_percentage_web": "Data",
 }
 
 # Call the function

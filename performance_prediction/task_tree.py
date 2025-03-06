@@ -24,25 +24,44 @@ tasks_included = [
 
 # Automatically detect and add all MMLU tasks
 for file in glob.glob(shap_files_path):
-    task_name = os.path.basename(file).replace("shap_summary_", "").replace("_xgboost_all_accuracy.csv", "")
+    task_name = (
+        os.path.basename(file)
+        .replace("shap_summary_", "")
+        .replace("_xgboost_all_accuracy.csv", "")
+    )
 
     if task_name.startswith("mmlu_") or "hendrycksTest-" in task_name:
         # just select a few mmlu bc there's too many
         if "0-shot" in task_name:
             continue
-        selected_tasks = ["professional_medicine", "professional_psychology", "moral_disputes", "sociology", "international_law", "anatomy", "nutrition", "formal_logic", "abstract_algebra", "foreign_policy"]
+        selected_tasks = [
+            "professional_medicine",
+            "professional_psychology",
+            "moral_disputes",
+            "sociology",
+            "international_law",
+            "anatomy",
+            "nutrition",
+            "formal_logic",
+            "abstract_algebra",
+            "foreign_policy",
+        ]
         if any(task in task_name for task in selected_tasks):
             tasks_included.append(task_name)
 
 # Load SHAP values for selected tasks
 for file in glob.glob(shap_files_path):
-    task_name = os.path.basename(file).replace("shap_summary_", "").replace("_xgboost_all_accuracy.csv", "")
-    
+    task_name = (
+        os.path.basename(file)
+        .replace("shap_summary_", "")
+        .replace("_xgboost_all_accuracy.csv", "")
+    )
+
     if task_name not in tasks_included:
         continue
-    
+
     df = pd.read_csv(file)
-    
+
     # Store mean absolute SHAP values (indexed by feature)
     shap_data[task_name] = df.set_index("feature")["mean_abs_shap"]
 
@@ -59,7 +78,7 @@ print(f"Saved SHAP matrix to {shap_matrix_path}")
 # ===========================
 
 # Perform hierarchical clustering using Ward's method
-Z = linkage(shap_df, method='ward')
+Z = linkage(shap_df, method="ward")
 
 # Plot dendrogram
 plt.figure(figsize=(12, 6))

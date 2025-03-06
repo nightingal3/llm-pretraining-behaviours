@@ -4,8 +4,12 @@ import numpy as np
 from pathlib import Path
 from performance_predict_from_db import load_data_from_db
 
-all_preds_df = pd.read_csv("/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/per_model_predictions_xgboost_all_accuracy.csv")
-sl_preds_df = pd.read_csv("/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/per_model_predictions_xgboost_scaling_laws_accuracy.csv")
+all_preds_df = pd.read_csv(
+    "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/per_model_predictions_xgboost_all_accuracy.csv"
+)
+sl_preds_df = pd.read_csv(
+    "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/results_db/per_model_predictions_xgboost_scaling_laws_accuracy.csv"
+)
 
 db_path = "/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/metadata/duckdb/2024_12_05.duckdb"
 model_info_df = load_data_from_db(db_path, "all", "accuracy")
@@ -109,8 +113,6 @@ for task in all_tasks:
     # Show or save the plot
     plt.tight_layout()
     # mkdir -p
-    Path(f"./preds_and_true_perf_acc_from_db").mkdir(
-        parents=True, exist_ok=True
-    )
+    Path(f"./preds_and_true_perf_acc_from_db").mkdir(parents=True, exist_ok=True)
     plt.savefig(f"./preds_and_true_perf_acc_from_db/predictions_{task}.png")
     plt.close()
