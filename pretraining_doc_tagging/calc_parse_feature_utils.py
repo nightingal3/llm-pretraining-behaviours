@@ -17,6 +17,20 @@ from typing import Union, Any
 # 2. Distance of word to root """
 
 
+
+def get_content_function_ratio(input_text: str, pipeline: stanza.Pipeline) -> float:
+    """Compute ratio of content words to total words"""
+    try:
+        processed_text = pipeline(input_text)
+        pos_tags = [word.upos for sentence in processed_text.sentences for word in sentence.words]
+        content_tags = {'NOUN', 'VERB', 'ADJ', 'ADV'}
+        if not pos_tags:
+            return 0.0
+        content_words = sum(1 for tag in pos_tags if tag in content_tags)
+        return content_words / len(pos_tags)
+    except Exception as e:
+        return 0.0
+
 def _traverse_get_depth(
     tree,
     word_depths: list[int],

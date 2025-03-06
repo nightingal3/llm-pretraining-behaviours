@@ -371,6 +371,89 @@ def analyze_entropy(
 
     return pd.concat(all_dfs, axis=0)
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, required=True,
+                       help="Input file (parquet/jsonl/arrow)")
+    parser.add_argument("--text_column", type=str, default="text",
+                       help="Column containing text to analyze")
+    parser.add_argument("--output", type=str, required=True)
+    parser.add_argument("--ngram", type=int, default=1,
+                       help="Context size for entropy calculation")
+    parser.add_argument("--num_docs", type=int, default=None,
+                       help="Limit number of documents to process")
+    args = parser.parse_args()
+
+    # make parent dir
+    parent_dir = Path(args.output).parent
+    parent_dir.mkdir(parents=True, exist_ok=True)
+
+    # Load dataset
+    if args.input.endswith('.parquet'):
+        df = pd.read_parquet(args.input)
+    elif args.input.endswith('.jsonl'):
+        df = pd.read_json(args.input, lines=True)
+    else:
+        import datasets
+        df = datasets.load_from_disk(args.input)
+        df = pd.DataFrame(df)
+
+    if args.num_docs:
+        df = df.head(args.num_docs)
+
+    # Preprocess texts
+    if args.text_column == "resps": 
+        # custom resp format, handle separately
+        df['text'] = df['resps'].apply(lambda x: x[0][0] if x and x[0] else '')
+        args.text_column = 'text'
+
+    texts = df[args.text_column].tolist()
+    tokenized_texts = preproc_parallel(texts)
+
+    # Compute corpus-level entropy
+    entropy_results = compute_entropy_counts(
+        tokenized_texts, 
+        n=args.ngram
+    )
+    entropy_by_ngram = entropy_results["entropy_by_ngram"]
+    context_counts = entropy_results["context_counts"]
+    total_contexts = entropy_results["total_contexts"]
+
+    # Compute document-level stats
+    doc_features = []
+    for doc_id, tokens in enumerate(tqdm(tokenized_texts, desc="Computing document stats")):
+        doc_stats = get_doc_entropy_stats(tokens, entropy_by_ngram, args.ngram)
+        if doc_stats:
+            doc_features.append({
+                'id': doc_id,
+                'feature': doc_stats
+            })
+
+    # Save document-level features
+    doc_df = pd.DataFrame(doc_features)
+    output_doc_name = args.output.replace('.json', '_doc.parquet')
+    doc_df.to_parquet(output_doc_name)
+
+    # Save corpus-level stats
+    entropy_vals = list(entropy_by_ngram.values())
+    corpus_stats = {
+        'mean_corpus_entropy': float(np.mean(entropy_vals)),
+        'median_corpus_entropy': float(np.median(entropy_vals)),
+        'distribution_percentiles': {
+            'p10': float(np.percentile(entropy_vals, 10)),
+            'p25': float(np.percentile(entropy_vals, 25)),
+            'p75': float(np.percentile(entropy_vals, 75)),
+            'p90': float(np.percentile(entropy_vals, 90))
+        },
+        'num_unique_contexts': len(entropy_by_ngram),
+        'total_contexts': total_contexts
+    }
+    
+    with open(args.output, 'w') as f:
+        json.dump(corpus_stats, f, indent=2)
+
+    logging.info("Completed entropy analysis")
+    logging.info(corpus_stats)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
