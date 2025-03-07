@@ -78,7 +78,7 @@ then
     exit 0
 fi
 
-python get_dolma_features.py \
+python get_doc_level_features.py \
     --feature $feature \
     --input $input_file \
     --output $output_file
