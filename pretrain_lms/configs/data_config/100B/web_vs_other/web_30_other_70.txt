@@ -1,0 +1,6 @@
+27.6  /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/common-crawl
+2.4   /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/c4
+58.6   {DOLMA_DATA_PATH}/dolma_1T/stack-code-deduped-bin/data_text_document
+10.1   /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/peS2o
+0.9 /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/gutenberg-books
+0.4 /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/wiki-en-simple
