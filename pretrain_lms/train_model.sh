@@ -1,36 +1,47 @@
 #!/bin/bash
-#SBATCH --job-name=train_model_460_n_20_c_80
-#SBATCH --output=train_model_460_n_20_c_80.out
+#SBATCH --job-name=train_model_460_w_30_other_70
+#SBATCH --output=pretrain_lms/logs/train_model_460_w_30_other_70.out
 #SBATCH --mem=30G
-#SBATCH --gres=gpu:A6000:4
-#SBATCH --time=7-00:00:00
-#SBATCH --partition=long
+#SBATCH --gres=gpu:A6000:8
+#SBATCH --time=2-00:00:00
+#SBATCH --partition=general
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
+#SBATCH --exclude=babel-10-13
 
 set -a 
-source ./demo_scripts/configs/.env
+source /data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/pretrain_lms/configs/.env
 set +a
 
 source ${MINICONDA_PATH}
 conda activate ${TOWERLLM_ENV_NAME}
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1
+export NCCL_P2P_DISABLE=1
+export NCCL_IB_DISABLE=1
+export NCCL_DEBUG=INFO
 
-# Usage: sbatch demo_scripts/train_model.sh <checkpoint_path> <model config (see ./configs)> <dataset_bin> <external_tokenizer>
+# Usage: sbatch pretrain_lms/train_model.sh <checkpoint_path> <model config (see ./configs)> <dataset_bin> <external_tokenizer>
 # to use the wandb logger: --wandb_logger --wandb_entity <your username> --wandb_id <some id> --wandb_api_key <your api key>
 set -euo pipefail
 
 if [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
-   echo "Usage: sbatch demo_scripts/train_model.sh [checkpoint_path] [dataset_bin] [external_tokenizer]"
+   echo "Usage: sbatch pretrain_lms/train_model.sh [checkpoint_path] [dataset_bin] [external_tokenizer]"
    exit 0
 fi
 
 CHECKPOINT_PATH=${1:-./llama_mini_try}
-model_config=${2:-./demo_scripts/configs/model_config/Llama2_460M.yaml}
-data_mix_file=${3:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/demo_scripts/configs/data_config/100B/code_vs_nl/nl_20_code_80.txt}
+model_config=${2:-./pretrain_lms/configs/model_config/Llama2_460M.yaml}
+data_mix_file=${3:-/data/tir/projects/tir6/general/mengyan3/tower-llm-training/pretrain_lms/configs/data_config/100B/code_vs_nl/nl_20_code_80.txt}
 external_tokenizer=${4:-meta-llama/Llama-2-7b-hf}
 TOTAL_TRAIN_TOKENS=${5:-98000000000}
+
+
+model_config_basename=$(basename $model_config)
+data_config_basename=$(basename $data_mix_file)
+
+DATA_CACHE_PATH="/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/pretrain_lms/data_cache_${model_config_basename}_${data_config_basename}"
+mkdir -p $DATA_CACHE_PATH
 
 repo=${BASE_REPO}
 
@@ -99,8 +110,11 @@ if [ -z "$WANDB_ID" ]; then
     WANDB_ID=$(date +%s)
 fi
 
+# workaround for fused kernel issue
+rm -rf /data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/Megatron-DeepSpeed/megatron/fused_kernels/build
+
 distributed_args="--num_nodes=1 --num_gpus=${NUM_GPUS} --master_port 12345"
-ds_args="--zero-stage=2 --deepspeed --deepspeed_config ${repo}/demo_scripts/ds_config.json"
+ds_args="--zero-stage=2 --deepspeed --deepspeed_config ${repo}/pretrain_lms/ds_config.json"
 deepspeed $distributed_args \
        $repo/Megatron-DeepSpeed/pretrain_gpt.py \
        $train_steps_arg \
@@ -144,7 +158,6 @@ deepspeed $distributed_args \
        --swiglu \
        --normalization rmsnorm \
        --disable-bias-linear \
-       --use-flash-attn-v2 \
        --distributed-timeout-minutes 60 \
        --seed $seed \
        --wandb_logger \
@@ -152,6 +165,7 @@ deepspeed $distributed_args \
       --wandb_id $WANDB_ID \
       --wandb_api_key $WANDB_API_KEY \
       --shuffle_docs_before_split \
+      --data-cache-path $DATA_CACHE_PATH \
        $ds_args 
 
 
