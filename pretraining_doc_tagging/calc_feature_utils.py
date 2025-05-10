@@ -11,6 +11,21 @@
 # 6. Number of times this token appears in the sequence"""
 
 
+
+# for keyword type feats
+keywords = {
+    "question_words":      r"\b(How|What|Why|When|Where|Who|Which|Whose)\b",
+    "imperative_verbs":    r"\b(Do|Make|Consider|Take|Use|Ensure|Check|Build|Apply|Run|Create|Find|Go|Try|Turn|Start|Stop|Put|Keep|Leave|Get|Move)\b",
+    "conjunctions":        r"\b(and|but|or|so|because|although|however|therefore|yet)\b",
+    "instruction_words":   r"(Question:|Answer:|Instruction:|User:|Assistant:|Q:|A:)",
+    "numbers":             r"\b\d+\b|\b\d+\.\d+\b|\b\d+%\b",
+}
+
+def get_keyword_ratios(text: str) -> dict:
+    total_chars = len(text) or 1
+    counts = {k: len(re.findall(p, text, flags=re.IGNORECASE)) for k, p in keywords.items()}
+    return {f"{k}_ratio": 100_000 * counts[k] / total_chars for k in keywords}
+
 def get_num_tokens(tokenized_input: list[int]) -> int:
     return len(tokenized_input)
 

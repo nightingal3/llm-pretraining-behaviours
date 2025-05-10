@@ -15,6 +15,7 @@ from pyspark.sql.types import (
     ArrayType,
     IntegerType,
     StringType,
+    DoubleType
 )
 import pyspark.sql.functions as F
 import pandas as pd
@@ -37,26 +38,6 @@ feature_dict_schema_classifier = StructType(
         StructField("int_score", ArrayType(IntegerType())),
     ]
 )
-
-
-def register_classifier(name: str, model_name: str):
-    """Add a classifier to the feature registry"""
-    classifier = TextClassifierHf(model_name)
-
-    def classifier_fn(texts):
-        return classifier.predict_batch([texts])[0]
-
-    feature_registry[name] = {
-        "tagging_fn": classifier_fn,
-        "need_tokenize": False,
-        "need_parse": False,
-        "need_code_parse": False,
-        "need_raw_text": True,
-        "dtype": feature_dict_schema_classifier,
-    }
-
-
-register_classifier("edu_classifier", "HuggingFaceTB/fineweb-edu-classifier")
 
 # Existing feature definitions
 feature_dict_schema_const = StructType(
@@ -89,6 +70,10 @@ feature_dict_schema_code = StructType(
         StructField("num_nodes_input", ArrayType(IntegerType())),
     ]
 )
+
+feature_dict_schema_keywords = StructType([
+    StructField(f"{k}_ratio", DoubleType()) for k in keywords
+])
 
 # Updated feature registry
 feature_registry = {
@@ -135,7 +120,35 @@ feature_registry = {
         "need_code_parse": True,
         "dtype": feature_dict_schema_code,
     },
+    "keyword_ratios": {
+        "tagging_fn": get_keyword_ratios,
+        "need_tokenize": False,
+        "need_parse": False,
+        "dtype": feature_dict_schema_keywords,
+    },
 }
+
+
+
+def register_classifier(name: str, model_name: str):
+    """Add a classifier to the feature registry"""
+    classifier = TextClassifierHf(model_name)
+
+    def classifier_fn(texts):
+        return classifier.predict_batch([texts])[0]
+
+    feature_registry[name] = {
+        "tagging_fn": classifier_fn,
+        "need_tokenize": False,
+        "need_parse": False,
+        "need_code_parse": False,
+        "need_raw_text": True,
+        "dtype": feature_dict_schema_classifier,
+    }
+
+
+register_classifier("edu_classifier", "HuggingFaceTB/fineweb-edu-classifier")
+
 
 # Global variables
 stanza_pipeline = defaultdict(lambda: None)
@@ -320,6 +333,8 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         logging.info(f"File size is < {SIZE_THRESHOLD_GB}GB, using pandas to process")
         if input_filepath.endswith(".jsonl"):
             df = pd.read_json(input_filepath, lines=True, nrows=limit)
+        elif input_filepath.endswith(".json"):
+            df = pd.read_json(input_filepath, orient="records", nrows=limit)
         elif input_filepath.endswith(".jsonl.zst"):
             df = read_jsonl_zst_pandas(input_filepath, limit)
         else:
@@ -367,6 +382,8 @@ def main(feature: str, input_filepath: str, output_filepath: str, limit: int = N
         logging.info(f"Reading {input_filepath}...")
         if input_filepath.endswith(".jsonl"):
             df = spark.read.json(input_filepath)
+        elif input_filepath.endswith(".json"):
+            df = spark.read.option("multiline", "true").json(input_filepath)
         elif input_filepath.endswith(".jsonl.zst"):
             df = read_jsonl_zst(spark, input_filepath)
         else:
