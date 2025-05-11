@@ -1,3 +1,5 @@
+import re
+
 """Simple features:
 ## Sequence level
 # 1. Number of characters
