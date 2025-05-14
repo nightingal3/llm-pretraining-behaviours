@@ -11,8 +11,8 @@ training:
   weight_decay: 1e-2
   grad_clip: 1.0
   lr_warmup_steps: 100
-  save_interval: 10000
-  eval_interval: 10000
+  save_interval: 2000
+  eval_interval: 2000
   train_epochs: 1
   tp: 1
   micro_batch_size: 1

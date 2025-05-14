@@ -1,1 +1,1 @@
-{DOLMA_DATA_PATH}/dolma_100B_orig_nl-bin/data_text_document
+{DOLMA_DATA_PATH}/dolma_100B_deduped-bin/dolma_100B_deduped-bin/all_nl/all_nl/data_text_document

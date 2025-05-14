@@ -1,1 +1,1 @@
-{DOLMA_DATA_PATH}/dolma_1T/stack-code-deduped-bin/data_text_document
+{DOLMA_DATA_PATH}/dolma_1T/stack_code_from_dolma_1T/stack-code-deduped-bin/data_text_document

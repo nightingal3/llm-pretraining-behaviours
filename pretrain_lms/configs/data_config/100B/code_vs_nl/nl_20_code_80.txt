@@ -1,2 +1,2 @@
-20 {DOLMA_DATA_PATH}/dolma_100B_orig_nl-bin/data_text_document
-80 {DOLMA_DATA_PATH}/dolma_1T/stack-code-deduped-bin/data_text_document
+20 {DOLMA_DATA_PATH}/dolma_100B_deduped-bin/dolma_100B_deduped-bin/all_nl/all_nl/data_text_document
+80 {DOLMA_DATA_PATH}/dolma_1T/stack_code_from_dolma_1T/stack-code-deduped-bin/data_text_document
