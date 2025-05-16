@@ -942,9 +942,13 @@ def postprocess_results(df_results: Dict, args) -> Dict:
                         "mae": [mmlu_0_shot["mae"].mean()],
                         "std_mae": [mmlu_0_shot["std_mae"].mean()],
                         "med_baseline_mae": [mmlu_0_shot["med_baseline_mae"].mean()],
+                        "loglinear_baseline_mae": [
+                            mmlu_0_shot["loglinear_baseline_mae"].mean()
+                        ],
                     }
                 ),
-            ]
+            ],
+            ignore_index=True,
         )
         df_results = pd.concat(
             [
@@ -955,9 +959,13 @@ def postprocess_results(df_results: Dict, args) -> Dict:
                         "mae": [mmlu_5_shot["mae"].mean()],
                         "std_mae": [mmlu_5_shot["std_mae"].mean()],
                         "med_baseline_mae": [mmlu_5_shot["med_baseline_mae"].mean()],
+                        "loglinear_baseline_mae": [
+                            mmlu_5_shot["loglinear_baseline_mae"].mean()
+                        ],
                     }
                 ),
-            ]
+            ],
+            ignore_index=True,
         )
 
     if args.merge_arithmetic:
@@ -1914,6 +1922,7 @@ def main():
     df = load_data_from_db(
         args.db_path, args.predictor_type, args.metric, args.drop_instruction_tuned
     )
+
     df = standardize_task_names(df)
     if args.pseudo_feats_csv:
         pseudo_feats = pd.read_csv(args.pseudo_feats_csv)
@@ -2051,11 +2060,7 @@ def main():
         assert features["id"].value_counts().max() == 1, "Duplicate models found"
 
         print(f"Num models overall: {len(features)}")
-        evaled_models = features["id"]
-        evaled_models.to_csv(
-            f"/data/tir/projects/tir5/users/mengyan3/tower-llm-training/tower-llm-training/performance_prediction/done_models/evaled_models_{task}_{setting}.csv",
-            index=False,
-        )
+
         if not args.predictor_type == "non_scaling_laws":
             feat_transform(features)
 

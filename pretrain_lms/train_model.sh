@@ -125,6 +125,7 @@ deepspeed $distributed_args \
        --ffn-hidden-size $ffn_hidden_size \
        --num-attention-heads $num_attention_heads \
        --num-key-value-heads $num_kv_heads \
+       --global-batch-size 512 \
        --micro-batch-size $micro_batch_size \
        --seq-length $seq_length \
        --max-position-embeddings $seq_length \

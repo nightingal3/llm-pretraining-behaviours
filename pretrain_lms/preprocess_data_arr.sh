@@ -2,12 +2,12 @@
 #SBATCH --job-name=preprocess_data_%A_%a
 #SBATCH --output=preprocess_data_%A_%a.out
 #SBATCH --cpus-per-task=30
-#SBATCH --mem=100G
+#SBATCH --mem=500G
 #SBATCH --time=2-00:00:00
 #SBATCH --partition=general
 #SBATCH --mail-user=emmy@cmu.edu
 #SBATCH --mail-type=END
-#SBATCH --array=5%5
+#SBATCH --array=6
 
 set -eo pipefail
 

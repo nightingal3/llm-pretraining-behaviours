@@ -1,6 +1,6 @@
-27.6  /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/common-crawl
-2.4   /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/c4
-58.6   {DOLMA_DATA_PATH}/dolma_1T/stack-code-deduped-bin/data_text_document
-10.1   /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/peS2o
-0.9 /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/gutenberg-books
-0.4 /data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/wiki-en-simple
+task_id,arrow_file,dataset_bin,dataset_json,cmd
+1,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/common-crawl/common-crawl_subset.arrow,/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/common-crawl-bin,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/common-crawl/common-crawl_subset.jsonl,
+2,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/c4/c4_subset.arrow,/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/c4-bin,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/c4/c4_subset.jsonl,
+3,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/peS2o/peS2o_subset.arrow,/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/peS2o-bin,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/peS2o/peS2o_subset.jsonl,
+4,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/gutenberg-books/gutenberg-books_subset.arrow,/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/gutenberg-books-bin,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/gutenberg-books/gutenberg-books_subset.jsonl,
+5,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/wiki-en-simple/wiki-en-simple_subset.arrow,/data/tir/projects/tir5/users/mengyan3/dolma_data_processed/dolma_100B_deduped/wiki-en-simple-bin,/data/tir/projects/tir5/users/mengyan3/pretraining_features/subsets/dolma/wiki-en-simple/wiki-en-simple_subset.jsonl,
